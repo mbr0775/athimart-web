@@ -9,6 +9,7 @@ import {
   AlertCircle,
   CheckCircle2,
   ClipboardList,
+  LayoutDashboard,
   LoaderCircle,
   Truck,
 } from "lucide-react";
@@ -110,20 +111,46 @@ export default function StartApplicationButton({
       application.applicationStatus
     );
 
+    const isApproved =
+      application.applicationStatus ===
+      "approved";
+
     return (
       <div className="border border-[var(--border)] bg-white p-5 sm:p-6">
         <div className="flex items-start gap-4">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-green-50 text-[var(--success)]">
-            <CheckCircle2
-              aria-hidden="true"
-              className="h-6 w-6"
-              strokeWidth={1.8}
-            />
+          <span
+            className={`flex h-12 w-12 shrink-0 items-center justify-center ${
+              isApproved
+                ? "bg-green-50 text-[var(--success)]"
+                : "bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]"
+            }`}
+          >
+            {isApproved ? (
+              <CheckCircle2
+                aria-hidden="true"
+                className="h-6 w-6"
+                strokeWidth={1.8}
+              />
+            ) : (
+              <ClipboardList
+                aria-hidden="true"
+                className="h-6 w-6"
+                strokeWidth={1.8}
+              />
+            )}
           </span>
 
           <div className="min-w-0">
-            <p className="athimart-label text-[var(--success)]">
-              Application started
+            <p
+              className={`athimart-label ${
+                isApproved
+                  ? "text-[var(--success)]"
+                  : "text-[var(--brand-blue)]"
+              }`}
+            >
+              {isApproved
+                ? "Approved delivery partner"
+                : "Application started"}
             </p>
 
             <h2 className="mt-2 font-[var(--font-display)] text-2xl font-light uppercase tracking-[0.04em] text-[var(--text)]">
@@ -131,7 +158,9 @@ export default function StartApplicationButton({
                 ? "Continue Your Registration"
                 : isUnderReview
                   ? "Application Under Review"
-                  : "Delivery Partner Application"}
+                  : isApproved
+                    ? "Driver Account Approved"
+                    : "Delivery Partner Application"}
             </h2>
 
             <p className="mt-3 font-[var(--font-body)] text-sm leading-6 text-[var(--text-muted)]">
@@ -139,7 +168,9 @@ export default function StartApplicationButton({
                 ? "Complete your identity, driving licence, service-area, vehicle and supporting-document information before submitting the application for review."
                 : isUnderReview
                   ? "Your application has been submitted and is currently waiting for AthiMart administrator review."
-                  : "Your current delivery-partner application status is shown below."}
+                  : isApproved
+                    ? "Your delivery-partner application has been approved. Open your driver dashboard to manage availability, location sharing, vehicle details and delivery activity."
+                    : "Your current delivery-partner application status is shown below."}
             </p>
           </div>
         </div>
@@ -150,7 +181,13 @@ export default function StartApplicationButton({
               Application status
             </dt>
 
-            <dd className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--brand-blue)]">
+            <dd
+              className={`mt-2 font-[var(--font-body)] text-sm font-semibold ${
+                isApproved
+                  ? "text-[var(--success)]"
+                  : "text-[var(--brand-blue)]"
+              }`}
+            >
               {formatStatus(
                 application.applicationStatus
               )}
@@ -193,17 +230,19 @@ export default function StartApplicationButton({
 
             Application Under Review
           </div>
-        ) : application.applicationStatus ===
-          "approved" ? (
-          <div className="mt-6 flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--success)] px-6 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
-            <CheckCircle2
+        ) : isApproved ? (
+          <Link
+            href="/delivery-partner/dashboard"
+            className="mt-6 flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--success)] px-6 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-green-700"
+          >
+            <LayoutDashboard
               aria-hidden="true"
               className="h-5 w-5"
               strokeWidth={1.8}
             />
 
-            Application Approved
-          </div>
+            Open Driver Dashboard
+          </Link>
         ) : (
           <div className="mt-6 flex min-h-14 w-full items-center justify-center gap-3 bg-neutral-400 px-6 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
             <ClipboardList
