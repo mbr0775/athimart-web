@@ -20,12 +20,10 @@ import AddToCartButton from "@/components/cart/add-to-cart-button";
 import { ProductGallery } from "@/components/products/product-gallery";
 import { siteConfig } from "@/config/site";
 import {
-  getActiveProductRoutes,
   getProductBySlug,
 } from "@/lib/products/product-service";
 import {
   getProductPath,
-  getProductRouteParams,
 } from "@/lib/products/product-url";
 import type { Product } from "@/types/product";
 
@@ -36,6 +34,12 @@ import type { Product } from "@/types/product";
  * from the same product record.
  */
 export const revalidate = 300;
+
+/**
+ * Allow product routes that were not generated
+ * during the production build to render on demand.
+ */
+export const dynamicParams = true;
 
 interface ProductPageProps {
   params: Promise<{
@@ -57,7 +61,7 @@ const getProduct = cache(
  * Format Sri Lankan prices.
  *
  * Example:
- * 2000 → Rs 2,000
+ * 2000 â†’ Rs 2,000
  */
 function formatLkr(
   value: number
@@ -200,19 +204,12 @@ function formatAttributeLabel(
 }
 
 /**
- * Generate known product paths during
- * production builds.
+ * Do not fetch product routes from Supabase during
+ * the production build. Product pages are generated
+ * on demand when first requested.
  */
-export async function generateStaticParams() {
-  const products =
-    await getActiveProductRoutes();
-
-  return products.map(
-    (product) =>
-      getProductRouteParams(
-        product
-      )
-  );
+export function generateStaticParams() {
+  return [];
 }
 
 /**
@@ -901,7 +898,7 @@ export default async function ProductPage({
 
                   emoji:
                     product.emoji ||
-                    "📦",
+                    "ðŸ“¦",
 
                   unitPrice:
                     currentPrice,
