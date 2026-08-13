@@ -61,7 +61,7 @@ const getProduct = cache(
  * Format Sri Lankan prices.
  *
  * Example:
- * 2000 â†’ Rs 2,000
+ * 2000 -> Rs 2,000
  */
 function formatLkr(
   value: number
@@ -743,8 +743,7 @@ export default async function ProductPage({
                 </div>
               ) : (
                 <p className="font-[var(--font-body)] text-sm font-semibold uppercase tracking-[0.14em] text-[var(--warning)]">
-                  Price
-                  unavailable
+                  Price unavailable
                 </p>
               )}
 
@@ -784,8 +783,7 @@ export default async function ProductPage({
             {/* Category */}
             <div className="mt-7">
               <p className="athimart-label text-[var(--text-muted)]">
-                Product
-                category
+                Product category
               </p>
 
               <p className="mt-2 font-[var(--font-body)] text-sm leading-6 text-[var(--text)]">
@@ -822,8 +820,7 @@ export default async function ProductPage({
                 </p>
 
                 <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
-                  Market-specific
-                  delivery
+                  Market-specific delivery
                 </p>
               </div>
 
@@ -841,9 +838,7 @@ export default async function ProductPage({
                 </p>
 
                 <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
-                  Connected
-                  AthiMart
-                  account
+                  Connected AthiMart account
                 </p>
               </div>
 
@@ -861,9 +856,7 @@ export default async function ProductPage({
                 </p>
 
                 <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
-                  Live
-                  marketplace
-                  stock
+                  Live marketplace stock
                 </p>
               </div>
             </div>
@@ -898,7 +891,7 @@ export default async function ProductPage({
 
                   emoji:
                     product.emoji ||
-                    "ðŸ“¦",
+                    "📦",
 
                   unitPrice:
                     currentPrice,
@@ -920,16 +913,14 @@ export default async function ProductPage({
           className="mt-14 border-t border-[var(--black)] pt-9 lg:mt-20 lg:pt-12"
         >
           <p className="athimart-label text-[var(--text-muted)]">
-            About this
-            product
+            About this product
           </p>
 
           <h2
             id="product-description-heading"
             className="athimart-title-large mt-3"
           >
-            Product
-            Description
+            Product Description
           </h2>
 
           <p className="athimart-body-large mt-5 max-w-4xl whitespace-pre-line">
@@ -947,8 +938,7 @@ export default async function ProductPage({
             className="mt-12 border-t border-[var(--border)] pt-9 lg:mt-16"
           >
             <p className="athimart-label text-[var(--text-muted)]">
-              Product
-              information
+              Product information
             </p>
 
             <h2
