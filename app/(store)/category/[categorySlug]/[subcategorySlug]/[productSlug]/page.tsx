@@ -28,18 +28,13 @@ import {
 import type { Product } from "@/types/product";
 
 /**
- * Rebuild the product page every five minutes.
+ * Product pages use request-time rendering.
  *
- * Visible price, stock and structured data are generated
- * from the same product record.
+ * The shared AthiMart storefront header reads the
+ * current Supabase authentication session from cookies,
+ * so this route must not be statically rendered.
  */
-export const revalidate = 300;
-
-/**
- * Allow product routes that were not generated
- * during the production build to render on demand.
- */
-export const dynamicParams = true;
+export const dynamic = "force-dynamic";
 
 interface ProductPageProps {
   params: Promise<{
@@ -201,15 +196,6 @@ function formatAttributeLabel(
       (character) =>
         character.toUpperCase()
     );
-}
-
-/**
- * Do not fetch product routes from Supabase during
- * the production build. Product pages are generated
- * on demand when first requested.
- */
-export function generateStaticParams() {
-  return [];
 }
 
 /**
