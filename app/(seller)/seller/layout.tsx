@@ -1,5 +1,6 @@
 // app/(seller)/seller/layout.tsx
 
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import {
@@ -13,6 +14,21 @@ import {
 } from "lucide-react";
 
 import { getCurrentSeller } from "@/lib/auth/seller";
+
+/**
+ * Every route below /seller is authenticated
+ * marketplace-management UI.
+ *
+ * Seller dashboards and product-management
+ * pages must remain outside search results even
+ * after public AthiMart indexing is enabled.
+ */
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export const dynamic =
   "force-dynamic";

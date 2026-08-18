@@ -1,11 +1,46 @@
+// app/connection-test/page.tsx
+
+import type { Metadata } from "next";
+
 import { createClient } from "@/lib/supabase/server";
 
-export const dynamic = "force-dynamic";
+/**
+ * Internal AthiMart diagnostic route.
+ *
+ * This page exists only to verify the connection
+ * between the AthiMart website and Supabase.
+ *
+ * It must never appear in search results,
+ * including after public marketplace indexing
+ * is enabled.
+ */
+export const metadata: Metadata = {
+  title: "Connection Test",
+
+  description:
+    "Internal AthiMart service connection diagnostic.",
+
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
+/**
+ * The result depends on the current Supabase
+ * connection and therefore renders on demand.
+ */
+export const dynamic =
+  "force-dynamic";
 
 export default async function ConnectionTestPage() {
-  const supabase = await createClient();
+  const supabase =
+    await createClient();
 
-  const { count, error } = await supabase
+  const {
+    count,
+    error,
+  } = await supabase
     .from("products")
     .select("id", {
       count: "exact",

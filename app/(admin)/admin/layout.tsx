@@ -1,9 +1,26 @@
 // app/(admin)/admin/layout.tsx
 
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import AdminShell from "@/components/admin/admin-shell";
 import { getCurrentAdmin } from "@/lib/auth/admin";
+
+/**
+ * Every route below /admin is private
+ * AthiMart administration UI.
+ *
+ * Keep the entire admin route tree outside
+ * search-engine indexes, including future
+ * admin pages that may not define their own
+ * page-level robots metadata.
+ */
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 /*
  * The administrator interface depends on the
@@ -48,13 +65,7 @@ export default async function AdminLayout({
    * Protect every route below /admin.
    *
    * The existing administrator guard handles:
-   * - signed-outLayout({
-  children,
-}: Readonly<AdminLayoutProps>) {
-  /*
-   * Protect every route below /admin.
-   *
-   * users;
+   * - signed-out users;
    * - non-administrator accounts;
    * - authenticated administrator access.
    */
