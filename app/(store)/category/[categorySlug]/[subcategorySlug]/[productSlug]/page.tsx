@@ -445,6 +445,11 @@ export default async function ProductPage({
                 `${siteConfig.url}/#standard-shipping`,
             },
           },
+
+          hasMerchantReturnPolicy: {
+            "@id":
+              `${siteConfig.url}/#return-policy`,
+          },
         }
       : undefined;
 
