@@ -116,12 +116,12 @@ const categoryVisuals: Record<string, CategoryVisual> = {
 /**
  * Organization-level structured data for AthiMart.
  *
- * Keep this information limited to factual business
- * information that is already known.
+ * Standard shipping rules are defined here because
+ * they apply across the Sri Lankan marketplace.
  *
- * Shipping, returns, contact details and social profiles
- * can be added later when the relevant AthiMart policies
- * and official details are finalized.
+ * Product-specific return policies will be handled
+ * separately because return periods and refund
+ * methods may vary between products.
  */
 const onlineStoreJsonLd = {
   "@context": "https://schema.org",
@@ -138,6 +138,147 @@ const onlineStoreJsonLd = {
     siteConfig.logo,
     siteConfig.url
   ).toString(),
+
+  /**
+   * Standard AthiMart Sri Lanka shipping service.
+   *
+   * Orders below LKR 2,500:
+   * shipping may cost up to LKR 350.
+   *
+   * Orders LKR 2,500 and above:
+   * free shipping.
+   *
+   * Estimated delivery:
+   * 0 to 30 days.
+   */
+  hasShippingService: {
+    "@type": "ShippingService",
+
+    "@id":
+      `${siteConfig.url}/#standard-shipping`,
+
+    name:
+      "AthiMart Standard Shipping",
+
+    description:
+      "Sri Lanka delivery with shipping costs up to LKR 350 for orders below LKR 2,500. Orders of LKR 2,500 or more qualify for free shipping. Delivery may take 0 to 30 days.",
+
+    fulfillmentType:
+      "FulfillmentTypeDelivery",
+
+    shippingConditions: [
+      {
+        "@type":
+          "ShippingConditions",
+
+        shippingDestination: {
+          "@type":
+            "DefinedRegion",
+
+          addressCountry:
+            "LK",
+        },
+
+        orderValue: {
+          "@type":
+            "MonetaryAmount",
+
+          minValue:
+            0,
+
+          maxValue:
+            2499.99,
+
+          currency:
+            "LKR",
+        },
+
+        shippingRate: {
+          "@type":
+            "MonetaryAmount",
+
+          maxValue:
+            350,
+
+          currency:
+            "LKR",
+        },
+
+        transitTime: {
+          "@type":
+            "ServicePeriod",
+
+          duration: {
+            "@type":
+              "QuantitativeValue",
+
+            minValue:
+              0,
+
+            maxValue:
+              30,
+
+            unitCode:
+              "DAY",
+          },
+        },
+      },
+
+      {
+        "@type":
+          "ShippingConditions",
+
+        shippingDestination: {
+          "@type":
+            "DefinedRegion",
+
+          addressCountry:
+            "LK",
+        },
+
+        orderValue: {
+          "@type":
+            "MonetaryAmount",
+
+          minValue:
+            2500,
+
+          currency:
+            "LKR",
+        },
+
+        shippingRate: {
+          "@type":
+            "MonetaryAmount",
+
+          value:
+            0,
+
+          currency:
+            "LKR",
+        },
+
+        transitTime: {
+          "@type":
+            "ServicePeriod",
+
+          duration: {
+            "@type":
+              "QuantitativeValue",
+
+            minValue:
+              0,
+
+            maxValue:
+              30,
+
+            unitCode:
+              "DAY",
+          },
+        },
+      },
+    ],
+  },
 };
 
 export default async function HomePage() {
@@ -209,6 +350,7 @@ export default async function HomePage() {
               <br />
               Beyond
               <br />
+
               <span className="text-[var(--brand-orange)]">
                 Ordinary
               </span>
