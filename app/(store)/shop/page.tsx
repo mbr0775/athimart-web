@@ -9,6 +9,7 @@ import {
 
 import { ProductCard } from "@/components/products/product-card";
 import { ProductFilterPanel } from "@/components/products/product-filter-panel";
+import { siteConfig } from "@/config/site";
 import {
   getFilteredProducts,
   getProductFilterOptions,
@@ -150,6 +151,15 @@ function hasActiveFilters(
   );
 }
 
+/**
+ * Generate SEO and social-sharing metadata
+ * for the AthiMart shop.
+ *
+ * Filtered parameter combinations remain
+ * canonicalized to /shop and are marked
+ * noindex to avoid creating duplicate
+ * indexable result pages.
+ */
 export async function generateMetadata({
   searchParams,
 }: ShopPageProps): Promise<Metadata> {
@@ -158,14 +168,44 @@ export async function generateMetadata({
   const filtered =
     hasActiveFilters(filters);
 
-  return {
-    title: "Shop Products",
+  const title =
+    "Shop Products";
 
-    description:
-      "Browse technology, lifestyle, fashion, fitness and natural essence products available through the AthiMart marketplace.",
+  const description =
+    "Browse technology, lifestyle, fashion, fitness and natural essence products available through the AthiMart marketplace.";
+
+  return {
+    title,
+
+    description,
 
     alternates: {
       canonical: "/shop",
+    },
+
+    openGraph: {
+      type: "website",
+      locale: "en_LK",
+      url: "/shop",
+      siteName: siteConfig.name,
+      title: `${title} | ${siteConfig.name}`,
+      description,
+
+      images: [
+        {
+          url: siteConfig.socialImage,
+          width: 1200,
+          height: 1200,
+          alt: "Shop products on AthiMart",
+        },
+      ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | ${siteConfig.name}`,
+      description,
+      images: [siteConfig.socialImage],
     },
 
     robots: filtered
@@ -224,6 +264,7 @@ export default async function ShopPage({
         <h1 className="athimart-display-large mt-4 text-[var(--brand-blue-dark)]">
           Shop
           <br />
+
           <span className="text-[var(--brand-orange)]">
             Products
           </span>

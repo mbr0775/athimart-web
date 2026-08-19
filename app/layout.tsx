@@ -35,11 +35,12 @@ const poppins = Poppins({
 /**
  * Default website metadata.
  *
- * Individual category and product pages will later override:
+ * Individual public pages can override:
  * - title
  * - description
  * - canonical URL
- * - Open Graph image
+ * - Open Graph metadata
+ * - social images
  */
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -64,10 +65,16 @@ export const metadata: Metadata = {
 
   category: "shopping",
 
+  /*
+   * Shared Open Graph defaults.
+   *
+   * Do not define a global URL here.
+   * Each public route that needs an og:url
+   * should define its own URL.
+   */
   openGraph: {
     type: "website",
     locale: "en_LK",
-    url: "/",
     siteName: siteConfig.name,
     title: `${siteConfig.name} | Online Marketplace`,
     description: siteConfig.description,
