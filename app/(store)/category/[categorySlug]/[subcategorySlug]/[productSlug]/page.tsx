@@ -405,6 +405,11 @@ export default async function ProductPage({
   /**
    * Only include Offer structured data
    * when a valid price exists.
+   *
+   * The shippingDetails block references
+   * AthiMart's global ShippingService
+   * declared on the homepage OnlineStore
+   * structured data.
    */
   const offerJsonLd =
     hasPrice
@@ -430,6 +435,16 @@ export default async function ProductPage({
 
           itemCondition:
             "https://schema.org/NewCondition",
+
+          shippingDetails: {
+            "@type":
+              "OfferShippingDetails",
+
+            hasShippingService: {
+              "@id":
+                `${siteConfig.url}/#standard-shipping`,
+            },
+          },
         }
       : undefined;
 
