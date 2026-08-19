@@ -64,10 +64,6 @@ export const metadata: Metadata = {
 
   category: "shopping",
 
-  alternates: {
-    canonical: "/",
-  },
-
   openGraph: {
     type: "website",
     locale: "en_LK",
