@@ -113,6 +113,33 @@ const categoryVisuals: Record<string, CategoryVisual> = {
   },
 };
 
+/**
+ * Organization-level structured data for AthiMart.
+ *
+ * Keep this information limited to factual business
+ * information that is already known.
+ *
+ * Shipping, returns, contact details and social profiles
+ * can be added later when the relevant AthiMart policies
+ * and official details are finalized.
+ */
+const onlineStoreJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "OnlineStore",
+  "@id": `${siteConfig.url}/#organization`,
+
+  name: siteConfig.name,
+
+  url: siteConfig.url,
+
+  description: siteConfig.description,
+
+  logo: new URL(
+    siteConfig.logo,
+    siteConfig.url
+  ).toString(),
+};
+
 export default async function HomePage() {
   let latestProducts: Product[] = [];
 
@@ -131,6 +158,21 @@ export default async function HomePage() {
 
   return (
     <>
+      {/* =====================================================
+          AthiMart OnlineStore structured data
+      ====================================================== */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            onlineStoreJsonLd
+          ).replace(
+            /</g,
+            "\\u003c"
+          ),
+        }}
+      />
+
       {/* =====================================================
           Hero
       ====================================================== */}
@@ -288,7 +330,10 @@ export default async function HomePage() {
                 </div>
 
                 <p className="mt-7 font-[var(--font-display)] text-4xl font-light uppercase tracking-[0.08em] sm:text-5xl">
-                  <span className="text-white">Athi</span>
+                  <span className="text-white">
+                    Athi
+                  </span>
+
                   <span className="text-[var(--brand-orange-light)]">
                     Mart
                   </span>
