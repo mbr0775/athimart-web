@@ -54,16 +54,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   /**
    * Public top-level pages.
    *
-   * Do NOT include private or transactional
-   * routes such as:
+   * Do NOT include private, transactional,
+   * utility or search-result routes such as:
    *
    * /account
    * /orders
    * /cart
    * /checkout
    * /search
+   * /connection-test
    * /admin
    * /seller
+   * /seller-pending
    * /delivery-partner
    * /auth/*
    */
@@ -75,6 +77,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
       {
         url: `${baseUrl}/shop`,
+      },
+
+      {
+        url: `${baseUrl}/returns`,
       },
     ];
 
