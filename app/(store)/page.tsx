@@ -140,6 +140,26 @@ const onlineStoreJsonLd = {
   ).toString(),
 
   /**
+   * AthiMart global return-policy reference.
+   *
+   * Exact eligibility, return windows and
+   * resolutions may vary by product, so the
+   * public returns page contains the general
+   * marketplace policy.
+   */
+  hasMerchantReturnPolicy: {
+    "@type": "MerchantReturnPolicy",
+
+    "@id":
+      `${siteConfig.url}/#return-policy`,
+
+    merchantReturnLink: new URL(
+      "/returns",
+      siteConfig.url
+    ).toString(),
+  },
+
+  /**
    * Standard AthiMart Sri Lanka shipping service.
    *
    * Orders below LKR 2,500:
@@ -796,6 +816,7 @@ export default async function HomePage() {
               Why
               <br />
               Athi
+
               <span className="text-[var(--brand-orange)]">
                 Mart
               </span>
