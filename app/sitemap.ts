@@ -21,29 +21,28 @@ import {
   getProductPath,
 } from "@/lib/products/product-url";
 
-/**
- * The sitemap reads the current active product
- * catalogue from Supabase.
- *
- * Keep it request-time generated so product
- * discovery does not become a dependency of
- * the Vercel production build.
- */
-export const dynamic =
-  "force-dynamic";
 
-/**
- * Generate AthiMart's canonical public sitemap.
- *
- * While search indexing is disabled during
- * marketplace development, return an empty
- * sitemap rather than advertising unfinished
- * URLs to search engines.
- */
+export const dynamic = "force-dynamic";
+
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+
+  console.log(
+    "AthiMart sitemap indexing:",
+    allowSearchIndexing
+  );
+
+
   if (!allowSearchIndexing) {
+
+    console.log(
+      "Sitemap blocked because indexing is disabled"
+    );
+
     return [];
+
   }
+
 
   const baseUrl =
     siteConfig.url.replace(
@@ -51,26 +50,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ""
     );
 
-  /**
-   * Public top-level pages.
-   *
-   * Do NOT include private, transactional,
-   * utility or search-result routes such as:
-   *
-   * /account
-   * /orders
-   * /cart
-   * /checkout
-   * /search
-   * /connection-test
-   * /admin
-   * /seller
-   * /seller-pending
-   * /delivery-partner
-   * /auth/*
-   */
+
+  console.log(
+    "Sitemap base URL:",
+    baseUrl
+  );
+
+
   const mainPages: MetadataRoute.Sitemap =
     [
+
       {
         url: baseUrl,
       },
@@ -82,77 +71,113 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       {
         url: `${baseUrl}/returns`,
       },
+
     ];
 
-  /**
-   * Canonical category pages.
-   */
+
+
   const categoryPages: MetadataRoute.Sitemap =
     productCategories.map(
       (category) => ({
+
         url:
           `${baseUrl}${getCategoryPath(
             category.slug
           )}`,
+
       })
     );
 
-  /**
-   * Canonical subcategory pages.
-   */
+
+
   const subcategoryPages: MetadataRoute.Sitemap =
     productCategories.flatMap(
+
       (category) =>
+
         category.subcategories.map(
+
           (subcategory) => ({
+
             url:
               `${baseUrl}${getSubcategoryPath(
                 category.slug,
                 subcategory.slug
               )}`,
+
           })
+
         )
+
     );
 
-  /**
-   * Active marketplace products.
-   *
-   * Only products marked active in Supabase
-   * are included.
-   */
+
+
   let productPages: MetadataRoute.Sitemap =
     [];
 
+
   try {
+
     const products =
       await getActiveProductRoutes();
 
+
+    console.log(
+      "Products found:",
+      products.length
+    );
+
+
     productPages =
       products.map(
+
         (product) => ({
+
           url:
             `${baseUrl}${getProductPath(
               product
             )}`,
+
         })
+
       );
+
+
   } catch (error) {
-    /**
-     * A temporary product query failure should
-     * not break the whole sitemap endpoint.
-     *
-     * Static public pages can still be returned.
-     */
+
+
     console.error(
       "AthiMart sitemap product loading failed:",
       error
     );
+
+
   }
 
-  return [
-    ...mainPages,
-    ...categoryPages,
-    ...subcategoryPages,
-    ...productPages,
-  ];
+
+
+  const sitemap =
+    [
+
+      ...mainPages,
+
+      ...categoryPages,
+
+      ...subcategoryPages,
+
+      ...productPages,
+
+    ];
+
+
+
+  console.log(
+    "Total sitemap URLs:",
+    sitemap.length
+  );
+
+
+  return sitemap;
+
 }
