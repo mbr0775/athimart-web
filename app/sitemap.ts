@@ -52,30 +52,44 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 
   console.log(
-    "Sitemap base URL:",
+    "AthiMart sitemap base URL:",
     baseUrl
   );
 
 
-  const mainPages: MetadataRoute.Sitemap =
-    [
+  /**
+   * Public pages only.
+   */
+  const mainPages: MetadataRoute.Sitemap = [
 
-      {
-        url: baseUrl,
-      },
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 1,
+    },
 
-      {
-        url: `${baseUrl}/shop`,
-      },
+    {
+      url: `${baseUrl}/shop`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
 
-      {
-        url: `${baseUrl}/returns`,
-      },
+    {
+      url: `${baseUrl}/returns`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
 
-    ];
+  ];
 
 
 
+  /**
+   * Category pages.
+   */
   const categoryPages: MetadataRoute.Sitemap =
     productCategories.map(
       (category) => ({
@@ -85,18 +99,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             category.slug
           )}`,
 
+        lastModified: new Date(),
+        changeFrequency: "weekly",
+        priority: 0.8,
+
       })
     );
 
 
 
+  /**
+   * Subcategory pages.
+   */
   const subcategoryPages: MetadataRoute.Sitemap =
     productCategories.flatMap(
-
       (category) =>
 
         category.subcategories.map(
-
           (subcategory) => ({
 
             url:
@@ -105,16 +124,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 subcategory.slug
               )}`,
 
+            lastModified: new Date(),
+            changeFrequency: "weekly",
+            priority: 0.7,
+
           })
-
         )
-
     );
 
 
 
-  let productPages: MetadataRoute.Sitemap =
-    [];
+  /**
+   * Active products from Supabase.
+   */
+  let productPages: MetadataRoute.Sitemap = [];
 
 
   try {
@@ -131,7 +154,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     productPages =
       products.map(
-
         (product) => ({
 
           url:
@@ -139,8 +161,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
               product
             )}`,
 
-        })
+          lastModified: new Date(),
+          changeFrequency: "daily",
+          priority: 0.6,
 
+        })
       );
 
 
@@ -157,18 +182,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 
 
-  const sitemap =
-    [
+  const sitemap: MetadataRoute.Sitemap = [
 
-      ...mainPages,
+    ...mainPages,
 
-      ...categoryPages,
+    ...categoryPages,
 
-      ...subcategoryPages,
+    ...subcategoryPages,
 
-      ...productPages,
+    ...productPages,
 
-    ];
+  ];
 
 
 
@@ -176,6 +200,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "Total sitemap URLs:",
     sitemap.length
   );
+
 
 
   return sitemap;
