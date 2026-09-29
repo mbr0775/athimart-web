@@ -1,21 +1,24 @@
 "use client";
 
 import {
-  usePathname,
-} from "next/navigation";
+  useState,
+  type ReactNode,
+} from "react";
 
 
-import AdminHeader
-from "./admin-header";
+import AdminSidebar from "./admin-sidebar";
+import AdminHeader from "./admin-header";
 
 
-import AdminSidebar
-from "./admin-sidebar";
+interface AdminShellProps {
 
+  children: ReactNode;
 
-import type {
-  AdminShellProps,
-} from "./admin-types";
+  displayName: string;
+
+  email: string;
+
+}
 
 
 
@@ -30,8 +33,9 @@ export default function AdminShell({
 }: AdminShellProps) {
 
 
-  const pathname =
-    usePathname();
+
+  const [mobileMenuOpen, setMobileMenuOpen] =
+    useState(false);
 
 
 
@@ -41,44 +45,150 @@ export default function AdminShell({
       className="
         min-h-screen
         bg-[#f5f7fb]
+        overflow-x-hidden
       "
     >
 
 
-      <AdminSidebar
-
-        pathname={pathname}
-
-        displayName={displayName}
-
-        email={email}
-
-      />
 
 
 
-      <div
+      {/* DESKTOP SIDEBAR */}
+
+      <aside
         className="
-          lg:pl-[286px]
+          hidden
+          lg:block
+          fixed
+          left-0
+          top-0
+          bottom-0
+          w-[270px]
+          z-30
         "
       >
+
+        <AdminSidebar
+          displayName={displayName}
+          email={email}
+        />
+
+      </aside>
+
+
+
+
+
+
+      {/* MOBILE OVERLAY */}
+
+      {mobileMenuOpen && (
+
+        <div
+          onClick={() =>
+            setMobileMenuOpen(false)
+          }
+
+          className="
+            fixed
+            inset-0
+            bg-black/50
+            z-[80]
+            lg:hidden
+          "
+
+        />
+
+      )}
+
+
+
+
+
+
+      {/* MOBILE DRAWER */}
+
+      <aside
+
+        className={`
+          fixed
+          top-0
+          left-0
+          h-screen
+          w-[280px]
+          bg-[#173f9f]
+          z-[90]
+          lg:hidden
+          transition-transform
+          duration-300
+          ease-in-out
+          shadow-2xl
+
+          ${
+            mobileMenuOpen
+            ? "translate-x-0"
+            : "-translate-x-full"
+          }
+
+        `}
+
+      >
+
+
+        <AdminSidebar
+
+          displayName={displayName}
+
+          email={email}
+
+        />
+
+
+      </aside>
+
+
+
+
+
+
+
+
+
+      {/* MAIN CONTENT */}
+
+      <div
+
+        className="
+          min-h-screen
+          lg:ml-[270px]
+        "
+
+      >
+
 
 
         <AdminHeader
 
-          title="Dashboard"
-
           displayName={displayName}
+
+          onMenuClick={() =>
+            setMobileMenuOpen(true)
+          }
 
         />
 
 
 
+
         <main
+
           className="
-            px-8
-            py-10
+            px-4
+            sm:px-6
+            lg:px-10
+            py-8
           "
+
         >
 
           {children}
@@ -86,7 +196,10 @@ export default function AdminShell({
         </main>
 
 
+
       </div>
+
+
 
 
     </div>

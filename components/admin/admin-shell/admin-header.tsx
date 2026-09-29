@@ -1,138 +1,198 @@
 "use client";
 
+import { Menu } from "lucide-react";
 
-import Link from "next/link";
-
-import {
- ShoppingBag,
- ShieldCheck
-} from "lucide-react";
+import AdminAvatar from "./admin-avatar";
 
 
-import AdminAvatar
-from "./admin-avatar";
-
-
-import type {
- AdminHeaderProps
-} from "./admin-types";
+interface AdminHeaderProps {
+  displayName: string;
+  onMenuClick: () => void;
+}
 
 
 
 export default function AdminHeader({
-
-title,
-displayName
-
-}:AdminHeaderProps){
+  displayName,
+  onMenuClick,
+}: AdminHeaderProps) {
 
 
+  return (
 
-return(
-
-<header
-className="
-sticky
-top-0
-z-40
-border-b
-bg-white/80
-backdrop-blur-xl
-"
->
-
-
-<div
-className="
-flex
-min-h-[78px]
-items-center
-justify-between
-px-8
-"
->
+    <header
+      className="
+        h-20
+        bg-white
+        border-b
+        border-gray-200
+        flex
+        items-center
+        px-4
+        sm:px-6
+        lg:px-8
+        sticky
+        top-0
+        z-[70]
+      "
+    >
 
 
-<h1
-className="
-text-3xl
-font-light
-uppercase
-"
->
+      {/* MOBILE HAMBURGER */}
 
-{title}
+      <button
+        onClick={onMenuClick}
+        className="
+          relative
+          z-[80]
+          lg:hidden
+          w-10
+          h-10
+          rounded-xl
+          bg-[#173f9f]
+          text-white
+          flex
+          items-center
+          justify-center
+          mr-3
+          shrink-0
+        "
+        aria-label="Open menu"
+      >
 
-</h1>
+        <Menu
+          size={22}
+        />
 
-
-
-<div
-className="
-flex
-items-center
-gap-3
-"
->
-
-
-<Link
-href="/shop"
-className="
-flex
-items-center
-gap-2
-rounded-xl
-border
-px-4
-py-2
-"
->
-
-<ShoppingBag
-className="h-4 w-4"
-/>
-
-View Store
-
-</Link>
+      </button>
 
 
-<div
-className="
-flex
-items-center
-gap-2
-rounded-xl
-bg-orange-50
-px-4
-py-2
-text-orange-600
-"
->
-
-<ShieldCheck
-className="h-4 w-4"
-/>
-
-Administrator
-
-</div>
 
 
-<AdminAvatar
-displayName={displayName}
-/>
+
+      {/* TITLE */}
+
+      <div
+        className="
+          flex-1
+          min-w-0
+        "
+      >
+
+        <h1
+          className="
+            text-xl
+            sm:text-2xl
+            lg:text-3xl
+            font-light
+            tracking-wide
+            text-[#222]
+            truncate
+          "
+        >
+
+          Dashboard
+
+        </h1>
 
 
-</div>
+      </div>
 
 
-</div>
 
 
-</header>
 
-)
+
+
+      {/* RIGHT SECTION */}
+
+      <div
+        className="
+          flex
+          items-center
+          gap-3
+        "
+      >
+
+
+
+        {/* VIEW STORE */}
+
+        <button
+          className="
+            hidden
+            lg:flex
+            items-center
+            gap-2
+            px-5
+            py-3
+            border
+            border-gray-300
+            rounded-xl
+            text-sm
+            text-gray-700
+            hover:bg-gray-50
+          "
+        >
+
+          <span>
+            🛍
+          </span>
+
+          View Store
+
+        </button>
+
+
+
+
+
+
+        {/* ADMIN BADGE */}
+
+        <button
+          className="
+            hidden
+            lg:flex
+            items-center
+            gap-2
+            px-5
+            py-3
+            rounded-xl
+            bg-orange-50
+            text-orange-600
+            text-sm
+            font-medium
+          "
+        >
+
+          <span>
+            🛡
+          </span>
+
+          Administrator
+
+        </button>
+
+
+
+
+
+
+
+        {/* AVATAR */}
+
+        <AdminAvatar
+          name={displayName}
+        />
+
+
+      </div>
+
+
+
+    </header>
+
+  );
 
 }

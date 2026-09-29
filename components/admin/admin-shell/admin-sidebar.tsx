@@ -1,356 +1,383 @@
 "use client";
 
 import Link from "next/link";
-
 import {
-  Boxes,
   LayoutDashboard,
-  ShoppingBag,
+  Package,
+  Users,
   Truck,
-  UserRound,
-  UsersRound,
-  ShieldCheck,
+  Store,
+  User,
+  ShieldCheck
 } from "lucide-react";
 
-import AdminNavigation from "./admin-navigation";
 
-import type {
-  AdminSidebarProps,
-  NavigationItem,
-} from "./admin-types";
-
-
-const managementNavigation: NavigationItem[] = [
-  {
-    label: "Dashboard",
-    href: "/admin",
-    icon: LayoutDashboard,
-    exact: true,
-  },
-  {
-    label: "Products",
-    href: "/admin/products",
-    icon: Boxes,
-  },
-  {
-    label: "Seller Requests",
-    href: "/admin/seller-requests",
-    icon: UsersRound,
-  },
-  {
-    label: "Manage Sellers",
-    href: "/admin/sellers",
-    icon: UserRound,
-  },
-  {
-    label: "Delivery Partners",
-    href: "/admin/delivery-partners",
-    icon: Truck,
-  },
-];
-
-
-const accountNavigation: NavigationItem[] = [
-  {
-    label: "View AthiMart Store",
-    href: "/shop",
-    icon: ShoppingBag,
-    externalSection: true,
-  },
-  {
-    label: "My Account",
-    href: "/account",
-    icon: UserRound,
-    externalSection: true,
-  },
-];
-
+interface AdminSidebarProps {
+  displayName:string;
+  email:string;
+}
 
 
 export default function AdminSidebar({
+ displayName,
+ email
+}:AdminSidebarProps){
+
+
+return (
+
+<aside
+className="
+w-[270px]
+h-full
+bg-[#19439b]
+text-white
+flex
+flex-col
+"
+>
+
+
+{/* LOGO */}
+
+<div
+className="
+px-6
+pt-10
+pb-6
+border-b
+border-white/20
+"
+>
 
-  pathname,
-  displayName,
-  email,
-
-}: AdminSidebarProps) {
-
-
-  return (
-
-    <aside
-      className="
-        fixed
-        inset-y-0
-        left-0
-        z-50
-        hidden
-        w-[286px]
-        flex-col
-        overflow-hidden
-        border-r
-        border-white/10
-        bg-[linear-gradient(165deg,#102f78_0%,#1749a8_48%,#102f78_100%)]
-        text-white
-        shadow-[18px_0_60px_rgba(12,35,91,0.15)]
-        lg:flex
-      "
-    >
-
-
-      {/* Logo */}
-
-      <div
-        className="
-          flex
-          min-h-24
-          items-center
-          border-b
-          border-white/10
-          px-6
-        "
-      >
-
-        <Link
-          href="/admin"
-          className="block"
-        >
-
-          <div
-            className="
-              flex
-              items-baseline
-            "
-          >
-
-            <span
-              className="
-                font-[var(--font-display)]
-                text-[29px]
-                font-light
-                uppercase
-                tracking-[0.16em]
-                text-white
-              "
-            >
-              ATHI
-            </span>
-
-
-            <span
-              className="
-                font-[var(--font-display)]
-                text-[29px]
-                font-light
-                uppercase
-                tracking-[0.16em]
-                text-[var(--brand-orange-light)]
-              "
-            >
-              MART
-            </span>
+<h1
+className="
+text-[30px]
+tracking-[6px]
+font-light
+"
+>
+ATHI<span className="text-orange-400">MART</span>
+</h1>
 
 
-          </div>
+<p
+className="
+text-[10px]
+tracking-[4px]
+font-semibold
+text-white/50
+mt-1
+"
+>
+ADMINISTRATION
+</p>
 
 
-          <p
-            className="
-              mt-1
-              text-[8px]
-              font-semibold
-              uppercase
-              tracking-[0.28em]
-              text-white/60
-            "
-          >
-            Administration
-          </p>
+</div>
 
 
-        </Link>
 
 
-      </div>
+{/* MENU */}
 
+<div
+className="
+px-4
+pt-6
+flex-1
+"
+>
 
 
+<p
+className="
+text-[10px]
+tracking-[3px]
+font-bold
+text-white/50
+px-4
+mb-4
+"
+>
+MARKETPLACE MANAGEMENT
+</p>
 
 
-      {/* Menu */}
 
-      <nav
-        className="
-          flex-1
-          overflow-y-auto
-          px-4
-          py-6
-        "
-      >
+<MenuItem
+href="/admin"
+active
+icon={<LayoutDashboard size={18}/>}
+text="Dashboard"
+/>
 
 
-        <p
-          className="
-            mb-3
-            px-4
-            text-[9px]
-            font-semibold
-            uppercase
-            tracking-[0.24em]
-            text-white/60
-          "
-        >
-          Marketplace Management
-        </p>
+<MenuItem
+href="/admin/products"
+icon={<Package size={18}/>}
+text="Products"
+/>
 
 
+<MenuItem
+href="/admin/seller-requests"
+icon={<Users size={18}/>}
+text="Seller Requests"
+/>
 
-        <AdminNavigation
-          items={managementNavigation}
-          pathname={pathname}
-        />
 
+<MenuItem
+href="/admin/sellers"
+icon={<User size={18}/>}
+text="Manage Sellers"
+/>
 
 
+<MenuItem
+href="/admin/delivery"
+icon={<Truck size={18}/>}
+text="Delivery Partners"
+/>
 
-        <div
-          className="
-            my-6
-            h-px
-            bg-white/20
-          "
-        />
 
 
 
-        <p
-          className="
-            mb-3
-            px-4
-            text-[9px]
-            font-semibold
-            uppercase
-            tracking-[0.24em]
-            text-white/60
-          "
-        >
-          Quick Access
-        </p>
 
+<div
+className="
+border-t
+border-white/20
+my-7
+"
+/>
 
 
-        <AdminNavigation
-          items={accountNavigation}
-          pathname={pathname}
-        />
 
 
-      </nav>
+<p
+className="
+text-[10px]
+tracking-[3px]
+font-bold
+text-white/50
+px-4
+mb-4
+"
+>
+QUICK ACCESS
+</p>
 
 
 
 
+<MenuItem
+href="/"
+icon={<Store size={18}/>}
+text="View AthiMart Store"
+/>
 
-      {/* Admin profile */}
 
-      <div
-        className="
-          border-t
-          border-white/20
-          p-4
-        "
-      >
 
-        <div
-          className="
-            flex
-            items-center
-            gap-3
-            rounded-2xl
-            border
-            border-white/20
-            bg-white/10
-            p-3
-          "
-        >
+<MenuItem
+href="/admin/account"
+icon={<User size={18}/>}
+text="My Account"
+/>
 
 
-          <div
-            className="
-              flex
-              h-11
-              w-11
-              shrink-0
-              items-center
-              justify-center
-              rounded-xl
-              bg-[var(--brand-orange)]
-              text-xs
-              font-bold
-              text-white
-            "
-          >
+</div>
 
-            {displayName
-              .slice(0,2)
-              .toUpperCase()
-            }
 
-          </div>
 
 
 
-          <div
-            className="
-              min-w-0
-              flex-1
-            "
-          >
+{/* USER CARD */}
 
-            <p
-              className="
-                truncate
-                text-[11px]
-                font-semibold
-                text-white
-              "
-            >
-              {displayName}
-            </p>
+<div
+className="
+p-4
+border-t
+border-white/20
+"
+>
 
 
-            <p
-              className="
-                truncate
-                text-[9px]
-                text-white/60
-              "
-            >
-              {email}
-            </p>
+<div
+className="
+bg-white/10
+border
+border-white/20
+rounded-2xl
+p-3
+flex
+items-center
+gap-3
+"
+>
 
 
-          </div>
+<div
+className="
+w-12
+h-12
+rounded-xl
+bg-orange-500
+flex
+items-center
+justify-center
+font-bold
+"
+>
+MU
+</div>
 
 
 
-          <ShieldCheck
-            className="
-              h-4
-              w-4
-              text-orange-300
-            "
-          />
+<div className="flex-1">
 
 
-        </div>
+<p
+className="
+text-sm
+font-semibold
+"
+>
+{displayName}
+</p>
 
 
-      </div>
+<p
+className="
+text-[10px]
+text-white/60
+"
+>
+{email}
+</p>
 
 
-    </aside>
+</div>
 
-  );
+
+<ShieldCheck
+size={18}
+className="text-orange-400"
+/>
+
+
+</div>
+
+
+
+</div>
+
+
+
+</aside>
+
+);
+
+}
+
+
+
+
+function MenuItem({
+href,
+icon,
+text,
+active=false
+}:{
+href:string;
+icon:React.ReactNode;
+text:string;
+active?:boolean;
+}){
+
+
+return (
+
+<Link
+href={href}
+className={`
+relative
+flex
+items-center
+gap-4
+px-4
+py-3
+mb-2
+rounded-2xl
+transition
+
+${active
+?
+"bg-white/20"
+:
+"hover:bg-white/10"
+}
+
+`}
+>
+
+
+{active && (
+
+<span
+className="
+absolute
+left-0
+w-1
+h-8
+bg-orange-500
+rounded-r-full
+"
+/>
+
+)}
+
+
+
+<div
+className={`
+w-10
+h-10
+rounded-xl
+flex
+items-center
+justify-center
+
+${active
+?
+"bg-white text-[#19439b]"
+:
+"bg-white/10 text-white"
+}
+
+`}
+>
+
+{icon}
+
+</div>
+
+
+
+<span
+className="
+text-sm
+font-semibold
+"
+>
+{text}
+</span>
+
+
+
+</Link>
+
+
+)
 
 }
