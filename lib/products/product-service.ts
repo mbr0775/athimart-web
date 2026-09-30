@@ -21,6 +21,11 @@ interface GetActiveProductsOptions {
   limit?: number;
 }
 
+interface GetFeaturedProductsOptions {
+  countryCode?: string;
+  limit?: number;
+}
+
 interface GetProductsByCategoryOptions {
   categoryName: string;
   countryCode?: string;
@@ -485,6 +490,49 @@ export async function getActiveProducts({
   if (error) {
     throw new Error(
       `Unable to load products: ${error.message}`
+    );
+  }
+
+  return (data ?? []).map((row) =>
+    mapProduct(row as ProductRow)
+  );
+}
+
+/**
+ * Load products selected by an administrator for storefront promotion.
+ */
+export async function getFeaturedProducts({
+  countryCode = "LK",
+  limit = 20,
+}: GetFeaturedProductsOptions = {}): Promise<
+  Product[]
+> {
+  const cleanCountryCode =
+    countryCode.trim().toUpperCase();
+
+  const safeLimit = getSafeLimit(
+    limit,
+    20
+  );
+
+  const { data, error } =
+    await publicSupabase
+      .from("products")
+      .select(PRODUCT_COLUMNS)
+      .eq(
+        "country_code",
+        cleanCountryCode
+      )
+      .eq("is_active", true)
+      .eq("is_featured", true)
+      .order("created_at", {
+        ascending: false,
+      })
+      .limit(safeLimit);
+
+  if (error) {
+    throw new Error(
+      `Unable to load featured products: ${error.message}`
     );
   }
 

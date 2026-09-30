@@ -13,9 +13,14 @@ const supabaseHostname = new URL(
   supabaseUrl
 ).hostname;
 
+
 const nextConfig: NextConfig = {
+
   images: {
+
     remotePatterns: [
+
+      // Supabase product images
       {
         protocol: "https",
         hostname: supabaseHostname,
@@ -23,15 +28,28 @@ const nextConfig: NextConfig = {
         pathname:
           "/storage/v1/object/public/product-images/**",
       },
+
+
+      // External demo images
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+
     ],
+
 
     formats: [
       "image/avif",
       "image/webp",
     ],
 
+
     minimumCacheTTL: 60,
+
   },
+
 };
+
 
 export default nextConfig;
