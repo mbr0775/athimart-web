@@ -2,6 +2,7 @@
 
 import type {
   FormEvent,
+  MouseEvent,
 } from "react";
 import {
   useState,
@@ -10,6 +11,8 @@ import {
 import { useRouter } from "next/navigation";
 import {
   AlertCircle,
+  ArrowLeft,
+  ArrowRight,
   CalendarDays,
   CheckCircle2,
   FileText,
@@ -131,6 +134,26 @@ function formatUpdatedDate(
   ).format(date);
 }
 
+type PersonalDetailsSection =
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6;
+
+const personalDetailsSectionLabels: Record<
+  PersonalDetailsSection,
+  string
+> = {
+  1: "Personal information",
+  2: "Identity information",
+  3: "Driving licence",
+  4: "Emergency contact",
+  5: "Service areas",
+  6: "Consent and declarations",
+};
+
 export default function PersonalDetailsForm({
   initialValues = {},
 }: Readonly<PersonalDetailsFormProps>) {
@@ -155,10 +178,62 @@ export default function PersonalDetailsForm({
       null
     );
 
+  const [
+    activeSection,
+    setActiveSection,
+  ] = useState<PersonalDetailsSection>(1);
+
   const maximumDateOfBirth =
     new Date()
       .toISOString()
       .slice(0, 10);
+
+  function handleNextSection(
+    event: MouseEvent<HTMLButtonElement>
+  ) {
+    const form = event.currentTarget.form;
+
+    const section = form?.querySelector<HTMLElement>(
+      `[data-personal-details-section="${activeSection}"]`
+    );
+
+    const firstInvalidField = Array.from(
+      section?.querySelectorAll<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >("input, select, textarea") ?? []
+    ).find((field) => !field.checkValidity());
+
+    if (firstInvalidField) {
+      firstInvalidField.reportValidity();
+      firstInvalidField.focus();
+      return;
+    }
+
+    setActiveSection(
+      (sectionNumber) =>
+        Math.min(
+          sectionNumber + 1,
+          6
+        ) as PersonalDetailsSection
+    );
+
+    requestAnimationFrame(() => {
+      form?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  }
+
+  function handlePreviousSection() {
+    setActiveSection(
+      (sectionNumber) =>
+        Math.max(
+          sectionNumber - 1,
+          1
+        ) as PersonalDetailsSection
+    );
+  }
 
   function handleSubmit(
     event: FormEvent<HTMLFormElement>
@@ -313,6 +388,12 @@ export default function PersonalDetailsForm({
         result.application
       );
 
+      window.dispatchEvent(
+        new Event(
+          "athimart:delivery-personal-saved"
+        )
+      );
+
       router.refresh();
 
       window.scrollTo({
@@ -380,7 +461,11 @@ export default function PersonalDetailsForm({
       )}
 
       {/* Personal information */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section
+        data-personal-details-section="1"
+        hidden={activeSection !== 1}
+        className="border border-[var(--border)] bg-white p-5 sm:p-8"
+      >
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
             <UserRound
@@ -492,7 +577,11 @@ export default function PersonalDetailsForm({
       </section>
 
       {/* Identity information */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section
+        data-personal-details-section="2"
+        hidden={activeSection !== 2}
+        className="border border-[var(--border)] bg-white p-5 sm:p-8"
+      >
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]">
             <IdCard
@@ -589,7 +678,11 @@ export default function PersonalDetailsForm({
       </section>
 
       {/* Driving licence */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section
+        data-personal-details-section="3"
+        hidden={activeSection !== 3}
+        className="border border-[var(--border)] bg-white p-5 sm:p-8"
+      >
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
             <FileText
@@ -696,7 +789,11 @@ export default function PersonalDetailsForm({
       </section>
 
       {/* Emergency contact */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section
+        data-personal-details-section="4"
+        hidden={activeSection !== 4}
+        className="border border-[var(--border)] bg-white p-5 sm:p-8"
+      >
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-red-50 text-[var(--sale)]">
             <Phone
@@ -787,7 +884,11 @@ export default function PersonalDetailsForm({
       </section>
 
       {/* Service areas */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section
+        data-personal-details-section="5"
+        hidden={activeSection !== 5}
+        className="border border-[var(--border)] bg-white p-5 sm:p-8"
+      >
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
             <MapPin
@@ -844,7 +945,11 @@ Mawanella`}
       </section>
 
       {/* Consent */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section
+        data-personal-details-section="6"
+        hidden={activeSection !== 6}
+        className="border border-[var(--border)] bg-white p-5 sm:p-8"
+      >
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-green-50 text-[var(--success)]">
             <ShieldCheck
@@ -928,8 +1033,55 @@ Mawanella`}
         </div>
       </section>
 
+      <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p
+          aria-live="polite"
+          className="font-[var(--font-body)] text-xs text-[var(--text-muted)]"
+        >
+          Section {activeSection} of 6: {" "}
+          {personalDetailsSectionLabels[activeSection]}
+        </p>
+
+        <div className="flex flex-wrap justify-end gap-3">
+          {activeSection > 1 && (
+            <button
+              type="button"
+              onClick={handlePreviousSection}
+              className="inline-flex min-h-12 items-center justify-center gap-2 border border-[var(--border-strong)] bg-white px-5 font-[var(--font-body)] text-xs font-semibold text-[var(--text)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)]"
+            >
+              <ArrowLeft
+                aria-hidden="true"
+                className="h-4 w-4"
+                strokeWidth={1.8}
+              />
+
+              Back
+            </button>
+          )}
+
+          {activeSection < 6 && (
+            <button
+              type="button"
+              onClick={handleNextSection}
+              className="inline-flex min-h-12 items-center justify-center gap-2 bg-[var(--brand-blue)] px-6 font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[var(--brand-blue-dark)]"
+            >
+              Next section
+
+              <ArrowRight
+                aria-hidden="true"
+                className="h-4 w-4"
+                strokeWidth={1.8}
+              />
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* Save */}
-      <section className="border border-[var(--border)] bg-[var(--brand-blue)] p-5 text-white sm:p-8">
+      <section
+        hidden={activeSection !== 6}
+        className="border border-[var(--border)] bg-[var(--brand-blue)] p-5 text-white sm:p-8"
+      >
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
           <div>
             <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-light)]">
@@ -937,7 +1089,7 @@ Mawanella`}
             </p>
 
             <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.04em]">
-              Save Personal Details
+              Save and Continue
             </h2>
 
             <p className="mt-3 max-w-xl font-[var(--font-body)] text-xs leading-6 text-white/70">
@@ -968,7 +1120,7 @@ Mawanella`}
 
             {isPending
               ? "Saving Details..."
-              : "Save Personal Details"}
+              : "Save and Continue"}
           </button>
         </div>
       </section>

@@ -353,6 +353,12 @@ export default function VehicleForm({
         result.vehicle
       );
 
+      window.dispatchEvent(
+        new Event(
+          "athimart:delivery-vehicle-saved"
+        )
+      );
+
       router.refresh();
 
       window.scrollTo({
@@ -1203,7 +1209,7 @@ export default function VehicleForm({
             </p>
 
             <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.04em]">
-              Save Vehicle Draft
+              Save and Continue
             </h2>
 
             <p className="mt-3 max-w-xl font-[var(--font-body)] text-xs leading-6 text-white/70">
@@ -1235,7 +1241,7 @@ export default function VehicleForm({
 
             {isPending
               ? "Saving Vehicle..."
-              : "Save Vehicle Draft"}
+              : "Save and Continue"}
           </button>
         </div>
       </section>

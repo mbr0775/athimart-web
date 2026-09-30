@@ -9,7 +9,6 @@ import {
   FileText,
   LockKeyhole,
   ShieldCheck,
-  Truck,
 } from "lucide-react";
 
 import PersonalDetailsForm, {
@@ -19,6 +18,7 @@ import PersonalDetailsForm, {
 import VehicleForm, {
   type DeliveryPartnerVehicleInitialValues,
 } from "@/components/delivery-partner/vehicle-form";
+import RegistrationWizard from "@/components/delivery-partner/registration-wizard";
 
 import { createClient } from "@/lib/supabase/server";
 
@@ -721,10 +721,31 @@ export default async function DeliveryPartnerRegistrationPage() {
     };
   }
 
+  const hasSavedPersonalDetails = Boolean(
+    application.date_of_birth &&
+      application.identity_document_type &&
+      application.identity_document_number &&
+      application.driving_licence_number &&
+      application.driving_licence_class?.length &&
+      application.emergency_contact_name &&
+      application.emergency_contact_phone &&
+      application.emergency_contact_relationship &&
+      application.requested_service_areas?.length &&
+      application.terms_accepted_at &&
+      application.privacy_consent_at &&
+      application.location_consent_at
+  );
+
+  const initialCompletedStep = vehicleInitialValues?.vehicleId
+    ? 2
+    : hasSavedPersonalDetails
+      ? 1
+      : 0;
+
   return (
     <main className="athimart-container py-10 sm:py-14 lg:py-20">
-      {/* Page heading */}
-      <section className="border-b border-[var(--black)] pb-8">
+      {/* Replaced by the focused registration wizard below. */}
+      <section className="hidden border-b border-[var(--black)] pb-8">
         <Link
           href="/delivery-partner"
           className="inline-flex min-h-11 items-center justify-center gap-2 border border-[var(--border)] bg-white px-5 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--text)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)]"
@@ -785,7 +806,7 @@ export default async function DeliveryPartnerRegistrationPage() {
       </section>
 
       {/* Security information */}
-      <section className="mt-8 grid border-l border-t border-[var(--border)] md:grid-cols-3">
+      <section className="hidden mt-8 grid border-l border-t border-[var(--border)] md:grid-cols-3">
         <article className="border-b border-r border-[var(--border)] bg-white p-5">
           <FileText
             aria-hidden="true"
@@ -840,64 +861,22 @@ export default async function DeliveryPartnerRegistrationPage() {
         </article>
       </section>
 
-      {/* Personal registration */}
-      <section className="mt-12">
-        <div className="mb-7 border-l-4 border-[var(--brand-blue)] pl-5">
-          <p className="athimart-label text-[var(--brand-orange-dark)]">
-            Registration stage 01
-          </p>
-
-          <h2 className="athimart-title-large mt-2">
-            Personal and Licence Details
-          </h2>
-        </div>
-
-        <PersonalDetailsForm
-          initialValues={
-            personalInitialValues
-          }
-        />
-      </section>
-
-      {/* Vehicle registration */}
-      <section className="mt-16 border-t border-[var(--black)] pt-12">
-        <div className="mb-7 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-          <div className="border-l-4 border-[var(--brand-orange)] pl-5">
-            <p className="athimart-label text-[var(--brand-orange-dark)]">
-              Registration stage 02
-            </p>
-
-            <h2 className="athimart-title-large mt-2">
-              Delivery Vehicle
-            </h2>
-
-            <p className="mt-3 max-w-2xl font-[var(--font-body)] text-sm leading-7 text-[var(--text-muted)]">
-              Register the vehicle you plan to use.
-              AthiMart will later match assignments
-              according to parcel size, weight,
-              quantity and vehicle capacity.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3 border border-[var(--border)] bg-white px-5 py-4">
-            <Truck
-              aria-hidden="true"
-              className="h-6 w-6 text-[var(--brand-blue)]"
-              strokeWidth={1.7}
-            />
-
-            <p className="font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.12em]">
-              One primary vehicle
-            </p>
-          </div>
-        </div>
-
-        <VehicleForm
-          initialValues={
-            vehicleInitialValues
-          }
-        />
-      </section>
+      <RegistrationWizard
+        currentStatus={formatStatus(
+          application.application_status
+        )}
+        initialCompletedStep={initialCompletedStep}
+        personalForm={
+          <PersonalDetailsForm
+            initialValues={personalInitialValues}
+          />
+        }
+        vehicleForm={
+          <VehicleForm
+            initialValues={vehicleInitialValues}
+          />
+        }
+      />
     </main>
   );
 }

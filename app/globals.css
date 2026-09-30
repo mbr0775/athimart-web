@@ -890,6 +890,860 @@ summary:focus-visible {
 }
 
 /* ==========================================================
+   Account page: focused mobile experience
+========================================================== */
+
+@media (min-width: 640px) {
+  body:has(.account-page) {
+    background: #f1f4f9;
+  }
+
+  body:has(.account-page) > header {
+    display: none;
+  }
+
+  body:has(.account-page) #main-content {
+    background: #f1f4f9;
+    padding-bottom: 0;
+  }
+
+  .account-page {
+    max-width: 1320px;
+    padding-top: 42px;
+    padding-bottom: 40px;
+  }
+
+  .account-page-heading {
+    display: none;
+  }
+
+  .account-page-grid {
+    margin-top: 0;
+    grid-template-columns: 306px minmax(0, 1fr);
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .account-navigation-card {
+    position: relative;
+    display: flex;
+    min-height: 783px;
+    flex-direction: column;
+    overflow: hidden;
+    border: 0;
+    border-radius: 28px;
+    background:
+      radial-gradient(circle at 70% 22%, transparent 0 136px, rgba(255, 255, 255, 0.075) 137px 138px, transparent 139px),
+      linear-gradient(160deg, #1e61da 0%, #1848be 100%);
+    box-shadow: 0 16px 28px rgba(18, 62, 152, 0.2);
+  }
+
+  .account-navigation-identity {
+    position: relative;
+    background: transparent;
+    padding: 84px 28px 0;
+  }
+
+  .account-navigation-identity::before {
+    content: "AthiMart";
+    position: absolute;
+    top: 34px;
+    left: 28px;
+    border-left: 10px solid var(--brand-orange);
+    color: #ffffff;
+    padding-left: 8px;
+    font-family: var(--font-body), sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .account-navigation-identity > span {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border: 0;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #1d60db;
+    font-family: var(--font-body), sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .account-navigation-identity > span::after {
+    content: "";
+    position: absolute;
+    right: -2px;
+    bottom: 0;
+    width: 17px;
+    height: 17px;
+    border: 3px solid #1e61da;
+    border-radius: 999px;
+    background: #26b34a;
+  }
+
+  .account-navigation-identity > p:first-of-type {
+    margin-top: 18px;
+    color: #b9d4ff;
+    font-size: 9px;
+    letter-spacing: 0.04em;
+  }
+
+  .account-navigation-identity > h2 {
+    margin-top: 8px;
+    color: #ffffff;
+    font-family: var(--font-body), sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+  }
+
+  .account-navigation-identity > p:nth-of-type(2) {
+    margin-top: 4px;
+    color: #c9dcff;
+    font-size: 11px;
+  }
+
+  .account-navigation-actions {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    background: transparent;
+    padding: 14px 28px 28px;
+  }
+
+  .account-navigation-actions > .flex {
+    position: absolute;
+    top: 260px;
+    left: 28px;
+    gap: 6px;
+    border-radius: 999px;
+    background: #0f44ba;
+    padding: 6px 12px;
+    color: #ffffff;
+  }
+
+  .account-navigation-actions > .flex svg {
+    width: 14px;
+    height: 14px;
+    color: #36d565;
+  }
+
+  .account-navigation-actions > .flex p {
+    color: #ffffff;
+    font-size: 10px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .account-navigation-links {
+    display: flex;
+    min-height: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 68px;
+  }
+
+  .account-navigation-links > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0;
+  }
+
+  .account-navigation-links > a,
+  .account-navigation-links > form > button {
+    min-height: 48px;
+    border-radius: 12px;
+    padding-inline: 15px;
+    font-size: 13px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .account-navigation-links > a svg,
+  .account-navigation-links > form > button svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .account-navigation-admin {
+    border: 0;
+    background: #ffffff !important;
+    color: #175bda !important;
+  }
+
+  .account-navigation-admin svg {
+    color: #175bda !important;
+  }
+
+  .account-navigation-delivery {
+    border: 0;
+    background: linear-gradient(135deg, #ff7b00, #ff5900) !important;
+    color: #ffffff !important;
+  }
+
+  .account-navigation-shop {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+  }
+
+  .account-navigation-links > form {
+    margin-top: auto;
+  }
+
+  .account-navigation-signout {
+    min-height: 48px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    background: rgba(8, 47, 153, 0.38);
+    color: #ffffff !important;
+  }
+
+  .account-content {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .account-content > .account-delivery-panel {
+    margin-top: 0 !important;
+  }
+
+  .account-profile-panel {
+    min-height: 459px;
+    border-color: #e2e7ef;
+    border-radius: 26px;
+    background: #ffffff;
+    padding: 36px;
+    box-shadow: 0 1px 2px rgba(22, 43, 75, 0.08);
+  }
+
+  .account-profile-heading {
+    border: 0;
+    padding: 0;
+  }
+
+  .account-profile-heading .athimart-label {
+    color: var(--brand-orange);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+
+  .account-profile-title {
+    margin-top: 12px;
+    color: #071c42;
+    font-family: var(--font-body), sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    text-transform: none;
+  }
+
+  .account-profile-title-break {
+    display: none;
+  }
+
+  .account-profile-heading > span {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+
+  .account-profile-heading > span svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .account-profile-grid {
+    margin-top: 24px;
+    gap: 16px;
+  }
+
+  .account-profile-field {
+    display: grid;
+    min-height: 87px;
+    grid-template-columns: 44px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    column-gap: 16px;
+    align-items: center;
+    border-color: #e1e7f0;
+    border-radius: 16px;
+    background: #fbfcfe;
+    padding: 16px 20px;
+  }
+
+  .account-profile-field > svg {
+    grid-row: 1 / -1;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #e1e7f0;
+    border-radius: 12px;
+    padding: 12px;
+  }
+
+  .account-profile-field .athimart-label {
+    margin: 0;
+    color: #8ba0c8;
+    font-size: 9px;
+    letter-spacing: 0.09em;
+  }
+
+  .account-profile-field > p:last-child {
+    margin-top: 4px;
+    color: #071c42;
+    font-size: 14px;
+    line-height: 1.25;
+  }
+
+  .account-roles-panel {
+    margin-top: 35px;
+    border-left-color: var(--brand-orange);
+    background: transparent;
+    padding: 5px 0 0 14px;
+  }
+
+  .account-roles-panel .athimart-label {
+    color: #142f62;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+
+  .account-roles-list {
+    margin-top: 17px;
+    gap: 12px;
+  }
+
+  .account-roles-list > span {
+    border: 1px solid #d6e3fb;
+    border-radius: 999px;
+    background: #edf4ff;
+    padding: 10px 16px;
+    color: #1e62d5;
+    font-size: 13px;
+  }
+
+  .account-roles-list > span:nth-child(2) {
+    border-color: #f1cb61;
+    background: #fffdf1;
+    color: #a75900;
+  }
+
+  .account-roles-list > span:nth-child(3) {
+    border-color: #f8dfcb;
+    background: #fff3eb;
+    color: #d85b00;
+  }
+
+  .account-delivery-panel {
+    min-height: 299px;
+    border-color: #e2e7ef;
+    border-left: 5px solid var(--brand-orange);
+    border-radius: 26px;
+    background: #ffffff;
+    padding: 31px 32px;
+    box-shadow: 0 1px 2px rgba(22, 43, 75, 0.08);
+  }
+
+  .account-delivery-content {
+    gap: 24px;
+  }
+
+  .account-delivery-content > div {
+    gap: 20px;
+  }
+
+  .account-delivery-content > div > span {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: var(--brand-orange-soft);
+    color: var(--brand-orange);
+  }
+
+  .account-delivery-content > div > span svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .account-delivery-content .athimart-label {
+    color: var(--brand-orange);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  .account-delivery-content h2 {
+    margin-top: 8px;
+    color: #071c42;
+    font-family: var(--font-body), sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+
+  .account-delivery-content p:not(.athimart-label) {
+    margin-top: 8px;
+    color: #59709b;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .account-delivery-cta {
+    min-height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ff7b00, #ff5900) !important;
+    padding-inline: 24px;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    box-shadow: 0 10px 16px rgba(255, 99, 0, 0.18);
+  }
+
+  .account-delivery-panel > div + div {
+    margin-top: 26px;
+    border-top: 1px solid #edf0f5;
+    padding-top: 24px;
+  }
+
+  .account-delivery-panel article {
+    min-height: 81px;
+    border-color: #e1e7f0;
+    border-radius: 16px;
+    background: #fbfcfe;
+    padding: 16px;
+  }
+
+  .account-delivery-panel article > p:first-child {
+    color: #8ba0c8;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .account-delivery-panel article > p:not(:first-child) {
+    color: #071c42;
+    font-family: var(--font-body), sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  body:has(.account-page) footer {
+    border-top: 1px solid #dfe6ef;
+    background: #f1f4f9;
+  }
+
+  body:has(.account-page) footer > div:first-child {
+    max-width: 1320px;
+    gap: 64px;
+    padding-top: 42px;
+    padding-bottom: 36px;
+  }
+
+  body:has(.account-page) footer p,
+  body:has(.account-page) footer a,
+  body:has(.account-page) footer span {
+    color: #58709d;
+  }
+
+  body:has(.account-page) footer h2 {
+    color: #071c42;
+  }
+
+  body:has(.account-page) footer h2 span:first-child {
+    color: var(--brand-blue) !important;
+  }
+
+  body:has(.account-page) footer h2 span:nth-child(2) {
+    color: var(--brand-orange) !important;
+  }
+
+  body:has(.account-page) footer > div:last-child {
+    border-top-color: #dfe6ef;
+    background: transparent;
+  }
+}
+
+@media (max-width: 639px) {
+  /* The account is a self-contained mobile workspace. */
+  body:has(.account-page) {
+    background: var(--brand-blue);
+  }
+
+  body:has(.account-page) > header,
+  body:has(.account-page) nav[aria-label="Mobile primary navigation"] {
+    display: none;
+  }
+
+  body:has(.account-page) #main-content {
+    min-height: 0;
+    padding-bottom: 0;
+  }
+
+  .account-page {
+    min-height: 100vh;
+    overflow: hidden;
+    border-radius: 0 0 32px 32px;
+    background: #f5f7fb;
+    padding: 0;
+  }
+
+  .account-page-heading {
+    display: none;
+  }
+
+  .account-page-grid {
+    display: block;
+    margin-top: 0;
+  }
+
+  .account-navigation-card {
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
+    background: linear-gradient(145deg, #1f67c9 0%, #246ed4 100%);
+    box-shadow: none;
+  }
+
+  .account-navigation-identity {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    column-gap: 10px;
+    row-gap: 0;
+    background: transparent;
+    padding: 22px 20px 12px;
+  }
+
+  .account-navigation-identity > span {
+    grid-column: 1;
+    grid-row: 1;
+    width: 42px;
+    height: 42px;
+    border-color: rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    font-family: var(--font-body), sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .account-navigation-identity > p:first-of-type {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.96);
+    font-size: 9px;
+    letter-spacing: 0;
+    line-height: 1.2;
+  }
+
+  .account-navigation-identity > h2 {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-top: 21px;
+    color: #ffffff;
+    font-family: var(--font-body), sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .account-navigation-identity > p:nth-of-type(2) {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin-top: 3px;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .account-navigation-identity > div {
+    grid-column: 1 / -1;
+    margin-top: 13px;
+    justify-self: start;
+  }
+
+  .account-navigation-actions {
+    background: transparent;
+    padding: 8px 20px 24px;
+  }
+
+  .account-navigation-actions > .flex {
+    width: fit-content;
+    gap: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.13);
+    padding: 5px 10px;
+    color: #ffffff;
+  }
+
+  .account-navigation-actions > .flex svg {
+    width: 14px;
+    height: 14px;
+    color: #a5f2c2;
+  }
+
+  .account-navigation-actions > .flex p {
+    color: #ffffff;
+    font-size: 9px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .account-navigation-links {
+    margin-top: 24px;
+  }
+
+  .account-navigation-links > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 9px !important;
+  }
+
+  .account-navigation-links > a,
+  .account-navigation-links > form > button {
+    min-height: 37px;
+    border-radius: 9px;
+    padding-inline: 12px;
+    font-size: 11px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .account-navigation-links > a svg,
+  .account-navigation-links > form > button svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .account-navigation-admin {
+    border: 0;
+    background: #ffffff !important;
+    color: #1e69ce !important;
+  }
+
+  .account-navigation-admin svg {
+    color: #1e69ce !important;
+  }
+
+  .account-navigation-delivery {
+    border: 0;
+    background: linear-gradient(135deg, #f6a22b, #f78218) !important;
+    color: #ffffff !important;
+  }
+
+  .account-navigation-shop {
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    background: transparent !important;
+    color: #ffffff !important;
+  }
+
+  .account-navigation-signout {
+    min-height: 35px !important;
+    border: 0;
+    background: transparent;
+    color: #ffffff !important;
+  }
+
+  .account-content {
+    background: #f5f7fb;
+    padding: 24px 16px 40px;
+  }
+
+  .account-profile-panel {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .account-profile-heading {
+    display: block;
+    gap: 0;
+    border: 0;
+    padding: 0;
+  }
+
+  .account-profile-heading > span {
+    display: none;
+  }
+
+  .account-profile-heading .athimart-label {
+    color: var(--brand-orange);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+  }
+
+  .account-profile-title {
+    margin-top: 8px;
+    color: #1d355d;
+    font-family: var(--font-body), sans-serif;
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    text-transform: none;
+  }
+
+  .account-profile-title-break {
+    display: none;
+  }
+
+  .account-profile-description {
+    display: block;
+    max-width: 260px;
+    margin-top: 7px;
+    color: #6b7a94;
+    font-family: var(--font-body), sans-serif;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .account-profile-grid {
+    margin-top: 26px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .account-profile-field {
+    min-height: 103px;
+    border-color: #dbe3ef;
+    border-radius: 10px;
+    background: #ffffff;
+    padding: 16px;
+    box-shadow: 0 2px 2px rgba(37, 71, 122, 0.12);
+  }
+
+  .account-profile-field > svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .account-profile-field .athimart-label {
+    margin-top: 16px;
+    color: #72809a;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+
+  .account-profile-field > p:last-child {
+    margin-top: 7px;
+    color: #22395f;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .account-roles-panel {
+    margin-top: 28px;
+    border-left-color: var(--brand-orange);
+    background: transparent;
+    padding: 0 0 0 14px;
+  }
+
+  .account-roles-panel .athimart-label {
+    color: var(--brand-orange);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+
+  .account-roles-title {
+    display: block;
+    margin-top: 4px;
+    color: #1d355d;
+    font-family: var(--font-body), sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .account-roles-list {
+    margin-top: 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .account-roles-list > span {
+    border: 0;
+    border-radius: 8px;
+    background: #eaf2ff;
+    padding: 8px 12px;
+    color: #1262c9;
+    font-size: 11px;
+  }
+
+  .account-delivery-panel {
+    margin-top: 30px !important;
+    border-color: #dbe3ef;
+    border-radius: 10px;
+    background: #ffffff;
+    padding: 16px;
+    box-shadow: 0 2px 2px rgba(37, 71, 122, 0.12);
+  }
+
+  .account-delivery-content {
+    gap: 17px;
+  }
+
+  .account-delivery-content > div {
+    gap: 12px;
+  }
+
+  .account-delivery-content > div > span {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: var(--brand-orange-soft);
+    color: var(--brand-orange);
+  }
+
+  .account-delivery-content > div > span svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .account-delivery-content .athimart-label {
+    font-size: 9px;
+    letter-spacing: 0.13em;
+  }
+
+  .account-delivery-content h2 {
+    margin-top: 3px;
+    color: #1d355d;
+    font-family: var(--font-body), sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.18;
+  }
+
+  .account-delivery-content p:not(.athimart-label) {
+    margin-top: 8px;
+    color: #6b7a94;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .account-delivery-cta {
+    width: 100%;
+    min-height: 37px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #f6a22b, #f78218) !important;
+    padding: 0 12px;
+    font-size: 11px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .account-delivery-cta svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* ==========================================================
    Mobile safe areas
 ========================================================== */
 

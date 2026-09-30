@@ -760,14 +760,14 @@ export default async function AccountPage({
               : "AthiMart Customer";
 
   return (
-    <main className="athimart-container py-10 sm:py-14 lg:py-20">
+    <main className="account-page athimart-container py-12 sm:py-16 lg:py-24">
       {/* Page heading */}
-      <header className="border-b border-[var(--border-strong)] pb-8 sm:pb-10">
+      <header className="account-page-heading border-b border-[var(--border-strong)] pb-10 sm:pb-12">
         <p className="athimart-label text-[var(--brand-orange-dark)]">
           Connected AthiMart account
         </p>
 
-        <h1 className="athimart-display-large mt-4 text-[var(--brand-blue-dark)]">
+        <h1 className="athimart-display-large mt-5 text-[var(--brand-blue-dark)]">
           My
           <br />
 
@@ -776,7 +776,7 @@ export default async function AccountPage({
           </span>
         </h1>
 
-        <p className="athimart-body-large mt-5 max-w-3xl">
+        <p className="athimart-body-large mt-6 max-w-3xl">
           View your profile and open
           the marketplace tools connected
           to your customer, seller,
@@ -804,10 +804,10 @@ export default async function AccountPage({
         </div>
       )}
 
-      <div className="mt-8 grid gap-8 xl:grid-cols-[minmax(320px,0.72fr)_minmax(0,1.28fr)]">
+      <div className="account-page-grid mt-10 grid gap-8 lg:gap-10 xl:grid-cols-[minmax(320px,0.72fr)_minmax(0,1.28fr)]">
         {/* Account navigation card */}
-        <aside className="overflow-hidden border border-[var(--border)] bg-white shadow-[0_20px_55px_rgba(17,42,91,0.07)]">
-          <div className="bg-[linear-gradient(145deg,#163d91_0%,#2f68d2_100%)] p-8 text-white">
+        <aside className="account-navigation-card overflow-hidden border border-[var(--border)] bg-white shadow-[0_20px_55px_rgba(17,42,91,0.07)]">
+          <div className="account-navigation-identity bg-[linear-gradient(145deg,#163d91_0%,#2f68d2_100%)] p-8 sm:p-9 text-white">
             <span className="flex h-24 w-24 items-center justify-center border border-white/25 bg-white/10 font-[var(--font-display)] text-4xl font-light">
               {initials}
             </span>
@@ -845,7 +845,7 @@ export default async function AccountPage({
             )}
           </div>
 
-          <div className="p-7">
+          <div className="account-navigation-actions p-7 sm:p-8">
             <div className="flex items-center gap-3 text-[var(--success)]">
               <ShieldCheck
                 aria-hidden="true"
@@ -858,12 +858,12 @@ export default async function AccountPage({
               </p>
             </div>
 
-            <div className="mt-7 space-y-3">
+            <div className="account-navigation-links mt-8 space-y-4">
               {/* Administrator navigation */}
               {isAdministrator && (
                 <Link
                   href="/admin"
-                  className="flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-orange)] px-5 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] !text-white transition-colors hover:bg-[var(--brand-orange-dark)] hover:!text-white [&_svg]:!text-white"
+                  className="account-navigation-admin flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-orange)] px-5 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] !text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-orange-dark)] hover:!text-white [&_svg]:!text-[var(--brand-blue)]"
                 >
                   <LayoutDashboard
                     aria-hidden="true"
@@ -902,7 +902,7 @@ export default async function AccountPage({
                     : hasDeliveryApplication
                       ? "bg-[var(--brand-orange)] !text-white hover:bg-[var(--brand-orange-dark)] hover:!text-white [&_svg]:!text-white"
                       : "border border-[var(--brand-blue)] bg-white text-[var(--brand-blue)] hover:bg-[var(--brand-blue-soft)]"
-                }`}
+                } account-navigation-delivery`}
               >
                 {isApprovedDeliveryPartner ? (
                   <LayoutDashboard
@@ -931,7 +931,7 @@ export default async function AccountPage({
 
               <Link
                 href="/shop"
-                className="flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-blue)] px-5 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] !text-white transition-colors hover:bg-[var(--brand-blue-dark)] hover:!text-white [&_svg]:!text-white"
+                className="account-navigation-shop flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-blue)] px-5 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] !text-white transition-colors hover:bg-[var(--brand-blue-dark)] hover:!text-white [&_svg]:!text-white"
               >
                 <ShoppingBag
                   aria-hidden="true"
@@ -947,7 +947,7 @@ export default async function AccountPage({
               >
                 <button
                   type="submit"
-                  className="flex min-h-14 w-full items-center justify-center gap-3 border border-red-500 bg-white px-5 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] text-red-600 transition-colors hover:bg-red-50"
+                  className="account-navigation-signout flex min-h-14 w-full items-center justify-center gap-3 border border-red-500 bg-white px-5 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] text-red-600 transition-colors hover:bg-red-50"
                 >
                   <LogOut
                     aria-hidden="true"
@@ -962,20 +962,24 @@ export default async function AccountPage({
           </div>
         </aside>
 
-        <div className="space-y-8">
+        <div className="account-content space-y-8 lg:space-y-10">
           {/* Main account information */}
-          <section className="border border-[var(--border)] bg-white p-6 shadow-[0_20px_55px_rgba(17,42,91,0.06)] sm:p-8 lg:p-10">
-            <div className="flex items-start justify-between gap-5 border-b border-[var(--border)] pb-7">
+          <section className="account-profile-panel border border-[var(--border)] bg-white p-7 shadow-[0_20px_55px_rgba(17,42,91,0.06)] sm:p-9 lg:p-11">
+            <div className="account-profile-heading flex items-start justify-between gap-6 border-b border-[var(--border)] pb-8">
               <div>
                 <p className="athimart-label text-[var(--brand-orange-dark)]">
                   Profile details
                 </p>
 
-                <h2 className="mt-3 font-[var(--font-display)] text-4xl font-light uppercase tracking-[0.03em] text-[var(--text)] sm:text-5xl">
+                <h2 className="account-profile-title mt-3 font-[var(--font-display)] text-4xl font-light uppercase tracking-[0.03em] text-[var(--text)] sm:text-5xl">
                   Account
-                  <br />
+                  <br className="account-profile-title-break" />
                   Information
                 </h2>
+
+                <p className="account-profile-description sm:hidden">
+                  Manage your AthiMart account identity and marketplace access.
+                </p>
               </div>
 
               <span className="flex h-14 w-14 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
@@ -987,8 +991,8 @@ export default async function AccountPage({
               </span>
             </div>
 
-            <div className="mt-7 grid gap-4 sm:grid-cols-2">
-              <article className="border border-[var(--border)] bg-[var(--linen-light)] p-5">
+            <div className="account-profile-grid mt-8 grid gap-5 sm:grid-cols-2">
+              <article className="account-profile-field border border-[var(--border)] bg-[var(--linen-light)] p-5">
                 <UserRound
                   aria-hidden="true"
                   className="h-5 w-5 text-[var(--brand-blue)]"
@@ -1004,7 +1008,7 @@ export default async function AccountPage({
                 </p>
               </article>
 
-              <article className="border border-[var(--border)] bg-[var(--linen-light)] p-5">
+              <article className="account-profile-field border border-[var(--border)] bg-[var(--linen-light)] p-5">
                 <Mail
                   aria-hidden="true"
                   className="h-5 w-5 text-[var(--brand-blue)]"
@@ -1020,7 +1024,7 @@ export default async function AccountPage({
                 </p>
               </article>
 
-              <article className="border border-[var(--border)] bg-[var(--linen-light)] p-5">
+              <article className="account-profile-field border border-[var(--border)] bg-[var(--linen-light)] p-5">
                 <Phone
                   aria-hidden="true"
                   className="h-5 w-5 text-[var(--brand-blue)]"
@@ -1036,7 +1040,7 @@ export default async function AccountPage({
                 </p>
               </article>
 
-              <article className="border border-[var(--border)] bg-[var(--linen-light)] p-5">
+              <article className="account-profile-field border border-[var(--border)] bg-[var(--linen-light)] p-5">
                 <CalendarDays
                   aria-hidden="true"
                   className="h-5 w-5 text-[var(--brand-blue)]"
@@ -1054,12 +1058,16 @@ export default async function AccountPage({
             </div>
 
             {/* Connected marketplace roles */}
-            <div className="mt-6 border-l-4 border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] p-5">
+            <div className="account-roles-panel mt-6 border-l-4 border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] p-5">
               <p className="athimart-label text-[var(--brand-orange-dark)]">
                 Connected marketplace roles
               </p>
 
-              <div className="mt-4 flex flex-wrap gap-3">
+              <h3 className="account-roles-title hidden">
+                Your marketplace access
+              </h3>
+
+              <div className="account-roles-list mt-4 flex flex-wrap gap-3">
                 {accountRoleLabels.map(
                   (roleLabel) => (
                     <span
@@ -1140,9 +1148,9 @@ export default async function AccountPage({
           </section>
 
           {/* Delivery-partner status and navigation */}
-          <section className="border border-[var(--border)] bg-white p-6 shadow-[0_20px_55px_rgba(17,42,91,0.06)] sm:p-8">
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-              <div className="flex items-start gap-4">
+          <section className="account-delivery-panel border border-[var(--border)] bg-white p-7 shadow-[0_20px_55px_rgba(17,42,91,0.06)] sm:p-9 lg:p-10">
+            <div className="account-delivery-content flex flex-col gap-7 lg:flex-row lg:items-start lg:justify-between">
+              <div className="flex items-start gap-5">
                 <span
                   className={`flex h-14 w-14 shrink-0 items-center justify-center ${
                     isApprovedDeliveryPartner
@@ -1212,7 +1220,7 @@ export default async function AccountPage({
                   isApprovedDeliveryPartner
                     ? "bg-[var(--success)] !text-white hover:bg-green-700 hover:!text-white [&_svg]:!text-white"
                     : "bg-[var(--brand-blue)] !text-white hover:bg-[var(--brand-blue-dark)] hover:!text-white [&_svg]:!text-white"
-                }`}
+                } account-delivery-cta`}
               >
                 {isApprovedDeliveryPartner ? (
                   <LayoutDashboard
@@ -1235,7 +1243,7 @@ export default async function AccountPage({
             </div>
 
             {hasDeliveryApplication && (
-              <div className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
                 <article
                   className={`border p-5 ${getDeliveryStatusClasses(
                     deliveryApplicationStatus
