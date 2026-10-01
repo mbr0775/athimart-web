@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 import {
   getCategoryPath,
@@ -29,10 +29,11 @@ const heroCategoryLinks = [
     slug: "fashion",
   },
   {
-    label: "Natural Products",
+    label: "Natural",
     slug: "natural-essences",
   },
 ];
+
 
 
 function formatHeroPrice(value:number){
@@ -55,85 +56,303 @@ export default function HeroSection({
 
 return (
 
-<section className="athimart-home-hero border-b border-[#d8dce5] bg-[#fcfcfe]">
+<section
+className="
+relative
+overflow-hidden
+border-b
+border-[#ddd8d1]
+bg-[#faf7ef]
+"
+>
 
 
-<div className="athimart-container grid min-h-[566px] items-center gap-10 py-12 sm:py-16 lg:grid-cols-[1.16fr_0.84fr] lg:gap-16 lg:py-20">
+<div
+className="
+athimart-container
+grid
+min-h-[650px]
+items-center
+gap-12
+py-16
+lg:grid-cols-[1fr_480px]
+lg:py-20
+"
+>
 
 
-{/* LEFT */}
-
-<div className="max-w-[690px]">
 
 
-<p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)] sm:text-xs">
+{/* LEFT CONTENT */}
 
-Connected ecosystem 
-<span className="mx-1.5 text-[#a7afbf]">
-·
-</span>
-Next-gen commerce
+<div>
+
+
+<p
+className="
+flex
+items-center
+gap-2
+text-xs
+font-semibold
+uppercase
+tracking-[0.3em]
+text-[var(--brand-blue)]
+"
+>
+
+<Sparkles
+className="
+h-4
+w-4
+"
+/>
+
+Connected Marketplace
 
 </p>
 
 
 
-<h1 className="mt-5 font-[var(--font-body)] text-[clamp(3.7rem,7.4vw,6.4rem)] font-bold leading-[0.95] tracking-[-0.065em] text-[#111a32]">
 
-Shop
+
+<h1
+className="
+mt-6
+font-[var(--font-display)]
+text-[clamp(3.8rem,8vw,7rem)]
+font-light
+uppercase
+leading-[0.95]
+tracking-wide
+text-[#171717]
+"
+>
+
+Everything
+
 <br/>
 
-Beyond
+You Need
+
 <br/>
 
-<span className="text-[var(--brand-orange)]">
-Ordinary
+<span
+className="
+text-[var(--brand-orange)]
+"
+>
+Connected
 </span>
+
 
 </h1>
 
 
 
-<p className="mt-7 max-w-[650px] text-[15px] leading-8 text-[#32496f] sm:text-lg">
 
-AthiMart brings technology, AI gadgets, fitness products,
-fashion, natural essences and professional digital services
-together in one connected marketplace.
+
+<p
+className="
+mt-8
+max-w-xl
+text-base
+leading-8
+text-[#555]
+sm:text-lg
+"
+>
+
+AthiMart connects customers with trusted sellers,
+technology products, fashion, natural products and
+digital services through one marketplace.
 
 </p>
 
 
 
-<div className="mt-9 flex flex-col gap-4 sm:flex-row">
+
+
+<div
+className="
+mt-10
+flex
+flex-col
+gap-4
+sm:flex-row
+"
+>
+
+
+
+
+
+{/* START SHOPPING BUTTON */}
 
 
 <Link
 href="/shop"
-className="athimart-home-hero-primary-cta inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-[#2349b9] px-8 text-sm font-semibold text-white"
+
+className="
+group
+
+inline-flex
+min-h-14
+
+items-center
+justify-center
+
+gap-3
+
+rounded-xl
+
+bg-[var(--brand-blue)]
+
+px-8
+
+text-sm
+font-semibold
+
+uppercase
+tracking-wider
+
+!text-white
+
+touch-manipulation
+
+transition-all
+duration-200
+ease-out
+
+
+hover:bg-[var(--brand-orange)]
+
+hover:-translate-y-1
+
+hover:shadow-lg
+
+
+active:scale-95
+
+active:translate-y-0
+
+active:bg-[var(--brand-orange)]
+
+
+focus-visible:outline-none
+
+focus-visible:ring-2
+
+focus-visible:ring-[var(--brand-orange)]
+
+focus-visible:ring-offset-2
+"
+
 >
 
-Shop products
 
-<ArrowRight className="h-5 w-5"/>
+<span
+className="
+!text-white
+"
+>
+
+Start Shopping
+
+</span>
+
+
+
+
+<ArrowRight
+
+className="
+h-5
+w-5
+
+!text-white
+
+transition-transform
+duration-200
+
+group-hover:translate-x-1
+
+group-active:translate-x-1
+"
+
+/>
+
+
 
 </Link>
 
+
+
+
+
+
+
+{/* EXPLORE BUTTON */}
 
 
 <Link
 href="#categories"
-className="inline-flex min-h-14 items-center justify-center rounded-xl border-2 border-[#2349b9] bg-white px-8 text-sm font-semibold text-[#2349b9]"
+
+className="
+inline-flex
+
+min-h-14
+
+items-center
+
+justify-center
+
+rounded-xl
+
+border-2
+
+border-[var(--brand-blue)]
+
+bg-white
+
+px-8
+
+text-sm
+
+font-semibold
+
+text-[var(--brand-blue)]
+
+transition-all
+
+duration-200
+
+
+hover:-translate-y-1
+
+hover:shadow-md
+
+
+active:scale-95
+
+touch-manipulation
+"
 >
 
-Explore categories
+Explore Categories
 
 </Link>
 
 
+
 </div>
 
 
+
 </div>
+
+
+
 
 
 
@@ -142,114 +361,305 @@ Explore categories
 {/* RIGHT FEATURE CARD */}
 
 
-<aside className="rounded-2xl border border-[#dbe2ee] bg-white p-6 shadow-[0_16px_30px_rgba(29,59,110,0.08)]">
-
-
-{featuredProduct ? (
-
-<Link
-href={getProductPath(featuredProduct)}
-className="group relative block aspect-[1.34/1] overflow-hidden rounded-xl bg-[#101521]"
+<div
+className="
+relative
+"
 >
 
 
-{featuredProduct.imageUrls[0] ? (
+<div
+className="
+overflow-hidden
+
+border
+
+border-[#ddd8d1]
+
+bg-white
+
+p-5
+
+shadow-[0_25px_60px_rgba(0,0,0,0.08)]
+"
+>
+
+
+<div
+className="
+relative
+
+aspect-square
+
+overflow-hidden
+
+bg-[#f1eee8]
+"
+>
+
+
+
+{
+featuredProduct?.imageUrls?.[0]
+
+?
 
 <Image
+
 src={featuredProduct.imageUrls[0]}
+
 alt={featuredProduct.name}
+
 fill
-sizes="470px"
-className="object-cover transition duration-500 group-hover:scale-105"
+
+sizes="480px"
+
+className="
+object-cover
+
+transition
+
+duration-700
+
+hover:scale-105
+"
+
 />
 
-):(
 
+:
 
-<div className="flex h-full items-center justify-center text-7xl">
+<div
+className="
+flex
 
-{featuredProduct.emoji}
+h-full
 
+items-center
+
+justify-center
+
+text-8xl
+"
+>
+🛍️
 </div>
 
-
-)}
-
+}
 
 
-<div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/80 to-transparent p-4 pt-16 text-white">
 
 
-<p className="text-xs text-orange-400">
-Featured AI innovation
+
+<div
+className="
+absolute
+
+bottom-0
+
+left-0
+
+right-0
+
+bg-gradient-to-t
+
+from-black/80
+
+to-transparent
+
+p-6
+
+pt-20
+
+text-white
+"
+>
+
+
+<p
+className="
+text-xs
+
+uppercase
+
+tracking-[0.25em]
+
+text-orange-300
+"
+>
+Featured Product
 </p>
 
 
-<h2 className="mt-2 text-lg font-bold">
-{featuredProduct.name}
+
+<h2
+className="
+mt-2
+
+text-xl
+
+font-semibold
+"
+>
+
+{
+featuredProduct?.name ??
+"AthiMart Collection"
+}
+
 </h2>
 
 
-<p className="text-xs text-white/80">
+
+{
+featuredProduct &&
+
+<p
+className="
+mt-2
+
+text-sm
+
+text-white/80
+"
+>
 
 {featuredProduct.subCategory}
- · 
-{formatHeroPrice(featuredProduct.prices.LKR)}
 
-</p>
+&nbsp; · &nbsp;
 
-
-</div>
-
-
-</Link>
-
-
-):(
-
-
-<div className="flex aspect-[1.34/1] items-center justify-center rounded-xl bg-[#101521] text-white">
-
-AthiMart Innovation
-
-</div>
-
-
+{formatHeroPrice(
+featuredProduct.prices.LKR
 )}
 
+</p>
+
+}
 
 
-<div className="mt-6">
+
+</div>
 
 
-<p className="text-xs font-semibold uppercase text-gray-400">
+</div>
 
-Direct category access
+
+
+
+
+
+<div
+className="
+mt-6
+"
+>
+
+
+<p
+className="
+text-xs
+
+font-semibold
+
+uppercase
+
+tracking-[0.25em]
+
+text-[#999]
+"
+>
+
+Explore Categories
 
 </p>
 
 
-<div className="mt-3 grid gap-2 sm:grid-cols-2">
 
 
-{heroCategoryLinks.map((category)=>(
+<div
+className="
+mt-4
+
+grid
+
+grid-cols-2
+
+gap-3
+"
+>
+
+
+{
+heroCategoryLinks.map((category)=>(
+
 
 <Link
+
 key={category.slug}
+
 href={getCategoryPath(category.slug)}
-className="flex items-center justify-between rounded-lg border bg-[#f8fafc] px-3 py-3 text-xs font-medium text-[#19325c]"
+
+className="
+group
+
+flex
+
+items-center
+
+justify-between
+
+border
+
+border-[#ddd8d1]
+
+bg-[#faf7ef]
+
+px-4
+
+py-3
+
+text-xs
+
+font-medium
+
+text-[#19325c]
+
+transition-all
+
+duration-200
+
+
+hover:bg-white
+
+active:scale-95
+"
+
 >
 
 
 {category.label}
 
-<ArrowRight className="h-4 w-4"/>
+
+<ArrowRight
+
+className="
+h-4
+w-4
+
+transition-transform
+
+group-hover:translate-x-1
+"
+
+/>
 
 
 </Link>
 
 
-))}
+))
+}
+
 
 
 </div>
@@ -258,14 +668,19 @@ className="flex items-center justify-between rounded-lg border bg-[#f8fafc] px-3
 </div>
 
 
+</div>
 
-</aside>
+
+</div>
+
+
 
 
 </div>
 
 
 </section>
+
 
 );
 
