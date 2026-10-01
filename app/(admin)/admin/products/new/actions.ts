@@ -261,6 +261,10 @@ export async function createProduct(
     formData.get("isFeatured") ===
     "on";
 
+  const featuredDrop =
+    formData.get("featuredDrop") ===
+    "true";
+
   const fieldErrors: Record<
     string,
     string
@@ -447,6 +451,10 @@ export async function createProduct(
           isActive,
         is_featured:
           isFeatured,
+        
+        featured_drop:
+          featuredDrop,
+
         image_urls:
           imageResult.urls,
         attributes:
