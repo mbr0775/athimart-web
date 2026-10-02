@@ -208,7 +208,8 @@ className="
 bg-[#faf7ef]
 border-b
 border-[#e5dfd4]
-py-16
+py-12
+sm:py-16
 "
 
 >
@@ -219,7 +220,8 @@ py-16
 className="
 mx-auto
 max-w-[1400px]
-px-6
+px-5
+sm:px-6
 lg:px-10
 "
 
@@ -233,9 +235,11 @@ lg:px-10
 
 className="
 grid
+min-w-0
 items-center
-gap-12
-lg:grid-cols-[1fr_420px]
+gap-8
+sm:gap-12
+lg:grid-cols-[minmax(0,1fr)_420px]
 "
 
 >
@@ -245,7 +249,7 @@ lg:grid-cols-[1fr_420px]
 
 {/* LEFT CONTENT */}
 
-<div>
+<div className="min-w-0">
 
 
 
@@ -273,7 +277,7 @@ CONNECTED MARKETPLACE
 className="
 mt-5
 font-[var(--font-oswald)]
-text-7xl
+text-[clamp(2.75rem,12vw,6rem)]
 font-light
 leading-[0.9]
 tracking-tight
@@ -402,10 +406,12 @@ w-5
 <div
 
 className="
+min-w-0
 border
 border-[#ddd5c8]
 bg-white
-p-6
+p-5
+sm:p-6
 transition-all
 duration-700
 "
@@ -433,11 +439,12 @@ ATHIMART
 <h2
 
 className="
-mt-5
+mt-4
 font-[var(--font-oswald)]
-text-4xl
+text-[clamp(1.75rem,7vw,2.25rem)]
 font-light
 leading-tight
+sm:mt-5
 "
 
 >
@@ -465,9 +472,11 @@ MARKETPLACE
 
 className="
 relative
-mt-6
-aspect-square
+mt-5
+aspect-[4/3]
 overflow-hidden
+sm:mt-6
+sm:aspect-square
 "
 
 >
@@ -485,11 +494,7 @@ product.name
 
 fill
 
-sizes="
-( max-width:768px )
-100vw,
-420px
-"
+sizes="(max-width: 1023px) calc(100vw - 2.5rem), 420px"
 
 className="
 object-contain
@@ -617,8 +622,10 @@ w-4
 className="
 mt-14
 grid
-gap-5
+grid-cols-2
+gap-3
 sm:grid-cols-2
+sm:gap-5
 lg:grid-cols-4
 "
 
@@ -705,12 +712,15 @@ to-transparent
 
 className="
 absolute
-bottom-6
-left-6
+bottom-4
+left-4
 z-20
-text-2xl
+text-base
 font-light
 !text-white
+sm:bottom-6
+sm:left-6
+sm:text-2xl
 "
 
 >
