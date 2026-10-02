@@ -42,6 +42,8 @@ export {
 
   getProductsBySubcategory,
 
+  getFilteredProducts,
+
   searchProducts,
 
   getProductFilterOptions,

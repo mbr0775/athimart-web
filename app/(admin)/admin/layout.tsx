@@ -3,7 +3,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
-import AdminShell from "@/components/admin/admin-shell";
+import AdminShell from "@/components/admin/admin-shell/admin-shell";
 import { getCurrentAdmin } from "@/lib/auth/admin";
 
 /**

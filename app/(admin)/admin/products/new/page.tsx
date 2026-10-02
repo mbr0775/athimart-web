@@ -7,7 +7,7 @@ import {
   PackagePlus,
 } from "lucide-react";
 
-import { ProductForm } from "@/components/admin/product-form";
+import ProductForm from "@/components/admin/product-form";
 import { productCategories } from "@/config/categories";
 import { getCurrentAdmin } from "@/lib/auth/admin";
 

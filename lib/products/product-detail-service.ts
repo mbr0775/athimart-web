@@ -129,6 +129,8 @@ export async function getActiveProductRoutes():Promise<
 
   {
     slug:string;
+    category:string;
+    subCategory:string;
   }[]
 
 >{
@@ -146,7 +148,7 @@ export async function getActiveProductRoutes():Promise<
     .from("products")
 
     .select(
-      "slug"
+      "slug, category, sub_category"
     )
 
     .eq(
@@ -189,6 +191,12 @@ export async function getActiveProductRoutes():Promise<
 
         slug:
           String(product.slug),
+
+        category:
+          String(product.category ?? "General"),
+
+        subCategory:
+          String(product.sub_category ?? "General"),
 
       }
 

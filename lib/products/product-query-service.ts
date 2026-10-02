@@ -1,4 +1,5 @@
 import type { Product } from "@/types/product";
+import type { ProductFilters } from "@/types/product-filter";
 
 
 import {
@@ -32,6 +33,85 @@ import type {
   GetProductFilterOptionsOptions,
 
 } from "./product-types";
+
+
+
+/**
+ * Filter and sort active products for the shop page.
+ */
+export async function getFilteredProducts(
+  filters: ProductFilters
+): Promise<Product[]> {
+  const safeLimit = getSafeLimit(filters.limit, 48);
+
+  let query = publicSupabase
+    .from("products")
+    .select(PRODUCT_COLUMNS)
+    .eq("country_code", filters.countryCode)
+    .eq("is_active", true);
+
+  if (filters.category) {
+    query = query.eq("category", filters.category);
+  }
+
+  if (filters.subcategory) {
+    query = query.eq("sub_category", filters.subcategory);
+  }
+
+  if (filters.brand) {
+    query = query.eq("brand", filters.brand);
+  }
+
+  if (filters.stock === "in-stock") {
+    query = query.gt("stock", 0);
+  } else if (filters.stock === "out-of-stock") {
+    query = query.lte("stock", 0);
+  }
+
+  const { data, error } = await query.limit(1000);
+
+  if (error) {
+    throw new Error(`Unable to load filtered products: ${error.message}`);
+  }
+
+  const currency =
+    filters.countryCode === "LK"
+      ? "LKR"
+      : filters.countryCode === "MV"
+        ? "MVR"
+        : "USD";
+
+  const products = (data ?? [])
+    .map((row) => mapProduct(row as Record<string, unknown>))
+    .filter((product) => {
+      const price = product.prices[currency];
+
+      return (
+        (filters.minPrice === undefined || price >= filters.minPrice) &&
+        (filters.maxPrice === undefined || price <= filters.maxPrice)
+      );
+    });
+
+  products.sort((left, right) => {
+    switch (filters.sort) {
+      case "oldest":
+        return left.createdAt.localeCompare(right.createdAt);
+      case "price-low":
+        return left.prices[currency] - right.prices[currency];
+      case "price-high":
+        return right.prices[currency] - left.prices[currency];
+      case "name-az":
+        return left.name.localeCompare(right.name);
+      case "name-za":
+        return right.name.localeCompare(left.name);
+      case "newest":
+      default:
+        return right.createdAt.localeCompare(left.createdAt);
+    }
+  });
+
+  return products.slice(0, safeLimit);
+}
 
 
 
