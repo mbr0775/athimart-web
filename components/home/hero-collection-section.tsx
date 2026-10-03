@@ -249,7 +249,7 @@ export default function HeroCollectionSection({
                     src={imageSrc}
                     alt={product.name}
                     fill
-                    priority
+                    preload
                     sizes="(max-width: 640px) 78vw, (max-width: 1024px) 62vw, 46vw"
                     className="
                       object-contain
