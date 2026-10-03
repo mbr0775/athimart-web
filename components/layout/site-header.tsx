@@ -1,173 +1,114 @@
 // components/layout/site-header.tsx
 
-import {
-  Bell,
-  Search,
-  ShoppingBag,
-} from "lucide-react";
+import { Bell, Search, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
 import { HeaderAuthActions } from "@/components/auth/header-auth-actions";
 
-interface NavigationItem {
-  label: string;
-  href: string;
-  className?: string;
-}
-
-const navigationItems: NavigationItem[] = [
-  {
-    label: "Home",
-    href: "/",
-  },
-  {
-    label: "Shop",
-    href: "/shop",
-  },
-  {
-    label: "Categories",
-    href: "/#categories",
-  },
-  {
-    label: "Markets",
-    href: "/#markets",
-    className: "hidden xl:inline-flex",
-  },
-  {
-    label: "Why AthiMart",
-    href: "/#why-athimart",
-    className: "hidden xl:inline-flex",
-  },
+const navigationItems = [
+  { label: "Home", href: "/" },
+  { label: "Shop", href: "/shop" },
+  { label: "Categories", href: "/#categories" },
+  { label: "Markets", href: "/#markets" },
+  { label: "Why AthiMart", href: "/#why-athimart" },
 ];
 
-/**
- * Temporary placeholder displayed while the server
- * checks the current Supabase authentication state.
- */
 function HeaderAuthFallback() {
-  return (
-    <div
-      aria-hidden="true"
-      className="flex items-center gap-2"
-    >
-      {/* Mobile placeholder */}
-      <span className="h-12 w-12 animate-pulse border border-[var(--border)] bg-white lg:hidden" />
-
-      {/* Desktop placeholders */}
-      <span className="hidden h-12 w-24 animate-pulse border border-[var(--border)] bg-white lg:block" />
-
-      <span className="hidden h-12 w-36 animate-pulse bg-[var(--brand-orange-soft)] lg:block" />
-    </div>
-  );
+  return <div className="h-10 w-24 animate-pulse rounded-full bg-white/50" />;
 }
 
-/**
- * Main AthiMart storefront header.
- *
- * Authentication controls are loaded separately through
- * HeaderAuthActions so signed-out users, customers and
- * administrators see the correct actions.
- */
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--linen)] shadow-[0_6px_24px_rgba(18,63,158,0.04)]">
-      {/* AthiMart blue-to-orange brand line */}
+    <header
+      className="
+        fixed
+        left-0
+        top-0
+        z-50
+        w-full
+        px-4
+        pt-4
+        lg:px-8
+        lg:pt-6
+      "
+    >
       <div
-        aria-hidden="true"
-        className="h-[3px] w-full bg-gradient-to-r from-[var(--brand-blue-dark)] via-[var(--brand-blue)] to-[var(--brand-orange)]"
-      />
+        className="
+          mx-auto
+          flex
+          max-w-[1320px]
+          items-center
+          justify-between
+          gap-4
+          rounded-full
+          border
+          border-white/50
+          bg-white/55
+          px-5
+          py-3
+          shadow-[0_20px_60px_rgba(30,40,50,0.12)]
+          backdrop-blur-xl
+          transition-all
+          duration-300
+          lg:px-8
+          lg:py-4
+        "
+      >
+        <Link href="/" className="flex items-center shrink-0">
+          <span className="font-[var(--font-display)] text-2xl font-light tracking-[0.18em] text-[var(--brand-blue-dark)] lg:text-3xl">
+            ATHI
+          </span>
+          <span className="font-[var(--font-display)] text-2xl font-light tracking-[0.18em] text-[var(--brand-orange)] lg:text-3xl">
+            MART
+          </span>
+        </Link>
 
-      <div className="athimart-container">
-        <div className="flex min-h-[82px] items-center justify-between gap-4 lg:min-h-[102px]">
-          {/* =================================================
-              AthiMart brand
-          ================================================== */}
+        <nav className="hidden items-center gap-7 lg:flex">
+          {navigationItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="
+                text-[10px]
+                font-semibold
+                uppercase
+                tracking-[0.22em]
+                text-black/65
+                transition
+                hover:text-[var(--brand-blue)]
+              "
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2">
           <Link
-            href="/"
-            aria-label="AthiMart homepage"
-            className="group flex shrink-0 items-center"
+            href="/search"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 transition hover:bg-white"
           >
-            <span className="font-[var(--font-display)] text-[25px] font-light uppercase leading-none tracking-[0.17em] text-[var(--brand-blue-dark)] transition-colors duration-200 group-hover:text-[var(--brand-blue)] sm:text-[30px] lg:text-[34px]">
-              Athi
-            </span>
-
-            <span className="font-[var(--font-display)] text-[25px] font-light uppercase leading-none tracking-[0.17em] text-[var(--brand-orange)] transition-colors duration-200 group-hover:text-[var(--brand-orange-dark)] sm:text-[30px] lg:text-[34px]">
-              Mart
-            </span>
+            <Search className="h-4 w-4" />
           </Link>
 
-          {/* =================================================
-              Desktop navigation
-          ================================================== */}
-          <nav
-            aria-label="Primary navigation"
-            className="hidden min-w-0 flex-1 items-center justify-center gap-6 lg:flex xl:gap-8"
+          <Link
+            href="/notifications"
+            className="hidden h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 transition hover:bg-white xl:flex"
           >
-            {navigationItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={`relative min-h-11 items-center justify-center whitespace-nowrap px-1 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--text)] transition-colors duration-200 after:absolute after:inset-x-1 after:bottom-1 after:h-[2px] after:origin-left after:scale-x-0 after:bg-gradient-to-r after:from-[var(--brand-blue)] after:to-[var(--brand-orange)] after:transition-transform after:duration-300 hover:text-[var(--brand-blue)] hover:after:scale-x-100 ${
-                  item.className ?? "inline-flex"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+            <Bell className="h-4 w-4" />
+          </Link>
 
-          {/* =================================================
-              Header actions
-          ================================================== */}
-          <div className="flex shrink-0 items-center gap-2">
-            {/* Search */}
-            <Link
-              href="/search"
-              aria-label="Search AthiMart products"
-              title="Search products"
-              className="flex h-12 w-12 items-center justify-center border border-[var(--border)] bg-white text-[var(--text)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--brand-blue)] hover:bg-[var(--brand-blue-soft)] hover:text-[var(--brand-blue)]"
-            >
-              <Search
-                aria-hidden="true"
-                className="h-5 w-5"
-                strokeWidth={1.8}
-              />
-            </Link>
+          <Link
+            href="/cart"
+            className="hidden h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 transition hover:bg-white xl:flex"
+          >
+            <ShoppingBag className="h-4 w-4" />
+          </Link>
 
-            {/* Notifications */}
-            <Link
-              href="/notifications"
-              aria-label="View notifications"
-              title="Notifications"
-              className="hidden h-12 w-12 items-center justify-center border border-[var(--border)] bg-white text-[var(--text)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--brand-orange)] hover:bg-[var(--brand-orange-soft)] hover:text-[var(--brand-orange-dark)] xl:flex"
-            >
-              <Bell
-                aria-hidden="true"
-                className="h-5 w-5"
-                strokeWidth={1.8}
-              />
-            </Link>
-
-            {/* Shopping cart */}
-            <Link
-              href="/cart"
-              aria-label="Open shopping cart"
-              title="Shopping cart"
-              className="hidden h-12 w-12 items-center justify-center border border-[var(--border)] bg-white text-[var(--text)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--brand-blue)] hover:bg-[var(--brand-blue-soft)] hover:text-[var(--brand-blue)] xl:flex"
-            >
-              <ShoppingBag
-                aria-hidden="true"
-                className="h-5 w-5"
-                strokeWidth={1.8}
-              />
-            </Link>
-
-            {/* Dynamic login, registration, account and admin controls */}
-            <Suspense fallback={<HeaderAuthFallback />}>
-              <HeaderAuthActions />
-            </Suspense>
-          </div>
+          <Suspense fallback={<HeaderAuthFallback />}>
+            <HeaderAuthActions />
+          </Suspense>
         </div>
       </div>
     </header>
