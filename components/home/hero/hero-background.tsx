@@ -1,99 +1,183 @@
 "use client";
 
-import { motion } from "motion/react";
-import { useReducedMotion } from "motion/react";
 
-export default function HeroBackground() {
+import {
 
-  const shouldReduceMotion = useReducedMotion();
+motion,
 
-
-  return (
-    <>
-
-      {/* Background */}
-      <div
-        aria-hidden="true"
-        className="
-          absolute
-          inset-0
-          -z-30
-          bg-[radial-gradient(circle_at_50%_39%,rgba(255,255,255,0.98)_0%,rgba(238,242,244,0.9)_24%,rgba(205,213,218,0.88)_58%,rgba(178,189,196,0.92)_100%)]
-        "
-      />
+} from "motion/react";
 
 
-      {/* Circle light */}
-      <div
-        aria-hidden="true"
-        className="
-          absolute
-          left-1/2
-          top-[39%]
-          -z-20
-          h-[45vw]
-          min-h-[360px]
-          w-[45vw]
-          min-w-[360px]
-          -translate-x-1/2
-          -translate-y-1/2
-          rounded-full
-          border
-          border-white/55
-          shadow-[0_0_120px_rgba(255,255,255,0.45)]
-        "
-      />
 
 
-      {/* ATHI Typography */}
+export function HeroBackground(){
 
-      <motion.div
 
-        aria-hidden="true"
 
-        initial={
-          shouldReduceMotion
-          ? false
-          : {
-              opacity:0,
-              scale:0.96
-            }
-        }
+return (
 
-        animate={{
-          opacity:1,
-          scale:1
-        }}
+<div
 
-        transition={{
-          duration:1.1,
-          ease:[0.22,1,0.36,1]
-        }}
 
-        className="
-          pointer-events-none
-          absolute
-          left-1/2
-          top-[39%]
-          z-0
-          -translate-x-1/2
-          -translate-y-1/2
-          whitespace-nowrap
-          font-[var(--font-oswald)]
-          text-[clamp(9rem,31vw,31rem)]
-          font-medium
-          leading-[0.72]
-          tracking-[-0.085em]
-          text-white
-          select-none
-        "
+aria-hidden="true"
 
-      >
 
-        ATHI
+className="
 
-      </motion.div>
+absolute
 
-    </>
-  );
+inset-0
+
+z-0
+
+pointer-events-none
+
+overflow-hidden
+
+"
+
+>
+
+
+
+
+
+<motion.div
+
+
+animate={{
+
+scale:[1,1.08,1],
+
+opacity:[.35,.55,.35]
+
+}}
+
+
+
+transition={{
+
+duration:10,
+
+repeat:Infinity,
+
+ease:"easeInOut"
+
+}}
+
+
+
+className="
+
+absolute
+
+left-1/2
+
+top-1/2
+
+h-[650px]
+
+w-[900px]
+
+-translate-x-1/2
+
+-translate-y-1/2
+
+rounded-full
+
+border
+
+border-white/50
+
+"
+
+/>
+
+
+
+
+
+
+<div
+
+className="
+
+absolute
+
+left-1/2
+
+top-[70%]
+
+-translate-x-1/2
+
+h-[180px]
+
+w-[75vw]
+
+max-w-[1000px]
+
+rounded-[50%]
+
+bg-white/90
+
+shadow-[0_40px_100px_rgba(0,0,0,.15)]
+
+"
+
+/>
+
+
+
+
+
+
+
+<motion.div
+
+
+animate={{
+
+x:[-30,30,-30],
+
+}}
+
+
+
+transition={{
+
+duration:15,
+
+repeat:Infinity,
+
+ease:"easeInOut"
+
+}}
+
+
+
+className="
+
+absolute
+
+inset-0
+
+bg-gradient-to-br
+
+from-white/20
+
+via-transparent
+
+to-blue-100/30
+
+"
+
+/>
+
+
+
+</div>
+
+
+);
+
 }

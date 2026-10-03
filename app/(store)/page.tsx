@@ -2,9 +2,15 @@ import type { Metadata } from "next";
 
 
 import HeroCollectionSection from "@/components/home/hero-collection-section";
+
+import GalleryCoverflow from "@/components/home/gallery-coverflow";
+
 import ShopCategorySection from "@/components/home/shop-category-section";
+
 import LatestProductsSection from "@/components/home/latest-products-section";
+
 import MarketsSection from "@/components/home/markets-section";
+
 import WhyAthiMartSection from "@/components/home/why-athimart-section";
 
 
@@ -36,16 +42,23 @@ import type {
 
 export const metadata: Metadata = {
 
+
   title:
     "Online Marketplace for Technology and Lifestyle",
+
+
 
   description:
     "Shop technology, AI gadgets, fitness products, fashion, natural essences, digital services and more through the AthiMart marketplace.",
 
 
+
   alternates: {
+
     canonical: "/",
+
   },
+
 
 
   openGraph: {
@@ -54,25 +67,36 @@ export const metadata: Metadata = {
 
     url: "/",
 
-    siteName: siteConfig.name,
+
+    siteName:
+      siteConfig.name,
+
 
     title:
       "AthiMart Online Marketplace",
+
 
     description:
       "Discover technology, lifestyle, fashion, fitness and digital products through AthiMart.",
 
 
     images: [
+
       {
-        url: siteConfig.socialImage,
+
+        url:
+          siteConfig.socialImage,
+
 
         alt:
           "AthiMart online marketplace",
+
       },
+
     ],
 
   },
+
 
 
   twitter: {
@@ -80,15 +104,19 @@ export const metadata: Metadata = {
     card:
       "summary_large_image",
 
+
     title:
       "AthiMart Online Marketplace",
+
 
     description:
       "Discover technology, lifestyle, fashion, fitness and digital products through AthiMart.",
 
 
     images: [
+
       siteConfig.socialImage,
+
     ],
 
   },
@@ -102,7 +130,10 @@ export const metadata: Metadata = {
 
 
 
+
+
 const onlineStoreJsonLd = {
+
 
   "@context":
     "https://schema.org",
@@ -122,6 +153,7 @@ const onlineStoreJsonLd = {
 
   description:
     siteConfig.description,
+
 
 };
 
@@ -150,6 +182,7 @@ export default async function StoreHomePage() {
 
 
     latestProducts =
+
       await getActiveProducts({
 
         countryCode:
@@ -164,7 +197,9 @@ export default async function StoreHomePage() {
 
 
 
+
     featuredDrops =
+
       await getFeaturedDrops({
 
         countryCode:
@@ -182,12 +217,9 @@ export default async function StoreHomePage() {
   } catch {
 
 
-
     latestProducts = [];
 
     featuredDrops = [];
-
-
 
   }
 
@@ -202,7 +234,6 @@ export default async function StoreHomePage() {
     <>
 
 
-
       <script
 
         type="application/ld+json"
@@ -210,6 +241,7 @@ export default async function StoreHomePage() {
         dangerouslySetInnerHTML={{
 
           __html:
+
             JSON.stringify(
               onlineStoreJsonLd
             ),
@@ -228,11 +260,26 @@ export default async function StoreHomePage() {
 
       <HeroCollectionSection
 
+
         featuredProducts={
+
           latestProducts
+
         }
 
+
       />
+
+
+
+
+
+
+
+
+      {/* 3D COVER FLOW GALLERY */}
+
+      <GalleryCoverflow />
 
 
 
@@ -256,9 +303,13 @@ export default async function StoreHomePage() {
 
       <FeaturedProductsCarousel
 
+
         products={
+
           featuredDrops
+
         }
+
 
       />
 
@@ -273,9 +324,13 @@ export default async function StoreHomePage() {
 
       <LatestProductsSection
 
+
         products={
+
           latestProducts
+
         }
+
 
       />
 
@@ -308,5 +363,6 @@ export default async function StoreHomePage() {
     </>
 
   );
+
 
 }

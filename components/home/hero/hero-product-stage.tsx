@@ -12,7 +12,11 @@ import {
 } from "motion/react";
 
 
-import type { Product } from "@/types/product";
+
+import type {
+  Product,
+} from "@/types/product";
+
 
 import {
   getProductPath,
@@ -20,11 +24,18 @@ import {
 
 
 
+
+
+
 interface Props {
 
   product?: Product;
 
+  priority?: boolean;
+
 }
+
+
 
 
 
@@ -34,16 +45,19 @@ export default function HeroProductStage({
 
   product,
 
+  priority = false,
+
 }: Props) {
 
 
 
-  const shouldReduceMotion =
+  const reduceMotion =
     useReducedMotion();
 
 
 
-  if (!product) {
+
+  if(!product){
 
     return null;
 
@@ -51,8 +65,13 @@ export default function HeroProductStage({
 
 
 
+
+
   const imageSrc =
-    product.imageUrls?.[0] ?? "";
+    product.imageUrls?.[0];
+
+
+
 
 
 
@@ -60,251 +79,547 @@ export default function HeroProductStage({
 
   return (
 
-    <div
 
-      className="
-      athimart-container
-      relative
-      z-20
-      flex
-      min-h-[610px]
-      items-center
-      justify-center
-      pt-2
-      sm:min-h-[650px]
-      md:min-h-[calc(100svh-9rem)]
-      "
+<div
 
-    >
 
+className="
 
 
-      {/* Product shadow platform */}
+relative
 
-      <div
 
-        aria-hidden="true"
+z-10
 
-        className="
-        absolute
-        left-1/2
-        top-[69%]
-        -z-10
-        h-[17vw]
-        min-h-[120px]
-        w-[72vw]
-        max-w-[980px]
-        -translate-x-1/2
-        -translate-y-1/2
-        rounded-[50%]
-        bg-white/95
-        shadow-[0_-20px_80px_rgba(255,255,255,0.65),0_35px_80px_rgba(44,56,65,0.16)]
-        "
 
-      />
 
+flex
 
 
+justify-center
 
 
-      <AnimatePresence
+pointer-events-none
 
-        mode="wait"
 
-      >
 
+pt-28
 
 
-        <motion.div
 
+sm:pt-24
 
-          key={product.id}
 
 
+md:pt-20
 
-          initial={
 
-            shouldReduceMotion
 
-            ?
+"
 
-            {
-              opacity:1
-            }
+>
 
-            :
 
-            {
-              opacity:0,
-              y:40,
-              scale:0.94
-            }
 
-          }
+<div
 
 
+className="
 
-          animate={
 
-            shouldReduceMotion
+relative
 
-            ?
 
-            {
-              opacity:1
-            }
 
-            :
+h-[320px]
 
-            {
-              opacity:1,
-              y:[0,-12,0],
-              scale:1
-            }
+w-[300px]
 
-          }
 
 
+sm:h-[390px]
 
-          exit={
+sm:w-[360px]
 
-            {
-              opacity:0,
-              y:-30
-            }
 
-          }
 
+md:h-[520px]
 
+md:w-[460px]
 
-          transition={
 
-            {
-              duration:0.8
-            }
 
-          }
+"
 
 
 
-          className="
-          relative
-          flex
-          h-[420px]
-          w-[520px]
-          items-center
-          justify-center
-          sm:h-[500px]
-          lg:h-[560px]
-          "
 
-        >
+style={{
 
+perspective:"1200px"
 
+}}
 
 
-          <Link
 
+>
 
-            href={getProductPath(product)}
 
 
-            className="
-            block
-            "
 
-          >
 
 
+<AnimatePresence
 
-            {
-              imageSrc
+mode="wait"
 
-              ?
+initial={false}
 
-              <Image
+>
 
 
-                key={imageSrc}
 
 
-                src={imageSrc}
 
+<motion.div
 
-                alt={product.name}
 
+key={product.id}
 
-                width={520}
 
 
-                height={520}
+initial={
 
+reduceMotion
 
-                priority
+?
 
+{
 
+opacity:1,
 
-                sizes="
-                (max-width:640px) 80vw,
-                (max-width:1024px) 60vw,
-                520px
-                "
+}
 
+:
 
+{
 
-                className="
-                h-auto
-                w-[520px]
-                object-contain
-                scale-110
-                drop-shadow-[0_35px_45px_rgba(31,42,49,0.28)]
-                transition-transform
-                duration-700
-                hover:scale-[1.15]
-                "
+opacity:0,
 
-              />
+y:80,
 
+scale:.75,
 
-              :
+rotateX:35,
 
+rotateY:-20,
 
-              <div
+}
 
-                className="
-                flex
-                h-full
-                items-center
-                justify-center
-                text-[9rem]
-                "
+}
 
-              >
 
-                {product.emoji ?? "📦"}
 
-              </div>
+animate={
 
+reduceMotion
 
-            }
+?
 
+{
 
+opacity:1,
 
-          </Link>
+}
 
+:
 
+{
 
-        </motion.div>
+opacity:1,
 
+y:0,
 
+scale:1,
 
-      </AnimatePresence>
+rotateX:0,
 
+rotateY:0,
 
+}
 
-    </div>
+}
 
 
-  );
+
+exit={
+
+{
+
+opacity:0,
+
+scale:.8,
+
+y:-40,
+
+}
+
+}
+
+
+
+
+transition={
+
+{
+
+duration:1.1,
+
+ease:[
+
+0.22,
+
+1,
+
+0.36,
+
+1
+
+]
+
+}
+
+}
+
+
+
+
+
+className="
+
+
+relative
+
+
+h-full
+
+
+w-full
+
+
+
+pointer-events-auto
+
+
+
+"
+
+
+
+
+style={{
+
+transformStyle:"preserve-3d"
+
+}}
+
+
+
+>
+
+
+
+
+
+
+
+<motion.div
+
+
+animate={
+
+reduceMotion
+
+?
+
+{}
+
+:
+
+{
+
+y:[0,-12,0],
+
+rotateZ:[-1,1,-1]
+
+}
+
+}
+
+
+
+transition={
+
+{
+
+duration:6,
+
+repeat:Infinity,
+
+ease:"easeInOut"
+
+}
+
+}
+
+
+
+
+
+className="
+
+
+relative
+
+
+h-full
+
+
+w-full
+
+
+
+rounded-[45px]
+
+
+bg-white/70
+
+
+
+backdrop-blur-xl
+
+
+
+shadow-[0_45px_100px_rgba(0,0,0,.20)]
+
+
+
+overflow-hidden
+
+
+
+"
+
+>
+
+
+
+
+
+
+<Link
+
+
+href={getProductPath(product)}
+
+
+className="
+
+block
+
+relative
+
+h-full
+
+w-full
+
+"
+
+>
+
+
+
+{imageSrc ? (
+
+
+
+<Image
+
+
+src={imageSrc}
+
+
+alt={product.name}
+
+
+
+fill
+
+
+
+priority={priority}
+
+
+
+sizes="
+
+(max-width:640px) 300px,
+
+(max-width:1024px) 360px,
+
+460px
+
+"
+
+
+
+className="
+
+
+object-contain
+
+
+
+p-8
+
+
+
+drop-shadow-[0_30px_45px_rgba(0,0,0,.25)]
+
+
+
+"
+
+
+
+
+
+/>
+
+
+
+)
+
+:
+
+
+
+<div
+
+className="
+
+flex
+
+h-full
+
+items-center
+
+justify-center
+
+text-8xl
+
+"
+
+>
+
+{product.emoji ?? "📦"}
+
+
+</div>
+
+
+
+}
+
+
+
+
+
+
+
+{/* glass reflection */}
+
+
+<div
+
+
+className="
+
+
+absolute
+
+
+inset-0
+
+
+
+pointer-events-none
+
+
+
+bg-gradient-to-br
+
+
+from-white/60
+
+
+via-transparent
+
+
+to-transparent
+
+
+
+"
+
+
+
+
+/>
+
+
+
+</Link>
+
+
+
+
+
+
+
+</motion.div>
+
+
+
+
+
+
+</motion.div>
+
+
+
+
+
+
+
+</AnimatePresence>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+);
+
 
 }

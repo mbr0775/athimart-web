@@ -1,120 +1,226 @@
 "use client";
 
 
-import type { Product } from "@/types/product";
+import {
+  motion
+} from "motion/react";
+
+
+import type {
+  Product
+} from "@/types/product";
+
 
 
 
 interface Props {
 
 
-products: Product[];
+  products: Product[];
 
-productIndex:number;
+  productIndex: number;
 
-setProductIndex:(index:number)=>void;
+  setProductIndex:
+    (index:number)=>void;
 
 
 }
+
+
 
 
 
 export default function HeroPagination({
 
-products,
+  products,
 
-productIndex,
+  productIndex,
 
-setProductIndex
+  setProductIndex,
 
-}:Props){
-
-
-
-if(products.length <= 1){
-
-return null;
-
-}
+}: Props) {
 
 
 
-return (
-
-<div
-
-className="
-absolute
-bottom-7
-right-5
-z-50
-hidden
-items-center
-gap-2
-sm:right-8
-md:flex
-lg:right-12
-"
-
->
-
-
-{
-
-products.map((item,index)=>(
-
-
-<button
-
-key={item.id}
-
-type="button"
-
-aria-label={`Show ${item.name}`}
-
-onClick={()=>setProductIndex(index)}
-
-
-className={`
-
-h-1.5
-rounded-full
-transition-all
-duration-300
-
-${
-productIndex === index
-
-?
-
-"w-8 bg-[#ff7900]"
-
-:
-
-"w-1.5 bg-black/25 hover:bg-black/45"
-
-}
-
-`}
-
-
->
-
-
-</button>
-
-
-))
-
-
-}
+  if(products.length <= 1)
+  {
+    return null;
+  }
 
 
 
-</div>
 
 
-);
+  return (
 
+
+    <motion.div
+
+
+      initial={{
+        opacity:0,
+        y:30
+      }}
+
+
+
+      animate={{
+        opacity:1,
+        y:0
+      }}
+
+
+
+      transition={{
+
+        duration:.8,
+
+        delay:1.1,
+
+        ease:"easeOut"
+
+      }}
+
+
+
+      className="
+        absolute
+        bottom-10
+        left-1/2
+        z-50
+        flex
+        -translate-x-1/2
+        items-center
+        gap-3
+      "
+
+    >
+
+
+
+
+
+      {
+        products.map((product,index)=>(
+
+
+          <button
+
+
+            key={product.id}
+
+
+
+            onClick={()=>setProductIndex(index)}
+
+
+
+            aria-label={
+              `Show ${product.name}`
+            }
+
+
+
+            className="
+              relative
+              flex
+              h-5
+              items-center
+            "
+
+
+          >
+
+
+
+            {
+              productIndex === index
+
+              ?
+
+
+              (
+
+              <motion.span
+
+
+                layoutId="hero-active-dot"
+
+
+                className="
+                  block
+                  h-[3px]
+                  w-12
+                  rounded-full
+                  bg-black
+                "
+
+
+                transition={{
+
+                  duration:.4,
+
+                  ease:"easeOut"
+
+                }}
+
+
+              />
+
+              )
+
+
+              :
+
+
+              (
+
+              <motion.span
+
+
+                whileHover={{
+
+                  scale:1.4
+
+                }}
+
+
+
+                className="
+                  block
+                  h-2
+                  w-2
+                  rounded-full
+                  bg-black/30
+                  transition-colors
+                  hover:bg-black/60
+                "
+
+              />
+
+              )
+
+            }
+
+
+
+
+
+          </button>
+
+
+
+        ))
+
+      }
+
+
+
+
+
+    </motion.div>
+
+
+  );
 
 }

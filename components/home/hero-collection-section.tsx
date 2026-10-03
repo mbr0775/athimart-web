@@ -7,16 +7,24 @@ import {
 } from "react";
 
 
-import type { Product } from "@/types/product";
+import type {
+  Product,
+} from "@/types/product";
+
 
 
 import {
+
   HeroBackground,
+
   HeroProductStage,
+
   HeroContent,
+
   HeroPagination,
 
 } from "./hero";
+
 
 
 
@@ -32,6 +40,8 @@ interface Props {
 
 
 
+
+
 export default function HeroCollectionSection({
 
   featuredProducts,
@@ -40,8 +50,11 @@ export default function HeroCollectionSection({
 
 
 
+
   const [
+
     productIndex,
+
     setProductIndex
 
   ] = useState(0);
@@ -50,12 +63,12 @@ export default function HeroCollectionSection({
 
 
 
+
+
   useEffect(()=>{
 
 
-    if(
-      featuredProducts.length <= 1
-    ){
+    if(featuredProducts.length <= 1){
 
       return;
 
@@ -64,21 +77,25 @@ export default function HeroCollectionSection({
 
 
     const timer =
+
       window.setInterval(()=>{
 
 
         setProductIndex(
+
           current =>
 
-          current === featuredProducts.length - 1
 
-          ?
+            current === featuredProducts.length - 1
 
-          0
+            ?
 
-          :
+            0
 
-          current + 1
+            :
+
+            current + 1
+
 
         );
 
@@ -87,11 +104,14 @@ export default function HeroCollectionSection({
 
 
 
+
+
     return ()=>{
 
       window.clearInterval(timer);
 
     };
+
 
 
   },[
@@ -103,8 +123,15 @@ export default function HeroCollectionSection({
 
 
 
+
+
   const product =
+
     featuredProducts[productIndex];
+
+
+
+
 
 
 
@@ -112,73 +139,184 @@ export default function HeroCollectionSection({
 
   return (
 
-    <section
 
-      className="
-        relative
-        isolate
-        min-h-[760px]
-        overflow-hidden
-        border-b
-        border-black/10
-        bg-[#d9dee1]
-        text-[#101214]
-        md:min-h-[calc(100svh-5rem)]
-      "
+<section
 
-    >
+
+className="
+
+
+relative
+
+
+z-0
 
 
 
-      {/* Background */}
-
-      <HeroBackground />
+min-h-[850px]
 
 
-
-
-      {/* Product */}
-
-      <HeroProductStage
-
-        product={product}
-
-      />
+overflow-hidden
 
 
 
-
-
-      {/* Bottom Information */}
-
-      <HeroContent
-
-        product={product}
-
-      />
+bg-[#d9dee1]
 
 
 
+text-[#101214]
 
 
-      {/* Slider */}
 
-      <HeroPagination
+border-b
 
-        products={featuredProducts}
+border-black/10
 
-        productIndex={productIndex}
 
-        setProductIndex={setProductIndex}
 
-      />
+pt-20
+
+
+
+md:min-h-[calc(100svh-5rem)]
+
+
+
+"
+
+
+>
 
 
 
 
-    </section>
 
 
-  );
+{/* BACKGROUND */}
+
+<HeroBackground />
+
+
+
+
+
+
+
+
+
+{/* PRODUCT */}
+
+<div
+
+className="
+
+relative
+
+z-10
+
+"
+
+>
+
+
+<HeroProductStage
+
+
+product={product}
+
+
+priority={productIndex===0}
+
+
+/>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/* TEXT */}
+
+<div
+
+className="
+
+relative
+
+z-20
+
+"
+
+>
+
+<HeroContent
+
+
+product={product}
+
+
+/>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+{/* PAGINATION */}
+
+<div
+
+className="
+
+relative
+
+z-20
+
+"
+
+>
+
+
+<HeroPagination
+
+
+products={featuredProducts}
+
+
+productIndex={productIndex}
+
+
+setProductIndex={setProductIndex}
+
+
+/>
+
+
+</div>
+
+
+
+
+
+
+</section>
+
+
+
+);
+
 
 }

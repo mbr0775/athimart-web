@@ -1,116 +1,277 @@
-// components/layout/site-header.tsx
+"use client";
 
-import { Bell, Search, ShoppingBag } from "lucide-react";
+import { useState } from "react";
 import Link from "next/link";
-import { Suspense } from "react";
 
-import { HeaderAuthActions } from "@/components/auth/header-auth-actions";
+import {
+  Search,
+  User,
+  ShoppingBag,
+  Menu,
+  X,
+} from "lucide-react";
 
-const navigationItems = [
-  { label: "Home", href: "/" },
-  { label: "Shop", href: "/shop" },
-  { label: "Categories", href: "/#categories" },
-  { label: "Markets", href: "/#markets" },
-  { label: "Why AthiMart", href: "/#why-athimart" },
-];
 
-function HeaderAuthFallback() {
-  return <div className="h-10 w-24 animate-pulse rounded-full bg-white/50" />;
-}
+export function SiteHeader(){
 
-export function SiteHeader() {
-  return (
-    <header
-      className="
-        fixed
-        left-0
-        top-0
-        z-50
-        w-full
-        px-4
-        pt-4
-        lg:px-8
-        lg:pt-6
-      "
+const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+return (
+
+<header
+
+className="
+
+fixed
+
+top-0
+
+left-0
+
+right-0
+
+
+z-[9999]
+
+
+pointer-events-none
+
+
+px-3
+
+pt-4
+
+
+md:px-6
+
+"
+
+>
+
+
+<nav
+
+className="
+
+
+pointer-events-auto
+
+
+relative
+
+
+mx-auto
+
+
+flex
+
+
+max-w-[1450px]
+
+
+items-center
+
+
+justify-between
+
+
+rounded-full
+
+
+bg-white/85
+
+
+backdrop-blur-xl
+
+
+shadow-[0_15px_40px_rgba(0,0,0,.12)]
+
+
+px-6
+
+py-4
+
+
+
+"
+
+>
+
+
+
+<Link
+
+href="/"
+
+className="
+
+text-xl
+
+tracking-[0.25em]
+
+font-light
+
+"
+
+>
+
+ATHI<span className="text-orange-500">MART</span>
+
+</Link>
+
+
+
+
+<div
+
+className="
+
+hidden
+
+md:flex
+
+gap-10
+
+text-xs
+
+tracking-[0.25em]
+
+"
+
+>
+
+
+<Link href="/shop">
+SHOP
+</Link>
+
+
+<Link href="/categories">
+CATEGORIES
+</Link>
+
+
+<Link href="/markets">
+MARKETS
+</Link>
+
+
+<Link href="/why-athimart">
+WHY ATHIMART
+</Link>
+
+
+</div>
+
+
+
+
+
+<div
+
+className="
+
+flex
+
+items-center
+
+gap-5
+
+"
+
+>
+
+
+<Link
+href="/search"
+aria-label="Search products"
+className="flex items-center justify-center"
+>
+<Search size={20}/>
+</Link>
+
+
+<Link
+href="/account"
+aria-label="Open account"
+title="Account"
+className="flex h-10 w-10 items-center justify-center"
+>
+<User size={20} aria-hidden="true"/>
+</Link>
+
+
+<Link
+href="/cart"
+aria-label="Open shopping cart"
+title="Shopping cart"
+className="flex h-10 w-10 items-center justify-center"
+>
+<ShoppingBag size={20} aria-hidden="true"/>
+</Link>
+
+
+<button
+
+type="button"
+aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+aria-expanded={isMenuOpen}
+aria-controls="site-header-menu"
+onClick={() => setIsMenuOpen((open) => !open)}
+
+>
+
+{isMenuOpen ? <X size={22}/> : <Menu size={22}/>}
+
+</button>
+
+
+</div>
+
+
+{isMenuOpen && (
+  <div
+    id="site-header-menu"
+    className="absolute right-0 top-full mt-3 flex w-56 flex-col gap-1 rounded-2xl bg-white p-3 text-sm shadow-[0_15px_40px_rgba(0,0,0,.16)]"
+  >
+    <Link
+      href="/shop"
+      onClick={() => setIsMenuOpen(false)}
+      className="rounded-xl px-4 py-3 hover:bg-black/5"
     >
-      <div
-        className="
-          mx-auto
-          flex
-          max-w-[1320px]
-          items-center
-          justify-between
-          gap-4
-          rounded-full
-          border
-          border-white/50
-          bg-white/55
-          px-5
-          py-3
-          shadow-[0_20px_60px_rgba(30,40,50,0.12)]
-          backdrop-blur-xl
-          transition-all
-          duration-300
-          lg:px-8
-          lg:py-4
-        "
-      >
-        <Link href="/" className="flex items-center shrink-0">
-          <span className="font-[var(--font-display)] text-2xl font-light tracking-[0.18em] text-[var(--brand-blue-dark)] lg:text-3xl">
-            ATHI
-          </span>
-          <span className="font-[var(--font-display)] text-2xl font-light tracking-[0.18em] text-[var(--brand-orange)] lg:text-3xl">
-            MART
-          </span>
-        </Link>
+      Shop
+    </Link>
+    <Link
+      href="/search"
+      onClick={() => setIsMenuOpen(false)}
+      className="rounded-xl px-4 py-3 hover:bg-black/5"
+    >
+      Search
+    </Link>
+    <Link
+      href="/account"
+      onClick={() => setIsMenuOpen(false)}
+      className="rounded-xl px-4 py-3 hover:bg-black/5"
+    >
+      Account
+    </Link>
+    <Link
+      href="/cart"
+      onClick={() => setIsMenuOpen(false)}
+      className="rounded-xl px-4 py-3 hover:bg-black/5"
+    >
+      Cart
+    </Link>
+  </div>
+)}
 
-        <nav className="hidden items-center gap-7 lg:flex">
-          {navigationItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="
-                text-[10px]
-                font-semibold
-                uppercase
-                tracking-[0.22em]
-                text-black/65
-                transition
-                hover:text-[var(--brand-blue)]
-              "
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
 
-        <div className="flex items-center gap-2">
-          <Link
-            href="/search"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 transition hover:bg-white"
-          >
-            <Search className="h-4 w-4" />
-          </Link>
+</nav>
 
-          <Link
-            href="/notifications"
-            className="hidden h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 transition hover:bg-white xl:flex"
-          >
-            <Bell className="h-4 w-4" />
-          </Link>
 
-          <Link
-            href="/cart"
-            className="hidden h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 transition hover:bg-white xl:flex"
-          >
-            <ShoppingBag className="h-4 w-4" />
-          </Link>
+</header>
 
-          <Suspense fallback={<HeaderAuthFallback />}>
-            <HeaderAuthActions />
-          </Suspense>
-        </div>
-      </div>
-    </header>
-  );
+
+);
+
 }
