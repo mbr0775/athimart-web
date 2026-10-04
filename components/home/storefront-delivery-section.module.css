@@ -1,0 +1,58 @@
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  max-width: 28rem;
+  color: #171717;
+}
+.eyebrow {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.heading {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.65rem, 3vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+.shopLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 48px;
+  margin-top: 6px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #b9d5ff;
+  color: #171717;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  transition: background 180ms ease;
+}
+.shopLink:hover { background: #a6c9ff; }
+.shopLink:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 4px; }
+@media (min-width: 640px) {
+  .copy { gap: 22px; }
+  .eyebrow { font-size: 11px; }
+  .description { font-size: 16px; }
+  .shopLink { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shopLink { transition: none; }
+}

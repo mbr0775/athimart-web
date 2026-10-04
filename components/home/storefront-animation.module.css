@@ -1,0 +1,20 @@
+.scene{--store-accent:#ff7900;--store-dark:#102b52;position:relative;max-width:760px;margin:auto;font-family:system-ui,sans-serif}
+.scene svg{display:block;width:100%;height:auto}
+.scene .orange{fill:var(--store-accent)}
+.scene .van{animation:store-drive 8s cubic-bezier(.45,0,.25,1) infinite}
+.scene .parcel{animation:store-parcel 8s ease-in-out infinite;transform-origin:352px 295px}
+.scene .notification{animation:store-confirm 8s ease-in-out infinite;transform-origin:508px 174px}
+.scene .bubble{animation:store-bob 4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.scene .bubble.two{animation-delay:-2s}
+.scene .sparkle{animation:store-twinkle 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.scene .pause{position:absolute;right:14px;bottom:10px;background:#fff;color:#314748;border:1px solid #d4e3df;border-radius:22px;min-height:44px;padding:9px 15px;font:500 13px system-ui;cursor:pointer}
+.scene[data-paused="true"] *{animation-play-state:paused!important}
+@keyframes store-drive{0%,8%{transform:translate(-200px,0);opacity:0}20%,62%{transform:translate(0,0);opacity:1}80%,100%{transform:translate(190px,0);opacity:0}}
+@keyframes store-parcel{0%,20%{transform:translate(0,0) scale(1);opacity:1}28%{transform:translate(9px,-31px) scale(1);opacity:1}43%{transform:translate(118px,8px) scale(.8);opacity:1}49%,83%{transform:translate(118px,8px) scale(.5);opacity:0}95%,100%{transform:translate(0,0) scale(1);opacity:1}}
+@keyframes store-confirm{0%,46%{opacity:0;transform:translateY(8px) scale(.8)}53%,66%{opacity:1;transform:translateY(0) scale(1)}75%,100%{opacity:0;transform:translateY(-8px) scale(.9)}}
+@keyframes store-bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-9px) rotate(3deg)}}
+@keyframes store-twinkle{0%,100%{opacity:.35;transform:scale(.7)}50%{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.scene *{animation:none!important}.scene .notification{opacity:0}.scene .pause{display:none}}
+.scene .van-wheel{transform-box:fill-box;transform-origin:center;animation:store-wheel 8s linear infinite}
+@keyframes store-wheel{0%{transform:rotate(0deg)}20%,62%{transform:rotate(720deg)}80%,100%{transform:rotate(1440deg)}}
+@media(prefers-reduced-motion:reduce){.scene .van-wheel{animation:none!important}}

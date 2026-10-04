@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
+import { getHomeCategoryPreviews } from "@/lib/products/product-category-service";
+import HomeScrollReveal from "@/components/home/home-scroll-reveal";
+import ProductDiscoverySection from "@/components/home/product-discovery-section";
 
 
 import HeroCollectionSection from "@/components/home/hero-collection-section";
@@ -6,6 +10,8 @@ import HeroCollectionSection from "@/components/home/hero-collection-section";
 import GalleryCoverflow from "@/components/home/gallery-coverflow";
 
 import ShopCategorySection from "@/components/home/shop-category-section";
+
+import StorefrontDeliverySection from "@/components/home/storefront-delivery-section";
 
 import LatestProductsSection from "@/components/home/latest-products-section";
 
@@ -169,65 +175,16 @@ export default async function StoreHomePage() {
 
 
 
-  let latestProducts: Product[] = [];
-
-  let featuredDrops: Product[] = [];
-
-
-
-
-
-  try {
-
-
-
-    latestProducts =
-
-      await getActiveProducts({
-
-        countryCode:
-          "LK",
-
-        limit:
-          10,
-
-      });
-
-
-
-
-
-
-    featuredDrops =
-
-      await getFeaturedDrops({
-
-        countryCode:
-          "LK",
-
-        limit:
-          8,
-
-      });
-
-
-
-
-
-  } catch {
-
-
-    latestProducts = [];
-
-    featuredDrops = [];
-
-  }
-
-
-
-
-
-
+  // Load current catalog content on each request, including newly added admin products.
+  await connection();
+  const [latestResult, dropsResult, categoryResult] = await Promise.allSettled([
+    getActiveProducts({ countryCode: "LK", limit: 10 }),
+    getFeaturedDrops({ countryCode: "LK", limit: 8 }),
+    getHomeCategoryPreviews("LK"),
+  ]);
+  const latestProducts: Product[] = latestResult.status === "fulfilled" ? latestResult.value : [];
+  const featuredDrops: Product[] = dropsResult.status === "fulfilled" ? dropsResult.value : [];
+  const categoryPreviews = categoryResult.status === "fulfilled" ? categoryResult.value : {};
 
   return (
 
@@ -256,19 +213,10 @@ export default async function StoreHomePage() {
 
 
 
+      <HomeScrollReveal>
       {/* HERO */}
 
-      <HeroCollectionSection
-
-
-        featuredProducts={
-
-          latestProducts
-
-        }
-
-
-      />
+      <HeroCollectionSection />
 
 
 
@@ -281,6 +229,8 @@ export default async function StoreHomePage() {
 
       <GalleryCoverflow />
 
+      <ProductDiscoverySection products={latestProducts} />
+
 
 
 
@@ -290,7 +240,7 @@ export default async function StoreHomePage() {
 
       {/* CATEGORY */}
 
-      <ShopCategorySection />
+      <ShopCategorySection previews={categoryPreviews} />
 
 
 
@@ -319,6 +269,8 @@ export default async function StoreHomePage() {
 
 
 
+
+      <StorefrontDeliverySection />
 
       {/* PRODUCTS */}
 
@@ -360,6 +312,7 @@ export default async function StoreHomePage() {
 
 
 
+      </HomeScrollReveal>
     </>
 
   );

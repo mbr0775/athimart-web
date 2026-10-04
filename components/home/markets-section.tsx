@@ -27,7 +27,9 @@ const markets = [
 export default function MarketsSection() {
   return (
     <section
+      id="markets"
       className="
+        scroll-mt-36
         bg-[#faf7ef]
         py-16
         sm:py-20
@@ -58,7 +60,9 @@ export default function MarketsSection() {
             className="
               text-[10px]
               uppercase
-              tracking-[0.35em]
+              leading-5
+              tracking-[0.2em]
+              sm:tracking-[0.3em]
               text-[#9a927f]
               sm:text-xs
             "
@@ -69,8 +73,9 @@ export default function MarketsSection() {
           <h2
             className="
               !mt-4
-              font-[var(--font-display)]
-              text-4xl
+              font-(family-name:--font-display)
+              text-3xl
+              sm:text-4xl
               font-light
               leading-tight
               text-[#303024]
@@ -115,6 +120,7 @@ export default function MarketsSection() {
           {markets.map((market) => (
             <Link
               key={market.code}
+              data-home-reveal
               href={market.href}
               className="
                 group
@@ -128,7 +134,8 @@ export default function MarketsSection() {
               <div
                 className="
                   relative
-                  aspect-[1.45/1]
+                  aspect-square
+                  sm:aspect-[1.45/1]
                   overflow-hidden
                 "
               >
@@ -189,8 +196,9 @@ export default function MarketsSection() {
                 <h3
                   className="
                     !mt-4
-                    font-[var(--font-display)]
+                    font-(family-name:--font-display)
                     text-3xl
+                    leading-tight
                     font-light
                     !text-white
                     sm:!mt-5

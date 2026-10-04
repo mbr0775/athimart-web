@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { getProductPath } from "@/lib/products/product-url";
@@ -11,129 +12,125 @@ interface FeaturedProductsCarouselProps {
   products: Product[];
 }
 
-function formatPrice(
-  value: number
-): string {
-  return `Rs ${new Intl.NumberFormat(
-    "en-LK",
-    {
-      maximumFractionDigits: 0,
-    }
-  ).format(value)}`;
+function formatPrice(value: number): string {
+  return `Rs ${new Intl.NumberFormat("en-LK", {
+    maximumFractionDigits: 0,
+  }).format(value)}`;
 }
 
 export function FeaturedProductsCarousel({
   products,
 }: Readonly<FeaturedProductsCarouselProps>) {
-  const [activeIndex, setActiveIndex] =
-    useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [manuallyPaused, setManuallyPaused] = useState(false);
+  const currentIndex = activeIndex % Math.max(products.length, 1);
+  const activeProduct = products[currentIndex];
 
   useEffect(() => {
-    if (products.length < 2) {
-      return;
-    }
+    if (products.length < 2 || isPaused || manuallyPaused) return;
 
-    const rotationTimer = window.setInterval(() => {
-      setActiveIndex(
-        (currentIndex) =>
-          (currentIndex + 1) % products.length
-      );
-    }, 3000);
+    const timer = window.setInterval(() => {
+      setActiveIndex((index) => (index + 1) % products.length);
+    }, 6000);
 
-    return () => {
-      window.clearInterval(rotationTimer);
-    };
-  }, [products.length]);
+    return () => window.clearInterval(timer);
+  }, [products.length, isPaused, manuallyPaused]);
 
-  const activeProduct =
-    products[activeIndex] ??
-    products[0];
+  if (!activeProduct) return null;
 
-  if (!activeProduct) {
-    return (
-      <div className="relative flex aspect-[1.34/1] items-end overflow-hidden rounded-xl bg-[radial-gradient(circle_at_52%_43%,#58647e_0_8%,#202c43_9%_15%,#080d16_48%)] p-4 text-white">
-        <div className="absolute left-1/2 top-1/2 h-28 w-36 -translate-x-1/2 -translate-y-1/2 rounded bg-[#3f4653] shadow-[0_18px_30px_rgba(0,0,0,0.45)]" />
-
-        <div className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full border-[7px] border-[#111827] bg-[#89909a] shadow-[inset_0_0_0_3px_#3c4d69]" />
-
-        <div className="relative">
-          <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-wide text-[var(--brand-orange)]">
-            Featured AI innovation
-          </p>
-
-          <h2 className="mt-1 font-[var(--font-body)] text-lg font-bold">
-            Athi Sense Vision Pin
-          </h2>
-
-          <p className="text-xs text-white/85">
-            Multimodal reasoning wearable · Rs 389
-          </p>
-        </div>
-      </div>
+  function moveSlide(direction: number) {
+    setActiveIndex((index) =>
+      (index + direction + products.length) % products.length
     );
   }
 
   return (
-    <div
-      aria-live="polite"
-      aria-label="Featured products"
-      className="relative"
+    <section
+      aria-labelledby="featured-drops-heading"
+      className="bg-[#faf7ef] py-10 sm:py-14"
     >
-      <Link
-        key={activeProduct.id}
-        href={getProductPath(activeProduct)}
-        className="athimart-featured-product-slide group relative block aspect-[1.34/1] overflow-hidden rounded-xl bg-[#101521]"
-      >
-        {activeProduct.imageUrls[0] ? (
-          <Image
-            src={activeProduct.imageUrls[0]}
-            alt={activeProduct.name}
-            fill
-            priority={activeIndex === 0}
-            sizes="(max-width: 1023px) 100vw, 470px"
-            className="object-cover opacity-90 transition duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_50%_44%,#5b6680_0_7%,#273147_8%_14%,#101521_38%)] text-7xl">
-            {activeProduct.emoji}
+      <div className="athimart-container">
+        <div className="mx-auto max-w-4xl">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8c8778] sm:text-xs">
+                Handpicked for you
+              </p>
+              <h2 id="featured-drops-heading" className="!mt-2 font-(family-name:--font-display) text-2xl leading-tight text-[#303024] sm:text-3xl">
+                Featured Drops
+              </h2>
+            </div>
+            <Link href="/shop" className="flex shrink-0 items-center gap-1.5 text-xs font-medium text-[#494638] hover:underline sm:text-sm">
+              View all <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </Link>
           </div>
-        )}
 
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#050912] via-[#050912]/80 to-transparent px-4 pb-4 pt-16 text-white">
-          <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-wide text-[var(--brand-orange)]">
-            Featured product
-          </p>
+          <div
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onFocusCapture={() => setIsPaused(true)}
+            onBlurCapture={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) setIsPaused(false);
+            }}
+            className="overflow-hidden rounded-3xl border border-[#e6e2d8] bg-white"
+          >
+            <Link
+              href={getProductPath(activeProduct)}
+              className="group grid focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-[#494638] sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]"
+            >
+              <div className="relative h-52 bg-[#efede7] sm:h-72">
+                {activeProduct.imageUrls[0] ? (
+                  <Image
+                    src={activeProduct.imageUrls[0]}
+                    alt={activeProduct.name}
+                    fill
+                    sizes="(max-width: 639px) 100vw, (max-width: 1023px) 45vw, 400px"
+                    className="object-contain p-5 transition-transform duration-500 group-hover:scale-105 sm:p-7 motion-reduce:transition-none"
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center text-6xl">
+                    {activeProduct.emoji || "🛍️"}
+                  </div>
+                )}
+              </div>
+              <div className="flex min-w-0 flex-col justify-center p-5 sm:p-8">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8c8778]">
+                  {activeProduct.subCategory || activeProduct.category}
+                </p>
+                <h3 className="!mt-2 line-clamp-2 break-words text-xl font-semibold leading-snug text-[#303024] sm:text-2xl">
+                  {activeProduct.name}
+                </h3>
+                <p className="!mt-3 text-lg font-semibold text-[#494638]">
+                  {formatPrice(activeProduct.prices.LKR)}
+                </p>
+                <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[#494638]">
+                  Explore product <ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1 motion-reduce:transition-none" />
+                </span>
+              </div>
+            </Link>
 
-          <h2 className="mt-1 font-[var(--font-body)] text-base font-bold leading-tight sm:text-lg">
-            {activeProduct.name}
-          </h2>
-
-          <p className="mt-1 text-xs text-white/85">
-            {activeProduct.subCategory ||
-              activeProduct.category} · {formatPrice(
-              activeProduct.prices.LKR
+            {products.length > 1 && (
+              <div className="flex items-center justify-between border-t border-[#efede7] px-5 py-3">
+                <p aria-live={isPaused || manuallyPaused ? "polite" : "off"} aria-atomic="true" className="text-xs text-[#8c8778]">
+                  {currentIndex + 1} / {products.length}
+                </p>
+                <div className="flex items-center gap-2">
+                  <button type="button" onClick={() => setManuallyPaused((paused) => !paused)} className="min-h-10 rounded-full px-3 text-xs text-[#494638] hover:bg-[#efede7]" aria-label={manuallyPaused ? "Resume featured drops" : "Pause featured drops"}>
+                    {manuallyPaused ? "Play" : "Pause"}
+                  </button>
+                  <button type="button" onClick={() => moveSlide(-1)} aria-label="Previous featured drop" className="flex h-10 w-10 items-center justify-center rounded-full border border-[#e6e2d8] text-[#494638] hover:bg-[#efede7]">
+                    <ChevronLeft aria-hidden="true" className="h-4 w-4" />
+                  </button>
+                  <button type="button" onClick={() => moveSlide(1)} aria-label="Next featured drop" className="flex h-10 w-10 items-center justify-center rounded-full border border-[#e6e2d8] text-[#494638] hover:bg-[#efede7]">
+                    <ChevronRight aria-hidden="true" className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
             )}
-          </p>
+          </div>
         </div>
-      </Link>
-
-      {products.length > 1 && (
-        <div
-          aria-hidden="true"
-          className="absolute right-3 top-3 flex gap-1.5"
-        >
-          {products.map((product, index) => (
-            <span
-              key={product.id}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                index === activeIndex
-                  ? "w-5 bg-white"
-                  : "w-1.5 bg-white/55"
-              }`}
-            />
-          ))}
-        </div>
-      )}
-    </div>
+      </div>
+    </section>
   );
 }

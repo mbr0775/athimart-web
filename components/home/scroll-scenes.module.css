@@ -1,0 +1,50 @@
+.gallery {
+  --gallery-radius: clamp(185px, 29vw, 430px);
+  position: relative;
+  height: 240svh;
+  background: #d9edf7;
+  color: #102b52;
+}
+.gallerySticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 540px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.gallerySticky { background: radial-gradient(ellipse at 50% 45%, #fff 0%, #e2f3fa 45%, #c4e0ed 100%); }
+.galleryHeading { position: relative; z-index: 2; padding: clamp(100px, 15svh, 160px) 24px 0; text-align: center; }
+.eyebrow { margin: 0 0 14px; font-size: 10px; font-weight: 600; line-height: 1.6; letter-spacing: .22em; }
+.galleryHeading h2 { margin: 0; font-family: var(--font-display), sans-serif; font-size: clamp(2rem, 4.5vw, 4rem); font-weight: 400; line-height: 1.15; }
+.subtitle { margin: 14px 0 0; font-size: 13px; line-height: 1.7; color: #526784; }
+.perspective { position: absolute; inset: 38% 0 8%; perspective: 1400px; }
+.ring { position: absolute; left: 50%; top: 45%; width: 0; height: 0; transform-style: preserve-3d; }
+.galleryCard { position: absolute; width: clamp(150px, 17vw, 230px); height: clamp(205px, 24vw, 315px); left: calc(clamp(150px, 17vw, 230px) / -2); top: calc(clamp(205px, 24vw, 315px) / -2); margin: 0; border-radius: 24px; overflow: hidden; background: #e1ebf0; border: 1px solid #ffffffb3; box-shadow: 0 20px 45px #123f9e26; backface-visibility: hidden; }
+.galleryImage { object-fit: cover; }
+.galleryCard figcaption { position: absolute; inset: auto 0 0; padding: 42px 16px 20px; background: linear-gradient(transparent, #051627d9); color: #fff; font-size: 13px; line-height: 1.5; }
+.galleryCard figcaption span { display: block; margin-bottom: 6px; font-size: 9px; letter-spacing: .2em; color: #d4ebff; }
+.foreground, .foregroundTwo { position: absolute; pointer-events: none; z-index: 3; }
+.foreground { left: 5%; bottom: 18%; }
+.foregroundTwo { right: 7%; top: 34%; }
+.floatingOrb { width: clamp(48px, 9vw, 125px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 28% 22%, #ffffff, #c2c5fa 30%, #7399d9 65%, #244f8e); box-shadow: inset -10px -15px 25px #23498055, 0 25px 40px #102b5226; animation: float 7s ease-in-out infinite; }
+.floatingLoop { width: clamp(60px, 10vw, 140px); aspect-ratio: 1; border: clamp(12px, 2vw, 25px) solid #b7c7ef; border-radius: 50%; box-shadow: inset 4px 6px 9px #fff9, 8px 12px 20px #163f8233; transform: rotateY(35deg) rotateX(25deg); animation: float 9s ease-in-out infinite reverse; }
+.scrollHint { position: absolute; bottom: 32px; left: 0; right: 0; margin: 0; text-align: center; font-size: 9px; letter-spacing: .2em; }
+.scrollHint span { display: block; margin-top: 10px; font-size: 20px; }
+@keyframes float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -18px; } }
+@media (max-width: 640px) {
+  .galleryHeading { padding-top: 115px; }
+  .perspective { inset: 42% 0 12%; perspective: 950px; }
+  .foreground { left: 4%; bottom: 17%; }
+  .foregroundTwo { right: 4%; top: 37%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gallery { height: auto; }
+  .gallerySticky { position: relative; height: auto; min-height: 650px; }
+  .galleryHeading { padding-top: 70px; }
+  .perspective { position: relative; inset: auto; margin: 32px 0 80px; perspective: none; }
+  .ring { position: relative; left: auto; top: auto; display: flex; gap: 16px; width: auto; height: auto; padding: 12px 24px; overflow-x: auto; transform: none !important; }
+  .galleryCard { position: relative; left: auto; top: auto; flex-shrink: 0; transform: none !important; }
+  .floatingOrb, .floatingLoop { animation: none; }
+  .scrollHint { display: none; }
+}

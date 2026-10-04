@@ -29,6 +29,7 @@ export default function WhyAthiMartSection() {
     <section
       id="why-athimart"
       className="
+        scroll-mt-36
         bg-[#faf7ef]
         py-16
         sm:py-20
@@ -56,7 +57,9 @@ export default function WhyAthiMartSection() {
             className="
               text-xs
               uppercase
-              tracking-[0.35em]
+              leading-5
+              tracking-[0.2em]
+              sm:tracking-[0.3em]
               text-[#9a927f]
             "
           >
@@ -66,8 +69,9 @@ export default function WhyAthiMartSection() {
           <h2
             className="
               !mt-5
-              font-[var(--font-display)]
-              text-4xl
+              font-(family-name:--font-display)
+              text-3xl
+              sm:text-4xl
               font-light
               leading-tight
               text-[#303024]
@@ -98,7 +102,8 @@ export default function WhyAthiMartSection() {
         <div
           className="
             mx-auto
-            mt-16
+            mt-10
+            sm:mt-14
             grid
             max-w-[1200px]
             gap-6
@@ -108,6 +113,7 @@ export default function WhyAthiMartSection() {
           {features.map((item) => (
             <article
               key={item.number}
+              data-home-reveal
               className="
                 rounded-[28px]
                 border
@@ -140,6 +146,7 @@ export default function WhyAthiMartSection() {
                 className="
                   !mt-8
                   text-xl
+                  leading-snug
                   font-medium
                   text-[#303024]
                 "
