@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight, CircleUserRound, Search, ShoppingBag, X } from "lucide-react";
+import { ArrowUpRight, CircleUserRound, Menu, Search, ShoppingBag, X } from "lucide-react";
 
 import { CART_STORAGE_KEY, getCartItemCount, readCart } from "@/lib/cart/cart-storage";
 import { editorialFont } from "@/lib/fonts";
@@ -82,7 +82,12 @@ export function SiteHeader() {
           aria-controls="site-header-menu"
           onClick={() => setIsMenuOpen((open) => !open)}
         >
-          {isMenuOpen ? <><X size={20} aria-hidden="true" /> Close</> : "Menu"}
+          <span>{isMenuOpen ? "Close" : "Menu"}</span>
+          {isMenuOpen ? (
+            <X size={22} aria-hidden="true" />
+          ) : (
+            <Menu size={22} aria-hidden="true" />
+          )}
         </button>
         <Link href="/" aria-label="AthiMart home" className={styles.brand}>AthiMart</Link>
         <div className={styles.actions}>

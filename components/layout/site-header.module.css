@@ -44,6 +44,10 @@
   font-size: 28px;
   line-height: 1;
 }
+.menuButton svg {
+  flex-shrink: 0;
+  transform: translateY(4px);
+}
 .brand {
   color: #454530;
   font-family: var(--font-editorial), "Times New Roman", serif;
@@ -107,10 +111,16 @@
 }
 @media (max-width: 767px) {
   .announcement { min-height: 40px; padding: 8px 12px; gap: 5px; font-size: 12px; }
-  .navigation { min-height: 72px; width: calc(100% - 32px); grid-template-columns: auto 1fr auto; gap: 12px; }
-  .menuButton { font-size: 22px; }
-  .brand { justify-self: center; font-size: 28px; }
-  .actions { gap: 2px; }
+  .navigation {
+    min-height: 72px;
+    width: calc(100% - 32px);
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "actions brand menu";
+    gap: 6px;
+  }
+  .menuButton { grid-area: menu; justify-self: end; gap: 6px; font-size: 20px; white-space: nowrap; }
+  .brand { grid-area: brand; justify-self: center; font-size: 28px; }
+  .actions { grid-area: actions; justify-content: flex-start; gap: 2px; }
   .iconLink, .cartLink, .accountLink { min-width: 36px; }
   .accountLink svg { width: 25px; height: 25px; }
   .cartIcon { display: block; }
@@ -128,7 +138,7 @@
     background: #e7e69c;
     font-size: 9px;
   }
-  .dropdown { max-height: calc(100svh - 220px); }
+  .dropdown { left: auto; right: 0; max-height: calc(100svh - 220px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .iconLink, .cartLink, .accountLink { transition: none; }

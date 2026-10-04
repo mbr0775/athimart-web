@@ -3,23 +3,15 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowLeft,
-  CheckCircle2,
-  LockKeyhole,
-  Mail,
-  Phone,
-  ShieldCheck,
-  ShoppingBag,
-  Store,
-  UserPlus,
-  UserRound,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, MailCheck, ShieldCheck, Smartphone, Sparkles } from "lucide-react";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 
-import { signUp } from "./actions";
+import SignUpExperience from "./sign-up-experience";
+import SignUpForm from "./sign-up-form";
+import SignUpVisual from "./sign-up-visual";
+import styles from "./sign-up.module.css";
 
 export const metadata: Metadata = {
   title: "Create Account",
@@ -183,488 +175,71 @@ export default async function SignUpPage({
     `/auth/login?${loginSearchParams.toString()}`;
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[var(--linen)]">
-      {/* Background decoration */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-      >
-        <div className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-[var(--brand-blue)]/8 blur-3xl" />
-
-        <div className="absolute -bottom-40 -right-32 h-96 w-96 rounded-full bg-[var(--brand-orange)]/10 blur-3xl" />
-      </div>
-
-      <div className="relative mx-auto grid min-h-screen max-w-[1500px] lg:grid-cols-[0.9fr_1.1fr]">
-        {/* Desktop brand panel */}
-        <section className="hidden overflow-hidden bg-gradient-to-br from-[var(--brand-blue-dark)] via-[var(--brand-blue)] to-[var(--brand-blue-light)] p-12 text-white lg:flex lg:flex-col lg:justify-between">
-          <Link
-            href="/"
-            className="inline-flex w-fit items-center gap-2 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white/75 transition-colors hover:text-white"
-          >
-            <ArrowLeft
-              aria-hidden="true"
-              className="h-4 w-4"
-              strokeWidth={1.8}
-            />
-
-            Return to store
+    <SignUpExperience>
+      <div className={styles.shell}>
+        <header className={styles.topbar}>
+          <Link href="/" className={styles.brand} aria-label="AthiMart home">
+            <Image src="/brand/athimart-logo.png" alt="" width={44} height={44} priority />
+            <span>Athi<span className={styles.brandAccent}>Mart</span><span className={styles.brandDot}>.</span></span>
           </Link>
-
-          <div className="py-14">
-            <div className="inline-flex bg-white p-7 shadow-[0_24px_70px_rgba(0,0,0,0.20)]">
-              <Image
-                src="/brand/athimart-logo.png"
-                alt="AthiMart marketplace logo"
-                width={270}
-                height={270}
-                priority
-                className="h-auto w-52 object-contain"
-              />
+          <Link href="/" className={styles.backLink}><ArrowLeft size={16} aria-hidden="true" /> Back to store</Link>
+        </header>
+        <div className={styles.layout}>
+          <section className={styles.story} aria-labelledby="signup-story-title">
+            <div className={styles.storyCopy}>
+              <p className={styles.eyebrow}><span /> YOUR NEXT CHAPTER STARTS HERE</p>
+              <h2 id="signup-story-title">One account.<br />A world of <span>possibilities.</span></h2>
+              <p>Discover your next favourite find.<br />Or turn your passion into a storefront.</p>
             </div>
-
-            <h2 className="mt-10 font-[var(--font-display)] text-6xl font-light uppercase leading-[0.96] tracking-[0.035em] text-white">
-              One
-              <br />
-              Account
-              <br />
-              Everywhere
-            </h2>
-
-            <p className="mt-7 max-w-lg font-[var(--font-body)] text-sm leading-7 text-white/75">
-              Create one AthiMart
-              account for the connected
-              mobile application and
-              responsive website.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3 border-t border-white/20 pt-6">
-            <ShieldCheck
-              aria-hidden="true"
-              className="h-5 w-5 text-[var(--brand-orange-light)]"
-              strokeWidth={1.7}
-            />
-
-            <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white/65">
-              Secure Supabase authentication
-            </p>
-          </div>
-        </section>
-
-        {/* Registration panel */}
-        <section className="flex px-5 py-6 sm:px-10 sm:py-10 lg:items-center lg:px-16 xl:px-24">
-          <div className="mx-auto w-full max-w-2xl">
-            {/* Mobile header */}
-            <div className="mb-12 flex items-center justify-between lg:hidden">
-              <Link
-                href="/"
-                className="font-[var(--font-display)] text-2xl font-light uppercase tracking-[0.18em] text-[var(--brand-blue-dark)]"
-              >
-                Athi
-
-                <span className="text-[var(--brand-orange)]">
-                  Mart
-                </span>
-              </Link>
-
-              <Link
-                href="/"
-                aria-label="Return to AthiMart store"
-                className="flex h-11 w-11 items-center justify-center border border-[var(--border)] bg-white text-[var(--brand-blue)]"
-              >
-                <ArrowLeft
-                  aria-hidden="true"
-                  className="h-5 w-5"
-                  strokeWidth={1.8}
-                />
-              </Link>
+            <SignUpVisual />
+            <div className={styles.benefits}>
+              <span><Check size={14} aria-hidden="true" /> Shop your favourites</span>
+              <span><Check size={14} aria-hidden="true" /> Build your business</span>
             </div>
-
-            {awaitingConfirmation ? (
-              <section>
-                <span className="flex h-16 w-16 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
-                  <CheckCircle2
-                    aria-hidden="true"
-                    className="h-8 w-8"
-                    strokeWidth={1.7}
-                  />
-                </span>
-
-                <p className="athimart-label mt-8 text-[var(--brand-orange-dark)]">
-                  Registration received
-                </p>
-
-                <h1 className="athimart-display-medium mt-3 text-[var(--brand-blue-dark)]">
-                  Check Your
-                  <br />
-                  Email
-                </h1>
-
-                <p className="athimart-body-large mt-6">
-                  We sent a confirmation
-                  link to:
-                </p>
-
-                <p className="mt-3 break-all font-[var(--font-body)] text-sm font-semibold text-[var(--brand-blue)]">
-                  {email ||
-                    "your email address"}
-                </p>
-
-                <div className="mt-7 border-l-4 border-[var(--brand-orange)] bg-white px-5 py-4">
-                  {isSeller ? (
-                    <>
-                      <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--brand-orange-dark)]">
-                        Seller application
-                      </p>
-
-                      <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
-                        Confirm your email
-                        address first. After
-                        confirmation, your
-                        seller request will
-                        remain pending until
-                        an AthiMart
-                        administrator approves
-                        it.
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--brand-blue)]">
-                        Buyer account
-                      </p>
-
-                      <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
-                        Confirm your email
-                        address to activate
-                        your buyer account and
-                        continue shopping on
-                        AthiMart.
-                      </p>
-                    </>
-                  )}
-                </div>
-
-                <p className="athimart-body mt-6">
-                  Open the latest AthiMart
-                  email and click the
-                  confirmation button. Check
-                  your spam folder when the
-                  message is not visible in
-                  your inbox.
-                </p>
-
-                <Link
-                  href={loginUrl}
-                  className="athimart-brand-button mt-8 w-full text-white!"
-                >
-                  <span className="text-white!">
-                    Continue to sign in
-                  </span>
-                </Link>
-
-                <Link
-                  href="/auth/sign-up"
-                  className="athimart-brand-outline-button mt-3 w-full"
-                >
-                  Register another account
-                </Link>
-              </section>
-            ) : (
-              <>
-                <header>
-                  <p className="athimart-label text-[var(--brand-orange-dark)]">
-                    Account registration
-                  </p>
-
-                  <h1 className="athimart-display-large mt-4 text-[var(--brand-blue-dark)]">
-                    Create
-                    <br />
-                    Account
-                  </h1>
-
-                  <p className="athimart-body-large mt-5 max-w-2xl">
-                    Choose whether you want
-                    to shop as a buyer or
-                    apply to sell products
-                    through AthiMart.
-                  </p>
-                </header>
-
-                {errorMessage && (
-                  <div
-                    role="alert"
-                    className="mt-7 border-l-4 border-[var(--sale)] bg-white px-5 py-4 shadow-[0_10px_30px_rgba(180,35,24,0.08)]"
-                  >
-                    <p className="font-[var(--font-body)] text-sm leading-6 text-[var(--sale)]">
-                      {errorMessage}
-                    </p>
-                  </div>
-                )}
-
-                <form
-                  action={signUp}
-                  className="mt-9"
-                >
-                  <input
-                    type="hidden"
-                    name="next"
-                    value={nextPath}
-                  />
-
-                  {/* Account type */}
-                  <fieldset>
-                    <legend className="athimart-label text-[var(--text-muted)]">
-                      Select account type
-                    </legend>
-
-                    <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                      {/* Buyer */}
-                      <label className="cursor-pointer">
-                        <input
-                          type="radio"
-                          name="accountType"
-                          value="buyer"
-                          defaultChecked={
-                            !isSeller
-                          }
-                          className="peer sr-only"
-                        />
-
-                        <span className="flex min-h-46 flex-col border-2 border-[var(--border)] bg-white p-5 transition-all peer-checked:border-[var(--brand-blue)] peer-checked:bg-[var(--brand-blue-soft)]">
-                          <span className="flex h-11 w-11 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] peer-checked:bg-white">
-                            <ShoppingBag
-                              aria-hidden="true"
-                              className="h-5 w-5"
-                              strokeWidth={1.8}
-                            />
-                          </span>
-
-                          <span className="mt-6 font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
-                            Buyer
-                          </span>
-
-                          <span className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
-                            Shop products,
-                            manage orders and
-                            maintain your
-                            customer profile.
-                          </span>
-                        </span>
-                      </label>
-
-                      {/* Seller */}
-                      <label className="cursor-pointer">
-                        <input
-                          type="radio"
-                          name="accountType"
-                          value="seller"
-                          defaultChecked={
-                            isSeller
-                          }
-                          className="peer sr-only"
-                        />
-
-                        <span className="flex min-h-46 flex-col border-2 border-[var(--border)] bg-white p-5 transition-all peer-checked:border-[var(--brand-orange)] peer-checked:bg-[var(--brand-orange-soft)]">
-                          <span className="flex h-11 w-11 items-center justify-center bg-[var(--brand-orange-soft)] text-[var(--brand-orange)]">
-                            <Store
-                              aria-hidden="true"
-                              className="h-5 w-5"
-                              strokeWidth={1.8}
-                            />
-                          </span>
-
-                          <span className="mt-6 font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
-                            Seller
-                          </span>
-
-                          <span className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
-                            Confirm your email,
-                            then wait for
-                            administrator
-                            approval before
-                            selling.
-                          </span>
-                        </span>
-                      </label>
+            <div className={styles.storyFooter}>
+              <span className={styles.footerIcon}><Smartphone size={20} strokeWidth={1.6} aria-hidden="true" /></span>
+              <p><strong>Your world, connected.</strong><span>One account for our website and mobile app.</span></p>
+              <Sparkles size={18} aria-hidden="true" />
+            </div>
+          </section>
+          <section className={styles.formPanel} aria-labelledby="signup-title">
+            <div className={styles.cardStage}>
+              <div className={styles.card}>
+                {awaitingConfirmation ? (
+                  <div className={styles.confirmation}>
+                    <span className={styles.confirmationIcon}><MailCheck size={34} strokeWidth={1.5} aria-hidden="true" /></span>
+                    <p className={styles.formEyebrow}>YOU’RE ALMOST THERE</p>
+                    <h1 id="signup-title">Check your <span>inbox.</span></h1>
+                    <p className={styles.formIntro}>We sent a confirmation link to<br /><strong className={styles.email}>{email || "your email address"}</strong></p>
+                    <div className={styles.confirmationNote}>
+                      <ShieldCheck size={21} aria-hidden="true" />
+                      <div><strong>{isSeller ? "Your seller application" : "Your buyer account"}</strong><p>{isSeller ? "Confirm your email first. Your application will then be reviewed by an AthiMart administrator before you can start selling." : "Confirm your email to activate your account and start discovering your favourites."}</p></div>
                     </div>
-                  </fieldset>
-
-                  {/* Full name */}
-                  <label className="mt-9 block">
-                    <span className="athimart-label text-[var(--text-muted)]">
-                      Full name
-                    </span>
-
-                    <span className="mt-3 flex min-h-16 items-center border-b-2 border-[var(--border-strong)] transition-colors focus-within:border-[var(--brand-blue)]">
-                      <UserRound
-                        aria-hidden="true"
-                        className="mr-4 h-5 w-5 shrink-0 text-[var(--brand-blue)]"
-                        strokeWidth={1.7}
-                      />
-
-                      <input
-                        type="text"
-                        name="fullName"
-                        required
-                        minLength={2}
-                        maxLength={120}
-                        autoComplete="name"
-                        placeholder="Your full name"
-                        className="min-w-0 flex-1 border-0 bg-transparent py-4 font-[var(--font-display)] text-xl font-light text-[var(--text)] outline-none placeholder:text-[var(--placeholder)] focus:outline-none focus-visible:!outline-none sm:text-2xl"
-                      />
-                    </span>
-                  </label>
-
-                  {/* Email */}
-                  <label className="mt-7 block">
-                    <span className="athimart-label text-[var(--text-muted)]">
-                      Email address
-                    </span>
-
-                    <span className="mt-3 flex min-h-16 items-center border-b-2 border-[var(--border-strong)] transition-colors focus-within:border-[var(--brand-blue)]">
-                      <Mail
-                        aria-hidden="true"
-                        className="mr-4 h-5 w-5 shrink-0 text-[var(--brand-blue)]"
-                        strokeWidth={1.7}
-                      />
-
-                      <input
-                        type="email"
-                        name="email"
-                        required
-                        autoComplete="email"
-                        inputMode="email"
-                        placeholder="you@example.com"
-                        className="min-w-0 flex-1 border-0 bg-transparent py-4 font-[var(--font-display)] text-xl font-light text-[var(--text)] outline-none placeholder:text-[var(--placeholder)] focus:outline-none focus-visible:!outline-none sm:text-2xl"
-                      />
-                    </span>
-                  </label>
-
-                  {/* Phone */}
-                  <label className="mt-7 block">
-                    <span className="athimart-label text-[var(--text-muted)]">
-                      Phone number — optional
-                    </span>
-
-                    <span className="mt-3 flex min-h-16 items-center border-b-2 border-[var(--border-strong)] transition-colors focus-within:border-[var(--brand-blue)]">
-                      <Phone
-                        aria-hidden="true"
-                        className="mr-4 h-5 w-5 shrink-0 text-[var(--brand-blue)]"
-                        strokeWidth={1.7}
-                      />
-
-                      <input
-                        type="tel"
-                        name="phone"
-                        autoComplete="tel"
-                        inputMode="tel"
-                        maxLength={30}
-                        placeholder="+94 77 123 4567"
-                        className="min-w-0 flex-1 border-0 bg-transparent py-4 font-[var(--font-display)] text-xl font-light text-[var(--text)] outline-none placeholder:text-[var(--placeholder)] focus:outline-none focus-visible:!outline-none sm:text-2xl"
-                      />
-                    </span>
-                  </label>
-
-                  {/* Password fields */}
-                  <div className="mt-7 grid gap-7 sm:grid-cols-2">
-                    <label className="block">
-                      <span className="athimart-label text-[var(--text-muted)]">
-                        Password
-                      </span>
-
-                      <span className="mt-3 flex min-h-16 items-center border-b-2 border-[var(--border-strong)] transition-colors focus-within:border-[var(--brand-blue)]">
-                        <LockKeyhole
-                          aria-hidden="true"
-                          className="mr-4 h-5 w-5 shrink-0 text-[var(--brand-blue)]"
-                          strokeWidth={1.7}
-                        />
-
-                        <input
-                          type="password"
-                          name="password"
-                          required
-                          minLength={8}
-                          autoComplete="new-password"
-                          placeholder="Minimum 8 characters"
-                          className="min-w-0 flex-1 border-0 bg-transparent py-4 font-[var(--font-display)] text-lg font-light text-[var(--text)] outline-none placeholder:text-[var(--placeholder)] focus:outline-none focus-visible:!outline-none"
-                        />
-                      </span>
-                    </label>
-
-                    <label className="block">
-                      <span className="athimart-label text-[var(--text-muted)]">
-                        Confirm password
-                      </span>
-
-                      <span className="mt-3 flex min-h-16 items-center border-b-2 border-[var(--border-strong)] transition-colors focus-within:border-[var(--brand-blue)]">
-                        <LockKeyhole
-                          aria-hidden="true"
-                          className="mr-4 h-5 w-5 shrink-0 text-[var(--brand-blue)]"
-                          strokeWidth={1.7}
-                        />
-
-                        <input
-                          type="password"
-                          name="confirmPassword"
-                          required
-                          minLength={8}
-                          autoComplete="new-password"
-                          placeholder="Repeat password"
-                          className="min-w-0 flex-1 border-0 bg-transparent py-4 font-[var(--font-display)] text-lg font-light text-[var(--text)] outline-none placeholder:text-[var(--placeholder)] focus:outline-none focus-visible:!outline-none"
-                        />
-                      </span>
-                    </label>
+                    <p className={styles.inboxHelp}>Open the latest AthiMart email and follow the confirmation link. Check your spam folder if you don’t see it.</p>
+                    <Link href={loginUrl} className={styles.submitButton}>Continue to sign in <ArrowRight size={18} aria-hidden="true" /></Link>
+                    <Link href={`/auth/sign-up?${new URLSearchParams({ next: nextPath, accountType }).toString()}`} className={styles.secondaryButton}>Register another account</Link>
                   </div>
-
-                  <div className="mt-7 flex items-start gap-3 border-l-4 border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] px-4 py-3">
-                    <ShieldCheck
-                      aria-hidden="true"
-                      className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-orange-dark)]"
-                      strokeWidth={1.8}
-                    />
-
-                    <p className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-soft)]">
-                      A confirmation email
-                      will be sent before the
-                      account can be used.
-                      Seller accounts also
-                      require administrator
-                      approval.
-                    </p>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="athimart-brand-button mt-8 w-full text-white!"
-                  >
-                    <UserPlus
-                      aria-hidden="true"
-                      className="h-5 w-5 text-white!"
-                      strokeWidth={1.8}
-                    />
-
-                    <span className="text-white!">
-                      Create account
-                    </span>
-                  </button>
-                </form>
-
-                <p className="mt-7 text-center font-[var(--font-body)] text-sm text-[var(--text-muted)]">
-                  Already have an account?{" "}
-
-                  <Link
-                    href={loginUrl}
-                    className="font-semibold text-[var(--brand-blue)] transition-colors hover:text-[var(--brand-orange-dark)]"
-                  >
-                    Sign in
-                  </Link>
-                </p>
-              </>
-            )}
-          </div>
-        </section>
+                ) : (
+                  <>
+                    <header className={styles.formHeader}>
+                      <div className={styles.miniScene} aria-hidden="true"><span className={styles.miniHead} /><span className={styles.miniBody} /><span className={styles.miniPlus}>+</span></div>
+                      <p className={styles.formEyebrow}>A LITTLE SIGNUP. A LOT TO DISCOVER.</p>
+                      <h1 id="signup-title">Make yourself <span>at home.</span></h1>
+                      <p className={styles.formIntro}>Create your account. Your next favourite awaits.</p>
+                    </header>
+                    <SignUpForm nextPath={nextPath} accountType={accountType} errorMessage={errorMessage} />
+                    <p className={styles.signin}>Already part of AthiMart? <Link href={loginUrl}>Sign in <ArrowRight size={14} aria-hidden="true" /></Link></p>
+                  </>
+                )}
+              </div>
+            </div>
+          </section>
+        </div>
+        <footer className={styles.pageFooter}>
+          <p>A little discovery. A little delight. All AthiMart.</p>
+          <span><ShieldCheck size={14} aria-hidden="true" /> Your account, protected.</span>
+        </footer>
       </div>
-    </main>
+    </SignUpExperience>
   );
 }
