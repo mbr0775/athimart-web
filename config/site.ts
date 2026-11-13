@@ -1,5 +1,7 @@
 const developmentUrl = "http://localhost:3000";
 
+export const productionSiteUrl = "https://www.athimart.com";
+
 const configuredUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "");
 

@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { productionSiteUrl } from "./config/site";
 
 
 const supabaseUrl =
@@ -23,6 +24,15 @@ const supabaseHostname =
 
 
 const nextConfig: NextConfig = {
+
+  async redirects() {
+    return ["athimart-web.vercel.app", "athimart.com"].map((host) => ({
+      source: "/auth/:page(login|sign-up)",
+      has: [{ type: "host" as const, value: host.replaceAll(".", "\\.") }],
+      destination: `${productionSiteUrl}/auth/:page`,
+      permanent: false,
+    }));
+  },
 
   outputFileTracingIncludes: {
     "/account": [
