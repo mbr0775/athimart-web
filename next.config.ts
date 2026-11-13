@@ -24,6 +24,13 @@ const supabaseHostname =
 
 const nextConfig: NextConfig = {
 
+  outputFileTracingIncludes: {
+    "/account": [
+      "./node_modules/@img/sharp-linux-x64/**/*",
+      "./node_modules/@img/sharp-libvips-linux-x64/**/*",
+    ],
+  },
+
 
   images: {
 

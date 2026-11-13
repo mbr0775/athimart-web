@@ -1,7 +1,6 @@
 "use server";
 
 import { randomUUID } from "node:crypto";
-import sharp from "sharp";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { googleAvatarUrl, MAX_AVATAR_UPLOAD_BYTES } from "@/lib/account/profile-identity";
@@ -25,6 +24,7 @@ export async function saveProfileIdentity(form: FormData): Promise<ProfileSaveRe
     const file = form.get("photo");
     if (!(file instanceof File) || !file.size || file.size > MAX_AVATAR_UPLOAD_BYTES || !["image/jpeg", "image/png", "image/webp"].includes(file.type)) return { success: false, message: "Choose a JPG, PNG or WebP profile photo." };
     try {
+      const { default: sharp } = await import("sharp");
       const source = sharp(Buffer.from(await file.arrayBuffer()), { limitInputPixels: 25_000_000 });
       const metadata = await source.metadata();
       if (!["jpeg", "png", "webp"].includes(metadata.format || "")) throw new Error("Invalid image");
