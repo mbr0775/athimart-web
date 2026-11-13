@@ -21,6 +21,9 @@ export interface AdminEditableProduct {
   name: string;
 
   companyName: string;
+  sellerName?: string;
+  sellerType?: string;
+  shippedBy?: string;
 
 
   brand: string;
@@ -112,6 +115,9 @@ const EDITABLE_PRODUCT_COLUMNS = `
 
   name,
 
+  seller_name,
+  seller_type,
+  shipped_by,
   company_name,
 
   brand,
@@ -546,6 +552,9 @@ function mapEditableProduct(
 
 
 
+    sellerName: typeof row.seller_name === "string" ? row.seller_name : "",
+    sellerType: typeof row.seller_type === "string" ? row.seller_type : "",
+    shippedBy: typeof row.shipped_by === "string" ? row.shipped_by : "",
     companyName:
 
       toText(

@@ -184,6 +184,9 @@ export function mapProduct(
 
 
 
+    sellerName: typeof row.seller_name === "string" ? row.seller_name : "",
+    sellerType: typeof row.seller_type === "string" ? row.seller_type : "",
+    shippedBy: typeof row.shipped_by === "string" ? row.shipped_by : "",
     companyName: toStringValue(
 
       row.company_name,

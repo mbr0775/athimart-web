@@ -19,6 +19,7 @@
 .originalPrice { color: #706d5c; font-size: 10px; }
 .availability { margin: 6px 0 0; color: #626d4c; font-size: 10px; line-height: 1.6; }
 .availability[data-unavailable="true"] { color: #8a4b38; }
+.shippedBy { margin: 4px 0 0; color: #626d4c; font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; }
 .productArrow { display: grid; width: 36px; height: 36px; flex-shrink: 0; place-items: center; border: 1px solid #d9dcce; border-radius: 50%; transition: background 200ms ease, color 200ms ease, transform 300ms ease; }
 .productLink:focus-visible { outline: 2px solid #626d4c; outline-offset: 5px; }
 .productLink:focus-visible .imageCta { opacity: 1; transform: translateY(0); }

@@ -52,6 +52,7 @@ export function ProductCard({
     originalPrice > currentPrice;
 
   const isOutOfStock = product.stock <= 0;
+  const shippedBy = product.shippedBy?.trim();
 
   const brandName =
     product.brand ??
@@ -92,6 +93,7 @@ export function ProductCard({
           <div className={styles.details}>
             <p className={styles.category}>{brandName} · {productType}</p>
             <h3 className={styles.productName}>{product.name}</h3>
+            {shippedBy && <p className={styles.shippedBy}>Shipped by {shippedBy}</p>}
             <div className={styles.cardFooter}>
               <div>
                 <div className={styles.priceRow}>

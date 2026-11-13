@@ -19,6 +19,9 @@ export const PRODUCT_COLUMNS = `
   name,
 
 
+  seller_name,
+  seller_type,
+  shipped_by,
   company_name,
 
   brand,
