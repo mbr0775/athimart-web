@@ -58,7 +58,8 @@ function slugify(value: string): string {
 }
 
 function parseImageUrls(
-  rawValue: string
+  rawValue: string,
+  requireImage: boolean
 ): ImageUrlResult {
   const urls = Array.from(
     new Set(
@@ -69,7 +70,7 @@ function parseImageUrls(
     )
   );
 
-  if (urls.length === 0) {
+  if (requireImage && urls.length === 0) {
     return {
       urls: [],
       error:
@@ -225,12 +226,15 @@ export async function createProduct(
     getText(formData, "emoji") ||
     "📦";
 
+  const isActive = formData.get("isActive") === "on";
+
   const imageResult =
     parseImageUrls(
       getText(
         formData,
         "imageUrls"
-      )
+      ),
+      isActive
     );
 
   const attributesResult =
@@ -256,10 +260,6 @@ export async function createProduct(
     formData,
     "stock"
   );
-
-  const isActive =
-    formData.get("isActive") ===
-    "on";
 
   const isFeatured =
     formData.get("isFeatured") ===

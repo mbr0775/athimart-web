@@ -3,6 +3,7 @@
 
 import {
   useActionState,
+  useState,
 } from "react";
 
 
@@ -151,6 +152,10 @@ export default function ProductForm({
 
 }:ProductFormProps){
 
+const [selectedCategory, setSelectedCategory] = useState("");
+const [selectedSubcategory, setSelectedSubcategory] = useState("");
+const [featuredDrop, setFeaturedDrop] = useState(false);
+
 
 
 
@@ -292,13 +297,16 @@ errors={state.fieldErrors}
 
 categories={categories}
 
-selectedCategory=""
+selectedCategory={selectedCategory}
 
-selectedSubcategory=""
+selectedSubcategory={selectedSubcategory}
 
-onCategoryChange={()=>{}}
+onCategoryChange={(category) => {
+  setSelectedCategory(category);
+  setSelectedSubcategory("");
+}}
 
-onSubcategoryChange={()=>{}}
+onSubcategoryChange={setSelectedSubcategory}
 
 errors={state.fieldErrors}
 
@@ -340,9 +348,9 @@ errors={state.fieldErrors}
 
 <ProductFeaturedDrop
 
-checked={false}
+checked={featuredDrop}
 
-onChange={()=>{}}
+onChange={setFeaturedDrop}
 
 />
 
@@ -355,6 +363,8 @@ onChange={()=>{}}
 <ProductGallery
 
 initialUrls={[]}
+
+allowEmpty
 
 />
 
@@ -406,7 +416,7 @@ pending
 
 :
 
-"Create Product"
+"Save Draft"
 
 }
 

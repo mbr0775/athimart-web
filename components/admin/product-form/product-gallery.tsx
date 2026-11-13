@@ -10,6 +10,7 @@ import {
 export interface ProductGalleryProps {
 
   initialUrls?: string[];
+  allowEmpty?: boolean;
 
 }
 
@@ -18,6 +19,7 @@ export interface ProductGalleryProps {
 export default function ProductGallery({
 
   initialUrls = [],
+  allowEmpty = false,
 
 }: ProductGalleryProps) {
 
@@ -62,6 +64,7 @@ export default function ProductGallery({
         initialUrls={initialUrls}
 
         maximumImages={6}
+        allowEmpty={allowEmpty}
 
       />
 

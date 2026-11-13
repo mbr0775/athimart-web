@@ -23,6 +23,7 @@ import { createClient } from "@/lib/supabase/client";
 interface ProductImageUploaderProps {
   initialUrls?: string[];
   maximumImages?: number;
+  allowEmpty?: boolean;
 }
 
 const allowedImageTypes = new Set([
@@ -108,6 +109,7 @@ function formatFileSize(
 export function ProductImageUploader({
   initialUrls = [],
   maximumImages = 6,
+  allowEmpty = false,
 }: Readonly<ProductImageUploaderProps>) {
   const fileInputRef =
     useRef<HTMLInputElement>(
@@ -827,10 +829,9 @@ export function ProductImageUploader({
           />
 
           <p className="font-body text-xs leading-5 text-[var(--text-muted)]">
-            No product images have
-            been selected. Upload at
-            least one image before
-            adding the product.
+            {allowEmpty
+              ? "You can add product photos after saving the draft."
+              : "No product images have been selected. Upload at least one image."}
           </p>
         </div>
       )}
