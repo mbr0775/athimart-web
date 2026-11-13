@@ -8,11 +8,6 @@ import {
   useState,
 } from "react";
 
-import {
-  ArrowRight,
-} from "lucide-react";
-
-
 import type { Product } from "@/types/product";
 
 import {
@@ -144,10 +139,10 @@ className="
 overflow-hidden
 border
 border-[#ddd8d1]
-bg-white
+bg-[var(--surface)]
 p-5
 shadow-[0_25px_60px_rgba(0,0,0,0.08)]
-"
+ rounded-[24px]"
 >
 
 
@@ -247,7 +242,7 @@ className="
 text-xs
 uppercase
 tracking-[0.25em]
-text-orange-300
+text-[#b6c39e]
 "
 >
 
@@ -341,11 +336,11 @@ activeIndex === index
 
 ?
 
-"w-8 bg-orange-500"
+"w-8 bg-[var(--brand-hover)]"
 
 :
 
-"w-2 bg-gray-300"
+"w-2 bg-[var(--border)]"
 
 }
 

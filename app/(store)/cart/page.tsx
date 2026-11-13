@@ -1,552 +1,209 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  ArrowLeft,
-  LockKeyhole,
-  Minus,
-  Plus,
-  ShoppingBag,
-  Trash2,
-} from "lucide-react";
+import { AnimatePresence, m, useReducedMotion } from "motion/react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronRight, LockKeyhole, Minus, Plus, RotateCcw, ShoppingBag, Trash2 } from "lucide-react";
 
-import {
-  clearStoredCart,
-  getCartSubtotal,
-  readCart,
-  writeCart,
-} from "@/lib/cart/cart-storage";
+import { CART_STORAGE_KEY, clearStoredCart, getCartSubtotal, readCart, writeCart } from "@/lib/cart/cart-storage";
+import CartProductImage from "@/components/cart/cart-product-image";
+import { editorialFont } from "@/lib/fonts";
+import { getProductPath } from "@/lib/products/product-url";
 import type { ShoppingCart } from "@/types/cart";
+import styles from "./cart.module.css";
 
-const CART_UPDATED_EVENT =
-  "athimart-cart-updated";
+const CART_UPDATED_EVENT = "athimart-cart-updated";
 
 function createEmptyCart(): ShoppingCart {
-  return {
-    items: [],
-    updatedAt: new Date().toISOString(),
-  };
+  return { items: [], updatedAt: new Date().toISOString() };
 }
 
-function formatCurrency(
-  amount: number,
-  currencyCode: string
-): string {
-  return new Intl.NumberFormat("en-LK", {
-    style: "currency",
-    currency: currencyCode,
-    maximumFractionDigits: 0,
-  }).format(amount);
+function formatCurrency(amount: number, currencyCode: string): string {
+  return new Intl.NumberFormat("en-LK", { style: "currency", currency: currencyCode, maximumFractionDigits: 0 }).format(amount);
 }
 
 export default function CartPage() {
-  const [cart, setCart] =
-    useState<ShoppingCart>(
-      createEmptyCart
-    );
-
-  const [isLoaded, setIsLoaded] =
-    useState(false);
-
-  const refreshCart =
-    useCallback(() => {
-      setCart(readCart());
-      setIsLoaded(true);
-    }, []);
+  const [cart, setCart] = useState<ShoppingCart>(createEmptyCart);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [undoCart, setUndoCart] = useState<ShoppingCart | null>(null);
+  const [notice, setNotice] = useState("");
+  const reduceMotion = useReducedMotion();
+  const refreshCart = useCallback(() => { setCart(readCart()); setIsLoaded(true); }, []);
 
   useEffect(() => {
-    const initialTimer =
-      window.setTimeout(
-        refreshCart,
-        0
-      );
-
-    function handleCartUpdated() {
-      refreshCart();
-    }
-
-    function handleStorageChange(
-      event: StorageEvent
-    ) {
-      if (
-        event.key ===
-          "athimart-shopping-cart" ||
-        event.key === null
-      ) {
+    const timer = window.setTimeout(refreshCart, 0);
+    function handleStorageChange(event: StorageEvent) {
+      if (event.key === CART_STORAGE_KEY || event.key === null) {
+        setUndoCart(null);
+        setNotice("");
         refreshCart();
       }
     }
-
-    window.addEventListener(
-      CART_UPDATED_EVENT,
-      handleCartUpdated
-    );
-
-    window.addEventListener(
-      "storage",
-      handleStorageChange
-    );
-
+    window.addEventListener(CART_UPDATED_EVENT, refreshCart);
+    window.addEventListener("storage", handleStorageChange);
     return () => {
-      window.clearTimeout(
-        initialTimer
-      );
-
-      window.removeEventListener(
-        CART_UPDATED_EVENT,
-        handleCartUpdated
-      );
-
-      window.removeEventListener(
-        "storage",
-        handleStorageChange
-      );
+      window.clearTimeout(timer);
+      window.removeEventListener(CART_UPDATED_EVENT, refreshCart);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, [refreshCart]);
 
-  const subtotal = useMemo(
-    () => getCartSubtotal(cart),
-    [cart]
-  );
+  const subtotal = useMemo(() => getCartSubtotal(cart), [cart]);
+  const itemCount = useMemo(() => cart.items.reduce((total, item) => total + item.quantity, 0), [cart.items]);
+  const currencyCode = cart.items[0]?.currencyCode ?? "LKR";
 
-  const itemCount = useMemo(
-    () =>
-      cart.items.reduce(
-        (total, item) =>
-          total + item.quantity,
-        0
-      ),
-    [cart.items]
-  );
-
-  function saveUpdatedCart(
-    updatedCart: ShoppingCart
-  ) {
-    const savedCart =
-      writeCart(updatedCart);
-
-    setCart(savedCart);
-
-    window.dispatchEvent(
-      new CustomEvent(
-        CART_UPDATED_EVENT
-      )
-    );
+  function saveUpdatedCart(updatedCart: ShoppingCart) {
+    setCart(writeCart(updatedCart));
+    window.dispatchEvent(new CustomEvent(CART_UPDATED_EVENT));
   }
 
-  function changeQuantity(
-    productId: string,
-    change: number
-  ) {
-    const updatedItems =
-      cart.items.map((item) => {
-        if (
-          item.productId !==
-          productId
-        ) {
-          return item;
-        }
-
-        const nextQuantity =
-          Math.min(
-            item.stock,
-            Math.max(
-              1,
-              item.quantity + change
-            )
-          );
-
-        return {
-          ...item,
-          quantity: nextQuantity,
-        };
-      });
-
-    saveUpdatedCart({
-      items: updatedItems,
-      updatedAt:
-        new Date().toISOString(),
-    });
+  function changeQuantity(productId: string, change: number) {
+    const item = cart.items.find((item) => item.productId === productId);
+    if (!item) return;
+    const quantity = Math.min(Math.max(1, item.stock), Math.max(1, item.quantity + change));
+    setUndoCart(null);
+    saveUpdatedCart({ items: cart.items.map((current) => current.productId === productId ? { ...current, quantity } : current), updatedAt: new Date().toISOString() });
+    setNotice(`${item.name}: quantity updated to ${quantity}.`);
   }
 
-  function removeItem(
-    productId: string
-  ) {
-    const updatedItems =
-      cart.items.filter(
-        (item) =>
-          item.productId !==
-          productId
-      );
-
-    saveUpdatedCart({
-      items: updatedItems,
-      updatedAt:
-        new Date().toISOString(),
-    });
+  function removeItem(productId: string) {
+    const item = cart.items.find((item) => item.productId === productId);
+    setUndoCart(cart);
+    saveUpdatedCart({ items: cart.items.filter((item) => item.productId !== productId), updatedAt: new Date().toISOString() });
+    setNotice(`${item?.name ?? "Item"} removed from your bag.`);
   }
 
   function clearCart() {
-    const emptyCart =
-      clearStoredCart();
-
-    setCart(emptyCart);
-
-    window.dispatchEvent(
-      new CustomEvent(
-        CART_UPDATED_EVENT
-      )
-    );
+    setUndoCart(cart);
+    setCart(clearStoredCart());
+    window.dispatchEvent(new CustomEvent(CART_UPDATED_EVENT));
+    setNotice("Your shopping bag has been cleared.");
   }
 
-  if (!isLoaded) {
-    return (
-      <main className="athimart-container py-16">
-        <div className="flex min-h-[320px] items-center justify-center">
-          <p className="font-[var(--font-body)] text-sm text-[var(--text-muted)]">
-            Loading your cart...
-          </p>
-        </div>
-      </main>
-    );
+  function undoLastRemoval() {
+    if (!undoCart) return;
+    saveUpdatedCart(undoCart);
+    setUndoCart(null);
+    setNotice("Your items are back in your bag.");
   }
 
   return (
-    <main className="athimart-container py-10 sm:py-14 lg:py-20">
-      {/* Cart page heading */}
-      <section className="border-b border-[var(--black)] pb-8">
-        <p className="athimart-label text-[var(--brand-orange-dark)]">
-          Shopping bag
-        </p>
+    <div className={`${styles.page} ${editorialFont.variable}`}>
+      <div className={styles.container}>
+        <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+          <Link href="/">Home</Link><ChevronRight size={12} aria-hidden="true" /><span aria-current="page">Shopping bag</span>
+        </nav>
 
-        <div className="mt-3 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+        <header className={styles.header}>
           <div>
-            <h1 className="athimart-display-medium">
-              Your Cart
-            </h1>
-
-            <p className="mt-3 font-[var(--font-body)] text-sm text-[var(--text-muted)]">
-              {itemCount}{" "}
-              {itemCount === 1
-                ? "item"
-                : "items"}{" "}
-              currently in your shopping cart.
+            <p className={styles.eyebrow}><span aria-hidden="true" /> A few good finds</p>
+            <h1 className={styles.heading}>Your shopping <em>bag.</em></h1>
+            <p className={styles.subtitle}>
+              {isLoaded ? <><span className={styles.itemCount}>{itemCount}</span> {itemCount === 1 ? "item" : "items"} picked by you. Ready for what&apos;s next.</> : "Gathering your good finds…"}
             </p>
           </div>
+          <ol className={styles.steps} aria-label="Checkout progress">
+            <li aria-current="step"><span>01</span> Your bag</li>
+            <li><span>02</span> Checkout</li>
+            <li><span>03</span> All yours</li>
+          </ol>
+        </header>
 
-          <Link
-            href="/shop"
-            className="inline-flex min-h-11 w-fit items-center justify-center gap-2 border border-[var(--border)] bg-white px-5 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--text)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)]"
-          >
-            <ArrowLeft
-              aria-hidden="true"
-              className="h-4 w-4"
-              strokeWidth={1.8}
-            />
-
-            Continue Shopping
-          </Link>
-        </div>
-      </section>
-
-      {cart.items.length === 0 ? (
-        /* Correctly centered empty-cart state */
-        <section className="mt-10 flex min-h-[420px] items-center justify-center border border-[var(--border)] bg-white px-6 py-14 sm:min-h-[460px] sm:px-10">
-          <div className="mx-auto flex w-full max-w-2xl flex-col items-center justify-center text-center">
-            <span className="flex h-16 w-16 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
-              <ShoppingBag
-                aria-hidden="true"
-                className="h-7 w-7"
-                strokeWidth={1.6}
-              />
-            </span>
-
-            <h2 className="athimart-title-large mt-6 text-center">
-              Your Cart Is Empty
-            </h2>
-
-            <p className="mt-4 max-w-lg text-center font-[var(--font-body)] text-sm leading-7 text-[var(--text-muted)]">
-              Browse AthiMart products and add items
-              to your cart before continuing to
-              checkout.
-            </p>
-
-            <Link
-              href="/shop"
-              className="athimart-primary-button mt-8 inline-flex items-center justify-center"
-            >
-              <ShoppingBag
-                aria-hidden="true"
-                className="h-5 w-5"
-                strokeWidth={1.8}
-              />
-
-              Browse Products
-            </Link>
+        {notice && (
+          <div className={styles.notice}>
+            <Check size={16} aria-hidden="true" /><p role="status">{notice}</p>
+            {undoCart && <button type="button" onClick={undoLastRemoval}><RotateCcw size={14} aria-hidden="true" />Undo</button>}
           </div>
-        </section>
-      ) : (
-        <div className="mt-10 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
-          {/* Cart products */}
-          <section
-            aria-label="Cart items"
-            className="space-y-4"
-          >
-            {cart.items.map(
-              (item) => (
-                <article
-                  key={item.productId}
-                  className="grid gap-5 border border-[var(--border)] bg-white p-5 sm:grid-cols-[120px_minmax(0,1fr)]"
-                >
-                  {/* Product image */}
-                  <div className="flex aspect-square items-center justify-center overflow-hidden bg-[var(--surface-soft)]">
-                    {item.imageUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={item.imageUrl}
-                        alt={item.name}
-                        className="h-full w-full object-contain"
-                      />
-                    ) : (
-                      <span
-                        aria-hidden="true"
-                        className="text-5xl"
-                      >
-                        {item.emoji}
-                      </span>
-                    )}
-                  </div>
+        )}
 
-                  {/* Product details */}
-                  <div className="flex min-w-0 flex-col justify-between gap-5">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="min-w-0">
-                        <p className="athimart-label text-[var(--text-muted)]">
-                          {item.companyName}
-                        </p>
-
-                        <h2 className="mt-2 font-[var(--font-display)] text-2xl font-light uppercase tracking-[0.05em] text-[var(--text)]">
-                          {item.name}
-                        </h2>
-
-                        <p className="mt-2 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
-                          {item.category}
-                          <span
-                            aria-hidden="true"
-                            className="mx-2"
-                          >
-                            /
-                          </span>
-                          {item.subCategory}
-                        </p>
-
-                        <p className="mt-2 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.13em] text-[var(--success)]">
-                          {item.stock} available
-                        </p>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          removeItem(
-                            item.productId
-                          )
-                        }
-                        aria-label={`Remove ${item.name} from cart`}
-                        title="Remove item"
-                        className="flex h-10 w-10 shrink-0 items-center justify-center border border-[var(--border)] text-[var(--sale)] transition-colors hover:border-[var(--sale)] hover:bg-red-50"
-                      >
-                        <Trash2
-                          aria-hidden="true"
-                          className="h-4 w-4"
-                          strokeWidth={1.8}
-                        />
-                      </button>
-                    </div>
-
-                    {/* Quantity and price */}
-                    <div className="flex flex-col justify-between gap-4 border-t border-[var(--border)] pt-4 sm:flex-row sm:items-center">
-                      <div className="inline-flex w-fit items-center border border-[var(--border)]">
-                        <button
-                          type="button"
-                          disabled={
-                            item.quantity <= 1
-                          }
-                          onClick={() =>
-                            changeQuantity(
-                              item.productId,
-                              -1
-                            )
-                          }
-                          aria-label={`Reduce ${item.name} quantity`}
-                          className="flex h-11 w-11 items-center justify-center transition-colors hover:bg-[var(--surface-soft)] disabled:cursor-not-allowed disabled:opacity-35"
-                        >
-                          <Minus
-                            aria-hidden="true"
-                            className="h-4 w-4"
-                            strokeWidth={1.8}
-                          />
-                        </button>
-
-                        <span className="flex h-11 min-w-12 items-center justify-center border-x border-[var(--border)] font-[var(--font-body)] text-sm font-semibold">
-                          {item.quantity}
-                        </span>
-
-                        <button
-                          type="button"
-                          disabled={
-                            item.quantity >=
-                            item.stock
-                          }
-                          onClick={() =>
-                            changeQuantity(
-                              item.productId,
-                              1
-                            )
-                          }
-                          aria-label={`Increase ${item.name} quantity`}
-                          className="flex h-11 w-11 items-center justify-center transition-colors hover:bg-[var(--surface-soft)] disabled:cursor-not-allowed disabled:opacity-35"
-                        >
-                          <Plus
-                            aria-hidden="true"
-                            className="h-4 w-4"
-                            strokeWidth={1.8}
-                          />
-                        </button>
-                      </div>
-
-                      <div className="sm:text-right">
-                        <p className="font-[var(--font-body)] text-xs text-[var(--text-muted)]">
-                          {formatCurrency(
-                            item.unitPrice,
-                            item.currencyCode
-                          )}{" "}
-                          each
-                        </p>
-
-                        <p className="mt-1 font-[var(--font-body)] text-lg font-bold text-[var(--text)]">
-                          {formatCurrency(
-                            item.unitPrice *
-                              item.quantity,
-                            item.currencyCode
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              )
-            )}
-
-            <button
-              type="button"
-              onClick={clearCart}
-              className="inline-flex min-h-11 items-center justify-center gap-2 border border-[var(--sale)] px-5 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--sale)] transition-colors hover:bg-red-50"
-            >
-              <Trash2
-                aria-hidden="true"
-                className="h-4 w-4"
-                strokeWidth={1.8}
-              />
-
-              Clear Cart
-            </button>
+        {!isLoaded ? (
+          <div className={styles.loading} role="status" aria-label="Loading your shopping bag" aria-busy="true">
+            <div className={styles.loadingItems}><div /><div /></div><div className={styles.loadingSummary} />
+            <span className="sr-only">Loading your shopping bag…</span>
+          </div>
+        ) : cart.items.length === 0 ? (
+          <section className={styles.empty} aria-labelledby="empty-bag-heading">
+            <div className={styles.emptyCopy}>
+              <p className={styles.eyebrow}>Room for something lovely</p>
+              <h2 id="empty-bag-heading">Your next favourite<br />is waiting.</h2>
+              <p>Your bag is empty for now. Explore the marketplace and bring a little more of what you love into your everyday.</p>
+              <Link href="/shop" className={styles.primaryLink}>Discover the collection<ArrowUpRight size={18} aria-hidden="true" /></Link>
+              <Link href="/search" className={styles.emptySearch}>Have something in mind? Search the store <ArrowRight size={14} aria-hidden="true" /></Link>
+            </div>
+            <div className={styles.emptyVisual} aria-hidden="true">
+              <div className={styles.bagIllustration}><ShoppingBag size={76} strokeWidth={0.9} /><span>AthiMart</span></div>
+              <span className={styles.emptyNote}>Good things are on the way.</span>
+            </div>
           </section>
-
-          {/* Order summary */}
-          <aside className="border border-[var(--border)] bg-white p-6 lg:sticky lg:top-32">
-            <p className="athimart-label text-[var(--brand-orange-dark)]">
-              Order summary
-            </p>
-
-            <h2 className="athimart-title-large mt-3">
-              Cart Total
-            </h2>
-
-            <div className="mt-7 space-y-4 border-y border-[var(--border)] py-5">
-              <div className="flex items-center justify-between gap-4">
-                <span className="font-[var(--font-body)] text-sm text-[var(--text-muted)]">
-                  Items
-                </span>
-
-                <span className="font-[var(--font-body)] text-sm font-semibold">
-                  {itemCount}
-                </span>
+        ) : (
+          <div className={styles.layout}>
+            <section className={styles.items} aria-labelledby="cart-items-heading">
+              <div className={styles.listHeader}>
+                <h2 id="cart-items-heading">Your selection <span>({cart.items.length})</span></h2>
+                <Link href="/shop"><ArrowLeft size={15} aria-hidden="true" />Keep exploring</Link>
               </div>
-
-              <div className="flex items-center justify-between gap-4">
-                <span className="font-[var(--font-body)] text-sm text-[var(--text-muted)]">
-                  Subtotal
-                </span>
-
-                <span className="font-[var(--font-body)] text-xl font-bold">
-                  {formatCurrency(
-                    subtotal,
-                    cart.items[0]
-                      ?.currencyCode ?? "LKR"
-                  )}
-                </span>
+              <AnimatePresence initial={false}>
+                {cart.items.map((item) => (
+                  <m.article
+                    key={item.productId}
+                    className={styles.item}
+                    initial={{ opacity: reduceMotion ? 1 : 0, y: reduceMotion ? 0 : 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0, height: 0, paddingTop: 0, paddingBottom: 0 }}
+                    transition={{ duration: reduceMotion ? 0 : 0.24, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <Link href={getProductPath(item)} className={styles.imageLink} aria-label={`View ${item.name}`}><CartProductImage item={item} className={styles.productImage} fallbackClassName={styles.imageFallback} /></Link>
+                    <div className={styles.itemDetails}>
+                      <div className={styles.itemTop}>
+                        <div className={styles.productCopy}>
+                          <p className={styles.brand}>{item.companyName}</p>
+                          <h3 className={styles.productName}><Link href={getProductPath(item)}>{item.name}</Link></h3>
+                          <p className={styles.category}>{item.category}<span aria-hidden="true"> / </span>{item.subCategory}</p>
+                          <p className={styles.availability} data-unavailable={item.stock <= 0}><span aria-hidden="true" />{item.stock > 0 ? `${item.stock} available` : "Currently unavailable"}</p>
+                        </div>
+                        <button type="button" onClick={() => removeItem(item.productId)} className={styles.removeButton} aria-label={`Remove ${item.name} from cart`} title="Remove item"><Trash2 size={16} strokeWidth={1.6} aria-hidden="true" /></button>
+                      </div>
+                      <div className={styles.itemBottom}>
+                        <div className={styles.quantity} role="group" aria-label={`Quantity for ${item.name}`}>
+                          <button type="button" disabled={item.quantity <= 1} onClick={() => changeQuantity(item.productId, -1)} aria-label={`Reduce ${item.name} quantity`}><Minus size={15} aria-hidden="true" /></button>
+                          <span aria-label={`${item.quantity} selected`}>{item.quantity}</span>
+                          <button type="button" disabled={item.quantity >= item.stock} onClick={() => changeQuantity(item.productId, 1)} aria-label={`Increase ${item.name} quantity`}><Plus size={15} aria-hidden="true" /></button>
+                        </div>
+                        <div className={styles.itemPrice}>
+                          <span>{formatCurrency(item.unitPrice, item.currencyCode)} each</span>
+                          <m.p key={item.quantity} initial={{ opacity: reduceMotion ? 1 : 0.5, y: reduceMotion ? 0 : 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduceMotion ? 0 : 0.2 }}>{formatCurrency(item.unitPrice * item.quantity, item.currencyCode)}</m.p>
+                        </div>
+                      </div>
+                    </div>
+                  </m.article>
+                ))}
+              </AnimatePresence>
+              <div className={styles.listFooter}>
+                <p><ShoppingBag size={15} aria-hidden="true" />A few favourites, all in one place.</p>
+                <button type="button" onClick={clearCart}><Trash2 size={14} aria-hidden="true" />Clear bag</button>
               </div>
+            </section>
 
-              <div className="flex items-center justify-between gap-4">
-                <span className="font-[var(--font-body)] text-sm text-[var(--text-muted)]">
-                  Delivery
-                </span>
-
-                <span className="text-right font-[var(--font-body)] text-sm font-semibold text-[var(--success)]">
-                  Calculated at checkout
-                </span>
+            <aside className={styles.summary} aria-labelledby="order-summary-heading">
+              <div className={styles.summaryHeading}><span className={styles.summaryIcon}><ShoppingBag size={20} strokeWidth={1.4} aria-hidden="true" /></span><p className={styles.eyebrow}>The lovely details</p></div>
+              <h2 id="order-summary-heading">Order summary<span>.</span></h2>
+              <dl className={styles.breakdown}>
+                <div><dt>Items in your bag</dt><dd>{itemCount}</dd></div>
+                <div><dt>Subtotal</dt><dd>{formatCurrency(subtotal, currencyCode)}</dd></div>
+                <div><dt>Delivery</dt><dd className={styles.delivery}>At checkout</dd></div>
+              </dl>
+              <div className={styles.total}>
+                <span>Estimated total</span>
+                <m.p key={subtotal} initial={{ opacity: reduceMotion ? 1 : 0.5 }} animate={{ opacity: 1 }} transition={{ duration: reduceMotion ? 0 : 0.25 }}>{formatCurrency(subtotal, currencyCode)}</m.p>
+                <p>Delivery costs are calculated at checkout.</p>
               </div>
-            </div>
-
-            <div className="mt-5 flex items-start gap-3 bg-[var(--brand-blue-soft)] p-4">
-              <LockKeyhole
-                aria-hidden="true"
-                className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-blue)]"
-                strokeWidth={1.8}
-              />
-
-              <p className="font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
-                Product prices, seller availability,
-                and stock will be securely verified
-                before the order is created.
-              </p>
-            </div>
-
-            <Link
-              href="/checkout"
-              className="mt-6 flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-blue)] px-6 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-all duration-200 hover:bg-[var(--brand-blue-dark)]"
-            >
-              <LockKeyhole
-                aria-hidden="true"
-                className="h-5 w-5 shrink-0"
-                strokeWidth={1.8}
-              />
-
-              Proceed to Secure Checkout
-            </Link>
-
-            <Link
-              href="/shop"
-              className="mt-3 flex min-h-12 w-full items-center justify-center gap-2 border border-[var(--border)] bg-white px-5 text-center font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--text-muted)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)]"
-            >
-              <ArrowLeft
-                aria-hidden="true"
-                className="h-4 w-4"
-                strokeWidth={1.8}
-              />
-
-              Continue Shopping
-            </Link>
-          </aside>
-        </div>
-      )}
-    </main>
+              <Link href="/checkout" className={styles.checkoutLink}><LockKeyhole size={16} strokeWidth={1.7} aria-hidden="true" /><span>Continue to checkout</span><ArrowRight size={18} aria-hidden="true" /></Link>
+              <p className={styles.checkoutNote}><Check size={14} aria-hidden="true" />Current prices and stock confirmed at checkout.</p>
+              <Link href="/returns" className={styles.returnsLink}><RotateCcw size={14} aria-hidden="true" />Returns information<ArrowUpRight size={14} aria-hidden="true" /></Link>
+            </aside>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

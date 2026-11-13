@@ -4,15 +4,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   AlertCircle,
+  ArrowUpRight,
   BadgeCheck,
   CalendarDays,
+  Check,
+  ChevronRight,
   CircleDot,
-  ClipboardList,
   Clock3,
   LayoutDashboard,
   LogOut,
   Mail,
+  MapPin,
   Phone,
+  ReceiptText,
   ShieldAlert,
   ShieldCheck,
   ShoppingBag,
@@ -23,6 +27,13 @@ import {
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
+import DeliveryDetailsForm from "@/components/account/delivery-details-form";
+import ProfileIdentityForm from "@/components/account/profile-identity-form";
+import ProfileAvatar from "@/components/account/profile-avatar";
+import { profileIdentity, googleAvatarUrl } from "@/lib/account/profile-identity";
+import { deliveryDetailsFromProfile } from "@/lib/account/delivery-details";
+import { editorialFont } from "@/lib/fonts";
+import styles from "./account.module.css";
 
 import { signOut } from "./actions";
 
@@ -49,8 +60,14 @@ interface AccountPageProps {
   }>;
 }
 
-interface ProfileRow {
+interface ProfileRow extends Record<string, unknown> {
   id: string;
+  address_line1: string | null;
+  address_line2: string | null;
+  city: string | null;
+  state: string | null;
+  postal_code: string | null;
+  country: string | null;
 
   email:
     | string
@@ -167,72 +184,6 @@ function getText(
   return typeof value === "string"
     ? value.trim()
     : "";
-}
-
-function getDisplayName(
-  profileName: unknown,
-  metadataName: unknown,
-  email: string
-): string {
-  const storedProfileName =
-    getText(
-      profileName
-    );
-
-  if (storedProfileName) {
-    return storedProfileName;
-  }
-
-  const storedMetadataName =
-    getText(
-      metadataName
-    );
-
-  if (storedMetadataName) {
-    return storedMetadataName;
-  }
-
-  const emailName =
-    email
-      .split("@")[0]
-      ?.trim();
-
-  return (
-    emailName ||
-    "AthiMart User"
-  );
-}
-
-function getInitials(
-  displayName: string
-): string {
-  const nameParts =
-    displayName
-      .trim()
-      .split(/\s+/)
-      .filter(Boolean);
-
-  if (
-    nameParts.length === 0
-  ) {
-    return "AM";
-  }
-
-  if (
-    nameParts.length === 1
-  ) {
-    return nameParts[0]
-      .slice(0, 2)
-      .toUpperCase();
-  }
-
-  const firstName =
-    nameParts[0] ?? "";
-
-  const lastName =
-    nameParts.at(-1) ?? "";
-
-  return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
 }
 
 function formatDate(
@@ -407,52 +358,6 @@ function getDeliveryNavigation(
   }
 }
 
-function getDeliveryStatusClasses(
-  status:
-    | DeliveryApplicationStatus
-    | null
-): string {
-  switch (status) {
-    case "approved":
-      return "border-green-200 bg-green-50 text-green-800";
-
-    case "pending":
-    case "under_review":
-      return "border-amber-200 bg-amber-50 text-amber-800";
-
-    case "rejected":
-      return "border-red-200 bg-red-50 text-red-800";
-
-    case "suspended":
-      return "border-red-300 bg-red-50 text-red-900";
-
-    case "draft":
-      return "border-blue-200 bg-blue-50 text-blue-800";
-
-    default:
-      return "border-[var(--border)] bg-neutral-50 text-neutral-700";
-  }
-}
-
-function getAvailabilityClasses(
-  status: DeliveryAvailabilityStatus
-): string {
-  switch (status) {
-    case "online":
-      return "bg-green-50 text-green-700";
-
-    case "offered":
-      return "bg-amber-50 text-amber-700";
-
-    case "busy":
-      return "bg-blue-50 text-blue-700";
-
-    case "offline":
-    default:
-      return "bg-neutral-100 text-neutral-600";
-  }
-}
-
 export default async function AccountPage({
   searchParams,
 }: Readonly<AccountPageProps>) {
@@ -492,18 +397,7 @@ export default async function AccountPage({
     await Promise.all([
       supabase
         .from("profiles")
-        .select(
-          `
-            id,
-            email,
-            full_name,
-            phone,
-            role,
-            seller_approval_status,
-            is_blocked,
-            created_at
-          `
-        )
+        .select("*")
         .eq(
           "id",
           user.id
@@ -601,24 +495,13 @@ export default async function AccountPage({
     user.email ||
     "";
 
-  const displayName =
-    getDisplayName(
-      profile?.full_name,
-      user.user_metadata
-        ?.full_name,
-      email
-    );
+  const { name: displayName, avatarUrl } = profileIdentity(user, profile);
 
   const phone =
     getText(
       profile?.phone
     ) ||
     "Not provided";
-
-  const initials =
-    getInitials(
-      displayName
-    );
 
   const joinedDate =
     formatDate(
@@ -759,610 +642,75 @@ export default async function AccountPage({
               ? "Delivery Partner Applicant"
               : "AthiMart Customer";
 
+  const DeliveryIcon = deliveryApplicationStatus === "suspended" ? ShieldAlert
+    : deliveryApplicationStatus === "pending" || deliveryApplicationStatus === "under_review" ? Clock3
+      : isApprovedDeliveryPartner ? BadgeCheck : Truck;
+
   return (
-    <main className="account-page athimart-container py-12 sm:py-16 lg:py-24">
-      {/* Page heading */}
-      <header className="account-page-heading border-b border-[var(--border-strong)] pb-10 sm:pb-12">
-        <p className="athimart-label text-[var(--brand-orange-dark)]">
-          Connected AthiMart account
-        </p>
+    <div className={`${styles.page} ${editorialFont.variable}`}>
+      <div className={styles.container}>
+        <nav className={styles.breadcrumb} aria-label="Breadcrumb"><Link href="/">Home</Link><ChevronRight size={12} aria-hidden="true" /><span aria-current="page">My account</span></nav>
+        <header className={styles.header}>
+          <div><p className={styles.eyebrow}><span aria-hidden="true" />Your everyday, connected</p><h1 className={styles.heading}>A space for <em>you.</em></h1><p className={styles.subtitle}>Your details, your orders, and your next great discovery.</p></div>
+          <Link href="/shop" className={styles.browseLink}>Back to the good finds<span><ArrowUpRight size={18} aria-hidden="true" /></span></Link>
+        </header>
 
-        <h1 className="athimart-display-large mt-5 text-[var(--brand-blue-dark)]">
-          My
-          <br />
+        {pageError === "signout-failed" && <div role="alert" className={styles.alert}><AlertCircle size={19} aria-hidden="true" /><p>Your account could not be signed out. Please try again.</p></div>}
 
-          <span className="text-[var(--brand-orange)]">
-            Account
-          </span>
-        </h1>
+        <div className={styles.layout}>
+          <aside className={styles.sidebar} aria-label="Account navigation">
+            <div className={styles.identity}>
+              <div className={styles.avatar}><ProfileAvatar name={displayName} avatarUrl={avatarUrl} size={74} /><span className={styles.avatarCheck}><Check size={12} aria-hidden="true" /><span className="sr-only">Signed in</span></span></div>
+              <p className={styles.roleLabel}>{accountCardLabel}</p>
+              <h2>{displayName}</h2><p className={styles.identityEmail}>{email}</p>
+              <span className={styles.verified}><ShieldCheck size={13} strokeWidth={1.6} aria-hidden="true" />Signed in to AthiMart</span>
+              {isApprovedDeliveryPartner && <span className={styles.availability} data-availability={deliveryAvailabilityStatus}><CircleDot size={12} aria-hidden="true" />Driver {formatStatus(deliveryAvailabilityStatus)}</span>}
+            </div>
+            <nav className={styles.sideNav} aria-label="Your account">
+              <Link href="/account" aria-current="page"><UserRound size={18} strokeWidth={1.5} aria-hidden="true" /><span>My profile</span><ChevronRight size={14} aria-hidden="true" /></Link>
+              <a href="#delivery-details"><MapPin size={18} strokeWidth={1.5} aria-hidden="true" /><span>Contact &amp; delivery</span><ChevronRight size={14} aria-hidden="true" /></a>
+              <Link href="/orders"><ReceiptText size={18} strokeWidth={1.5} aria-hidden="true" /><span>My orders</span><ArrowUpRight size={14} aria-hidden="true" /></Link>
+              <a href="#delivery-workspace"><Truck size={18} strokeWidth={1.5} aria-hidden="true" /><span>{isApprovedDeliveryPartner ? "Driver workspace" : "Delivery opportunities"}</span><ChevronRight size={14} aria-hidden="true" /></a>
+            </nav>
+            {(isAdministrator || isApprovedSeller || isApprovedDeliveryPartner || hasDeliveryApplication) && <div className={styles.workspaceLinks}>
+              {isAdministrator && <Link href="/admin"><LayoutDashboard size={15} aria-hidden="true" />Open admin dashboard<ArrowUpRight size={15} aria-hidden="true" /></Link>}
+              {isApprovedSeller && <Link href="/seller"><Store size={15} aria-hidden="true" />Open seller dashboard<ArrowUpRight size={15} aria-hidden="true" /></Link>}
+              {(isApprovedDeliveryPartner || hasDeliveryApplication) && <Link href={deliveryNavigation.href}><Truck size={15} aria-hidden="true" /><span>{deliveryNavigation.label}</span><ArrowUpRight size={15} aria-hidden="true" /></Link>}
+            </div>}
+            <div className={styles.sidebarBottom}><Link href="/shop"><ShoppingBag size={16} strokeWidth={1.5} aria-hidden="true" />Continue shopping</Link><form action={signOut}><button type="submit"><LogOut size={16} strokeWidth={1.5} aria-hidden="true" />Sign out</button></form></div>
+          </aside>
 
-        <p className="athimart-body-large mt-6 max-w-3xl">
-          View your profile and open
-          the marketplace tools connected
-          to your customer, seller,
-          delivery-partner or administrator
-          account.
-        </p>
-      </header>
+          <div className={styles.content}>
+            <section id="account-overview" className={styles.overview} aria-labelledby="account-overview-heading">
+              <div className={styles.sectionHeader}><div><p className={styles.eyebrow}>A little about you</p><h2 id="account-overview-heading">Your account<span>.</span></h2></div><Link href="/orders" className={styles.textLink}>View orders<ArrowUpRight size={16} aria-hidden="true" /></Link></div>
+              <dl className={styles.accountDetails}><div><dt><Mail size={14} strokeWidth={1.5} aria-hidden="true" />Email address</dt><dd>{email}</dd></div><div><dt><Phone size={14} strokeWidth={1.5} aria-hidden="true" />Phone number</dt><dd>{phone}</dd></div><div><dt><CalendarDays size={14} strokeWidth={1.5} aria-hidden="true" />Member since</dt><dd>{joinedDate}</dd></div></dl>
+            </section>
 
-      {pageError ===
-        "signout-failed" && (
-        <div
-          role="alert"
-          className="mt-7 flex items-start gap-3 border-l-4 border-red-600 bg-red-50 p-4 text-red-800"
-        >
-          <AlertCircle
-            aria-hidden="true"
-            className="mt-0.5 h-5 w-5 shrink-0"
-            strokeWidth={1.8}
-          />
+            <ProfileIdentityForm name={displayName} avatarUrl={avatarUrl} googleUrl={googleAvatarUrl(user)} />
+            <DeliveryDetailsForm initialDetails={deliveryDetailsFromProfile(profile)} />
 
-          <p className="font-[var(--font-body)] text-sm leading-6">
-            Your account could not be
-            signed out. Please try again.
-          </p>
-        </div>
-      )}
+            <section className={styles.access} aria-labelledby="account-access-heading">
+              <div className={styles.sectionHeader}><div><p className={styles.eyebrow}>One connected marketplace</p><h2 id="account-access-heading">Your marketplace access</h2></div><ShieldCheck size={23} strokeWidth={1.3} aria-hidden="true" className={styles.sectionIcon} /></div>
+              <div className={styles.roleList}>{accountRoleLabels.map(roleLabel => <span key={roleLabel}><Check size={12} aria-hidden="true" />{roleLabel}</span>)}</div>
+              {(isPendingSeller || isRejectedSeller) && <div className={styles.applicationNote} data-state={isPendingSeller ? "pending" : "rejected"}><div><p className={styles.eyebrow}>Seller application</p><p>{isPendingSeller ? "Your seller application is pending review." : "Your seller application was not approved."}</p></div><Link href="/seller-pending">View seller status<ArrowUpRight size={15} aria-hidden="true" /></Link></div>}
+            </section>
 
-      <div className="account-page-grid mt-10 grid gap-8 lg:gap-10 xl:grid-cols-[minmax(320px,0.72fr)_minmax(0,1.28fr)]">
-        {/* Account navigation card */}
-        <aside className="account-navigation-card overflow-hidden border border-[var(--border)] bg-white shadow-[0_20px_55px_rgba(17,42,91,0.07)]">
-          <div className="account-navigation-identity bg-[linear-gradient(145deg,#163d91_0%,#2f68d2_100%)] p-8 sm:p-9 text-white">
-            <span className="flex h-24 w-24 items-center justify-center border border-white/25 bg-white/10 font-[var(--font-display)] text-4xl font-light">
-              {initials}
-            </span>
-
-            <p className="mt-5 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.2em] text-[var(--brand-orange-light)]">
-              {accountCardLabel}
-            </p>
-
-            <h2 className="mt-2 break-words font-[var(--font-display)] text-4xl font-light">
-              {displayName}
-            </h2>
-
-            <p className="mt-1 break-all font-[var(--font-body)] text-sm text-white/80">
-              {email}
-            </p>
-
-            {isApprovedDeliveryPartner && (
-              <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em]">
-                <CircleDot
-                  aria-hidden="true"
-                  className={
-                    deliveryAvailabilityStatus ===
-                    "online"
-                      ? "h-4 w-4 text-green-300"
-                      : "h-4 w-4 text-white/70"
-                  }
-                  strokeWidth={1.8}
-                />
-
-                Driver{" "}
-                {formatStatus(
-                  deliveryAvailabilityStatus
-                )}
-              </div>
-            )}
+            <section id="delivery-workspace" className={styles.delivery} aria-labelledby="delivery-workspace-heading">
+              <div className={styles.deliveryHeader}><span className={styles.deliveryIcon}><DeliveryIcon size={24} strokeWidth={1.3} aria-hidden="true" /></span><div><p className={styles.eyebrow}>Your delivery workspace</p><h2 id="delivery-workspace-heading">{isApprovedDeliveryPartner ? "Driver account" : hasDeliveryApplication ? "Application status" : "A new way to be part of AthiMart."}</h2><p className={styles.deliveryDescription}>{deliveryNavigation.description}</p></div></div>
+              {hasDeliveryApplication && <dl className={styles.deliveryStats}>
+                <div><dt>Application</dt><dd><span className={styles.statusBadge} data-state={deliveryApplicationStatus}>{formatStatus(deliveryApplicationStatus ?? "unknown")}</span></dd></div>
+                <div><dt>Availability</dt><dd><span className={styles.availability} data-availability={deliveryAvailabilityStatus}><CircleDot size={12} aria-hidden="true" />{formatStatus(deliveryAvailabilityStatus)}</span></dd></div>
+                <div><dt>Service areas</dt><dd className={styles.serviceCount}>{approvedServiceAreas.length > 0 ? approvedServiceAreas.length : requestedServiceAreas.length}<span>{approvedServiceAreas.length > 0 ? "Approved" : "Requested"}</span></dd></div>
+                <div><dt>Review date</dt><dd className={styles.reviewDate}>{deliveryPartner?.reviewed_at ? formatDate(deliveryPartner.reviewed_at) : deliveryPartner?.application_submitted_at ? `Submitted ${formatDate(deliveryPartner.application_submitted_at)}` : "Not submitted"}</dd></div>
+              </dl>}
+              {(approvedServiceAreas.length > 0 || requestedServiceAreas.length > 0) && <p className={styles.serviceAreas}><MapPin size={14} aria-hidden="true" /><span>{(approvedServiceAreas.length > 0 ? approvedServiceAreas : requestedServiceAreas).join(" · ")}</span></p>}
+              {deliveryApplicationStatus === "rejected" && deliveryPartner?.rejection_reason && <div className={styles.reason} role="note"><p>Rejection reason</p><span>{deliveryPartner.rejection_reason}</span></div>}
+              {deliveryApplicationStatus === "suspended" && deliveryPartner?.suspension_reason && <div className={styles.reason} role="note"><p>Suspension reason</p><span>{deliveryPartner.suspension_reason}</span></div>}
+              <div className={styles.deliveryFooter}><p>{isApprovedDeliveryPartner ? "Your delivery activity, all in one place." : "Keep your application and details up to date."}</p><Link href={deliveryNavigation.href}>{deliveryNavigation.label}<ArrowUpRight size={17} aria-hidden="true" /></Link></div>
+            </section>
           </div>
-
-          <div className="account-navigation-actions p-7 sm:p-8">
-            <div className="flex items-center gap-3 text-[var(--success)]">
-              <ShieldCheck
-                aria-hidden="true"
-                className="h-5 w-5"
-                strokeWidth={1.8}
-              />
-
-              <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em]">
-                Authenticated account
-              </p>
-            </div>
-
-            <div className="account-navigation-links mt-8 space-y-4">
-              {/* Administrator navigation */}
-              {isAdministrator && (
-                <Link
-                  href="/admin"
-                  className="account-navigation-admin flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-orange)] px-5 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] !text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-orange-dark)] hover:!text-white [&_svg]:!text-[var(--brand-blue)]"
-                >
-                  <LayoutDashboard
-                    aria-hidden="true"
-                    className="h-5 w-5"
-                    strokeWidth={1.8}
-                  />
-
-                  Open Admin Dashboard
-                </Link>
-              )}
-
-              {/* Seller navigation */}
-              {isApprovedSeller && (
-                <Link
-                  href="/seller"
-                  className="flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-blue-dark)] px-5 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] !text-white transition-colors hover:bg-[var(--brand-blue)] hover:!text-white [&_svg]:!text-white"
-                >
-                  <Store
-                    aria-hidden="true"
-                    className="h-5 w-5"
-                    strokeWidth={1.8}
-                  />
-
-                  Open Seller Dashboard
-                </Link>
-              )}
-
-              {/* Delivery-partner navigation */}
-              <Link
-                href={
-                  deliveryNavigation.href
-                }
-                className={`flex min-h-14 w-full items-center justify-center gap-3 px-5 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] transition-colors ${
-                  isApprovedDeliveryPartner
-                    ? "bg-[var(--success)] !text-white hover:bg-green-700 hover:!text-white [&_svg]:!text-white"
-                    : hasDeliveryApplication
-                      ? "bg-[var(--brand-orange)] !text-white hover:bg-[var(--brand-orange-dark)] hover:!text-white [&_svg]:!text-white"
-                      : "border border-[var(--brand-blue)] bg-white text-[var(--brand-blue)] hover:bg-[var(--brand-blue-soft)]"
-                } account-navigation-delivery`}
-              >
-                {isApprovedDeliveryPartner ? (
-                  <LayoutDashboard
-                    aria-hidden="true"
-                    className="h-5 w-5"
-                    strokeWidth={1.8}
-                  />
-                ) : hasDeliveryApplication ? (
-                  <ClipboardList
-                    aria-hidden="true"
-                    className="h-5 w-5"
-                    strokeWidth={1.8}
-                  />
-                ) : (
-                  <Truck
-                    aria-hidden="true"
-                    className="h-5 w-5"
-                    strokeWidth={1.8}
-                  />
-                )}
-
-                {
-                  deliveryNavigation.label
-                }
-              </Link>
-
-              <Link
-                href="/shop"
-                className="account-navigation-shop flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-blue)] px-5 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] !text-white transition-colors hover:bg-[var(--brand-blue-dark)] hover:!text-white [&_svg]:!text-white"
-              >
-                <ShoppingBag
-                  aria-hidden="true"
-                  className="h-5 w-5"
-                  strokeWidth={1.8}
-                />
-
-                Continue Shopping
-              </Link>
-
-              <form
-                action={signOut}
-              >
-                <button
-                  type="submit"
-                  className="account-navigation-signout flex min-h-14 w-full items-center justify-center gap-3 border border-red-500 bg-white px-5 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] text-red-600 transition-colors hover:bg-red-50"
-                >
-                  <LogOut
-                    aria-hidden="true"
-                    className="h-5 w-5"
-                    strokeWidth={1.8}
-                  />
-
-                  Sign Out
-                </button>
-              </form>
-            </div>
-          </div>
-        </aside>
-
-        <div className="account-content space-y-8 lg:space-y-10">
-          {/* Main account information */}
-          <section className="account-profile-panel border border-[var(--border)] bg-white p-7 shadow-[0_20px_55px_rgba(17,42,91,0.06)] sm:p-9 lg:p-11">
-            <div className="account-profile-heading flex items-start justify-between gap-6 border-b border-[var(--border)] pb-8">
-              <div>
-                <p className="athimart-label text-[var(--brand-orange-dark)]">
-                  Profile details
-                </p>
-
-                <h2 className="account-profile-title mt-3 font-[var(--font-display)] text-4xl font-light uppercase tracking-[0.03em] text-[var(--text)] sm:text-5xl">
-                  Account
-                  <br className="account-profile-title-break" />
-                  Information
-                </h2>
-
-                <p className="account-profile-description sm:hidden">
-                  Manage your AthiMart account identity and marketplace access.
-                </p>
-              </div>
-
-              <span className="flex h-14 w-14 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
-                <UserRound
-                  aria-hidden="true"
-                  className="h-7 w-7"
-                  strokeWidth={1.8}
-                />
-              </span>
-            </div>
-
-            <div className="account-profile-grid mt-8 grid gap-5 sm:grid-cols-2">
-              <article className="account-profile-field border border-[var(--border)] bg-[var(--linen-light)] p-5">
-                <UserRound
-                  aria-hidden="true"
-                  className="h-5 w-5 text-[var(--brand-blue)]"
-                  strokeWidth={1.8}
-                />
-
-                <p className="athimart-label mt-4 text-[var(--text-muted)]">
-                  Full name
-                </p>
-
-                <p className="mt-2 break-words font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
-                  {displayName}
-                </p>
-              </article>
-
-              <article className="account-profile-field border border-[var(--border)] bg-[var(--linen-light)] p-5">
-                <Mail
-                  aria-hidden="true"
-                  className="h-5 w-5 text-[var(--brand-blue)]"
-                  strokeWidth={1.8}
-                />
-
-                <p className="athimart-label mt-4 text-[var(--text-muted)]">
-                  Email address
-                </p>
-
-                <p className="mt-2 break-all font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
-                  {email}
-                </p>
-              </article>
-
-              <article className="account-profile-field border border-[var(--border)] bg-[var(--linen-light)] p-5">
-                <Phone
-                  aria-hidden="true"
-                  className="h-5 w-5 text-[var(--brand-blue)]"
-                  strokeWidth={1.8}
-                />
-
-                <p className="athimart-label mt-4 text-[var(--text-muted)]">
-                  Phone number
-                </p>
-
-                <p className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
-                  {phone}
-                </p>
-              </article>
-
-              <article className="account-profile-field border border-[var(--border)] bg-[var(--linen-light)] p-5">
-                <CalendarDays
-                  aria-hidden="true"
-                  className="h-5 w-5 text-[var(--brand-blue)]"
-                  strokeWidth={1.8}
-                />
-
-                <p className="athimart-label mt-4 text-[var(--text-muted)]">
-                  Member since
-                </p>
-
-                <p className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
-                  {joinedDate}
-                </p>
-              </article>
-            </div>
-
-            {/* Connected marketplace roles */}
-            <div className="account-roles-panel mt-6 border-l-4 border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] p-5">
-              <p className="athimart-label text-[var(--brand-orange-dark)]">
-                Connected marketplace roles
-              </p>
-
-              <h3 className="account-roles-title hidden">
-                Your marketplace access
-              </h3>
-
-              <div className="account-roles-list mt-4 flex flex-wrap gap-3">
-                {accountRoleLabels.map(
-                  (roleLabel) => (
-                    <span
-                      key={roleLabel}
-                      className="inline-flex items-center gap-2 border border-[var(--border)] bg-white px-4 py-3 font-[var(--font-body)] text-xs font-semibold text-[var(--brand-blue-dark)]"
-                    >
-                      {roleLabel ===
-                      "Administrator" ? (
-                        <ShieldCheck
-                          aria-hidden="true"
-                          className="h-4 w-4 text-[var(--brand-orange)]"
-                          strokeWidth={1.8}
-                        />
-                      ) : roleLabel.includes(
-                          "Seller"
-                        ) ? (
-                        <Store
-                          aria-hidden="true"
-                          className="h-4 w-4 text-[var(--success)]"
-                          strokeWidth={1.8}
-                        />
-                      ) : roleLabel.includes(
-                          "Delivery"
-                        ) ? (
-                        <Truck
-                          aria-hidden="true"
-                          className="h-4 w-4 text-[var(--brand-blue)]"
-                          strokeWidth={1.8}
-                        />
-                      ) : (
-                        <ShieldCheck
-                          aria-hidden="true"
-                          className="h-4 w-4 text-[var(--brand-blue)]"
-                          strokeWidth={1.8}
-                        />
-                      )}
-
-                      {roleLabel}
-                    </span>
-                  )
-                )}
-              </div>
-            </div>
-
-            {(isPendingSeller ||
-              isRejectedSeller) && (
-              <div
-                className={`mt-5 border-l-4 p-5 ${
-                  isPendingSeller
-                    ? "border-amber-500 bg-amber-50"
-                    : "border-red-500 bg-red-50"
-                }`}
-              >
-                <p className="athimart-label text-[var(--text-muted)]">
-                  Seller application
-                </p>
-
-                <p className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
-                  {isPendingSeller
-                    ? "Your seller application is pending review."
-                    : "Your seller application was not approved."}
-                </p>
-
-                <Link
-                  href="/seller-pending"
-                  className="mt-4 inline-flex min-h-10 items-center gap-2 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-blue)]"
-                >
-                  <Store
-                    aria-hidden="true"
-                    className="h-4 w-4"
-                    strokeWidth={1.8}
-                  />
-
-                  View Seller Status
-                </Link>
-              </div>
-            )}
-          </section>
-
-          {/* Delivery-partner status and navigation */}
-          <section className="account-delivery-panel border border-[var(--border)] bg-white p-7 shadow-[0_20px_55px_rgba(17,42,91,0.06)] sm:p-9 lg:p-10">
-            <div className="account-delivery-content flex flex-col gap-7 lg:flex-row lg:items-start lg:justify-between">
-              <div className="flex items-start gap-5">
-                <span
-                  className={`flex h-14 w-14 shrink-0 items-center justify-center ${
-                    isApprovedDeliveryPartner
-                      ? "bg-green-50 text-green-700"
-                      : hasDeliveryApplication
-                        ? "bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]"
-                        : "bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]"
-                  }`}
-                >
-                  {deliveryApplicationStatus ===
-                  "suspended" ? (
-                    <ShieldAlert
-                      aria-hidden="true"
-                      className="h-7 w-7"
-                      strokeWidth={1.8}
-                    />
-                  ) : deliveryApplicationStatus ===
-                      "pending" ||
-                    deliveryApplicationStatus ===
-                      "under_review" ? (
-                    <Clock3
-                      aria-hidden="true"
-                      className="h-7 w-7"
-                      strokeWidth={1.8}
-                    />
-                  ) : isApprovedDeliveryPartner ? (
-                    <BadgeCheck
-                      aria-hidden="true"
-                      className="h-7 w-7"
-                      strokeWidth={1.8}
-                    />
-                  ) : (
-                    <Truck
-                      aria-hidden="true"
-                      className="h-7 w-7"
-                      strokeWidth={1.8}
-                    />
-                  )}
-                </span>
-
-                <div>
-                  <p className="athimart-label text-[var(--brand-orange-dark)]">
-                    Delivery partner
-                  </p>
-
-                  <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]">
-                    {isApprovedDeliveryPartner
-                      ? "Driver Account"
-                      : hasDeliveryApplication
-                        ? "Application Status"
-                        : "Delivery Opportunities"}
-                  </h2>
-
-                  <p className="mt-3 max-w-2xl font-[var(--font-body)] text-sm leading-7 text-[var(--text-muted)]">
-                    {
-                      deliveryNavigation.description
-                    }
-                  </p>
-                </div>
-              </div>
-
-              <Link
-                href={
-                  deliveryNavigation.href
-                }
-                className={`inline-flex min-h-12 shrink-0 items-center justify-center gap-3 px-6 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] transition-colors ${
-                  isApprovedDeliveryPartner
-                    ? "bg-[var(--success)] !text-white hover:bg-green-700 hover:!text-white [&_svg]:!text-white"
-                    : "bg-[var(--brand-blue)] !text-white hover:bg-[var(--brand-blue-dark)] hover:!text-white [&_svg]:!text-white"
-                } account-delivery-cta`}
-              >
-                {isApprovedDeliveryPartner ? (
-                  <LayoutDashboard
-                    aria-hidden="true"
-                    className="h-5 w-5"
-                    strokeWidth={1.8}
-                  />
-                ) : (
-                  <Truck
-                    aria-hidden="true"
-                    className="h-5 w-5"
-                    strokeWidth={1.8}
-                  />
-                )}
-
-                {
-                  deliveryNavigation.label
-                }
-              </Link>
-            </div>
-
-            {hasDeliveryApplication && (
-              <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-                <article
-                  className={`border p-5 ${getDeliveryStatusClasses(
-                    deliveryApplicationStatus
-                  )}`}
-                >
-                  <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.16em] opacity-70">
-                    Application
-                  </p>
-
-                  <p className="mt-2 font-[var(--font-display)] text-2xl font-light">
-                    {formatStatus(
-                      deliveryApplicationStatus ??
-                        "unknown"
-                    )}
-                  </p>
-                </article>
-
-                <article className="border border-[var(--border)] bg-[var(--linen-light)] p-5">
-                  <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)]">
-                    Availability
-                  </p>
-
-                  <div className="mt-3">
-                    <span
-                      className={`inline-flex items-center gap-2 rounded-full px-3 py-2 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] ${getAvailabilityClasses(
-                        deliveryAvailabilityStatus
-                      )}`}
-                    >
-                      <CircleDot
-                        aria-hidden="true"
-                        className="h-4 w-4"
-                        strokeWidth={1.8}
-                      />
-
-                      {formatStatus(
-                        deliveryAvailabilityStatus
-                      )}
-                    </span>
-                  </div>
-                </article>
-
-                <article className="border border-[var(--border)] bg-[var(--linen-light)] p-5">
-                  <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)]">
-                    Service areas
-                  </p>
-
-                  <p className="mt-2 font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
-                    {approvedServiceAreas.length >
-                    0
-                      ? approvedServiceAreas.length
-                      : requestedServiceAreas.length}
-                  </p>
-
-                  <p className="mt-1 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
-                    {approvedServiceAreas.length >
-                    0
-                      ? "Approved"
-                      : "Requested"}
-                  </p>
-                </article>
-
-                <article className="border border-[var(--border)] bg-[var(--linen-light)] p-5">
-                  <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)]">
-                    Review date
-                  </p>
-
-                  <p className="mt-2 font-[var(--font-body)] text-sm font-semibold leading-6 text-[var(--text)]">
-                    {deliveryPartner
-                      ?.reviewed_at
-                      ? formatDate(
-                          deliveryPartner.reviewed_at
-                        )
-                      : deliveryPartner
-                            ?.application_submitted_at
-                        ? `Submitted ${formatDate(
-                            deliveryPartner.application_submitted_at
-                          )}`
-                        : "Not submitted"}
-                  </p>
-                </article>
-              </div>
-            )}
-
-            {deliveryApplicationStatus ===
-              "rejected" &&
-              deliveryPartner
-                ?.rejection_reason && (
-                <div className="mt-5 border-l-4 border-red-600 bg-red-50 p-5">
-                  <p className="athimart-label text-red-700">
-                    Rejection reason
-                  </p>
-
-                  <p className="mt-2 font-[var(--font-body)] text-sm leading-7 text-red-900">
-                    {
-                      deliveryPartner.rejection_reason
-                    }
-                  </p>
-                </div>
-              )}
-
-            {deliveryApplicationStatus ===
-              "suspended" &&
-              deliveryPartner
-                ?.suspension_reason && (
-                <div className="mt-5 border-l-4 border-red-700 bg-red-50 p-5">
-                  <p className="athimart-label text-red-800">
-                    Suspension reason
-                  </p>
-
-                  <p className="mt-2 font-[var(--font-body)] text-sm leading-7 text-red-950">
-                    {
-                      deliveryPartner.suspension_reason
-                    }
-                  </p>
-                </div>
-              )}
-          </section>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

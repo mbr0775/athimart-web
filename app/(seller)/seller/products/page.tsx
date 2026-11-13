@@ -247,7 +247,7 @@ export default async function SellerProductsPage() {
     ).length;
 
   return (
-    <div className="px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
+    <div className="min-w-0">
       {/* Page heading */}
       <header className="border-b border-[var(--border-strong)] pb-8">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
@@ -295,7 +295,7 @@ export default async function SellerProductsPage() {
         aria-label="Seller product statistics"
         className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4"
       >
-        <article className="border border-[var(--border)] bg-white p-5">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <Boxes
             aria-hidden="true"
             className="h-6 w-6 text-[var(--brand-blue)]"
@@ -306,12 +306,12 @@ export default async function SellerProductsPage() {
             Total products
           </p>
 
-          <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-blue-dark)]">
             {totalProducts}
           </p>
         </article>
 
-        <article className="border border-[var(--border)] bg-white p-5">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <PackageCheck
             aria-hidden="true"
             className="h-6 w-6 text-[var(--success)]"
@@ -322,12 +322,12 @@ export default async function SellerProductsPage() {
             Active
           </p>
 
-          <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-blue-dark)]">
             {activeProducts}
           </p>
         </article>
 
-        <article className="border border-[var(--border)] bg-white p-5">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <CircleOff
             aria-hidden="true"
             className="h-6 w-6 text-[var(--brand-orange-dark)]"
@@ -338,12 +338,12 @@ export default async function SellerProductsPage() {
             Inactive
           </p>
 
-          <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-blue-dark)]">
             {inactiveProducts}
           </p>
         </article>
 
-        <article className="border border-[var(--border)] bg-white p-5">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <PackageX
             aria-hidden="true"
             className="h-6 w-6 text-[var(--sale)]"
@@ -354,7 +354,7 @@ export default async function SellerProductsPage() {
             Out of stock
           </p>
 
-          <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-blue-dark)]">
             {outOfStockProducts}
           </p>
         </article>
@@ -362,8 +362,8 @@ export default async function SellerProductsPage() {
 
       {/* Empty product state */}
       {products.length === 0 ? (
-        <section className="mt-8 border border-[var(--border)] bg-white px-6 py-16 text-center">
-          <span className="mx-auto flex h-16 w-16 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+        <section className="mt-8 border border-[var(--border)] bg-[var(--surface)] px-6 py-16 text-center rounded-[24px]">
+          <span className="mx-auto flex h-16 w-16 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <Store
               aria-hidden="true"
               className="h-8 w-8"
@@ -371,7 +371,7 @@ export default async function SellerProductsPage() {
             />
           </span>
 
-          <h2 className="mt-6 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+          <h2 className="mt-6 font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
             No Seller Products
           </h2>
 
@@ -409,13 +409,13 @@ export default async function SellerProductsPage() {
 
               <h2
                 id="seller-products-heading"
-                className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]"
+                className="mt-2 font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]"
               >
                 Seller Inventory
               </h2>
             </div>
 
-            <span className="font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+            <span className="font-body text-xs text-[var(--text-muted)]">
               {totalProducts}{" "}
               {totalProducts === 1
                 ? "product"
@@ -463,7 +463,7 @@ export default async function SellerProductsPage() {
                 return (
                   <article
                     key={product.id}
-                    className="border border-[var(--border)] bg-white"
+                    className="border border-[var(--border)] bg-[var(--surface)]"
                   >
                     <div className="grid gap-5 p-5 sm:grid-cols-[130px_minmax(0,1fr)] lg:grid-cols-[150px_minmax(0,1fr)_auto] lg:items-center lg:p-6">
                       {/* Product image */}
@@ -490,15 +490,15 @@ export default async function SellerProductsPage() {
                       {/* Product details */}
                       <div className="min-w-0">
                         <div className="flex flex-wrap items-center gap-3">
-                          <h3 className="break-words font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
+                          <h3 className="break-words font-editorial text-2xl font-light text-[var(--brand-blue-dark)]">
                             {productName}
                           </h3>
 
                           <span
                             className={
                               isActive
-                                ? "bg-green-50 px-3 py-1 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--success)]"
-                                : "bg-[var(--linen)] px-3 py-1 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--text-muted)]"
+                                ? "bg-green-50 px-3 py-1 font-body text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--success)]"
+                                : "bg-[var(--linen)] px-3 py-1 font-body text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--text-muted)]"
                             }
                           >
                             {isActive
@@ -507,17 +507,17 @@ export default async function SellerProductsPage() {
                           </span>
                         </div>
 
-                        <p className="mt-2 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+                        <p className="mt-2 font-body text-xs text-[var(--text-muted)]">
                           {companyName}
                         </p>
 
-                        <p className="mt-4 font-[var(--font-display)] text-2xl font-light text-[var(--brand-orange-dark)]">
+                        <p className="mt-4 font-editorial text-2xl font-light text-[var(--brand-orange-dark)]">
                           {formatLkr(
                             getPrice(product)
                           )}
                         </p>
 
-                        <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+                        <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-body text-xs text-[var(--text-muted)]">
                           <span>
                             {category} /{" "}
                             {subCategory}

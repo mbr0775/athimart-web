@@ -46,7 +46,7 @@ export default function ProductGallery({
           className="
             mt-1
             text-xs
-            text-gray-500
+            text-[var(--text-soft)]
           "
         >
           Upload product images displayed in the marketplace.

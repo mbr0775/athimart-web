@@ -488,7 +488,7 @@ export default function DocumentUploadField({
   }
 
   return (
-    <div className="border border-[var(--border)] bg-white p-5">
+    <div className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
       {/*
        * Keeps the verified private Storage path
        * available to a surrounding form when needed.
@@ -500,7 +500,7 @@ export default function DocumentUploadField({
       />
 
       <div className="flex items-start gap-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
           <FileText
             aria-hidden="true"
             className="h-5 w-5"
@@ -512,7 +512,7 @@ export default function DocumentUploadField({
           <div className="flex flex-wrap items-center gap-2">
             <label
               htmlFor={`${name}-file`}
-              className="font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.12em] text-[var(--text)]"
+              className="font-body text-xs font-semibold uppercase tracking-[0.12em] text-[var(--text)]"
             >
               {label}
 
@@ -534,7 +534,7 @@ export default function DocumentUploadField({
             </span>
           </div>
 
-          <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+          <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
             {description}
           </p>
         </div>
@@ -552,7 +552,7 @@ export default function DocumentUploadField({
             strokeWidth={1.8}
           />
 
-          <p className="font-[var(--font-body)] text-xs leading-6">
+          <p className="font-body text-xs leading-6">
             {errorMessage}
           </p>
         </div>
@@ -571,11 +571,11 @@ export default function DocumentUploadField({
           />
 
           <div className="min-w-0">
-            <p className="font-[var(--font-body)] text-xs font-semibold text-[var(--success)]">
+            <p className="font-body text-xs font-semibold text-[var(--success)]">
               Document uploaded and linked securely
             </p>
 
-            <p className="mt-1 break-all font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+            <p className="mt-1 break-all font-body text-[10px] leading-5 text-[var(--text-muted)]">
               {uploadedFileName}
 
               {uploadedFileSize
@@ -588,7 +588,7 @@ export default function DocumentUploadField({
 
       <label
         htmlFor={`${name}-file`}
-        className={`mt-5 flex min-h-12 w-full items-center justify-center gap-3 border px-5 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] transition-colors ${
+        className={`mt-5 flex min-h-12 w-full items-center justify-center gap-3 border px-5 text-center font-body text-[10px] font-semibold uppercase tracking-[0.16em] transition-colors ${
           disabled ||
           isUploading
             ? "cursor-not-allowed border-neutral-300 bg-neutral-200 text-neutral-500"
@@ -634,7 +634,7 @@ export default function DocumentUploadField({
         className="sr-only"
       />
 
-      <p className="mt-3 text-center font-[var(--font-body)] text-[9px] uppercase tracking-[0.1em] text-[var(--text-muted)]">
+      <p className="mt-3 text-center font-body text-[9px] uppercase tracking-[0.1em] text-[var(--text-muted)]">
         JPG, PNG, WebP or PDF • Maximum 6 MB
       </p>
     </div>

@@ -310,7 +310,7 @@ export default async function DeliveryPartnerDocumentsPage() {
       <div className="flex flex-wrap gap-3">
         <Link
           href="/delivery-partner/register"
-          className="inline-flex min-h-11 items-center justify-center gap-2 border border-[var(--border)] bg-white px-5 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--text)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)]"
+          className="inline-flex min-h-11 items-center justify-center gap-2 border border-[var(--border)] bg-[var(--surface)] px-5 font-body text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--text)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)] rounded-full"
         >
           <ArrowLeft
             aria-hidden="true"
@@ -323,7 +323,7 @@ export default async function DeliveryPartnerDocumentsPage() {
 
         <Link
           href="/delivery-partner"
-          className="inline-flex min-h-11 items-center justify-center border border-[var(--border)] bg-transparent px-5 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--text-muted)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)]"
+          className="inline-flex min-h-11 items-center justify-center border border-[var(--border)] bg-transparent px-5 font-body text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--text-muted)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)] rounded-full"
         >
           Delivery Partner Overview
         </Link>
@@ -341,7 +341,7 @@ export default async function DeliveryPartnerDocumentsPage() {
               Verification Documents
             </h1>
 
-            <p className="mt-4 max-w-3xl font-[var(--font-body)] text-sm leading-7 text-[var(--text-muted)]">
+            <p className="mt-4 max-w-3xl font-body text-sm leading-7 text-[var(--text-muted)]">
               Upload clear applicant, identity,
               driving-licence and vehicle documents.
               Each file is stored privately and
@@ -349,7 +349,7 @@ export default async function DeliveryPartnerDocumentsPage() {
             </p>
           </div>
 
-          <div className="border border-[var(--border)] bg-white p-5">
+          <div className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
             <p className="athimart-label text-[var(--text-muted)]">
               Application status
             </p>
@@ -361,14 +361,14 @@ export default async function DeliveryPartnerDocumentsPage() {
                 strokeWidth={1.8}
               />
 
-              <span className="font-[var(--font-body)] text-sm font-semibold uppercase text-[var(--brand-blue)]">
+              <span className="font-body text-sm font-semibold uppercase text-[var(--brand-blue)]">
                 {formatStatus(
                   application.application_status
                 )}
               </span>
             </div>
 
-            <p className="mt-3 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
               Uploading documents does not submit or
               approve the application.
             </p>
@@ -377,55 +377,55 @@ export default async function DeliveryPartnerDocumentsPage() {
       </section>
 
       {/* Security summary */}
-      <section className="mt-8 grid border-l border-t border-[var(--border)] md:grid-cols-3">
-        <article className="border-b border-r border-[var(--border)] bg-white p-5">
+      <section className="mt-8 grid gap-5 md:grid-cols-3">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <LockKeyhole
             aria-hidden="true"
             className="h-6 w-6 text-[var(--success)]"
             strokeWidth={1.7}
           />
 
-          <h2 className="mt-4 font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em]">
+          <h2 className="mt-4 font-body text-xs font-semibold uppercase tracking-[0.14em]">
             Private Storage
           </h2>
 
-          <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+          <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
             Files are stored in a private Supabase
             Storage bucket rather than exposed
             through public URLs.
           </p>
         </article>
 
-        <article className="border-b border-r border-[var(--border)] bg-white p-5">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <ShieldCheck
             aria-hidden="true"
             className="h-6 w-6 text-[var(--brand-blue)]"
             strokeWidth={1.7}
           />
 
-          <h2 className="mt-4 font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em]">
+          <h2 className="mt-4 font-body text-xs font-semibold uppercase tracking-[0.14em]">
             Account Restricted
           </h2>
 
-          <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+          <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
             Applicants can access only their own
             private document directory and linked
             records.
           </p>
         </article>
 
-        <article className="border-b border-r border-[var(--border)] bg-white p-5">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <Truck
             aria-hidden="true"
             className="h-6 w-6 text-[var(--brand-orange-dark)]"
             strokeWidth={1.7}
           />
 
-          <h2 className="mt-4 font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em]">
+          <h2 className="mt-4 font-body text-xs font-semibold uppercase tracking-[0.14em]">
             Vehicle Required
           </h2>
 
-          <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+          <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
             Vehicle documents become available after
             at least one vehicle draft has been
             saved.

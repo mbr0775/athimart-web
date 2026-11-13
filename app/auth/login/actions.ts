@@ -4,30 +4,8 @@
 
 import { redirect } from "next/navigation";
 
+import { getSignInDestination, safeSignInPath } from "@/lib/auth/sign-in";
 import { createClient } from "@/lib/supabase/server";
-
-/**
- * Only allow internal website paths.
- * This prevents external redirect attacks.
- */
-function getSafeRedirectPath(
-  value: FormDataEntryValue | null
-): string {
-  if (typeof value !== "string") {
-    return "/";
-  }
-
-  const path = value.trim();
-
-  if (
-    !path.startsWith("/") ||
-    path.startsWith("//")
-  ) {
-    return "/";
-  }
-
-  return path;
-}
 
 /**
  * Sign in using the same Supabase Auth
@@ -43,7 +21,7 @@ export async function login(
     formData.get("password");
 
   const requestedPath =
-    getSafeRedirectPath(
+    safeSignInPath(
       formData.get("next")
     );
 
@@ -97,27 +75,8 @@ export async function login(
     );
   }
 
-  /*
-   * Load the signed-in user's marketplace
-   * role and seller approval status.
-   */
-  const {
-    data: profile,
-    error: profileError,
-  } = await supabase
-    .from("profiles")
-    .select(`
-      role,
-      seller_approval_status,
-      is_blocked
-    `)
-    .eq(
-      "id",
-      signInData.user.id
-    )
-    .maybeSingle();
-
-  if (profileError) {
+  const destination = await getSignInDestination(supabase, signInData.user.id, requestedPath);
+  if (!destination) {
     await supabase.auth.signOut();
 
     redirect(
@@ -125,57 +84,5 @@ export async function login(
     );
   }
 
-  const role =
-    profile?.role
-      ?.toString()
-      .trim() || "customer";
-
-  const sellerApprovalStatus =
-    profile
-      ?.seller_approval_status
-      ?.toString()
-      .trim() || "";
-
-  const isBlocked =
-    profile?.is_blocked === true;
-
-  /*
-   * Blocked accounts must not continue
-   * into the website.
-   */
-  if (isBlocked) {
-    redirect("/account-blocked");
-  }
-
-  /*
-   * A seller who is still waiting for
-   * approval must remain on the pending page.
-   *
-   * A rejected seller also sees the same page,
-   * where the rejection reason is displayed.
-   */
-  if (
-    sellerApprovalStatus === "pending" ||
-    sellerApprovalStatus === "rejected"
-  ) {
-    redirect("/seller-pending");
-  }
-
-  /*
-   * Approved seller.
-   */
-  if (
-    sellerApprovalStatus === "approved" &&
-    (
-      role === "vendor" ||
-      role === "seller"
-    )
-  ) {
-    redirect(requestedPath);
-  }
-
-  /*
-   * Normal buyer or administrator.
-   */
-  redirect(requestedPath);
+  redirect(destination);
 }

@@ -43,10 +43,10 @@ const initialState: AdminProductFormState = {
 };
 
 const inputClassName =
-  "mt-2 min-h-13 w-full border border-[var(--border)] bg-white px-4 font-[var(--font-body)] text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--placeholder)] focus:border-[var(--brand-blue)] focus-visible:!outline-none";
+  "mt-2 min-h-13 w-full border border-[var(--border)] bg-[var(--surface)] px-4 font-body text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--placeholder)] focus:border-[var(--brand-blue)] ";
 
 const textareaClassName =
-  "mt-2 w-full border border-[var(--border)] bg-white px-4 py-3 font-[var(--font-body)] text-sm leading-6 text-[var(--text)] outline-none transition-colors placeholder:text-[var(--placeholder)] focus:border-[var(--brand-blue)] focus-visible:!outline-none";
+  "mt-2 w-full border border-[var(--border)] bg-[var(--surface)] px-4 py-3 font-body text-sm leading-6 text-[var(--text)] outline-none transition-colors placeholder:text-[var(--placeholder)] focus:border-[var(--brand-blue)] ";
 
 function FieldError({
   message,
@@ -58,7 +58,7 @@ function FieldError({
   }
 
   return (
-    <p className="mt-2 flex items-start gap-2 font-[var(--font-body)] text-xs leading-5 text-[var(--sale)]">
+    <p className="mt-2 flex items-start gap-2 font-body text-xs leading-5 text-[var(--sale)]">
       <AlertCircle
         aria-hidden="true"
         className="mt-0.5 h-4 w-4 shrink-0"
@@ -198,12 +198,12 @@ export function EditProductForm({
             />
 
             <div>
-              <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--sale)]">
+              <p className="font-body text-sm font-semibold text-[var(--sale)]">
                 {state.message}
               </p>
 
               {state.fieldErrors.form && (
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--sale)]">
+                <p className="mt-2 font-body text-xs leading-5 text-[var(--sale)]">
                   {
                     state
                       .fieldErrors
@@ -220,7 +220,7 @@ export function EditProductForm({
         {/* Left column */}
         <div className="space-y-7">
           {/* Product details */}
-          <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
+          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
             <div className="border-b border-[var(--border)] pb-5">
               <p className="athimart-label text-[var(--brand-orange-dark)]">
                 Seller product
@@ -555,7 +555,7 @@ export function EditProductForm({
                   }
                 />
 
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
                   Use lowercase words
                   separated by hyphens.
                 </p>
@@ -621,7 +621,7 @@ export function EditProductForm({
                   }
                 />
 
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
                   Existing short
                   descriptions can still
                   be edited and saved.
@@ -639,7 +639,7 @@ export function EditProductForm({
           </section>
 
           {/* Product images */}
-          <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
+          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
             <div className="flex items-start justify-between gap-5 border-b border-[var(--border)] pb-5">
               <div>
                 <p className="athimart-label text-[var(--brand-orange-dark)]">
@@ -650,7 +650,7 @@ export function EditProductForm({
                   Product Images
                 </h2>
 
-                <p className="mt-2 max-w-xl font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                <p className="mt-2 max-w-xl font-body text-xs leading-5 text-[var(--text-muted)]">
                   Review existing
                   images or upload new
                   ones. The first image
@@ -684,7 +684,7 @@ export function EditProductForm({
             </div>
 
             <div className="mt-5 border-l-4 border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] px-4 py-3">
-              <p className="font-[var(--font-body)] text-xs leading-5 text-[var(--text-soft)]">
+              <p className="font-body text-xs leading-5 text-[var(--text-soft)]">
                 When you remove an
                 uploaded AthiMart image
                 and save the product,
@@ -699,7 +699,7 @@ export function EditProductForm({
         {/* Right column */}
         <div className="space-y-7">
           {/* Pricing and stock */}
-          <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
+          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
             <div className="flex items-center gap-3 border-b border-[var(--border)] pb-5">
               <Settings2
                 aria-hidden="true"
@@ -707,7 +707,7 @@ export function EditProductForm({
                 strokeWidth={1.8}
               />
 
-              <h2 className="font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+              <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
                 Pricing & Stock
               </h2>
             </div>
@@ -765,7 +765,7 @@ export function EditProductForm({
                   }
                 />
 
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
                   Use a higher original
                   price only when the
                   product has a genuine
@@ -820,14 +820,14 @@ export function EditProductForm({
                   Current discount
                 </p>
 
-                <p className="mt-2 font-[var(--font-display)] text-3xl font-light text-[var(--brand-orange-dark)]">
+                <p className="mt-2 font-editorial text-3xl font-light text-[var(--brand-orange-dark)]">
                   {
                     product.discountPercent
                   }
                   %
                 </p>
 
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
                   The discount will be
                   recalculated when the
                   product is saved.
@@ -837,7 +837,7 @@ export function EditProductForm({
           </section>
 
           {/* SEO */}
-          <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
+          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
             <div className="flex items-center gap-3 border-b border-[var(--border)] pb-5">
               <SearchCheck
                 aria-hidden="true"
@@ -845,7 +845,7 @@ export function EditProductForm({
                 strokeWidth={1.8}
               />
 
-              <h2 className="font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+              <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
                 Product SEO
               </h2>
             </div>
@@ -870,7 +870,7 @@ export function EditProductForm({
                   }
                 />
 
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
                   Leave blank to use
                   the product name.
                 </p>
@@ -915,12 +915,12 @@ export function EditProductForm({
           </section>
 
           {/* Specifications */}
-          <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
-            <h2 className="font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
+            <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
               Specifications
             </h2>
 
-            <p className="mt-3 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
               Update additional
               product specifications
               using a valid JSON object.
@@ -939,10 +939,10 @@ export function EditProductForm({
                   null,
                   2
                 )}
-                className="mt-2 w-full border border-[var(--border)] bg-[var(--linen-light)] px-4 py-3 font-mono text-xs leading-6 text-[var(--text)] outline-none transition-colors focus:border-[var(--brand-blue)] focus-visible:!outline-none"
+                className="mt-2 w-full border border-[var(--border)] bg-[var(--linen-light)] px-4 py-3 font-mono text-xs leading-6 text-[var(--text)] outline-none transition-colors focus:border-[var(--brand-blue)]  rounded-xl focus:border-[var(--brand-hover)]"
               />
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+              <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
                 Example:{" "}
 
                 {`{"size":"1L","condition":"New"}`}
@@ -959,19 +959,19 @@ export function EditProductForm({
           </section>
 
           {/* Visibility */}
-          <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
-            <h2 className="font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
+            <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
               Visibility
             </h2>
 
             <div className="mt-6">
               <label className="flex cursor-pointer items-center justify-between gap-5 border border-[var(--border)] p-4 transition-colors hover:border-[var(--brand-blue)]">
                 <div>
-                  <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                  <p className="font-body text-sm font-semibold text-[var(--text)]">
                     Active product
                   </p>
 
-                  <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                  <p className="mt-1 font-body text-xs leading-5 text-[var(--text-muted)]">
                     Show this product
                     on the website and
                     mobile application.
@@ -990,7 +990,7 @@ export function EditProductForm({
             </div>
 
             <div className="mt-4 border-l-4 border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] px-4 py-3">
-              <p className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-soft)]">
+              <p className="font-body text-xs leading-6 text-[var(--text-soft)]">
                 Featured marketplace
                 placement is controlled
                 only by AthiMart
@@ -1046,7 +1046,7 @@ export function EditProductForm({
               strokeWidth={1.8}
             />
 
-            <p className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-soft)]">
+            <p className="font-body text-xs leading-6 text-[var(--text-soft)]">
               Saved product changes
               and image URLs update the
               shared Supabase records

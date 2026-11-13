@@ -134,9 +134,9 @@ export default function RegistrationWizard({
   return (
     <section
       aria-label="Delivery partner registration steps"
-      className="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-[#dbe4f2] bg-white shadow-[0_24px_70px_rgba(18,63,158,0.16)]"
+      className="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-[#eaede0] bg-[var(--surface)] shadow-[0_24px_70px_rgba(69,77,54,0.16)]"
     >
-      <header className="flex items-start justify-between gap-5 bg-[linear-gradient(135deg,#123f9e_0%,#246be0_100%)] px-6 py-6 text-white sm:px-9">
+      <header className="flex items-start justify-between gap-5 bg-[linear-gradient(135deg,#454d36_0%,#626d4c_100%)] px-6 py-6 text-white sm:px-9">
         <div className="flex items-center gap-4">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--brand-orange)]">
             <Truck
@@ -147,15 +147,15 @@ export default function RegistrationWizard({
           </span>
 
           <div>
-            <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70">
+            <p className="font-body text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70">
               AthiMart logistics network
             </p>
 
-            <h1 className="mt-1 font-[var(--font-body)] text-xl font-bold tracking-[-0.03em] sm:text-2xl">
+            <h1 className="mt-1 font-body text-xl font-bold tracking-[-0.03em] sm:text-2xl">
               Delivery Registration Details
             </h1>
 
-            <p className="mt-1 font-[var(--font-body)] text-xs text-white/75">
+            <p className="mt-1 font-body text-xs text-white/75">
               Application status: {currentStatus}
             </p>
           </div>
@@ -176,7 +176,7 @@ export default function RegistrationWizard({
 
       <nav
         aria-label="Registration progress"
-        className="grid grid-cols-3 border-b border-[#e3e9f3] bg-[#f7f9fd]"
+        className="grid grid-cols-3 border-b border-[#eef1e5] bg-[#fbfbf9]"
       >
         {steps.map((step) => {
           const Icon = step.icon;
@@ -192,12 +192,12 @@ export default function RegistrationWizard({
               disabled={!isAvailable}
               aria-current={isActive ? "step" : undefined}
               onClick={() => setActiveStep(step.id)}
-              className={`flex min-h-14 items-center justify-center gap-2 border-b-2 px-2 font-[var(--font-body)] text-[11px] font-semibold transition-colors sm:text-xs ${
+              className={`flex min-h-14 items-center justify-center gap-2 border-b-2 px-2 font-body text-[11px] font-semibold transition-colors sm:text-xs ${
                 isActive
                   ? "border-[var(--brand-blue)] text-[var(--brand-blue)]"
                   : isComplete
-                    ? "border-transparent text-[var(--success)] hover:bg-white"
-                    : "border-transparent text-[#8da0bf] disabled:cursor-not-allowed"
+                    ? "border-transparent text-[var(--success)] hover:bg-[var(--surface)]"
+                    : "border-transparent text-[#aeb894] disabled:cursor-not-allowed"
               }`}
             >
               {isComplete && !isActive ? (
@@ -227,16 +227,16 @@ export default function RegistrationWizard({
       </nav>
 
       <div className="px-5 py-7 sm:px-9 sm:py-9">
-        <div className="border-b border-[#e6ebf3] pb-6">
+        <div className="border-b border-[#eff2e7] pb-6">
           <p className="athimart-label text-[var(--brand-orange-dark)]">
             {activeStepDetail.eyebrow}
           </p>
 
-          <h2 className="mt-2 font-[var(--font-body)] text-2xl font-bold tracking-[-0.03em] text-[#10284f] sm:text-3xl">
+          <h2 className="mt-2 font-body text-2xl font-bold tracking-[-0.03em] text-[#343926] sm:text-3xl">
             {activeStepDetail.title}
           </h2>
 
-          <p className="mt-2 max-w-2xl font-[var(--font-body)] text-sm leading-6 text-[#687b99]">
+          <p className="mt-2 max-w-2xl font-body text-sm leading-6 text-[#8c9968]">
             {activeStepDetail.description}
           </p>
         </div>
@@ -246,18 +246,18 @@ export default function RegistrationWizard({
           {activeStep === 2 && vehicleForm}
 
           {activeStep === 3 && (
-            <div className="rounded-2xl border border-[#dbe4f2] bg-[#f8faff] p-6 sm:p-8">
+            <div className="rounded-2xl border border-[#eaede0] bg-[#fcfcfb] p-6 sm:p-8">
               <FileText
                 aria-hidden="true"
                 className="h-8 w-8 text-[var(--brand-blue)]"
                 strokeWidth={1.7}
               />
 
-              <h3 className="mt-5 font-[var(--font-body)] text-xl font-bold text-[#10284f]">
+              <h3 className="mt-5 font-body text-xl font-bold text-[#343926]">
                 Complete your document checks
               </h3>
 
-              <p className="mt-3 max-w-2xl font-[var(--font-body)] text-sm leading-7 text-[#687b99]">
+              <p className="mt-3 max-w-2xl font-body text-sm leading-7 text-[#8c9968]">
                 Your personal and vehicle information is saved. Continue to
                 upload your identity, driving-licence and vehicle documents,
                 then review and submit the application.
@@ -267,7 +267,7 @@ export default function RegistrationWizard({
                 <button
                   type="button"
                   onClick={() => setActiveStep(2)}
-                  className="inline-flex min-h-12 items-center justify-center gap-2 border border-[#cfd9e8] bg-white px-5 font-[var(--font-body)] text-xs font-semibold text-[#24436f] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)]"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 border border-[#dfe3d4] bg-[var(--surface)] px-5 font-body text-xs font-semibold text-[#50583b] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)] rounded-full"
                 >
                   <ArrowLeft
                     aria-hidden="true"
@@ -280,7 +280,7 @@ export default function RegistrationWizard({
 
                 <Link
                   href="/delivery-partner/register/documents"
-                  className="inline-flex min-h-12 items-center justify-center gap-2 bg-[var(--brand-blue)] px-6 font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.12em] !text-white transition-colors hover:bg-[var(--brand-blue-dark)]"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 bg-[var(--brand-blue)] px-6 font-body text-xs font-semibold uppercase tracking-[0.12em] !text-white transition-colors hover:bg-[var(--brand-blue-dark)] rounded-full"
                 >
                   Continue to documents
 

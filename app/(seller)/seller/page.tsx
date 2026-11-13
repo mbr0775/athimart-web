@@ -182,7 +182,7 @@ export default async function SellerDashboardPage() {
     products.slice(0, 5);
 
   return (
-    <div className="px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
+    <div className="min-w-0">
       {/* Page heading */}
       <header className="border-b border-[var(--border-strong)] pb-8">
         <p className="athimart-label text-[var(--brand-orange-dark)]">
@@ -231,8 +231,8 @@ export default async function SellerDashboardPage() {
         aria-label="Seller product summary"
         className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4"
       >
-        <article className="border border-[var(--border)] bg-white p-6">
-          <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 rounded-[24px]">
+          <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <Boxes
               aria-hidden="true"
               className="h-6 w-6"
@@ -244,12 +244,12 @@ export default async function SellerDashboardPage() {
             Total products
           </p>
 
-          <p className="mt-3 font-[var(--font-display)] text-5xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-3 font-editorial text-5xl font-light text-[var(--brand-blue-dark)]">
             {totalProducts}
           </p>
         </article>
 
-        <article className="border border-[var(--border)] bg-white p-6">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 rounded-[24px]">
           <span className="flex h-12 w-12 items-center justify-center bg-green-50 text-[var(--success)]">
             <PackageCheck
               aria-hidden="true"
@@ -262,12 +262,12 @@ export default async function SellerDashboardPage() {
             Active products
           </p>
 
-          <p className="mt-3 font-[var(--font-display)] text-5xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-3 font-editorial text-5xl font-light text-[var(--brand-blue-dark)]">
             {activeProducts}
           </p>
         </article>
 
-        <article className="border border-[var(--border)] bg-white p-6">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 rounded-[24px]">
           <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]">
             <Clock3
               aria-hidden="true"
@@ -280,12 +280,12 @@ export default async function SellerDashboardPage() {
             Inactive products
           </p>
 
-          <p className="mt-3 font-[var(--font-display)] text-5xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-3 font-editorial text-5xl font-light text-[var(--brand-blue-dark)]">
             {inactiveProducts}
           </p>
         </article>
 
-        <article className="border border-[var(--border)] bg-white p-6">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 rounded-[24px]">
           <span className="flex h-12 w-12 items-center justify-center bg-red-50 text-[var(--sale)]">
             <PackageX
               aria-hidden="true"
@@ -298,7 +298,7 @@ export default async function SellerDashboardPage() {
             Out of stock
           </p>
 
-          <p className="mt-3 font-[var(--font-display)] text-5xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-3 font-editorial text-5xl font-light text-[var(--brand-blue-dark)]">
             {outOfStockProducts}
           </p>
         </article>
@@ -312,14 +312,14 @@ export default async function SellerDashboardPage() {
               Seller inventory
             </p>
 
-            <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+            <h2 className="mt-2 font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
               Recent Products
             </h2>
           </div>
 
           <Link
             href="/seller/products"
-            className="inline-flex min-h-11 items-center justify-center gap-2 border border-[var(--brand-blue)] bg-white px-4 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-blue)] hover:text-white"
+            className="inline-flex min-h-11 items-center justify-center gap-2 border border-[var(--brand-blue)] bg-[var(--surface)] px-4 font-body text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-blue)] hover:text-white rounded-full"
           >
             <Boxes
               aria-hidden="true"
@@ -332,8 +332,8 @@ export default async function SellerDashboardPage() {
         </div>
 
         {recentProducts.length === 0 ? (
-          <div className="mt-6 border border-[var(--border)] bg-white px-6 py-16 text-center">
-            <span className="mx-auto flex h-16 w-16 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+          <div className="mt-6 border border-[var(--border)] bg-[var(--surface)] px-6 py-16 text-center rounded-[24px]">
+            <span className="mx-auto flex h-16 w-16 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
               <Store
                 aria-hidden="true"
                 className="h-8 w-8"
@@ -341,7 +341,7 @@ export default async function SellerDashboardPage() {
               />
             </span>
 
-            <h3 className="mt-6 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+            <h3 className="mt-6 font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
               No Products Yet
             </h3>
 
@@ -365,7 +365,7 @@ export default async function SellerDashboardPage() {
             </Link>
           </div>
         ) : (
-          <div className="mt-6 overflow-hidden border border-[var(--border)] bg-white">
+          <div className="mt-6 overflow-hidden border border-[var(--border)] bg-[var(--surface)]">
             <div className="divide-y divide-[var(--border)]">
               {recentProducts.map(
                 (product) => {
@@ -390,15 +390,15 @@ export default async function SellerDashboardPage() {
                     >
                       <div className="min-w-0">
                         <div className="flex flex-wrap items-center gap-3">
-                          <h3 className="truncate font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
+                          <h3 className="truncate font-editorial text-2xl font-light text-[var(--brand-blue-dark)]">
                             {productName}
                           </h3>
 
                           <span
                             className={
                               product.is_active
-                                ? "bg-green-50 px-3 py-1 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--success)]"
-                                : "bg-[var(--linen)] px-3 py-1 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--text-muted)]"
+                                ? "bg-green-50 px-3 py-1 font-body text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--success)]"
+                                : "bg-[var(--linen)] px-3 py-1 font-body text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--text-muted)]"
                             }
                           >
                             {product.is_active
@@ -407,7 +407,7 @@ export default async function SellerDashboardPage() {
                           </span>
                         </div>
 
-                        <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+                        <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 font-body text-xs text-[var(--text-muted)]">
                           <span>
                             {formatPrice(
                               product.price_lkr,
@@ -438,7 +438,7 @@ export default async function SellerDashboardPage() {
                               href={`/product/${product.slug}`}
                               aria-label={`View ${productName} in the store`}
                               title="View product"
-                              className="flex h-11 w-11 items-center justify-center border border-[var(--border)] bg-white text-[var(--brand-blue)] transition-colors hover:border-[var(--brand-blue)] hover:bg-[var(--brand-blue-soft)]"
+                              className="flex h-11 w-11 items-center justify-center border border-[var(--border)] bg-[var(--surface)] text-[var(--brand-blue)] transition-colors hover:border-[var(--brand-blue)] hover:bg-[var(--brand-blue-soft)]"
                             >
                               <Eye
                                 aria-hidden="true"

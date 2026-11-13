@@ -60,13 +60,13 @@ const validationOrder = [
 ] as const;
 
 const inputClassName =
-  "mt-2 min-h-13 w-full border border-[var(--border)] bg-white px-4 font-[var(--font-body)] text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--placeholder)] focus:border-[var(--brand-blue)] focus-visible:!outline-none";
+  "mt-2 min-h-13 w-full border border-[var(--border)] bg-[var(--surface)] px-4 font-body text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--placeholder)] focus:border-[var(--brand-blue)] ";
 
 const textareaClassName =
-  "mt-2 w-full border border-[var(--border)] bg-white px-4 py-3 font-[var(--font-body)] text-sm leading-6 text-[var(--text)] outline-none transition-colors placeholder:text-[var(--placeholder)] focus:border-[var(--brand-blue)] focus-visible:!outline-none";
+  "mt-2 w-full border border-[var(--border)] bg-[var(--surface)] px-4 py-3 font-body text-sm leading-6 text-[var(--text)] outline-none transition-colors placeholder:text-[var(--placeholder)] focus:border-[var(--brand-blue)] ";
 
 const attributesClassName =
-  "mt-2 w-full border border-[var(--border)] bg-[var(--linen-light)] px-4 py-3 font-mono text-xs leading-6 text-[var(--text)] outline-none transition-colors focus:border-[var(--brand-blue)] focus-visible:!outline-none";
+  "mt-2 w-full border border-[var(--border)] bg-[var(--linen-light)] px-4 py-3 font-mono text-xs leading-6 text-[var(--text)] outline-none transition-colors focus:border-[var(--brand-blue)] ";
 
 function RequiredLabel({
   children,
@@ -102,7 +102,7 @@ function FieldError({
     <p
       id={id}
       role="alert"
-      className="mt-2 flex items-start gap-2 font-[var(--font-body)] text-xs leading-5 text-[var(--sale)]"
+      className="mt-2 flex items-start gap-2 font-body text-xs leading-5 text-[var(--sale)]"
     >
       <AlertCircle
         aria-hidden="true"
@@ -686,13 +686,13 @@ export function ProductForm({
         />
 
         <div>
-          <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--brand-orange-dark)]">
+          <p className="font-body text-sm font-semibold text-[var(--brand-orange-dark)]">
             Complete all
             required product
             information.
           </p>
 
-          <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-soft)]">
+          <p className="mt-1 font-body text-xs leading-5 text-[var(--text-soft)]">
             Fields marked with
             a red{" "}
 
@@ -728,13 +728,13 @@ export function ProductForm({
             />
 
             <div>
-              <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--sale)]">
+              <p className="font-body text-sm font-semibold text-[var(--sale)]">
                 {state.message ||
                   "Complete the fields highlighted in red before adding the product."}
               </p>
 
               {combinedErrors.form && (
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--sale)]">
+                <p className="mt-2 font-body text-xs leading-5 text-[var(--sale)]">
                   {
                     combinedErrors.form
                   }
@@ -752,7 +752,7 @@ export function ProductForm({
                         key={
                           message
                         }
-                        className="font-[var(--font-body)] text-xs leading-5 text-[var(--sale)]"
+                        className="font-body text-xs leading-5 text-[var(--sale)]"
                       >
                         •{" "}
                         {
@@ -772,7 +772,7 @@ export function ProductForm({
         {/* Left column */}
         <div className="space-y-7">
           {/* Product details */}
-          <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
+          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
             <div className="border-b border-[var(--border)] pb-5">
               <p className="athimart-label text-[var(--brand-orange-dark)]">
                 Core
@@ -784,7 +784,7 @@ export function ProductForm({
                 Details
               </h2>
 
-              <p className="mt-3 max-w-2xl font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="mt-3 max-w-2xl font-body text-xs leading-6 text-[var(--text-muted)]">
                 Enter the
                 information
                 customers will
@@ -1110,7 +1110,7 @@ export function ProductForm({
                   }
                 />
 
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
                   Leave blank
                   to generate
                   it from the
@@ -1178,7 +1178,7 @@ export function ProductForm({
 
                 <p
                   id="description-help"
-                  className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]"
+                  className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]"
                 >
                   A minimum of
                   40 characters
@@ -1198,7 +1198,7 @@ export function ProductForm({
           {/* Product images */}
           <section
             data-product-field="imageUrls"
-            className={`border bg-white p-5 sm:p-7 ${
+            className={`border bg-[var(--surface)] p-5 sm:p-7 ${
               getFieldError(
                 "imageUrls"
               )
@@ -1224,7 +1224,7 @@ export function ProductForm({
                   </span>
                 </h2>
 
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
                   Upload at
                   least one
                   product image.
@@ -1267,7 +1267,7 @@ export function ProductForm({
         {/* Right column */}
         <div className="space-y-7">
           {/* Pricing and stock */}
-          <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
+          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
             <div className="flex items-center gap-3 border-b border-[var(--border)] pb-5">
               <Settings2
                 aria-hidden="true"
@@ -1277,7 +1277,7 @@ export function ProductForm({
                 }
               />
 
-              <h2 className="font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+              <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
                 Pricing &
                 Stock
               </h2>
@@ -1339,7 +1339,7 @@ export function ProductForm({
                   )}
                 />
 
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
                   Enter a higher
                   original price
                   only when the
@@ -1400,7 +1400,7 @@ export function ProductForm({
                   discount
                 </p>
 
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-soft)]">
+                <p className="mt-2 font-body text-xs leading-6 text-[var(--text-soft)]">
                   The discount
                   percentage
                   will be
@@ -1417,7 +1417,7 @@ export function ProductForm({
           </section>
 
           {/* SEO */}
-          <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
+          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
             <div className="flex items-center gap-3 border-b border-[var(--border)] pb-5">
               <SearchCheck
                 aria-hidden="true"
@@ -1427,7 +1427,7 @@ export function ProductForm({
                 }
               />
 
-              <h2 className="font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+              <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
                 Product SEO
               </h2>
             </div>
@@ -1451,7 +1451,7 @@ export function ProductForm({
                   }
                 />
 
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
                   Leave blank
                   to use the
                   product name.
@@ -1497,7 +1497,7 @@ export function ProductForm({
           {/* Specifications */}
           <section
             data-product-field="attributes"
-            className={`border bg-white p-5 sm:p-7 ${
+            className={`border bg-[var(--surface)] p-5 sm:p-7 ${
               getFieldError(
                 "attributes"
               )
@@ -1505,7 +1505,7 @@ export function ProductForm({
                 : "border-[var(--border)]"
             }`}
           >
-            <h2 className="font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+            <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
               Specifications{" "}
 
               <span
@@ -1525,7 +1525,7 @@ export function ProductForm({
                 }
               />
 
-              <p className="font-[var(--font-body)] text-xs leading-5 text-[var(--sale)]">
+              <p className="font-body text-xs leading-5 text-[var(--sale)]">
                 Specifications
                 are required.
                 Add at least one
@@ -1566,7 +1566,7 @@ export function ProductForm({
 
               <p
                 id="attributes-help"
-                className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]"
+                className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]"
               >
                 Example:{" "}
 
@@ -1583,20 +1583,20 @@ export function ProductForm({
           </section>
 
           {/* Visibility */}
-          <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
-            <h2 className="font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
+            <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
               Visibility
             </h2>
 
             <div className="mt-6">
               <label className="flex cursor-pointer items-center justify-between gap-5 border border-[var(--border)] p-4 transition-colors hover:border-[var(--brand-blue)]">
                 <div>
-                  <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                  <p className="font-body text-sm font-semibold text-[var(--text)]">
                     Active
                     product
                   </p>
 
-                  <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                  <p className="mt-1 font-body text-xs leading-5 text-[var(--text-muted)]">
                     Show this
                     product on
                     the website
@@ -1615,7 +1615,7 @@ export function ProductForm({
             </div>
 
             <div className="mt-4 border-l-4 border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] px-4 py-3">
-              <p className="font-[var(--font-body)] text-xs leading-5 text-[var(--text-soft)]">
+              <p className="font-body text-xs leading-5 text-[var(--text-soft)]">
                 Featured
                 marketplace
                 placement is
@@ -1677,7 +1677,7 @@ export function ProductForm({
               }
             />
 
-            <p className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-soft)]">
+            <p className="font-body text-xs leading-6 text-[var(--text-soft)]">
               The product and
               uploaded image
               URLs will be

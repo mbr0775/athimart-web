@@ -50,7 +50,7 @@ export default function ProductDescription({
           className="
             mt-1
             text-xs
-            text-gray-500
+            text-[var(--text-soft)]
           "
         >
           Describe your product details.
@@ -88,11 +88,11 @@ export default function ProductDescription({
           className="
             mt-2
             w-full
-            rounded-lg
+            rounded-xl
             border
             px-4
             py-3
-          "
+           border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
 
           placeholder="Enter product description"
 

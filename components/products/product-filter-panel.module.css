@@ -1,0 +1,542 @@
+.panel {
+  min-width: 0;
+  color: #454530;
+}
+.categories {
+  display: flex;
+  gap: 10px;
+  padding: 22px 0;
+  overflow-x: auto;
+  border-block: 1px solid #dedfce;
+  scrollbar-width: thin;
+}
+.categories button {
+  display: inline-flex;
+  min-height: 44px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 19px;
+  border: 1px solid #dce0cd;
+  border-radius: 999px;
+  background: transparent;
+  color: #727b60;
+  font-size: 11px;
+  line-height: 1.5;
+  transition:
+    background 200ms ease,
+    border-color 200ms ease;
+}
+.categories button:hover {
+  background: #eef0e1;
+  border-color: #bdc8a9;
+}
+.categories button[aria-pressed="true"] {
+  border-color: #454d36;
+  background: #454d36;
+  color: #fffaf0;
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding-top: 20px;
+}
+.resultCount {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  color: #7c7e68;
+  font-size: 11px;
+}
+.resultCount > span:first-child {
+  color: #454d36;
+  font-weight: 500;
+}
+.refined {
+  color: #96977e;
+  font-size: 10px;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.filterTrigger {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 17px;
+  border: 1px solid #d9ddc9;
+  border-radius: 999px;
+  color: #626e50;
+  font-size: 11px;
+  transition: background 200ms ease;
+}
+.filterTrigger:hover {
+  background: #edf0e2;
+}
+.filterTrigger > span {
+  display: grid;
+  width: 19px;
+  height: 19px;
+  place-items: center;
+  border-radius: 50%;
+  background: #e7ebd6;
+  color: #5c6947;
+  font-size: 9px;
+}
+.sortControl {
+  position: relative;
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 10px;
+}
+.sortControl > label {
+  color: #8a8b74;
+  font-size: 10px;
+}
+.sortControl > select {
+  width: 150px;
+  min-height: 44px;
+  appearance: none;
+  padding: 10px 24px 10px 5px;
+  border: 0;
+  background: transparent;
+  color: #5b664b;
+  font-family: inherit;
+  font-size: 11px;
+}
+.sortControl > svg {
+  position: absolute;
+  right: 1px;
+  pointer-events: none;
+  color: #727e5c;
+}
+.activeFilters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  padding-top: 16px;
+}
+.activeFilters button {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  gap: 12px;
+  max-width: 100%;
+  padding: 8px 13px;
+  border: 1px solid #dce1cb;
+  border-radius: 999px;
+  background: #edf0e0;
+  color: #687651;
+  font-size: 10px;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.activeFilters button > svg {
+  flex-shrink: 0;
+}
+.activeFilters button:hover {
+  background: #e3e9d3;
+}
+.activeFilters .clearAll {
+  min-height: 44px;
+  border: none;
+  background: transparent;
+  color: #7f826b;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.panel button:disabled,
+.panel select:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+.panel button:focus-visible,
+.panel a:focus-visible,
+.panel select:focus-visible,
+.panel input:focus-visible {
+  outline: 2px solid #839268;
+  outline-offset: 4px;
+}
+.dialog {
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: min(480px, 100%);
+  height: 100dvh;
+  max-width: 100%;
+  max-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  background: #fffdf6;
+  color: #454530;
+}
+.dialog[open] {
+  animation: drawerEnter 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.dialog::backdrop {
+  background: #28311fc2;
+  backdrop-filter: blur(4px);
+}
+.dialog[open]::backdrop {
+  animation: backdropEnter 250ms ease both;
+}
+.drawer {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+.drawerHeader {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 31px 30px 25px;
+  border-bottom: 1px solid #e2e4d4;
+}
+.eyebrow {
+  margin: 0;
+  color: #7a8566;
+  font-size: 8px;
+  line-height: 1.8;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.drawerHeader h2 {
+  margin: 9px 0 0;
+  font-family: var(--font-editorial), "Times New Roman", serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+.drawerHeader > button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  place-items: center;
+  border: 1px solid #dce1cd;
+  border-radius: 50%;
+  background: #f2f3e9;
+  color: #626e50;
+}
+.drawer > form {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+.formBody {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 23px;
+  padding: 25px 30px 30px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.drawerIntro {
+  margin: 0;
+  color: #858570;
+  font-size: 11px;
+  line-height: 1.9;
+}
+.field > label {
+  display: block;
+  margin-bottom: 9px;
+  color: #636e51;
+  font-size: 11px;
+}
+.selectWrap {
+  position: relative;
+}
+.selectWrap > select {
+  width: 100%;
+  min-height: 49px;
+  appearance: none;
+  padding: 12px 40px 12px 15px;
+  border: 1px solid #dce1ce;
+  border-radius: 12px;
+  background: #fffefb;
+  color: #626a52;
+  font-family: inherit;
+  font-size: 12px;
+}
+.selectWrap > svg {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  color: #8b9775;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.priceRange {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+.priceRange legend {
+  width: 100%;
+  padding: 0;
+  margin-bottom: 11px;
+  color: #636e51;
+  font-size: 11px;
+}
+.priceRange legend > span {
+  float: right;
+  color: #92977e;
+  font-size: 9px;
+}
+.priceRange > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.priceRange label {
+  min-width: 0;
+}
+.priceRange label > span {
+  color: #8a8e77;
+  font-size: 9px;
+}
+.priceRange label > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 14px;
+  margin-top: 7px;
+  border: 1px solid #dce1ce;
+  border-radius: 12px;
+  background: #fffefb;
+}
+.priceRange label > div > span {
+  color: #93997d;
+  font-size: 11px;
+}
+.priceRange input {
+  width: 100%;
+  min-width: 0;
+  min-height: 49px;
+  padding: 12px 10px 12px 0;
+  border: 0;
+  border-radius: 0 12px 12px 0;
+  background: transparent;
+  color: #626a52;
+  font-family: inherit;
+  font-size: 12px;
+}
+.priceRange input::placeholder {
+  color: #a1a58e;
+}
+.priceRange > p {
+  margin: 9px 0 0;
+  color: #93977f;
+  font-size: 9px;
+  line-height: 1.8;
+}
+.drawerFooter {
+  display: grid;
+  grid-template-columns: 0.8fr 1.4fr;
+  flex-shrink: 0;
+  gap: 14px;
+  padding: 22px 30px;
+  border-top: 1px solid #e2e4d4;
+  background: #fffdf6;
+}
+.drawerFooter button {
+  display: flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 11px;
+}
+.resetButton {
+  border: 1px solid #dce1cd;
+  color: #74825c;
+}
+.applyButton {
+  border: 1px solid #454d36;
+  background: #454d36;
+  color: #fffaf0;
+}
+.applyButton:hover {
+  background: #626e50;
+}
+.drawerNote {
+  flex-shrink: 0;
+  padding: 0 20px calc(20px + env(safe-area-inset-bottom));
+  margin: 0;
+  text-align: center;
+}
+.drawerNote > a {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  gap: 8px;
+  color: #858c73;
+  font-size: 9px;
+}
+.spinner {
+  animation: filterSpin 900ms linear infinite;
+}
+@keyframes drawerEnter {
+  from {
+    opacity: 0;
+    transform: translateX(35px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes backdropEnter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes filterSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 1023px) {
+  .toolbar {
+    gap: 15px;
+  }
+  .controls {
+    gap: 15px;
+  }
+  .refined {
+    display: none;
+  }
+  .sortControl > label {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  .categories {
+    gap: 8px;
+    padding-block: 17px;
+  }
+  .categories button {
+    min-height: 44px;
+    padding-inline: 15px;
+    font-size: 10px;
+  }
+  .toolbar {
+    flex-wrap: wrap;
+    gap: 14px;
+    padding-top: 18px;
+  }
+  .resultCount {
+    width: 100%;
+    font-size: 10px;
+  }
+  .refined {
+    display: inline;
+  }
+  .controls {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .filterTrigger {
+    min-width: 110px;
+    font-size: 10px;
+  }
+  .sortControl {
+    padding-left: 12px;
+    border-left: 1px solid #dce1cd;
+  }
+  .sortControl > select {
+    width: 148px;
+    font-size: 10px;
+  }
+  .activeFilters {
+    gap: 7px;
+    padding-top: 14px;
+  }
+  .activeFilters button {
+    min-height: 44px;
+    font-size: 9px;
+    padding-inline: 12px;
+  }
+  .dialog {
+    inset: auto 0 0;
+    width: 100%;
+    height: min(91dvh, 850px);
+    border-radius: 26px 26px 0 0;
+  }
+  .dialog[open] {
+    animation-name: drawerEnterMobile;
+  }
+  .drawerHeader {
+    padding: 24px 22px 20px;
+  }
+  .drawerHeader h2 {
+    font-size: 32px;
+  }
+  .formBody {
+    gap: 21px;
+    padding: 22px;
+  }
+  .drawerIntro {
+    font-size: 10px;
+  }
+  .selectWrap > select,
+  .priceRange input {
+    font-size: 16px;
+  }
+  .drawerFooter {
+    padding: 17px 22px;
+  }
+  .drawerNote {
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+  }
+  .drawerNote > a {
+    font-size: 8px;
+  }
+}
+@keyframes drawerEnterMobile {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .categories button,
+  .filterTrigger {
+    transition: none;
+  }
+  .dialog[open],
+  .dialog[open]::backdrop,
+  .spinner {
+    animation: none;
+  }
+}

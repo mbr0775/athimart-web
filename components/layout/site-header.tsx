@@ -7,6 +7,8 @@ import { ArrowUpRight, CircleUserRound, Menu, Search, ShoppingBag, X } from "luc
 
 import { CART_STORAGE_KEY, getCartItemCount, readCart } from "@/lib/cart/cart-storage";
 import { editorialFont } from "@/lib/fonts";
+import ProfileAvatar from "@/components/account/profile-avatar";
+import type { ProfileIdentity } from "@/lib/account/profile-identity";
 import styles from "./site-header.module.css";
 
 const navigationItems = [
@@ -37,7 +39,7 @@ function subscribeToCart(onChange: () => void) {
 function getCartCount() { return getCartItemCount(readCart()); }
 function getServerCartCount() { return 0; }
 
-export function SiteHeader() {
+export function SiteHeader({ identity = null }: { identity?: ProfileIdentity | null }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const reduceMotion = useReducedMotion();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -97,11 +99,15 @@ export function SiteHeader() {
           <Link href="/cart" aria-label={`Open shopping cart, ${cartCount} items`} className={styles.cartLink}>
             <ShoppingBag size={22} strokeWidth={1.5} aria-hidden="true" className={styles.cartIcon} />
             <span className={styles.cartLabel}>Cart ({cartCount})</span>
-            <span className={styles.mobileCartCount} aria-hidden="true">{cartCount}</span>
+            {cartCount > 0 && (
+              <span className={styles.mobileCartCount} aria-hidden="true">
+                {cartCount > 99 ? "99+" : cartCount}
+              </span>
+            )}
           </Link>
-          <Link href="/account" aria-label="Open account" title="Account" className={styles.accountLink}>
-            <CircleUserRound size={32} strokeWidth={1.4} aria-hidden="true" />
-            <span className={styles.accountLabel}>Account</span>
+          <Link href={identity ? "/account" : "/auth/login"} aria-label={identity ? `Open account for ${identity.name}` : "Sign in to AthiMart"} title={identity?.name || "Sign in"} className={styles.accountLink}>
+            {identity ? <ProfileAvatar name={identity.name} avatarUrl={identity.avatarUrl} /> : <CircleUserRound size={32} strokeWidth={1.4} aria-hidden="true" />}
+            <span className={styles.accountLabel}>{identity?.name || "Sign in"}</span>
           </Link>
         </div>
         <AnimatePresence>

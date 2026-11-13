@@ -45,9 +45,9 @@ export default function DocumentUploadSection({
   return (
     <div className="space-y-10">
       {/* Applicant photograph */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]">
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <UserRound
               aria-hidden="true"
               className="h-6 w-6"
@@ -64,7 +64,7 @@ export default function DocumentUploadSection({
               Applicant Photograph
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Upload a recent and clearly visible
               photograph of the delivery-partner
               applicant.
@@ -88,7 +88,7 @@ export default function DocumentUploadSection({
       </section>
 
       {/* Identity documents */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]">
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]">
             <IdCard
@@ -107,7 +107,7 @@ export default function DocumentUploadSection({
               Identity Documents
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Upload clear copies of the official
               identity document entered in your
               personal information.
@@ -142,9 +142,9 @@ export default function DocumentUploadSection({
       </section>
 
       {/* Driving licence documents */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]">
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <FileText
               aria-hidden="true"
               className="h-6 w-6"
@@ -161,7 +161,7 @@ export default function DocumentUploadSection({
               Driving Licence Documents
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Upload both sides of your driving
               licence so AthiMart can verify its
               number, class and validity.
@@ -197,7 +197,7 @@ export default function DocumentUploadSection({
       </section>
 
       {/* Supporting verification */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]">
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-green-50 text-[var(--success)]">
             <ShieldCheck
@@ -216,7 +216,7 @@ export default function DocumentUploadSection({
               Supporting Verification
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Additional verification documents may
               be requested depending on AthiMart’s
               approval requirements.
@@ -239,9 +239,9 @@ export default function DocumentUploadSection({
       </section>
 
       {/* Vehicle photographs */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]">
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <Truck
               aria-hidden="true"
               className="h-6 w-6"
@@ -258,7 +258,7 @@ export default function DocumentUploadSection({
               Vehicle Photographs
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Images should clearly show the vehicle,
               its overall condition, cargo area and
               registration number.
@@ -271,11 +271,11 @@ export default function DocumentUploadSection({
             role="status"
             className="mt-7 border-l-4 border-[var(--warning)] bg-amber-50 p-4"
           >
-            <p className="font-[var(--font-body)] text-xs font-semibold text-[var(--warning)]">
+            <p className="font-body text-xs font-semibold text-[var(--warning)]">
               Save the vehicle draft first
             </p>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Vehicle documents cannot be linked
               until the vehicle has been saved and a
               vehicle ID has been created.
@@ -327,7 +327,7 @@ export default function DocumentUploadSection({
       </section>
 
       {/* Vehicle legal documents */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]">
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]">
             <FileText
@@ -346,7 +346,7 @@ export default function DocumentUploadSection({
               Vehicle Legal Documents
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Upload valid registration, ownership,
               insurance and operating documents for
               the selected vehicle.
@@ -434,11 +434,11 @@ export default function DocumentUploadSection({
           />
 
           <div>
-            <h2 className="font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em] text-[var(--text)]">
+            <h2 className="font-body text-xs font-semibold uppercase tracking-[0.14em] text-[var(--text)]">
               Private and Access Controlled
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               These documents are stored in a private
               AthiMart Storage bucket. Access is
               intended only for the applicant and

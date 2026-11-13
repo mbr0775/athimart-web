@@ -2,25 +2,13 @@
 
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { Oswald, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 
 import { MotionProvider } from "@/components/providers/motion-provider";
-import {
-  allowSearchIndexing,
-  siteConfig,
-} from "@/config/site";
+import { allowSearchIndexing, siteConfig } from "@/config/site";
 
+import { editorialFont } from "@/lib/fonts";
 import "./globals.css";
-
-/**
- * Tall editorial headings matching the AthiMart mobile application.
- */
-const oswald = Oswald({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-oswald",
-  display: "swap",
-});
 
 /**
  * Body text, navigation, buttons, labels and forms.
@@ -145,7 +133,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   viewportFit: "cover",
-  themeColor: "#F2EDE7",
+  themeColor: "#fffaf0",
   colorScheme: "light",
 };
 
@@ -153,17 +141,15 @@ interface RootLayoutProps {
   children: ReactNode;
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<RootLayoutProps>) {
+export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html lang="en">
-      <body
-        className={`${oswald.variable} ${poppins.variable}`}
-      >
-        <MotionProvider>
-          {children}
-        </MotionProvider>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${poppins.variable} ${editorialFont.variable}`}
+    >
+      <body>
+        <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   );

@@ -167,7 +167,7 @@ from-white/20
 
 via-transparent
 
-to-blue-100/30
+to-[var(--surface-soft)]/30
 
 "
 

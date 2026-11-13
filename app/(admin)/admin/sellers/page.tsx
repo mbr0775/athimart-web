@@ -305,7 +305,7 @@ export default async function AdminSellersPage({
     );
 
   return (
-    <div className="px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
+    <div className="min-w-0">
       {/* Page heading */}
       <header className="border-b border-[var(--border-strong)] pb-8">
         <p className="athimart-label text-[var(--brand-orange-dark)]">
@@ -353,7 +353,7 @@ export default async function AdminSellersPage({
           role="status"
           className="mt-7 border-l-4 border-[var(--success)] bg-green-50 px-5 py-4"
         >
-          <p className="font-[var(--font-body)] text-sm leading-6 text-[var(--success)]">
+          <p className="font-body text-sm leading-6 text-[var(--success)]">
             {statusMessage}
           </p>
         </div>
@@ -364,7 +364,7 @@ export default async function AdminSellersPage({
           role="alert"
           className="mt-7 border-l-4 border-[var(--sale)] bg-red-50 px-5 py-4"
         >
-          <p className="font-[var(--font-body)] text-sm leading-6 text-[var(--sale)]">
+          <p className="font-body text-sm leading-6 text-[var(--sale)]">
             {errorMessage}
           </p>
         </div>
@@ -375,7 +375,7 @@ export default async function AdminSellersPage({
         aria-label="Seller summary"
         className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4"
       >
-        <article className="border border-[var(--border)] bg-white p-5">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <Store
             aria-hidden="true"
             className="h-6 w-6 text-[var(--brand-blue)]"
@@ -386,12 +386,12 @@ export default async function AdminSellersPage({
             Approved sellers
           </p>
 
-          <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-blue-dark)]">
             {totalSellers}
           </p>
         </article>
 
-        <article className="border border-[var(--border)] bg-white p-5">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <BadgeCheck
             aria-hidden="true"
             className="h-6 w-6 text-[var(--success)]"
@@ -402,12 +402,12 @@ export default async function AdminSellersPage({
             Active sellers
           </p>
 
-          <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-blue-dark)]">
             {activeSellers}
           </p>
         </article>
 
-        <article className="border border-[var(--border)] bg-white p-5">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <Ban
             aria-hidden="true"
             className="h-6 w-6 text-[var(--sale)]"
@@ -418,12 +418,12 @@ export default async function AdminSellersPage({
             Blocked sellers
           </p>
 
-          <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-blue-dark)]">
             {blockedSellers}
           </p>
         </article>
 
-        <article className="border border-[var(--border)] bg-white p-5">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <Boxes
             aria-hidden="true"
             className="h-6 w-6 text-[var(--brand-orange-dark)]"
@@ -434,7 +434,7 @@ export default async function AdminSellersPage({
             Seller products
           </p>
 
-          <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-blue-dark)]">
             {sellerProducts}
           </p>
         </article>
@@ -442,14 +442,14 @@ export default async function AdminSellersPage({
 
       {/* Seller records */}
       {sellers.length === 0 ? (
-        <section className="mt-8 border border-[var(--border)] bg-white px-6 py-16 text-center">
+        <section className="mt-8 border border-[var(--border)] bg-[var(--surface)] px-6 py-16 text-center rounded-[24px]">
           <Store
             aria-hidden="true"
             className="mx-auto h-10 w-10 text-[var(--brand-blue)]"
             strokeWidth={1.6}
           />
 
-          <h2 className="mt-6 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+          <h2 className="mt-6 font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
             No Approved Sellers
           </h2>
 
@@ -512,13 +512,13 @@ export default async function AdminSellersPage({
               return (
                 <article
                   key={seller.id}
-                  className="border border-[var(--border)] bg-white"
+                  className="border border-[var(--border)] bg-[var(--surface)]"
                 >
                   <div className="grid gap-6 p-5 sm:p-7 xl:grid-cols-[minmax(0,1fr)_360px]">
                     {/* Seller information */}
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-3">
-                        <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+                        <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
                           <Store
                             aria-hidden="true"
                             className="h-6 w-6"
@@ -527,15 +527,15 @@ export default async function AdminSellersPage({
                         </span>
 
                         <div className="min-w-0">
-                          <h2 className="break-words font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]">
+                          <h2 className="break-words font-editorial text-3xl font-light text-[var(--brand-blue-dark)]">
                             {sellerName}
                           </h2>
 
                           <span
                             className={
                               isBlocked
-                                ? "mt-2 inline-flex bg-red-50 px-3 py-1 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--sale)]"
-                                : "mt-2 inline-flex bg-green-50 px-3 py-1 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--success)]"
+                                ? "mt-2 inline-flex bg-red-50 px-3 py-1 font-body text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--sale)]"
+                                : "mt-2 inline-flex bg-green-50 px-3 py-1 font-body text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--success)]"
                             }
                           >
                             {isBlocked
@@ -558,7 +558,7 @@ export default async function AdminSellersPage({
                               Email
                             </p>
 
-                            <p className="mt-2 break-all font-[var(--font-body)] text-xs text-[var(--text)]">
+                            <p className="mt-2 break-all font-body text-xs text-[var(--text)]">
                               {sellerEmail}
                             </p>
                           </div>
@@ -576,7 +576,7 @@ export default async function AdminSellersPage({
                               Phone
                             </p>
 
-                            <p className="mt-2 font-[var(--font-body)] text-xs text-[var(--text)]">
+                            <p className="mt-2 font-body text-xs text-[var(--text)]">
                               {sellerPhone}
                             </p>
                           </div>
@@ -594,7 +594,7 @@ export default async function AdminSellersPage({
                               Products
                             </p>
 
-                            <p className="mt-2 font-[var(--font-body)] text-xs font-semibold text-[var(--text)]">
+                            <p className="mt-2 font-body text-xs font-semibold text-[var(--text)]">
                               {productCount}
                             </p>
                           </div>
@@ -612,7 +612,7 @@ export default async function AdminSellersPage({
                               Approved
                             </p>
 
-                            <p className="mt-2 font-[var(--font-body)] text-xs text-[var(--text)]">
+                            <p className="mt-2 font-body text-xs text-[var(--text)]">
                               {formatDate(
                                 seller.seller_reviewed_at
                               )}
@@ -628,7 +628,7 @@ export default async function AdminSellersPage({
                               Block reason
                             </p>
 
-                            <p className="mt-2 font-[var(--font-body)] text-sm leading-6 text-[var(--text-soft)]">
+                            <p className="mt-2 font-body text-sm leading-6 text-[var(--text-soft)]">
                               {
                                 seller.blocked_reason
                               }
@@ -645,11 +645,11 @@ export default async function AdminSellersPage({
                             Restore access
                           </p>
 
-                          <h3 className="mt-2 font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
+                          <h3 className="mt-2 font-editorial text-2xl font-light text-[var(--brand-blue-dark)]">
                             Unblock Seller
                           </h3>
 
-                          <p className="mt-3 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+                          <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
                             Restoring this
                             account allows the
                             seller to sign in
@@ -665,7 +665,7 @@ export default async function AdminSellersPage({
                           >
                             <button
                               type="submit"
-                              className="inline-flex min-h-13 w-full items-center justify-center gap-3 border border-[var(--success)] bg-[var(--success)] px-5 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.15em] text-white transition-opacity hover:opacity-90"
+                              className="inline-flex min-h-13 w-full items-center justify-center gap-3 border border-[var(--success)] bg-[var(--success)] px-5 font-body text-[10px] font-semibold uppercase tracking-[0.15em] text-white transition-opacity hover:opacity-90 rounded-full"
                             >
                               <RotateCcw
                                 aria-hidden="true"
@@ -683,11 +683,11 @@ export default async function AdminSellersPage({
                             Restrict access
                           </p>
 
-                          <h3 className="mt-2 font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
+                          <h3 className="mt-2 font-editorial text-2xl font-light text-[var(--brand-blue-dark)]">
                             Block Seller
                           </h3>
 
-                          <p className="mt-3 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+                          <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
                             The seller will
                             lose account and
                             product-management
@@ -713,7 +713,7 @@ export default async function AdminSellersPage({
                                 minLength={5}
                                 rows={4}
                                 placeholder="Explain why this seller account is being restricted."
-                                className={`mt-2 w-full border bg-white px-4 py-3 font-[var(--font-body)] text-sm leading-6 text-[var(--text)] outline-none transition-colors focus:border-[var(--brand-blue)] ${
+                                className={`mt-2 w-full border bg-[var(--surface)] px-4 py-3 font-body text-sm leading-6 text-[var(--text)] outline-none transition-colors focus:border-[var(--brand-blue)] ${
                                   showReasonError
                                     ? "border-[var(--sale)]"
                                     : "border-[var(--border)]"
@@ -723,7 +723,7 @@ export default async function AdminSellersPage({
 
                             <button
                               type="submit"
-                              className="mt-4 inline-flex min-h-13 w-full items-center justify-center gap-3 border border-[var(--sale)] bg-[var(--sale)] px-5 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.15em] text-white transition-opacity hover:opacity-90"
+                              className="mt-4 inline-flex min-h-13 w-full items-center justify-center gap-3 border border-[var(--sale)] bg-[var(--sale)] px-5 font-body text-[10px] font-semibold uppercase tracking-[0.15em] text-white transition-opacity hover:opacity-90 rounded-full"
                             >
                               <Ban
                                 aria-hidden="true"

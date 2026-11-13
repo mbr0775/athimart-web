@@ -1,96 +1,88 @@
 import Link from "next/link";
+import { ArrowUp, ArrowUpRight, Globe2 } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
+import { editorialFont } from "@/lib/fonts";
+import styles from "./site-footer.module.css";
+
+const footerNavigation = [
+  {
+    title: "Discover",
+    links: [
+      { href: "/shop", label: "Shop all products" },
+      { href: "/search", label: "Find your favourite" },
+      { href: "/#categories", label: "Explore categories" },
+      { href: "/#markets", label: "Our markets" },
+    ],
+  },
+  {
+    title: "Your AthiMart",
+    links: [
+      { href: "/account", label: "My account" },
+      { href: "/orders", label: "My orders" },
+      { href: "/cart", label: "Shopping bag" },
+      { href: "/returns", label: "Returns & support" },
+    ],
+  },
+  {
+    title: "The marketplace",
+    links: [
+      { href: "/#why-athimart", label: "Our story" },
+      { href: "/delivery-partner", label: "Deliver with AthiMart" },
+      { href: "/auth/sign-up", label: "Join the community" },
+    ],
+  },
+];
 
 export function SiteFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[var(--border)] bg-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3 lg:px-8">
-        <section aria-labelledby="footer-about-heading">
-          <h2
-            id="footer-about-heading"
-            className="text-xl font-bold"
-          >
-            <span className="text-[var(--brand-blue)]">Athi</span>
-            <span className="text-[var(--brand-orange)]">Mart</span>
-          </h2>
-
-          <p className="mt-4 max-w-sm text-sm leading-7 text-[var(--text-secondary)]">
-            {siteConfig.tagline}
-          </p>
-
-          <p className="mt-3 text-sm leading-7 text-[var(--text-muted)]">
-            A connected online marketplace being developed for customers,
-            sellers and businesses in Sri Lanka and the Maldives.
-          </p>
-        </section>
-
-        <nav aria-labelledby="footer-shopping-heading">
-          <h2
-            id="footer-shopping-heading"
-            className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]"
-          >
-            Shopping
-          </h2>
-
-          <div className="mt-4 grid gap-3 text-sm text-[var(--text-secondary)]">
-            <Link
-              href="/shop"
-              className="hover:text-[var(--brand-blue)]"
-            >
-              Browse products
+    <footer id="site-footer" className={`${styles.footer} ${editorialFont.variable}`}>
+      <div className={styles.container}>
+        <div className={styles.main}>
+          <section aria-labelledby="footer-about-heading" className={styles.intro}>
+            <p className={styles.eyebrow}><span aria-hidden="true" /> A little more extraordinary</p>
+            <h2 id="footer-about-heading" className={styles.heading}>
+              Good finds.<br /><em>Great possibilities.</em>
+            </h2>
+            <p className={styles.description}>{siteConfig.tagline}</p>
+            <Link href="/shop" className={styles.shopLink}>
+              Find something you love <span><ArrowUpRight size={18} aria-hidden="true" /></span>
             </Link>
+          </section>
 
-            <Link
-              href="/#categories"
-              className="hover:text-[var(--brand-blue)]"
-            >
-              Product categories
-            </Link>
-
-            <Link
-              href="/#markets"
-              className="hover:text-[var(--brand-blue)]"
-            >
-              Available markets
-            </Link>
+          <div className={styles.navigation}>
+            {footerNavigation.map((group) => (
+              <nav key={group.title} aria-label={`Footer: ${group.title}`} className={styles.linkGroup}>
+                <h2 className={styles.groupTitle}>{group.title}</h2>
+                <ul className={styles.links}>
+                  {group.links.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href}>{link.label}<ArrowUpRight size={13} aria-hidden="true" /></Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ))}
           </div>
-        </nav>
+        </div>
 
-        <nav aria-labelledby="footer-support-heading">
-          <h2
-            id="footer-support-heading"
-            className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]"
-          >
-            AthiMart
-          </h2>
+        <div className={styles.brandMeta}>
+          <span className={styles.markets}><Globe2 size={14} strokeWidth={1.5} aria-hidden="true" />{siteConfig.markets.join(" · ")}</span>
+          <span className={styles.brandNote}>Everyday essentials. Endless discovery.</span>
+          <a href="#main-content" className={styles.backToTop}>Back to top <ArrowUp size={15} aria-hidden="true" /></a>
+        </div>
 
-          <div className="mt-4 grid gap-3 text-sm text-[var(--text-secondary)]">
-            <Link
-              href="/#why-athimart"
-              className="hover:text-[var(--brand-blue)]"
-            >
-              About the marketplace
-            </Link>
+        <Link href="/" aria-label={`${siteConfig.name} home`} className={styles.wordmark}>
+          {siteConfig.name}<span aria-hidden="true">.</span>
+        </Link>
 
-            <Link
-              href="/auth/login"
-              className="hover:text-[var(--brand-blue)]"
-            >
-              Customer account
-            </Link>
-
-            <span>Powered by {siteConfig.creator}</span>
-          </div>
-        </nav>
-      </div>
-
-      <div className="border-t border-[var(--border)] bg-[var(--surface-soft)]">
-        <p className="mx-auto max-w-7xl px-4 py-5 text-center text-xs text-[var(--text-muted)] sm:px-6 lg:px-8">
-          © {currentYear} {siteConfig.name}. All rights reserved.
-        </p>
+        <div className={styles.bottom}>
+          <p>© {currentYear} {siteConfig.name}. All rights reserved.</p>
+          <p>Made for everyday discoveries.</p>
+          <p className={styles.credit}>Powered by <span>{siteConfig.creator}</span><ArrowUpRight size={12} aria-hidden="true" /></p>
+        </div>
       </div>
     </footer>
   );

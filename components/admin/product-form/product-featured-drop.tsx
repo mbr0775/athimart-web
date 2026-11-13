@@ -33,7 +33,7 @@ gap-3
 rounded-lg
 border
 border-[#e5e7eb]
-bg-white
+bg-[var(--surface)]
 p-4
 "
 
@@ -95,7 +95,7 @@ Show in AthiMart Drops
 className="
 mt-1
 text-xs
-text-gray-500
+text-[var(--text-soft)]
 "
 
 >

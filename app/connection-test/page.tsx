@@ -49,17 +49,17 @@ export default async function ConnectionTestPage() {
 
   if (error) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#0A0A0F] p-6">
-        <section className="w-full max-w-xl rounded-2xl border border-red-500/30 bg-[#1A1A26] p-8">
-          <h1 className="text-2xl font-bold text-red-400">
+      <main className="flex min-h-screen items-center justify-center bg-[var(--background)] p-6">
+        <section className="w-full max-w-xl rounded-2xl border border-red-500/30 bg-[var(--surface)] p-8">
+          <h1 className="font-editorial text-3xl font-normal text-[var(--sale)]">
             Supabase connection failed
           </h1>
 
-          <p className="mt-4 text-[#B0B0C0]">
+          <p className="mt-4 text-[var(--text-soft)]">
             The website could not access the products table.
           </p>
 
-          <pre className="mt-5 overflow-x-auto rounded-xl bg-black/40 p-4 text-sm text-red-300">
+          <pre className="mt-5 overflow-x-auto rounded-xl bg-[var(--surface-soft)] p-4 text-sm text-red-300">
             {error.message}
           </pre>
         </section>
@@ -68,27 +68,27 @@ export default async function ConnectionTestPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#0A0A0F] p-6">
-      <section className="w-full max-w-xl rounded-2xl border border-[#D4A017]/30 bg-[#1A1A26] p-8">
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-500/10 text-2xl text-green-400">
+    <main className="flex min-h-screen items-center justify-center bg-[var(--background)] p-6">
+      <section className="w-full max-w-xl rounded-2xl border border-[var(--brand-hover)]/30 bg-[var(--surface)] p-8">
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-500/10 text-2xl text-[var(--success)]">
           ✓
         </div>
 
-        <h1 className="mt-5 text-2xl font-bold text-[#F5F5F5]">
+        <h1 className="mt-5 text-2xl font-bold text-[var(--text)]">
           Supabase connected successfully
         </h1>
 
-        <p className="mt-3 leading-7 text-[#B0B0C0]">
+        <p className="mt-3 leading-7 text-[var(--text-soft)]">
           The Athimart website is connected to the same Supabase database used
           by the Flutter mobile app.
         </p>
 
-        <div className="mt-6 rounded-xl border border-[#2A2A3A] bg-[#12121A] p-5">
-          <p className="text-sm text-[#B0B0C0]">
+        <div className="mt-6 rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] p-5">
+          <p className="text-sm text-[var(--text-soft)]">
             Products found in the shared database
           </p>
 
-          <p className="mt-2 text-4xl font-bold text-[#D4A017]">
+          <p className="mt-2 text-4xl font-bold text-[var(--brand-hover)]">
             {count ?? 0}
           </p>
         </div>

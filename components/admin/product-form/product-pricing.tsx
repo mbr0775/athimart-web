@@ -50,7 +50,7 @@ Pricing & Inventory
 className="
 mt-1
 text-xs
-text-gray-500
+text-[var(--text-soft)]
 "
 >
 Manage product prices, discount and stock.
@@ -98,11 +98,11 @@ defaultValue={
 className="
 mt-2
 w-full
-rounded-lg
+rounded-xl
 border
 px-4
 py-3
-"
+ border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
 
 />
 
@@ -160,11 +160,11 @@ defaultValue={
 className="
 mt-2
 w-full
-rounded-lg
+rounded-xl
 border
 px-4
 py-3
-"
+ border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
 
 />
 
@@ -202,11 +202,11 @@ defaultValue={
 className="
 mt-2
 w-full
-rounded-lg
+rounded-xl
 border
 px-4
 py-3
-"
+ border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
 
 />
 

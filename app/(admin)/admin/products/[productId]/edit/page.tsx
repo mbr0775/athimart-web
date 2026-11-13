@@ -72,12 +72,12 @@ export default async function EditProductPage({
     );
 
   return (
-    <div className="px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
+    <div className="min-w-0">
       {/* Page heading */}
       <header className="border-b border-[var(--border-strong)] pb-8">
         <Link
           href="/admin/products"
-          className="inline-flex items-center gap-2 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-blue)] transition-colors hover:text-[var(--brand-orange-dark)]"
+          className="inline-flex items-center gap-2 font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-blue)] transition-colors hover:text-[var(--brand-orange-dark)]"
         >
           <ArrowLeft
             aria-hidden="true"
@@ -112,7 +112,7 @@ export default async function EditProductPage({
             </p>
           </div>
 
-          <span className="hidden h-16 w-16 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] sm:flex">
+          <span className="hidden h-16 w-16 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] sm:flex rounded-2xl">
             <Pencil
               aria-hidden="true"
               className="h-8 w-8"

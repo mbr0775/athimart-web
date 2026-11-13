@@ -748,7 +748,7 @@ export default async function DeliveryPartnerRegistrationPage() {
       <section className="hidden border-b border-[var(--black)] pb-8">
         <Link
           href="/delivery-partner"
-          className="inline-flex min-h-11 items-center justify-center gap-2 border border-[var(--border)] bg-white px-5 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--text)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)]"
+          className="inline-flex min-h-11 items-center justify-center gap-2 border border-[var(--border)] bg-[var(--surface)] px-5 font-body text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--text)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)] rounded-full"
         >
           <ArrowLeft
             aria-hidden="true"
@@ -769,7 +769,7 @@ export default async function DeliveryPartnerRegistrationPage() {
               Registration Details
             </h1>
 
-            <p className="mt-4 max-w-3xl font-[var(--font-body)] text-sm leading-7 text-[var(--text-muted)]">
+            <p className="mt-4 max-w-3xl font-body text-sm leading-7 text-[var(--text-muted)]">
               Complete your personal details and
               register at least one suitable delivery
               vehicle before submitting your
@@ -777,7 +777,7 @@ export default async function DeliveryPartnerRegistrationPage() {
             </p>
           </div>
 
-          <div className="border border-[var(--border)] bg-white p-5">
+          <div className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
             <p className="athimart-label text-[var(--text-muted)]">
               Current status
             </p>
@@ -789,14 +789,14 @@ export default async function DeliveryPartnerRegistrationPage() {
                 strokeWidth={1.8}
               />
 
-              <span className="font-[var(--font-body)] text-sm font-semibold uppercase text-[var(--brand-blue)]">
+              <span className="font-body text-sm font-semibold uppercase text-[var(--brand-blue)]">
                 {formatStatus(
                   application.application_status
                 )}
               </span>
             </div>
 
-            <p className="mt-3 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
               Saving these forms keeps your
               application as a draft. It does not
               submit it for administrator review.
@@ -806,54 +806,54 @@ export default async function DeliveryPartnerRegistrationPage() {
       </section>
 
       {/* Security information */}
-      <section className="hidden mt-8 grid border-l border-t border-[var(--border)] md:grid-cols-3">
-        <article className="border-b border-r border-[var(--border)] bg-white p-5">
+      <section className="hidden mt-8 grid gap-5 md:grid-cols-3">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <FileText
             aria-hidden="true"
             className="h-6 w-6 text-[var(--brand-blue)]"
             strokeWidth={1.7}
           />
 
-          <h2 className="mt-4 font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em]">
+          <h2 className="mt-4 font-body text-xs font-semibold uppercase tracking-[0.14em]">
             Save Your Progress
           </h2>
 
-          <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+          <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
             You may return later and continue editing
             while the application remains editable.
           </p>
         </article>
 
-        <article className="border-b border-r border-[var(--border)] bg-white p-5">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <LockKeyhole
             aria-hidden="true"
             className="h-6 w-6 text-[var(--success)]"
             strokeWidth={1.7}
           />
 
-          <h2 className="mt-4 font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em]">
+          <h2 className="mt-4 font-body text-xs font-semibold uppercase tracking-[0.14em]">
             Private Information
           </h2>
 
-          <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+          <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
             Registration details are available only
             to the applicant and authorised AthiMart
             administrators.
           </p>
         </article>
 
-        <article className="border-b border-r border-[var(--border)] bg-white p-5">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
           <ShieldCheck
             aria-hidden="true"
             className="h-6 w-6 text-[var(--brand-orange-dark)]"
             strokeWidth={1.7}
           />
 
-          <h2 className="mt-4 font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em]">
+          <h2 className="mt-4 font-body text-xs font-semibold uppercase tracking-[0.14em]">
             Verification Required
           </h2>
 
-          <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+          <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
             Identity, licence, vehicle and supporting
             documents must be verified before final
             approval.

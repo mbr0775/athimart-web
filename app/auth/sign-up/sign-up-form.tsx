@@ -4,6 +4,7 @@ import { useRef, useState, type FormEvent, type RefObject } from "react";
 import { useFormStatus } from "react-dom";
 import { AlertCircle, ArrowRight, Check, Eye, EyeOff, LoaderCircle, LockKeyhole, Mail, Phone, ShieldCheck, ShoppingBag, Store, UserRound } from "lucide-react";
 import { signUp } from "./actions";
+import GoogleSignIn from "@/components/auth/google-sign-in";
 import styles from "./sign-up.module.css";
 
 function SubmitButton({ isSeller }: { isSeller: boolean }) {
@@ -59,7 +60,7 @@ export default function SignUpForm({ nextPath, accountType, errorMessage }: {
     }
   }
 
-  return (
+  const emailForm = (
     <form action={signUp} className={styles.form} onSubmit={validatePasswords} aria-describedby={errorMessage ? "signup-error" : undefined}>
       <input type="hidden" name="next" value={nextPath} />
       {errorMessage && <div id="signup-error" className={styles.error} role="alert"><AlertCircle size={18} aria-hidden="true" /><p>{errorMessage}</p></div>}
@@ -100,5 +101,12 @@ export default function SignUpForm({ nextPath, accountType, errorMessage }: {
       <div className={styles.securityNote} aria-live="polite"><ShieldCheck size={18} strokeWidth={1.6} aria-hidden="true" /><p>{isSeller ? "Verify your email, then we’ll review your seller application before you can start selling." : "We’ll send a confirmation email to activate your account. A small step to keep it safe."}</p></div>
       <SubmitButton isSeller={isSeller} />
     </form>
+  );
+
+  return (
+    <>
+      {emailForm}
+      {!isSeller && <GoogleSignIn nextPath={nextPath} from="signup" />}
+    </>
   );
 }

@@ -386,13 +386,13 @@ disabled={pending}
 
 className="
 rounded-xl
-bg-blue-700
+bg-[var(--brand)]
 px-8
 py-3
 font-semibold
 text-white
 disabled:opacity-50
-"
+ athimart-brand-button"
 
 >
 

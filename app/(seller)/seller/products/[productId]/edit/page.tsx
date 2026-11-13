@@ -81,12 +81,12 @@ export default async function EditSellerProductPage({
     );
 
   return (
-    <div className="px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
+    <div className="min-w-0">
       {/* Page heading */}
       <header className="border-b border-[var(--border-strong)] pb-8">
         <Link
           href="/seller/products"
-          className="inline-flex items-center gap-2 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-blue)] transition-colors hover:text-[var(--brand-orange-dark)]"
+          className="inline-flex items-center gap-2 font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-blue)] transition-colors hover:text-[var(--brand-orange-dark)]"
         >
           <ArrowLeft
             aria-hidden="true"
@@ -120,7 +120,7 @@ export default async function EditSellerProductPage({
             </p>
           </div>
 
-          <span className="flex h-16 w-16 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+          <span className="flex h-16 w-16 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <Pencil
               aria-hidden="true"
               className="h-8 w-8"
@@ -130,9 +130,9 @@ export default async function EditSellerProductPage({
         </div>
 
         {/* Product summary */}
-        <div className="mt-7 flex flex-col gap-4 border border-[var(--border)] bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-7 flex flex-col gap-4 border border-[var(--border)] bg-[var(--surface)] p-5 sm:flex-row sm:items-center sm:justify-between rounded-[24px]">
           <div className="min-w-0">
-            <p className="font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
+            <p className="font-editorial text-2xl font-light text-[var(--brand-blue-dark)]">
               {product.name}
             </p>
 
@@ -148,7 +148,7 @@ export default async function EditSellerProductPage({
               strokeWidth={1.8}
             />
 
-            <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--success)]">
+            <p className="font-body text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--success)]">
               Your seller product
             </p>
           </div>

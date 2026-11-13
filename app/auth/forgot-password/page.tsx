@@ -94,12 +94,12 @@ export default async function ForgotPasswordPage({
       </div>
 
       <div className="relative mx-auto flex min-h-screen max-w-5xl items-center px-5 py-12 sm:px-10">
-        <section className="mx-auto grid w-full overflow-hidden border border-[var(--border)] bg-white shadow-[0_24px_70px_rgba(18,63,158,0.10)] lg:grid-cols-[0.85fr_1.15fr]">
+        <section className="mx-auto grid w-full overflow-hidden rounded-[28px] border border-[var(--border)] bg-[var(--surface)] shadow-[0_24px_70px_rgba(69,77,54,0.10)] lg:grid-cols-[0.85fr_1.15fr]">
           {/* Brand panel */}
           <div className="hidden bg-gradient-to-br from-[var(--brand-blue-dark)] via-[var(--brand-blue)] to-[var(--brand-blue-light)] p-10 text-white lg:flex lg:flex-col lg:justify-between">
             <Link
               href="/auth/login"
-              className="inline-flex w-fit items-center gap-2 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white/75 transition-colors hover:text-white"
+              className="inline-flex w-fit items-center gap-2 font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-white/75 transition-colors hover:text-white"
             >
               <ArrowLeft
                 aria-hidden="true"
@@ -119,7 +119,7 @@ export default async function ForgotPasswordPage({
                 />
               </span>
 
-              <h2 className="mt-9 font-[var(--font-display)] text-5xl font-light uppercase leading-[0.98] tracking-[0.035em] text-white">
+              <h2 className="mt-9 font-editorial text-5xl font-light normal-case leading-[0.98] tracking-[-0.035em] text-white">
                 Recover
                 <br />
                 Your
@@ -127,13 +127,13 @@ export default async function ForgotPasswordPage({
                 Account
               </h2>
 
-              <p className="mt-6 font-[var(--font-body)] text-sm leading-7 text-white/75">
+              <p className="mt-6 font-body text-sm leading-7 text-white/75">
                 We will send a secure recovery link to the email address
                 connected to your AthiMart account.
               </p>
             </div>
 
-            <p className="border-t border-white/20 pt-5 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.17em] text-white/55">
+            <p className="border-t border-white/20 pt-5 font-body text-[9px] font-semibold uppercase tracking-[0.17em] text-white/55">
               AthiMart secure authentication
             </p>
           </div>
@@ -143,7 +143,7 @@ export default async function ForgotPasswordPage({
             <div className="mb-10 flex items-center justify-between lg:hidden">
               <Link
                 href="/auth/login"
-                className="inline-flex items-center gap-2 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-blue)]"
+                className="inline-flex items-center gap-2 font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-blue)]"
               >
                 <ArrowLeft
                   aria-hidden="true"
@@ -153,7 +153,7 @@ export default async function ForgotPasswordPage({
                 Sign in
               </Link>
 
-              <p className="font-[var(--font-display)] text-xl font-light uppercase tracking-[0.15em] text-[var(--brand-blue-dark)]">
+              <p className="font-editorial text-xl font-light normal-case tracking-[-0.035em] text-[var(--brand-blue-dark)]">
                 Athi
                 <span className="text-[var(--brand-orange)]">
                   Mart
@@ -163,7 +163,7 @@ export default async function ForgotPasswordPage({
 
             {emailSent ? (
               <div>
-                <span className="flex h-16 w-16 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+                <span className="flex h-16 w-16 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
                   <CheckCircle2
                     aria-hidden="true"
                     className="h-8 w-8"
@@ -222,7 +222,7 @@ export default async function ForgotPasswordPage({
                     role="alert"
                     className="mt-7 border-l-4 border-[var(--sale)] bg-[var(--linen-light)] px-5 py-4"
                   >
-                    <p className="font-[var(--font-body)] text-sm leading-6 text-[var(--sale)]">
+                    <p className="font-body text-sm leading-6 text-[var(--sale)]">
                       {errorMessage}
                     </p>
                   </div>
@@ -237,7 +237,7 @@ export default async function ForgotPasswordPage({
                       Email address
                     </span>
 
-                    <span className="mt-3 flex min-h-16 items-center border-b-2 border-[var(--border-strong)] transition-colors focus-within:border-[var(--brand-blue)]">
+                    <span className="mt-3 flex min-h-14 items-center rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 transition-colors focus-within:border-[var(--brand-blue)]">
                       <Mail
                         aria-hidden="true"
                         className="mr-4 h-5 w-5 shrink-0 text-[var(--brand-blue)]"
@@ -251,7 +251,7 @@ export default async function ForgotPasswordPage({
                         autoComplete="email"
                         inputMode="email"
                         placeholder="you@example.com"
-                        className="min-w-0 flex-1 border-0 bg-transparent py-4 font-[var(--font-display)] text-2xl font-light text-[var(--text)] outline-none placeholder:text-[var(--placeholder)] focus:outline-none focus-visible:!outline-none"
+                        className="min-w-0 flex-1 border-0 bg-transparent py-4 font-body text-sm font-normal text-[var(--text)] outline-none placeholder:text-[var(--placeholder)] focus:outline-none  rounded-xl"
                       />
                     </span>
                   </label>
@@ -272,7 +272,7 @@ export default async function ForgotPasswordPage({
                   </button>
                 </form>
 
-                <p className="mt-7 text-center font-[var(--font-body)] text-sm text-[var(--text-muted)]">
+                <p className="mt-7 text-center font-body text-sm text-[var(--text-muted)]">
                   Remember your password?{" "}
                   <Link
                     href="/auth/login"

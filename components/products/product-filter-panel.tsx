@@ -1,600 +1,521 @@
-// components/products/product-filter-panel.tsx
-
 "use client";
 
-import type { ReactNode } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useId, useRef, useState, useTransition } from "react";
+import type { FormEvent } from "react";
 import {
-  useEffect,
-  useState,
-} from "react";
-
-import {
+  ArrowRight,
+  Check,
   ChevronDown,
+  LoaderCircle,
   RotateCcw,
   SlidersHorizontal,
   X,
 } from "lucide-react";
-import {
-  AnimatePresence,
-  m,
-} from "motion/react";
-import Link from "next/link";
-
 import type {
   ProductFilterOptions,
   ProductSortOption,
   ProductStockFilter,
 } from "@/types/product-filter";
+import styles from "./product-filter-panel.module.css";
 
 interface CurrentProductFilters {
   category?: string;
   subcategory?: string;
   brand?: string;
-
   stock: ProductStockFilter;
   sort: ProductSortOption;
-
   minPrice?: number;
   maxPrice?: number;
 }
 
 interface ProductFilterPanelProps {
   options: ProductFilterOptions;
-
-  currentFilters:
-    CurrentProductFilters;
+  currentFilters: CurrentProductFilters;
+  resultCount?: number;
 }
 
-interface FilterFormProps
-  extends ProductFilterPanelProps {
-  idPrefix: string;
-  onSubmit?: () => void;
-}
-
-interface SelectFieldProps {
-  id: string;
-  name: string;
-  label: string;
-  defaultValue: string;
-  children: ReactNode;
-}
-
-const stockOptions: Array<{
-  value: ProductStockFilter;
-  label: string;
-}> = [
-  {
-    value: "all",
-    label: "All availability",
-  },
-  {
-    value: "in-stock",
-    label: "In stock",
-  },
-  {
-    value: "out-of-stock",
-    label: "Out of stock",
-  },
+const sortOptions: { value: ProductSortOption; label: string }[] = [
+  { value: "newest", label: "Newest first" },
+  { value: "oldest", label: "Oldest first" },
+  { value: "price-low", label: "Price: low to high" },
+  { value: "price-high", label: "Price: high to low" },
+  { value: "name-az", label: "Name: A to Z" },
+  { value: "name-za", label: "Name: Z to A" },
 ];
 
-const sortOptions: Array<{
-  value: ProductSortOption;
-  label: string;
-}> = [
-  {
-    value: "newest",
-    label: "Newest first",
-  },
-  {
-    value: "oldest",
-    label: "Oldest first",
-  },
-  {
-    value: "price-low",
-    label: "Price: low to high",
-  },
-  {
-    value: "price-high",
-    label: "Price: high to low",
-  },
-  {
-    value: "name-az",
-    label: "Name: A to Z",
-  },
-  {
-    value: "name-za",
-    label: "Name: Z to A",
-  },
-];
+const filterNames = [
+  "category",
+  "subcategory",
+  "brand",
+  "stock",
+  "sort",
+  "minPrice",
+  "maxPrice",
+] as const;
+type FilterName = (typeof filterNames)[number];
 
-/**
- * Count only filters that differ from
- * the default Shop configuration.
- */
-function getActiveFilterCount(
-  filters: CurrentProductFilters
-): number {
-  return [
-    Boolean(filters.category),
-    Boolean(filters.subcategory),
-    Boolean(filters.brand),
-
-    filters.stock !== "all",
-    filters.sort !== "newest",
-
-    filters.minPrice !== undefined,
-    filters.maxPrice !== undefined,
-  ].filter(Boolean).length;
+function queryFromFilters(filters: CurrentProductFilters) {
+  const query = new URLSearchParams();
+  for (const name of filterNames) {
+    const value = filters[name];
+    if (
+      value !== undefined &&
+      value !== "" &&
+      !(name === "stock" && value === "all") &&
+      !(name === "sort" && value === "newest")
+    )
+      query.set(name, String(value));
+  }
+  return query;
 }
 
-/**
- * Shared filter select field.
- */
 function SelectField({
   id,
   name,
   label,
-  defaultValue,
-  children,
-}: Readonly<SelectFieldProps>) {
+  value,
+  values,
+  placeholder,
+  onChange,
+}: {
+  id: string;
+  name: string;
+  label: string;
+  value: string;
+  values: string[];
+  placeholder: string;
+  onChange?: (form: HTMLFormElement | null) => void;
+}) {
   return (
-    <div>
-      <label
-        htmlFor={id}
-        className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.17em] text-[var(--text-muted)]"
-      >
-        {label}
-      </label>
-
-      <div className="relative mt-2">
+    <div className={styles.field}>
+      <label htmlFor={id}>{label}</label>
+      <div className={styles.selectWrap}>
         <select
           id={id}
           name={name}
-          defaultValue={defaultValue}
-          className="min-h-13 w-full appearance-none border border-[var(--border)] bg-white px-4 pr-11 font-[var(--font-body)] text-sm text-[var(--text)] outline-none transition-colors duration-200 focus:border-[var(--brand-blue)] focus:outline-none focus-visible:!outline-none"
+          defaultValue={value}
+          onChange={(event) => onChange?.(event.currentTarget.form)}
         >
-          {children}
+          <option value="">{placeholder}</option>
+          {value && !values.includes(value) && (
+            <option value={value}>{value}</option>
+          )}
+          {values.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
         </select>
-
-        <ChevronDown
-          aria-hidden="true"
-          className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--brand-blue)]"
-          strokeWidth={1.8}
-        />
+        <ChevronDown size={15} aria-hidden="true" />
       </div>
     </div>
-  );
-}
-
-/**
- * Shared form used by both:
- *
- * - desktop sidebar
- * - mobile sliding drawer
- */
-function FilterForm({
-  options,
-  currentFilters,
-  idPrefix,
-  onSubmit,
-}: Readonly<FilterFormProps>) {
-  return (
-    <form
-      action="/shop"
-      method="get"
-      onSubmit={onSubmit}
-    >
-      <div className="space-y-6">
-        {/* Category */}
-        <SelectField
-          id={`${idPrefix}-category`}
-          name="category"
-          label="Category"
-          defaultValue={
-            currentFilters.category ?? ""
-          }
-        >
-          <option value="">
-            All categories
-          </option>
-
-          {options.categories.map(
-            (category) => (
-              <option
-                key={category}
-                value={category}
-              >
-                {category}
-              </option>
-            )
-          )}
-        </SelectField>
-
-        {/* Product type */}
-        <SelectField
-          id={`${idPrefix}-subcategory`}
-          name="subcategory"
-          label="Product type"
-          defaultValue={
-            currentFilters.subcategory ??
-            ""
-          }
-        >
-          <option value="">
-            All product types
-          </option>
-
-          {options.subcategories.map(
-            (subcategory) => (
-              <option
-                key={subcategory}
-                value={subcategory}
-              >
-                {subcategory}
-              </option>
-            )
-          )}
-        </SelectField>
-
-        {/* Brand */}
-        <SelectField
-          id={`${idPrefix}-brand`}
-          name="brand"
-          label="Company / Brand"
-          defaultValue={
-            currentFilters.brand ?? ""
-          }
-        >
-          <option value="">
-            All brands
-          </option>
-
-          {options.brands.map(
-            (brand) => (
-              <option
-                key={brand}
-                value={brand}
-              >
-                {brand}
-              </option>
-            )
-          )}
-        </SelectField>
-
-        {/* Availability */}
-        <SelectField
-          id={`${idPrefix}-stock`}
-          name="stock"
-          label="Availability"
-          defaultValue={
-            currentFilters.stock
-          }
-        >
-          {stockOptions.map(
-            (option) => (
-              <option
-                key={option.value}
-                value={option.value}
-              >
-                {option.label}
-              </option>
-            )
-          )}
-        </SelectField>
-
-        {/* Price */}
-        <div>
-          <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.17em] text-[var(--text-muted)]">
-            Price range
-          </p>
-
-          <div className="mt-2 grid grid-cols-2 gap-3">
-            <label>
-              <span className="sr-only">
-                Minimum price
-              </span>
-
-              <input
-                type="number"
-                name="minPrice"
-                min="0"
-                step="1"
-                defaultValue={
-                  currentFilters.minPrice ??
-                  ""
-                }
-                placeholder="Min Rs"
-                inputMode="numeric"
-                className="min-h-13 w-full border border-[var(--border)] bg-white px-4 font-[var(--font-body)] text-sm text-[var(--text)] outline-none transition-colors duration-200 placeholder:text-[var(--placeholder)] focus:border-[var(--brand-blue)] focus:outline-none focus-visible:!outline-none"
-              />
-            </label>
-
-            <label>
-              <span className="sr-only">
-                Maximum price
-              </span>
-
-              <input
-                type="number"
-                name="maxPrice"
-                min="0"
-                step="1"
-                defaultValue={
-                  currentFilters.maxPrice ??
-                  ""
-                }
-                placeholder="Max Rs"
-                inputMode="numeric"
-                className="min-h-13 w-full border border-[var(--border)] bg-white px-4 font-[var(--font-body)] text-sm text-[var(--text)] outline-none transition-colors duration-200 placeholder:text-[var(--placeholder)] focus:border-[var(--brand-blue)] focus:outline-none focus-visible:!outline-none"
-              />
-            </label>
-          </div>
-        </div>
-
-        {/* Sort */}
-        <SelectField
-          id={`${idPrefix}-sort`}
-          name="sort"
-          label="Sort products"
-          defaultValue={
-            currentFilters.sort
-          }
-        >
-          {sortOptions.map(
-            (option) => (
-              <option
-                key={option.value}
-                value={option.value}
-              >
-                {option.label}
-              </option>
-            )
-          )}
-        </SelectField>
-      </div>
-
-      {/* Actions */}
-      <div className="mt-8 grid grid-cols-2 gap-3">
-        <Link
-          href="/shop"
-          className="inline-flex min-h-13 items-center justify-center gap-2 border border-[var(--brand-blue)] bg-white px-4 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.15em] text-[var(--brand-blue)] transition-all duration-200 hover:bg-[var(--brand-blue-soft)]"
-        >
-          <RotateCcw
-            aria-hidden="true"
-            className="h-4 w-4"
-            strokeWidth={1.8}
-          />
-
-          Reset
-        </Link>
-
-        <button
-          type="submit"
-          className="inline-flex min-h-13 items-center justify-center gap-2 border border-[var(--brand-blue)] bg-[var(--brand-blue)] px-4 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.15em] text-white! shadow-[0_10px_24px_rgba(18,63,158,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--brand-orange)] hover:bg-[var(--brand-orange)] hover:text-white! hover:shadow-[0_12px_28px_rgba(255,121,0,0.20)]"
-        >
-          <SlidersHorizontal
-            aria-hidden="true"
-            className="h-4 w-4 text-white!"
-            strokeWidth={1.8}
-          />
-
-          <span className="text-white!">
-            Apply
-          </span>
-        </button>
-      </div>
-    </form>
   );
 }
 
 export function ProductFilterPanel({
   options,
   currentFilters,
+  resultCount,
 }: Readonly<ProductFilterPanelProps>) {
-  const [
-    mobileOpen,
-    setMobileOpen,
-  ] = useState(false);
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [isOpen, setIsOpen] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const id = useId();
+  const formKey = JSON.stringify(currentFilters);
+  const activeChips: { key: FilterName; label: string; description: string }[] =
+    [];
+  if (currentFilters.category)
+    activeChips.push({
+      key: "category",
+      label: currentFilters.category,
+      description: "category",
+    });
+  if (currentFilters.subcategory)
+    activeChips.push({
+      key: "subcategory",
+      label: currentFilters.subcategory,
+      description: "product type",
+    });
+  if (currentFilters.brand)
+    activeChips.push({
+      key: "brand",
+      label: currentFilters.brand,
+      description: "brand",
+    });
+  if (currentFilters.stock !== "all")
+    activeChips.push({
+      key: "stock",
+      label: currentFilters.stock === "in-stock" ? "In stock" : "Out of stock",
+      description: "availability",
+    });
+  if (currentFilters.minPrice !== undefined)
+    activeChips.push({
+      key: "minPrice",
+      label: `From Rs ${currentFilters.minPrice.toLocaleString("en-LK")}`,
+      description: "minimum price",
+    });
+  if (currentFilters.maxPrice !== undefined)
+    activeChips.push({
+      key: "maxPrice",
+      label: `Up to Rs ${currentFilters.maxPrice.toLocaleString("en-LK")}`,
+      description: "maximum price",
+    });
 
-  const activeFilterCount =
-    getActiveFilterCount(
-      currentFilters
-    );
-
-  /**
-   * Prevent the page behind the mobile
-   * filter drawer from scrolling.
-   */
   useEffect(() => {
-    if (!mobileOpen) {
-      return;
-    }
-
-    const previousOverflow =
-      document.body.style.overflow;
-
-    document.body.style.overflow =
-      "hidden";
-
-    function handleEscape(
-      event: KeyboardEvent
-    ) {
-      if (event.key === "Escape") {
-        setMobileOpen(false);
-      }
-    }
-
-    window.addEventListener(
-      "keydown",
-      handleEscape
-    );
-
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow =
-        previousOverflow;
-
-      window.removeEventListener(
-        "keydown",
-        handleEscape
-      );
+      document.body.style.overflow = previousOverflow;
     };
-  }, [mobileOpen]);
+  }, [isOpen]);
+
+  function navigate(query: URLSearchParams) {
+    startTransition(() =>
+      router.push(`/shop${query.size ? `?${query.toString()}` : ""}`, {
+        scroll: false,
+      }),
+    );
+  }
+
+  function updateFilter(name: FilterName, value: string) {
+    const query = queryFromFilters(currentFilters);
+    if (
+      !value ||
+      (name === "stock" && value === "all") ||
+      (name === "sort" && value === "newest")
+    )
+      query.delete(name);
+    else query.set(name, value);
+    // Product types belong to their category; do not carry one into a new category.
+    if (name === "category") query.delete("subcategory");
+    navigate(query);
+  }
+
+  function closeDialog() {
+    dialogRef.current?.close();
+  }
+  function openDialog() {
+    dialogRef.current?.showModal();
+    setIsOpen(true);
+  }
+
+  function submitFilters(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const minimum = String(data.get("minPrice") ?? "");
+    const maximum = String(data.get("maxPrice") ?? "");
+    const maximumInput = form.elements.namedItem(
+      "maxPrice",
+    ) as HTMLInputElement;
+    maximumInput.setCustomValidity(
+      minimum && maximum && Number(minimum) > Number(maximum)
+        ? "Maximum price must be equal to or higher than the minimum price."
+        : "",
+    );
+    if (!form.reportValidity()) return;
+    const query = new URLSearchParams();
+    for (const name of filterNames) {
+      const value = String(data.get(name) ?? "").trim();
+      if (
+        value &&
+        !(name === "stock" && value === "all") &&
+        !(name === "sort" && value === "newest")
+      )
+        query.set(name, value);
+    }
+    navigate(query);
+    closeDialog();
+  }
 
   return (
-    <>
-      {/* Mobile filter trigger */}
-      <button
-        type="button"
-        onClick={() =>
-          setMobileOpen(true)
-        }
-        aria-expanded={mobileOpen}
-        aria-controls="mobile-product-filters"
-        className="flex min-h-14 w-full items-center justify-between border border-[var(--brand-blue)] bg-[var(--brand-blue)] px-5 text-white! shadow-[0_12px_28px_rgba(18,63,158,0.16)] md:hidden"
-      >
-        <span className="inline-flex items-center gap-3 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.17em] text-white!">
-          <SlidersHorizontal
-            aria-hidden="true"
-            className="h-5 w-5 text-white!"
-            strokeWidth={1.8}
-          />
-
-          Filter products
-        </span>
-
-        {activeFilterCount > 0 && (
-          <span className="flex h-7 min-w-7 items-center justify-center bg-[var(--brand-orange)] px-2 font-[var(--font-body)] text-[10px] font-bold text-white!">
-            {activeFilterCount}
-          </span>
-        )}
-      </button>
-
-      {/* Desktop sidebar */}
-      <aside className="hidden md:block">
-        <div className="sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto border border-[var(--border)] bg-white p-6 shadow-[0_16px_40px_rgba(18,63,158,0.06)]">
-          <div className="mb-7 flex items-center justify-between border-b border-[var(--border)] pb-5">
-            <div>
-              <p className="athimart-label text-[var(--brand-orange-dark)]">
-                Refine collection
-              </p>
-
-              <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
-                Filters
-              </h2>
-            </div>
-
-            <span className="flex h-11 w-11 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
-              <SlidersHorizontal
-                aria-hidden="true"
-                className="h-5 w-5"
-                strokeWidth={1.7}
-              />
-            </span>
-          </div>
-
-          <FilterForm
-            idPrefix="desktop-filter"
-            options={options}
-            currentFilters={
-              currentFilters
-            }
-          />
-        </div>
-      </aside>
-
-      {/* Mobile filter drawer */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <div className="fixed inset-0 z-[80] md:hidden">
-            {/* Overlay */}
-            <m.button
+    <div
+      className={styles.panel}
+      data-pending={isPending}
+      aria-busy={isPending}
+    >
+      <nav aria-label="Shop by category" className={styles.categories}>
+        <button
+          type="button"
+          onClick={() => updateFilter("category", "")}
+          aria-pressed={!currentFilters.category}
+          disabled={isPending}
+        >
+          All finds{" "}
+          {!currentFilters.category && <Check size={13} aria-hidden="true" />}
+        </button>
+        {[...options.categories]
+          .sort((a, b) => a.localeCompare(b))
+          .map((category) => (
+            <button
+              key={category}
               type="button"
-              aria-label="Close product filters"
-              onClick={() =>
-                setMobileOpen(false)
-              }
-              initial={{
-                opacity: 0,
-              }}
-              animate={{
-                opacity: 1,
-              }}
-              exit={{
-                opacity: 0,
-              }}
-              className="absolute inset-0 bg-black/45 backdrop-blur-[2px]"
-            />
-
-            {/* Drawer */}
-            <m.aside
-              id="mobile-product-filters"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="mobile-filter-heading"
-              initial={{
-                x: "100%",
-              }}
-              animate={{
-                x: 0,
-              }}
-              exit={{
-                x: "100%",
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 330,
-                damping: 34,
-              }}
-              className="absolute bottom-0 right-0 top-0 flex w-[min(92vw,430px)] flex-col bg-[var(--linen)] shadow-[-20px_0_60px_rgba(0,0,0,0.18)]"
+              onClick={() => updateFilter("category", category)}
+              aria-pressed={currentFilters.category === category}
+              disabled={isPending}
             >
-              {/* Drawer header */}
-              <div className="flex items-center justify-between border-b border-[var(--border)] bg-white px-5 py-5">
-                <div>
-                  <p className="athimart-label text-[var(--brand-orange-dark)]">
-                    Refine collection
-                  </p>
+              {category}
+              {currentFilters.category === category && (
+                <Check size={13} aria-hidden="true" />
+              )}
+            </button>
+          ))}
+      </nav>
 
-                  <h2
-                    id="mobile-filter-heading"
-                    className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]"
-                  >
-                    Filter Products
-                  </h2>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    setMobileOpen(false)
-                  }
-                  aria-label="Close filters"
-                  className="flex h-12 w-12 items-center justify-center border border-[var(--border)] bg-white text-[var(--text)] transition-colors duration-200 hover:border-[var(--brand-orange)] hover:text-[var(--brand-orange-dark)]"
-                >
-                  <X
-                    aria-hidden="true"
-                    className="h-6 w-6"
-                    strokeWidth={1.8}
-                  />
-                </button>
-              </div>
-
-              {/* Drawer form */}
-              <div className="flex-1 overflow-y-auto p-5 pb-[calc(24px+env(safe-area-inset-bottom))]">
-                <FilterForm
-                  idPrefix="mobile-filter"
-                  options={options}
-                  currentFilters={
-                    currentFilters
-                  }
-                  onSubmit={() =>
-                    setMobileOpen(false)
-                  }
-                />
-              </div>
-            </m.aside>
+      <div className={styles.toolbar}>
+        <p className={styles.resultCount} role="status" aria-live="polite">
+          {isPending ? (
+            <>
+              <LoaderCircle
+                size={14}
+                className={styles.spinner}
+                aria-hidden="true"
+              />
+              Updating finds…
+            </>
+          ) : resultCount !== undefined ? (
+            <>
+              <span>
+                {resultCount === 48
+                  ? "Showing 48"
+                  : String(resultCount).padStart(2, "0")}
+              </span>
+              {resultCount === 1 ? "thoughtful find" : "thoughtful finds"}
+              {activeChips.length > 0 && (
+                <span className={styles.refined}> · just for you</span>
+              )}
+            </>
+          ) : (
+            "Explore the collection"
+          )}
+        </p>
+        <div className={styles.controls}>
+          <button
+            type="button"
+            className={styles.filterTrigger}
+            onClick={openDialog}
+            aria-haspopup="dialog"
+            aria-expanded={isOpen}
+            aria-controls={`${id}-dialog`}
+            disabled={isPending}
+          >
+            <SlidersHorizontal size={16} aria-hidden="true" />
+            Filters{activeChips.length > 0 && <span>{activeChips.length}</span>}
+          </button>
+          <div className={styles.sortControl}>
+            <label htmlFor={`${id}-sort`}>Sort by</label>
+            <select
+              id={`${id}-sort`}
+              aria-label="Sort products"
+              value={currentFilters.sort}
+              onChange={(event) =>
+                updateFilter("sort", event.currentTarget.value)
+              }
+              disabled={isPending}
+            >
+              {sortOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown size={13} aria-hidden="true" />
           </div>
-        )}
-      </AnimatePresence>
-    </>
+        </div>
+      </div>
+
+      {activeChips.length > 0 && (
+        <div className={styles.activeFilters} aria-label="Applied filters">
+          {activeChips.map((chip) => (
+            <button
+              type="button"
+              key={chip.key}
+              onClick={() => updateFilter(chip.key, "")}
+              disabled={isPending}
+              aria-label={`Remove ${chip.description} filter: ${chip.label}`}
+            >
+              {chip.label}
+              <X size={12} aria-hidden="true" />
+            </button>
+          ))}
+          <button
+            type="button"
+            className={styles.clearAll}
+            onClick={() => navigate(new URLSearchParams())}
+            disabled={isPending}
+          >
+            Clear all
+          </button>
+        </div>
+      )}
+
+      <dialog
+        ref={dialogRef}
+        id={`${id}-dialog`}
+        className={styles.dialog}
+        aria-labelledby={`${id}-heading`}
+        onKeyDown={(event) => {
+          if (event.key !== "Tab") return;
+          const controls = event.currentTarget.querySelectorAll<HTMLElement>(
+            'button:not(:disabled), a[href], select:not(:disabled), input:not([type="hidden"]):not(:disabled)',
+          );
+          const first = controls[0];
+          const last = controls[controls.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last?.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first?.focus();
+          }
+        }}
+        onClose={() => setIsOpen(false)}
+        onClick={(event) => {
+          if (event.target === event.currentTarget) closeDialog();
+        }}
+      >
+        <div className={styles.drawer}>
+          <header className={styles.drawerHeader}>
+            <div>
+              <p className={styles.eyebrow}>A little more your way</p>
+              <h2 id={`${id}-heading`}>Refine your finds.</h2>
+            </div>
+            <button
+              type="button"
+              onClick={closeDialog}
+              aria-label="Close filters"
+            >
+              <X size={20} aria-hidden="true" />
+            </button>
+          </header>
+          <form
+            key={formKey}
+            action="/shop"
+            method="get"
+            onSubmit={submitFilters}
+            onInput={(event) =>
+              (
+                event.currentTarget.elements.namedItem(
+                  "maxPrice",
+                ) as HTMLInputElement
+              ).setCustomValidity("")
+            }
+          >
+            <div className={styles.formBody}>
+              <p className={styles.drawerIntro}>
+                A few thoughtful choices to find exactly what you&apos;re
+                looking for.
+              </p>
+              <SelectField
+                id={`${id}-category`}
+                name="category"
+                label="Category"
+                value={currentFilters.category ?? ""}
+                values={options.categories}
+                placeholder="All categories"
+                onChange={(form) => {
+                  const field = form?.elements.namedItem("subcategory");
+                  if (field instanceof HTMLSelectElement) field.value = "";
+                }}
+              />
+              <SelectField
+                id={`${id}-subcategory`}
+                name="subcategory"
+                label="Product type"
+                value={currentFilters.subcategory ?? ""}
+                values={options.subcategories}
+                placeholder="All product types"
+              />
+              <SelectField
+                id={`${id}-brand`}
+                name="brand"
+                label="Brand"
+                value={currentFilters.brand ?? ""}
+                values={options.brands}
+                placeholder="All brands"
+              />
+              <div className={styles.field}>
+                <label htmlFor={`${id}-stock`}>Availability</label>
+                <div className={styles.selectWrap}>
+                  <select
+                    id={`${id}-stock`}
+                    name="stock"
+                    defaultValue={currentFilters.stock}
+                  >
+                    <option value="all">All availability</option>
+                    <option value="in-stock">In stock</option>
+                    <option value="out-of-stock">Out of stock</option>
+                  </select>
+                  <ChevronDown size={15} aria-hidden="true" />
+                </div>
+              </div>
+              <fieldset className={styles.priceRange}>
+                <legend>
+                  Price range <span>LKR</span>
+                </legend>
+                <div>
+                  {(
+                    [
+                      ["minPrice", "From", currentFilters.minPrice],
+                      ["maxPrice", "To", currentFilters.maxPrice],
+                    ] as const
+                  ).map(([name, label, value]) => (
+                    <label key={name}>
+                      <span>{label}</span>
+                      <div>
+                        <span aria-hidden="true">Rs</span>
+                        <input
+                          type="number"
+                          name={name}
+                          aria-label={
+                            name === "minPrice"
+                              ? "Minimum price"
+                              : "Maximum price"
+                          }
+                          min="0"
+                          step="1"
+                          defaultValue={value ?? ""}
+                          placeholder="Any"
+                          inputMode="numeric"
+                        />
+                      </div>
+                    </label>
+                  ))}
+                </div>
+                <p>Leave either amount open to explore more.</p>
+              </fieldset>
+              <input type="hidden" name="sort" value={currentFilters.sort} />
+            </div>
+            <footer className={styles.drawerFooter}>
+              <button
+                type="button"
+                className={styles.resetButton}
+                onClick={() => {
+                  navigate(new URLSearchParams());
+                  closeDialog();
+                }}
+              >
+                <RotateCcw size={15} aria-hidden="true" />
+                Reset
+              </button>
+              <button type="submit" className={styles.applyButton}>
+                Apply filters
+                <ArrowRight size={17} aria-hidden="true" />
+              </button>
+            </footer>
+          </form>
+          <p className={styles.drawerNote}>
+            <Link href="/search" onClick={closeDialog}>
+              Looking for something specific? Try search{" "}
+              <ArrowRight size={12} aria-hidden="true" />
+            </Link>
+          </p>
+        </div>
+      </dialog>
+    </div>
   );
 }

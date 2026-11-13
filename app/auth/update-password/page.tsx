@@ -110,10 +110,10 @@ export default async function UpdatePasswordPage({
       </div>
 
       <div className="relative mx-auto flex min-h-screen max-w-3xl items-center px-5 py-12 sm:px-10">
-        <section className="w-full border border-[var(--border)] bg-white p-7 shadow-[0_24px_70px_rgba(18,63,158,0.10)] sm:p-12">
+        <section className="w-full rounded-[28px] border border-[var(--border)] bg-[var(--surface)] p-7 shadow-[0_24px_70px_rgba(69,77,54,0.10)] sm:p-12 rounded-[24px]">
           {passwordUpdated ? (
             <div className="text-center">
-              <span className="mx-auto flex h-20 w-20 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+              <span className="mx-auto flex h-20 w-20 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
                 <CheckCircle2
                   aria-hidden="true"
                   className="h-10 w-10"
@@ -157,7 +157,7 @@ export default async function UpdatePasswordPage({
                   </h1>
                 </div>
 
-                <span className="flex h-14 w-14 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
                   <KeyRound
                     aria-hidden="true"
                     className="h-7 w-7"
@@ -176,7 +176,7 @@ export default async function UpdatePasswordPage({
                   role="alert"
                   className="mt-7 border-l-4 border-[var(--sale)] bg-[var(--linen-light)] px-5 py-4"
                 >
-                  <p className="font-[var(--font-body)] text-sm leading-6 text-[var(--sale)]">
+                  <p className="font-body text-sm leading-6 text-[var(--sale)]">
                     {errorMessage}
                   </p>
                 </div>
@@ -191,7 +191,7 @@ export default async function UpdatePasswordPage({
                     New password
                   </span>
 
-                  <span className="mt-3 flex min-h-16 items-center border-b-2 border-[var(--border-strong)] transition-colors focus-within:border-[var(--brand-blue)]">
+                  <span className="mt-3 flex min-h-14 items-center rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 transition-colors focus-within:border-[var(--brand-blue)]">
                     <LockKeyhole
                       aria-hidden="true"
                       className="mr-4 h-5 w-5 shrink-0 text-[var(--brand-blue)]"
@@ -205,7 +205,7 @@ export default async function UpdatePasswordPage({
                       minLength={8}
                       autoComplete="new-password"
                       placeholder="Minimum 8 characters"
-                      className="min-w-0 flex-1 border-0 bg-transparent py-4 font-[var(--font-display)] text-2xl font-light text-[var(--text)] outline-none placeholder:text-base placeholder:text-[var(--placeholder)] focus:outline-none focus-visible:!outline-none"
+                      className="min-w-0 flex-1 border-0 bg-transparent py-4 font-body text-sm font-normal text-[var(--text)] outline-none placeholder:text-base placeholder:text-[var(--placeholder)] focus:outline-none  rounded-xl"
                     />
                   </span>
                 </label>
@@ -215,7 +215,7 @@ export default async function UpdatePasswordPage({
                     Confirm new password
                   </span>
 
-                  <span className="mt-3 flex min-h-16 items-center border-b-2 border-[var(--border-strong)] transition-colors focus-within:border-[var(--brand-blue)]">
+                  <span className="mt-3 flex min-h-14 items-center rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 transition-colors focus-within:border-[var(--brand-blue)]">
                     <ShieldCheck
                       aria-hidden="true"
                       className="mr-4 h-5 w-5 shrink-0 text-[var(--brand-blue)]"
@@ -229,7 +229,7 @@ export default async function UpdatePasswordPage({
                       minLength={8}
                       autoComplete="new-password"
                       placeholder="Repeat new password"
-                      className="min-w-0 flex-1 border-0 bg-transparent py-4 font-[var(--font-display)] text-2xl font-light text-[var(--text)] outline-none placeholder:text-base placeholder:text-[var(--placeholder)] focus:outline-none focus-visible:!outline-none"
+                      className="min-w-0 flex-1 border-0 bg-transparent py-4 font-body text-sm font-normal text-[var(--text)] outline-none placeholder:text-base placeholder:text-[var(--placeholder)] focus:outline-none  rounded-xl"
                     />
                   </span>
                 </label>

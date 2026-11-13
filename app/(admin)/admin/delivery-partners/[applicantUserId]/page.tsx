@@ -3,6 +3,7 @@
 import type { Metadata } from "next";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import {
   ArrowLeft,
@@ -607,7 +608,7 @@ function getStatusBadgeClasses(
     return "border-amber-200 bg-amber-50 text-amber-700";
   }
 
-  return "border-blue-200 bg-blue-50 text-[var(--brand-blue)]";
+  return "border-[var(--border-strong)] bg-[var(--surface-soft)] text-[var(--brand-blue)]";
 }
 
 function InformationCard({
@@ -617,9 +618,9 @@ function InformationCard({
   helper,
 }: Readonly<InformationCardProps>) {
   return (
-    <article className="group min-h-[145px] rounded-[24px] border border-slate-200 bg-slate-50/70 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-white hover:shadow-[0_14px_35px_rgba(15,23,42,0.07)]">
+    <article className="group min-h-[145px] rounded-[24px] border border-[var(--border)] bg-[var(--surface-soft)]/70 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:bg-[var(--surface)] hover:shadow-[0_14px_35px_rgba(15,23,42,0.07)]">
       <div className="flex items-start gap-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[15px] bg-white text-[var(--brand-blue)] shadow-[0_7px_20px_rgba(15,23,42,0.08)] transition-transform duration-300 group-hover:scale-110">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[15px] bg-[var(--surface)] text-[var(--brand-blue)] shadow-[0_7px_20px_rgba(15,23,42,0.08)] transition-transform duration-300 group-hover:scale-110">
           <Icon
             aria-hidden="true"
             className="h-5 w-5"
@@ -628,16 +629,16 @@ function InformationCard({
         </span>
 
         <div className="min-w-0">
-          <p className="font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.17em] text-slate-400">
+          <p className="font-body text-[8px] font-semibold uppercase tracking-[0.17em] text-[var(--text-soft)]">
             {label}
           </p>
 
-          <p className="mt-3 break-words font-[var(--font-body)] text-sm font-semibold leading-6 text-slate-800">
+          <p className="mt-3 break-words font-body text-sm font-semibold leading-6 text-[var(--text-soft)]">
             {value}
           </p>
 
           {helper && (
-            <p className="mt-2 font-[var(--font-body)] text-[10px] leading-5 text-slate-500">
+            <p className="mt-2 font-body text-[10px] leading-5 text-[var(--text-soft)]">
               {helper}
             </p>
           )}
@@ -657,15 +658,15 @@ function CapabilityCard({
       className={`rounded-[22px] border p-5 transition-all duration-300 hover:-translate-y-0.5 ${
         enabled
           ? "border-emerald-200 bg-emerald-50/70 hover:shadow-[0_12px_28px_rgba(5,150,105,0.08)]"
-          : "border-slate-200 bg-slate-50 hover:bg-white"
+          : "border-[var(--border)] bg-[var(--surface-soft)] hover:bg-[var(--surface)]"
       }`}
     >
       <div className="flex items-start gap-3">
         <span
           className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px] ${
             enabled
-              ? "bg-white text-emerald-700"
-              : "bg-white text-slate-400"
+              ? "bg-[var(--surface)] text-emerald-700"
+              : "bg-[var(--surface)] text-[var(--text-soft)]"
           }`}
         >
           {enabled ? (
@@ -685,16 +686,16 @@ function CapabilityCard({
 
         <div>
           <p
-            className={`font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.12em] ${
+            className={`font-body text-[10px] font-semibold uppercase tracking-[0.12em] ${
               enabled
                 ? "text-emerald-800"
-                : "text-slate-600"
+                : "text-[var(--text-soft)]"
             }`}
           >
             {label}
           </p>
 
-          <p className="mt-2 font-[var(--font-body)] text-[10px] leading-5 text-slate-500">
+          <p className="mt-2 font-body text-[10px] leading-5 text-[var(--text-soft)]">
             {description}
           </p>
         </div>
@@ -722,20 +723,20 @@ function DocumentCard({
     <article
       className={`group flex min-h-[205px] flex-col rounded-[24px] border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(15,23,42,0.09)] ${
         document
-          ? "border-slate-200 bg-white hover:border-blue-200"
+          ? "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)]"
           : definition.required
             ? "border-red-200 bg-red-50/60"
-            : "border-slate-200 bg-slate-50/70"
+            : "border-[var(--border)] bg-[var(--surface-soft)]/70"
       }`}
     >
       <div className="flex items-start justify-between gap-4">
         <span
           className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-[16px] shadow-sm transition-transform duration-300 group-hover:scale-110 ${
             document
-              ? "bg-blue-50 text-[var(--brand-blue)]"
+              ? "bg-[var(--surface-soft)] text-[var(--brand-blue)]"
               : definition.required
-                ? "bg-white text-red-600"
-                : "bg-white text-slate-400"
+                ? "bg-[var(--surface)] text-red-600"
+                : "bg-[var(--surface)] text-[var(--text-soft)]"
           }`}
         >
           <Icon
@@ -746,12 +747,12 @@ function DocumentCard({
         </span>
 
         <span
-          className={`rounded-full border px-3 py-1.5 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.13em] ${
+          className={`rounded-full border px-3 py-1.5 font-body text-[8px] font-semibold uppercase tracking-[0.13em] ${
             document
               ? "border-emerald-200 bg-emerald-50 text-emerald-700"
               : definition.required
                 ? "border-red-200 bg-red-50 text-red-700"
-                : "border-slate-200 bg-white text-slate-500"
+                : "border-[var(--border)] bg-[var(--surface)] text-[var(--text-soft)]"
           }`}
         >
           {document
@@ -763,16 +764,16 @@ function DocumentCard({
       </div>
 
       <div className="mt-5 flex-1">
-        <h3 className="font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.1em] text-slate-800">
+        <h3 className="font-body text-xs font-semibold uppercase tracking-[0.1em] text-[var(--text-soft)]">
           {definition.label}
         </h3>
 
-        <p className="mt-2 font-[var(--font-body)] text-[10px] leading-5 text-slate-500">
+        <p className="mt-2 font-body text-[10px] leading-5 text-[var(--text-soft)]">
           {definition.description}
         </p>
 
         {document && (
-          <p className="mt-3 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.13em] text-slate-400">
+          <p className="mt-3 font-body text-[9px] font-semibold uppercase tracking-[0.13em] text-[var(--text-soft)]">
             {getDocumentFileType(
               document.storagePath
             )} document
@@ -788,13 +789,13 @@ function DocumentCard({
           style={{
             color: "#ffffff",
           }}
-          className="mt-5 flex min-h-12 items-center justify-between rounded-[16px] bg-[var(--brand-blue)] px-5 text-white shadow-[0_12px_28px_rgba(23,73,168,0.20)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--brand-blue-dark)] hover:shadow-[0_16px_34px_rgba(23,73,168,0.30)]"
+          className="mt-5 flex min-h-12 items-center justify-between rounded-[16px] bg-[var(--brand-blue)] px-5 text-white shadow-[0_12px_28px_rgba(69,77,54,0.20)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--brand-blue-dark)] hover:shadow-[0_16px_34px_rgba(69,77,54,0.30)]"
         >
           <span
             style={{
               color: "#ffffff",
             }}
-            className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-white"
+            className="font-body text-[9px] font-semibold uppercase tracking-[0.15em] text-white"
           >
             Open Secure Document
           </span>
@@ -810,8 +811,8 @@ function DocumentCard({
           />
         </a>
       ) : (
-        <div className="mt-5 flex min-h-12 items-center justify-center rounded-[16px] border border-dashed border-slate-300 bg-white px-4">
-          <span className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+        <div className="mt-5 flex min-h-12 items-center justify-center rounded-[16px] border border-dashed border-[var(--border)] bg-[var(--surface)] px-4">
+          <span className="font-body text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--text-soft)]">
             No Document Available
           </span>
         </div>
@@ -1188,7 +1189,7 @@ export default async function DeliveryPartnerReviewPage({
         <div className="athimart-review-enter">
           <Link
             href="/admin/delivery-partners"
-            className="inline-flex min-h-12 items-center gap-3 rounded-[16px] border border-slate-200 bg-white px-5 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] text-slate-600 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)] hover:shadow-md"
+            className="inline-flex min-h-12 items-center gap-3 rounded-[16px] border border-[var(--border)] bg-[var(--surface)] px-5 font-body text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--text-soft)] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)] hover:shadow-md"
           >
             <ArrowLeft
               aria-hidden="true"
@@ -1201,7 +1202,7 @@ export default async function DeliveryPartnerReviewPage({
         </div>
 
         {/* Modern applicant hero */}
-        <section className="athimart-review-enter relative overflow-hidden rounded-[32px] bg-[linear-gradient(135deg,#102f78_0%,#1749a8_58%,#2566d7_100%)] px-7 py-9 text-white shadow-[0_24px_70px_rgba(23,73,168,0.22)] sm:px-10 sm:py-11 lg:px-12">
+        <section className="athimart-review-enter relative overflow-hidden rounded-[32px] bg-[linear-gradient(135deg,#353a2b_0%,#454d36_58%,#626d4c_100%)] px-7 py-9 text-white shadow-[0_24px_70px_rgba(69,77,54,0.22)] sm:px-10 sm:py-11 lg:px-12">
           <div
             aria-hidden="true"
             className="absolute -right-28 -top-36 h-[410px] w-[410px] rounded-full border border-white/10 bg-white/[0.055]"
@@ -1216,13 +1217,16 @@ export default async function DeliveryPartnerReviewPage({
             <div className="flex flex-col justify-center">
               <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
                 {profilePhotoUrl ? (
-                  <img
+                  <Image
                     src={profilePhotoUrl}
+                    width={96}
+                    height={96}
+                    unoptimized
                     alt={`${applicantName} profile`}
-                    className="h-24 w-24 shrink-0 rounded-[28px] border-4 border-white/20 object-cover shadow-[0_18px_40px_rgba(7,26,70,0.30)]"
+                    className="h-24 w-24 shrink-0 rounded-[28px] border-4 border-white/20 object-cover shadow-[0_18px_40px_rgba(69,77,54,0.30)]"
                   />
                 ) : (
-                  <span className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[28px] border border-white/15 bg-white/10 font-[var(--font-body)] text-2xl font-bold text-white shadow-[0_18px_40px_rgba(7,26,70,0.25)]">
+                  <span className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[28px] border border-white/15 bg-white/10 font-body text-2xl font-bold text-white shadow-[0_18px_40px_rgba(69,77,54,0.25)]">
                     {getApplicantInitials(
                       applicant
                     )}
@@ -1231,7 +1235,7 @@ export default async function DeliveryPartnerReviewPage({
 
                 <div>
                   <div className="flex flex-wrap items-center gap-3">
-                    <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.16em] text-white/80">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 font-body text-[8px] font-semibold uppercase tracking-[0.16em] text-white/80">
                       <Clock3
                         aria-hidden="true"
                         className="h-3.5 w-3.5"
@@ -1242,17 +1246,17 @@ export default async function DeliveryPartnerReviewPage({
                     </span>
 
                     {applicant?.is_blocked && (
-                      <span className="rounded-full border border-red-300/50 bg-red-500/20 px-4 py-2 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.16em] text-white">
+                      <span className="rounded-full border border-red-300/50 bg-red-500/20 px-4 py-2 font-body text-[8px] font-semibold uppercase tracking-[0.16em] text-white">
                         Account Blocked
                       </span>
                     )}
                   </div>
 
-                  <h1 className="mt-5 font-[var(--font-display)] text-4xl font-light uppercase leading-tight tracking-[0.025em] sm:text-5xl">
+                  <h1 className="mt-5 font-editorial text-4xl font-light normal-case leading-tight tracking-[-0.035em] sm:text-5xl">
                     {applicantName}
                   </h1>
 
-                  <div className="mt-4 flex flex-col gap-2 font-[var(--font-body)] text-xs text-white/65 sm:flex-row sm:flex-wrap sm:gap-x-6">
+                  <div className="mt-4 flex flex-col gap-2 font-body text-xs text-white/65 sm:flex-row sm:flex-wrap sm:gap-x-6">
                     <span>
                       {applicant?.email ??
                         "Email unavailable"}
@@ -1269,7 +1273,7 @@ export default async function DeliveryPartnerReviewPage({
 
             <div className="flex min-h-[230px] flex-col justify-between rounded-[28px] border border-white/15 bg-white/10 p-7 backdrop-blur-md">
               <div className="flex items-start justify-between gap-4">
-                <span className="flex h-12 w-12 items-center justify-center rounded-[17px] bg-white text-[var(--brand-blue)] shadow-lg">
+                <span className="flex h-12 w-12 items-center justify-center rounded-[17px] bg-[var(--surface)] text-[var(--brand-blue)] shadow-lg">
                   <BadgeCheck
                     aria-hidden="true"
                     className="h-6 w-6"
@@ -1278,7 +1282,7 @@ export default async function DeliveryPartnerReviewPage({
                 </span>
 
                 <span
-                  className={`rounded-full border px-4 py-2 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.15em] ${getStatusBadgeClasses(
+                  className={`rounded-full border px-4 py-2 font-body text-[8px] font-semibold uppercase tracking-[0.15em] ${getStatusBadgeClasses(
                     application.application_status
                   )}`}
                 >
@@ -1289,17 +1293,17 @@ export default async function DeliveryPartnerReviewPage({
               </div>
 
               <div className="mt-8">
-                <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.17em] text-white/50">
+                <p className="font-body text-[9px] font-semibold uppercase tracking-[0.17em] text-white/50">
                   Submitted
                 </p>
 
-                <p className="mt-3 font-[var(--font-display)] text-2xl font-light uppercase tracking-[0.035em]">
+                <p className="mt-3 font-editorial text-2xl font-light normal-case tracking-[-0.035em]">
                   {formatDateTime(
                     application.application_submitted_at
                   )}
                 </p>
 
-                <p className="mt-3 font-[var(--font-body)] text-[10px] leading-5 text-white/55">
+                <p className="mt-3 font-body text-[10px] leading-5 text-white/55">
                   Availability remains{" "}
                   {formatStatus(
                     application.availability_status
@@ -1314,7 +1318,7 @@ export default async function DeliveryPartnerReviewPage({
         {applicant?.is_blocked && (
           <section className="athimart-review-enter rounded-[26px] border border-red-200 bg-red-50 p-7 shadow-sm">
             <div className="flex items-start gap-4">
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[17px] bg-white text-red-700 shadow-sm">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[17px] bg-[var(--surface)] text-red-700 shadow-sm">
                 <LockKeyhole
                   aria-hidden="true"
                   className="h-5 w-5"
@@ -1323,11 +1327,11 @@ export default async function DeliveryPartnerReviewPage({
               </span>
 
               <div>
-                <h2 className="font-[var(--font-body)] text-sm font-semibold text-red-800">
+                <h2 className="font-body text-sm font-semibold text-red-800">
                   This AthiMart account is blocked
                 </h2>
 
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-red-700/75">
+                <p className="mt-2 font-body text-xs leading-6 text-red-700/75">
                   {applicant.blocked_reason?.trim() ||
                     "No blocking reason was recorded."}
                 </p>
@@ -1337,19 +1341,19 @@ export default async function DeliveryPartnerReviewPage({
         )}
 
         {/* Applicant information */}
-        <section className="athimart-review-enter rounded-[30px] border border-slate-200 bg-white p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8 lg:p-10">
-          <div className="flex flex-col justify-between gap-5 border-b border-slate-200 pb-7 sm:flex-row sm:items-end">
+        <section className="athimart-review-enter rounded-[30px] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8 lg:p-10">
+          <div className="flex flex-col justify-between gap-5 border-b border-[var(--border)] pb-7 sm:flex-row sm:items-end">
             <div>
-              <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
                 Applicant Profile
               </p>
 
-              <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.035em] text-slate-900 sm:text-4xl">
+              <h2 className="mt-3 font-editorial text-3xl font-light normal-case tracking-[-0.035em] text-[var(--text-soft)] sm:text-4xl">
                 Personal Information
               </h2>
             </div>
 
-            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2 font-body text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--text-soft)]">
               <UserRound
                 aria-hidden="true"
                 className="h-4 w-4"
@@ -1418,20 +1422,20 @@ export default async function DeliveryPartnerReviewPage({
 
         {/* Identity and emergency contact */}
         <section className="grid gap-7 xl:grid-cols-2">
-          <article className="athimart-review-enter rounded-[30px] border border-slate-200 bg-white p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8">
-            <div className="flex items-start justify-between gap-5 border-b border-slate-200 pb-6">
+          <article className="athimart-review-enter rounded-[30px] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8">
+            <div className="flex items-start justify-between gap-5 border-b border-[var(--border)] pb-6">
               <div>
-                <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
+                <p className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
                   Identity Verification
                 </p>
 
-                <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.035em] text-slate-900">
+                <h2 className="mt-3 font-editorial text-3xl font-light normal-case tracking-[-0.035em] text-[var(--text-soft)]">
                   Identity Details
                 </h2>
               </div>
 
               <span
-                className={`rounded-full border px-4 py-2 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] ${getStatusBadgeClasses(
+                className={`rounded-full border px-4 py-2 font-body text-[8px] font-semibold uppercase tracking-[0.14em] ${getStatusBadgeClasses(
                   application.identity_verification_status
                 )}`}
               >
@@ -1461,13 +1465,13 @@ export default async function DeliveryPartnerReviewPage({
             </div>
           </article>
 
-          <article className="athimart-review-enter rounded-[30px] border border-slate-200 bg-white p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8">
-            <div className="border-b border-slate-200 pb-6">
-              <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
+          <article className="athimart-review-enter rounded-[30px] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8">
+            <div className="border-b border-[var(--border)] pb-6">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
                 Safety Contact
               </p>
 
-              <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.035em] text-slate-900">
+              <h2 className="mt-3 font-editorial text-3xl font-light normal-case tracking-[-0.035em] text-[var(--text-soft)]">
                 Emergency Contact
               </h2>
             </div>
@@ -1506,20 +1510,20 @@ export default async function DeliveryPartnerReviewPage({
         </section>
 
         {/* Driving licence */}
-        <section className="athimart-review-enter rounded-[30px] border border-slate-200 bg-white p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8 lg:p-10">
-          <div className="flex flex-col justify-between gap-5 border-b border-slate-200 pb-7 sm:flex-row sm:items-end">
+        <section className="athimart-review-enter rounded-[30px] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8 lg:p-10">
+          <div className="flex flex-col justify-between gap-5 border-b border-[var(--border)] pb-7 sm:flex-row sm:items-end">
             <div>
-              <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
                 Driving Eligibility
               </p>
 
-              <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.035em] text-slate-900 sm:text-4xl">
+              <h2 className="mt-3 font-editorial text-3xl font-light normal-case tracking-[-0.035em] text-[var(--text-soft)] sm:text-4xl">
                 Driving Licence
               </h2>
             </div>
 
             <span
-              className={`rounded-full border px-4 py-2 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] ${getStatusBadgeClasses(
+              className={`rounded-full border px-4 py-2 font-body text-[8px] font-semibold uppercase tracking-[0.14em] ${getStatusBadgeClasses(
                 application.driving_licence_verification_status
               )}`}
             >
@@ -1570,25 +1574,25 @@ export default async function DeliveryPartnerReviewPage({
 
         {/* Service areas and consents */}
         <section className="grid gap-7 xl:grid-cols-[minmax(0,1fr)_420px]">
-          <article className="athimart-review-enter rounded-[30px] border border-slate-200 bg-white p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8">
-            <div className="border-b border-slate-200 pb-6">
-              <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
+          <article className="athimart-review-enter rounded-[30px] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8">
+            <div className="border-b border-[var(--border)] pb-6">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
                 Operating Locations
               </p>
 
-              <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.035em] text-slate-900">
+              <h2 className="mt-3 font-editorial text-3xl font-light normal-case tracking-[-0.035em] text-[var(--text-soft)]">
                 Requested Service Areas
               </h2>
             </div>
 
-            <div className="mt-7 flex min-h-[150px] flex-wrap content-start gap-3 rounded-[24px] border border-slate-200 bg-slate-50/70 p-6">
+            <div className="mt-7 flex min-h-[150px] flex-wrap content-start gap-3 rounded-[24px] border border-[var(--border)] bg-[var(--surface-soft)]/70 p-6">
               {requestedServiceAreas.length >
               0 ? (
                 requestedServiceAreas.map(
                   (area) => (
                     <span
                       key={area}
-                      className="inline-flex h-fit items-center gap-2 rounded-full border border-orange-200 bg-white px-4 py-2.5 font-[var(--font-body)] text-[10px] font-semibold text-orange-700 shadow-sm"
+                      className="inline-flex h-fit items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface)] px-4 py-2.5 font-body text-[10px] font-semibold text-[var(--brand-hover)] shadow-sm"
                     >
                       <MapPin
                         aria-hidden="true"
@@ -1601,20 +1605,20 @@ export default async function DeliveryPartnerReviewPage({
                   )
                 )
               ) : (
-                <p className="font-[var(--font-body)] text-xs text-slate-500">
+                <p className="font-body text-xs text-[var(--text-soft)]">
                   No requested service areas were recorded.
                 </p>
               )}
             </div>
           </article>
 
-          <article className="athimart-review-enter rounded-[30px] border border-slate-200 bg-white p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8">
-            <div className="border-b border-slate-200 pb-6">
-              <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
+          <article className="athimart-review-enter rounded-[30px] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8">
+            <div className="border-b border-[var(--border)] pb-6">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
                 Applicant Declarations
               </p>
 
-              <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.035em] text-slate-900">
+              <h2 className="mt-3 font-editorial text-3xl font-light normal-case tracking-[-0.035em] text-[var(--text-soft)]">
                 Consents
               </h2>
             </div>
@@ -1639,7 +1643,7 @@ export default async function DeliveryPartnerReviewPage({
               ].map((consent) => (
                 <div
                   key={consent.label}
-                  className="flex items-center justify-between gap-4 rounded-[18px] border border-slate-200 bg-slate-50 p-4"
+                  className="flex items-center justify-between gap-4 rounded-[18px] border border-[var(--border)] bg-[var(--surface-soft)] p-4"
                 >
                   <div className="flex items-center gap-3">
                     <CheckCircle2
@@ -1652,12 +1656,12 @@ export default async function DeliveryPartnerReviewPage({
                       strokeWidth={1.8}
                     />
 
-                    <span className="font-[var(--font-body)] text-[10px] font-semibold text-slate-700">
+                    <span className="font-body text-[10px] font-semibold text-[var(--text-soft)]">
                       {consent.label}
                     </span>
                   </div>
 
-                  <span className="font-[var(--font-body)] text-[9px] text-slate-500">
+                  <span className="font-body text-[9px] text-[var(--text-soft)]">
                     {consent.value
                       ? formatDate(
                           consent.value
@@ -1672,10 +1676,10 @@ export default async function DeliveryPartnerReviewPage({
 
         {/* Vehicle */}
         {vehicle ? (
-          <section className="athimart-review-enter rounded-[30px] border border-slate-200 bg-white p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8 lg:p-10">
-            <div className="flex flex-col justify-between gap-6 border-b border-slate-200 pb-7 lg:flex-row lg:items-end">
+          <section className="athimart-review-enter rounded-[30px] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8 lg:p-10">
+            <div className="flex flex-col justify-between gap-6 border-b border-[var(--border)] pb-7 lg:flex-row lg:items-end">
               <div className="flex items-start gap-5">
-                <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[22px] bg-blue-50 text-[var(--brand-blue)] shadow-[0_10px_30px_rgba(23,73,168,0.12)]">
+                <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[22px] bg-[var(--surface-soft)] text-[var(--brand-blue)] shadow-[0_10px_30px_rgba(69,77,54,0.12)]">
                   <Truck
                     aria-hidden="true"
                     className="h-7 w-7"
@@ -1684,17 +1688,17 @@ export default async function DeliveryPartnerReviewPage({
                 </span>
 
                 <div>
-                  <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
+                  <p className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
                     Submitted Primary Vehicle
                   </p>
 
-                  <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.035em] text-slate-900 sm:text-4xl">
+                  <h2 className="mt-3 font-editorial text-3xl font-light normal-case tracking-[-0.035em] text-[var(--text-soft)] sm:text-4xl">
                     {getVehicleTitle(
                       vehicle
                     )}
                   </h2>
 
-                  <p className="mt-2 font-[var(--font-body)] text-xs text-slate-500">
+                  <p className="mt-2 font-body text-xs text-[var(--text-soft)]">
                     {vehicle.registration_number ??
                       "Registration not recorded"}
                   </p>
@@ -1702,7 +1706,7 @@ export default async function DeliveryPartnerReviewPage({
               </div>
 
               <span
-                className={`w-fit rounded-full border px-4 py-2 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] ${getStatusBadgeClasses(
+                className={`w-fit rounded-full border px-4 py-2 font-body text-[8px] font-semibold uppercase tracking-[0.14em] ${getStatusBadgeClasses(
                   vehicle.vehicle_status
                 )}`}
               >
@@ -1791,7 +1795,7 @@ export default async function DeliveryPartnerReviewPage({
             </div>
 
             <div className="mt-10">
-              <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--text-soft)]">
                 Vehicle Equipment and Capabilities
               </p>
 
@@ -1872,11 +1876,11 @@ export default async function DeliveryPartnerReviewPage({
               />
 
               <div>
-                <h2 className="font-[var(--font-body)] text-sm font-semibold text-red-800">
+                <h2 className="font-body text-sm font-semibold text-red-800">
                   Submitted vehicle not found
                 </h2>
 
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-red-700/75">
+                <p className="mt-2 font-body text-xs leading-6 text-red-700/75">
                   This application cannot be approved until its submitted vehicle record is available.
                 </p>
               </div>
@@ -1885,23 +1889,23 @@ export default async function DeliveryPartnerReviewPage({
         )}
 
         {/* Secure documents */}
-        <section className="athimart-review-enter rounded-[30px] border border-slate-200 bg-white p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8 lg:p-10">
-          <div className="flex flex-col justify-between gap-5 border-b border-slate-200 pb-7 sm:flex-row sm:items-end">
+        <section className="athimart-review-enter rounded-[30px] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_12px_40px_rgba(15,23,42,0.05)] sm:p-8 lg:p-10">
+          <div className="flex flex-col justify-between gap-5 border-b border-[var(--border)] pb-7 sm:flex-row sm:items-end">
             <div>
-              <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
                 Private Verification Files
               </p>
 
-              <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.035em] text-slate-900 sm:text-4xl">
+              <h2 className="mt-3 font-editorial text-3xl font-light normal-case tracking-[-0.035em] text-[var(--text-soft)] sm:text-4xl">
                 Secure Documents
               </h2>
 
-              <p className="mt-3 max-w-2xl font-[var(--font-body)] text-xs leading-6 text-slate-500">
+              <p className="mt-3 max-w-2xl font-body text-xs leading-6 text-[var(--text-soft)]">
                 Document links are temporary and should be used only for authorised application review.
               </p>
             </div>
 
-            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] text-emerald-700">
+            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 font-body text-[8px] font-semibold uppercase tracking-[0.14em] text-emerald-700">
               <LockKeyhole
                 aria-hidden="true"
                 className="h-4 w-4"
@@ -1933,17 +1937,17 @@ export default async function DeliveryPartnerReviewPage({
 
         {/* Review form */}
         {vehicle && (
-          <section className="athimart-review-enter rounded-[32px] border border-slate-200 bg-white p-6 shadow-[0_18px_55px_rgba(15,23,42,0.07)] sm:p-8 lg:p-10">
-            <div className="mb-9 border-b border-slate-200 pb-7">
-              <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
+          <section className="athimart-review-enter rounded-[32px] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_18px_55px_rgba(15,23,42,0.07)] sm:p-8 lg:p-10">
+            <div className="mb-9 border-b border-[var(--border)] pb-7">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
                 Final Administrator Action
               </p>
 
-              <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.035em] text-slate-900 sm:text-4xl">
+              <h2 className="mt-3 font-editorial text-3xl font-light normal-case tracking-[-0.035em] text-[var(--text-soft)] sm:text-4xl">
                 Review Decision
               </h2>
 
-              <p className="mt-3 max-w-3xl font-[var(--font-body)] text-xs leading-6 text-slate-500">
+              <p className="mt-3 max-w-3xl font-body text-xs leading-6 text-[var(--text-soft)]">
                 Review all information and private documents before approving or rejecting this application.
               </p>
             </div>

@@ -225,7 +225,7 @@ export default async function SellerPendingPage() {
       </div>
 
       <div className="relative mx-auto flex min-h-screen max-w-4xl items-center px-5 py-12 sm:px-10">
-        <section className="w-full overflow-hidden border border-[var(--border)] bg-white shadow-[0_24px_70px_rgba(18,63,158,0.10)]">
+        <section className="w-full overflow-hidden border border-[var(--border)] bg-[var(--surface)] shadow-[0_24px_70px_rgba(69,77,54,0.10)]">
           {/* Status header */}
           <header
             className={
@@ -236,12 +236,12 @@ export default async function SellerPendingPage() {
           >
             <div className="flex items-start justify-between gap-6">
               <div>
-                <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70">
+                <p className="font-body text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70">
                   AthiMart seller
                   account
                 </p>
 
-                <h1 className="mt-4 font-[var(--font-display)] text-4xl font-light uppercase leading-tight tracking-[0.04em] text-white sm:text-5xl">
+                <h1 className="mt-4 font-editorial text-4xl font-light normal-case leading-tight tracking-[-0.035em] text-white sm:text-5xl">
                   {isRejected
                     ? "Request Rejected"
                     : "Approval Pending"}
@@ -265,7 +265,7 @@ export default async function SellerPendingPage() {
               </span>
             </div>
 
-            <p className="mt-7 max-w-2xl font-[var(--font-body)] text-sm leading-7 text-white/80">
+            <p className="mt-7 max-w-2xl font-body text-sm leading-7 text-white/80">
               {isRejected
                 ? "Your seller account request was reviewed but was not approved."
                 : "Your email has been confirmed. Your seller account is now waiting for review and approval by the AthiMart administrator."}
@@ -280,7 +280,7 @@ export default async function SellerPendingPage() {
                   Seller name
                 </p>
 
-                <p className="mt-3 font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
+                <p className="mt-3 font-editorial text-2xl font-light text-[var(--brand-blue-dark)]">
                   {fullName}
                 </p>
               </article>
@@ -290,7 +290,7 @@ export default async function SellerPendingPage() {
                   Confirmed email
                 </p>
 
-                <p className="mt-3 break-all font-[var(--font-body)] text-sm font-semibold text-[var(--brand-blue-dark)]">
+                <p className="mt-3 break-all font-body text-sm font-semibold text-[var(--brand-blue-dark)]">
                   {email}
                 </p>
               </article>
@@ -307,12 +307,12 @@ export default async function SellerPendingPage() {
                   />
 
                   <div>
-                    <h2 className="font-[var(--font-body)] text-sm font-semibold text-[var(--brand-blue-dark)]">
+                    <h2 className="font-body text-sm font-semibold text-[var(--brand-blue-dark)]">
                       Administrator
                       approval required
                     </h2>
 
-                    <p className="mt-2 font-[var(--font-body)] text-sm leading-6 text-[var(--text-muted)]">
+                    <p className="mt-2 font-body text-sm leading-6 text-[var(--text-muted)]">
                       You cannot publish
                       products or access
                       seller tools until
@@ -322,7 +322,7 @@ export default async function SellerPendingPage() {
                       request.
                     </p>
 
-                    <p className="mt-3 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                    <p className="mt-3 font-body text-xs leading-5 text-[var(--text-muted)]">
                       Request submitted:{" "}
                       <strong className="text-[var(--text)]">
                         {requestedDate}
@@ -336,12 +336,12 @@ export default async function SellerPendingPage() {
             {/* Rejected seller message */}
             {isRejected && (
               <section className="mt-7 border-l-4 border-[var(--sale)] bg-red-50 p-5">
-                <h2 className="font-[var(--font-body)] text-sm font-semibold text-[var(--sale)]">
+                <h2 className="font-body text-sm font-semibold text-[var(--sale)]">
                   Administrator
                   response
                 </h2>
 
-                <p className="mt-2 font-[var(--font-body)] text-sm leading-6 text-[var(--text-muted)]">
+                <p className="mt-2 font-body text-sm leading-6 text-[var(--text-muted)]">
                   {rejectionReason ||
                     "No rejection reason was provided. Contact AthiMart support for more information."}
                 </p>
@@ -371,7 +371,7 @@ export default async function SellerPendingPage() {
               >
                 <button
                   type="submit"
-                  className="inline-flex min-h-14 w-full items-center justify-center gap-3 border border-[var(--sale)] bg-white px-5 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.17em] text-[var(--sale)] transition-colors hover:bg-[var(--sale)] hover:text-white"
+                  className="inline-flex min-h-14 w-full items-center justify-center gap-3 border border-[var(--sale)] bg-[var(--surface)] px-5 font-body text-[10px] font-semibold uppercase tracking-[0.17em] text-[var(--sale)] transition-colors hover:bg-[var(--sale)] hover:text-white rounded-full"
                 >
                   <LogOut
                     aria-hidden="true"
@@ -392,7 +392,7 @@ export default async function SellerPendingPage() {
                 strokeWidth={1.8}
               />
 
-              <p className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="font-body text-xs leading-6 text-[var(--text-muted)]">
                 Your email verification
                 is complete. You do not
                 need to create another

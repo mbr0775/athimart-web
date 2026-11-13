@@ -548,7 +548,7 @@ export function ProductImageUploader({
         onClick={
           openFilePicker
         }
-        className="flex min-h-36 w-full flex-col items-center justify-center border-2 border-dashed border-[var(--border-strong)] bg-[var(--linen-light)] px-5 py-6 text-center transition-colors hover:border-[var(--brand-blue)] hover:bg-[var(--brand-blue-soft)] disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex min-h-36 w-full flex-col items-center justify-center border-2 border-dashed border-[var(--border-strong)] bg-[var(--linen-light)] px-5 py-6 text-center transition-colors hover:border-[var(--brand-blue)] hover:bg-[var(--brand-blue-soft)] disabled:cursor-not-allowed disabled:opacity-60 rounded-full"
       >
         {uploading ? (
           <LoaderCircle
@@ -564,7 +564,7 @@ export function ProductImageUploader({
           />
         )}
 
-        <span className="mt-3 font-[var(--font-body)] text-sm font-semibold text-[var(--brand-blue-dark)]">
+        <span className="mt-3 font-body text-sm font-semibold text-[var(--brand-blue-dark)]">
           {uploading
             ? uploadProgress ||
               "Uploading images..."
@@ -574,12 +574,12 @@ export function ProductImageUploader({
               : "Select product images"}
         </span>
 
-        <span className="mt-2 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+        <span className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
           JPG, PNG or WebP · Maximum
           5 MB each
         </span>
 
-        <span className="mt-1 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--brand-orange-dark)]">
+        <span className="mt-1 font-body text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--brand-orange-dark)]">
           {imageUrls.length} of{" "}
           {maximumImages} images used
         </span>
@@ -597,7 +597,7 @@ export function ProductImageUploader({
             strokeWidth={1.8}
           />
 
-          <p className="font-[var(--font-body)] text-xs leading-5 text-[var(--sale)]">
+          <p className="font-body text-xs leading-5 text-[var(--sale)]">
             {error}
           </p>
         </div>
@@ -611,7 +611,7 @@ export function ProductImageUploader({
             role="status"
             className="mt-4 border-l-4 border-[var(--success)] bg-green-50 px-4 py-3"
           >
-            <p className="font-[var(--font-body)] text-xs font-semibold leading-5 text-[var(--success)]">
+            <p className="font-body text-xs font-semibold leading-5 text-[var(--success)]">
               {uploadProgress}
             </p>
           </div>
@@ -626,7 +626,7 @@ export function ProductImageUploader({
             strokeWidth={1.8}
           />
 
-          <p className="font-[var(--font-body)] text-xs leading-5 text-[var(--text-soft)]">
+          <p className="font-body text-xs leading-5 text-[var(--text-soft)]">
             Image number 1 is the
             primary image. Use the
             arrows to change the image
@@ -658,7 +658,7 @@ export function ProductImageUploader({
               return (
                 <article
                   key={imageUrl}
-                  className={`border bg-white p-3 ${
+                  className={`border bg-[var(--surface)] p-3 ${
                     isPrimary
                       ? "border-[var(--brand-blue)]"
                       : "border-[var(--border)]"
@@ -681,13 +681,13 @@ export function ProductImageUploader({
                     />
 
                     {/* Image number */}
-                    <span className="absolute left-2 top-2 flex h-8 min-w-8 items-center justify-center bg-white px-2 font-[var(--font-body)] text-[10px] font-bold text-[var(--brand-blue-dark)] shadow">
+                    <span className="absolute left-2 top-2 flex h-8 min-w-8 items-center justify-center bg-[var(--surface)] px-2 font-body text-[10px] font-bold text-[var(--brand-blue-dark)] shadow">
                       {imageIndex + 1}
                     </span>
 
                     {/* Primary badge */}
                     {isPrimary && (
-                      <span className="absolute right-2 top-2 inline-flex min-h-8 items-center gap-1.5 bg-[var(--brand-blue)] px-3 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.12em] text-white! shadow">
+                      <span className="absolute right-2 top-2 inline-flex min-h-8 items-center gap-1.5 bg-[var(--brand-blue)] px-3 font-body text-[8px] font-semibold uppercase tracking-[0.12em] text-white! shadow">
                         <Star
                           aria-hidden="true"
                           className="h-3.5 w-3.5 fill-current text-white!"
@@ -718,7 +718,7 @@ export function ProductImageUploader({
                       aria-label={`Move product image ${
                         imageIndex + 1
                       } left`}
-                      className="inline-flex min-h-10 items-center justify-center gap-2 border border-[var(--border)] bg-white px-3 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.12em] text-[var(--text-muted)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)] disabled:cursor-not-allowed disabled:opacity-35"
+                      className="inline-flex min-h-10 items-center justify-center gap-2 border border-[var(--border)] bg-[var(--surface)] px-3 font-body text-[8px] font-semibold uppercase tracking-[0.12em] text-[var(--text-muted)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)] disabled:cursor-not-allowed disabled:opacity-35 rounded-full"
                     >
                       <ArrowLeft
                         aria-hidden="true"
@@ -746,7 +746,7 @@ export function ProductImageUploader({
                       aria-label={`Move product image ${
                         imageIndex + 1
                       } right`}
-                      className="inline-flex min-h-10 items-center justify-center gap-2 border border-[var(--border)] bg-white px-3 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.12em] text-[var(--text-muted)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)] disabled:cursor-not-allowed disabled:opacity-35"
+                      className="inline-flex min-h-10 items-center justify-center gap-2 border border-[var(--border)] bg-[var(--surface)] px-3 font-body text-[8px] font-semibold uppercase tracking-[0.12em] text-[var(--text-muted)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)] disabled:cursor-not-allowed disabled:opacity-35 rounded-full"
                     >
                       <span>
                         Right
@@ -773,7 +773,7 @@ export function ProductImageUploader({
                           imageIndex
                         )
                       }
-                      className="inline-flex min-h-10 items-center justify-center gap-2 border border-[var(--brand-blue)] bg-[var(--brand-blue-soft)] px-3 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.12em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-blue)] hover:text-white! disabled:cursor-default disabled:border-[var(--success)] disabled:bg-green-50 disabled:text-[var(--success)] disabled:opacity-100"
+                      className="inline-flex min-h-10 items-center justify-center gap-2 border border-[var(--brand-blue)] bg-[var(--brand-blue-soft)] px-3 font-body text-[8px] font-semibold uppercase tracking-[0.12em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-blue)] hover:text-white! disabled:cursor-default disabled:border-[var(--success)] disabled:bg-green-50 disabled:text-[var(--success)] disabled:opacity-100 rounded-full"
                     >
                       <Star
                         aria-hidden="true"
@@ -800,7 +800,7 @@ export function ProductImageUploader({
                           imageIndex
                         )
                       }
-                      className="inline-flex min-h-10 items-center justify-center gap-2 border border-[var(--sale)] bg-red-50 px-3 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.12em] text-[var(--sale)] transition-colors hover:bg-[var(--sale)] hover:text-white! disabled:cursor-not-allowed disabled:opacity-50"
+                      className="inline-flex min-h-10 items-center justify-center gap-2 border border-[var(--sale)] bg-red-50 px-3 font-body text-[8px] font-semibold uppercase tracking-[0.12em] text-[var(--sale)] transition-colors hover:bg-[var(--sale)] hover:text-white! disabled:cursor-not-allowed disabled:opacity-50 rounded-full"
                     >
                       <Trash2
                         aria-hidden="true"
@@ -819,14 +819,14 @@ export function ProductImageUploader({
           )}
         </div>
       ) : (
-        <div className="mt-4 flex items-start gap-3 border border-[var(--border)] bg-white p-4">
+        <div className="mt-4 flex items-start gap-3 border border-[var(--border)] bg-[var(--surface)] p-4 rounded-[24px]">
           <ImagePlus
             aria-hidden="true"
             className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-orange-dark)]"
             strokeWidth={1.8}
           />
 
-          <p className="font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+          <p className="font-body text-xs leading-5 text-[var(--text-muted)]">
             No product images have
             been selected. Upload at
             least one image before

@@ -50,7 +50,7 @@ SEO Information
 className="
 mt-1
 text-xs
-text-gray-500
+text-[var(--text-soft)]
 "
 >
 Search engine optimization settings.
@@ -86,11 +86,11 @@ defaultValue={
 className="
 mt-2
 w-full
-rounded-lg
+rounded-xl
 border
 px-4
 py-3
-"
+ border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
 
 placeholder="SEO title"
 
@@ -150,11 +150,11 @@ rows={4}
 className="
 mt-2
 w-full
-rounded-lg
+rounded-xl
 border
 px-4
 py-3
-"
+ border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
 
 placeholder="SEO description"
 

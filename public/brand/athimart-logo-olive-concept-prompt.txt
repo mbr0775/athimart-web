@@ -1,0 +1,11 @@
+Generated with the built-in image_gen tool.
+
+Use case: logo-brand
+Asset type: Finished primary horizontal logo for the AthiMart ecommerce website, transparent PNG.
+Primary request: Design an original, beautifully balanced premium ecommerce logo for AthiMart, a multi-category marketplace for technology, lifestyle, fitness, fashion and natural products.
+Style/medium: Crisp flat vector-like brand design, immaculate shapes and typography, elegant modern editorial aesthetic.
+Subject: A distinctive compact monogram at the left combining a capital A with a subtle shopping bag handle. Use a simple bold silhouette, intentional negative space, refined curves and a strong recognizable shape at favicon sizes. Pair with the exact wordmark "AthiMart" to its right. Wordmark in an elegant, highly readable contemporary editorial serif with tasteful medium contrast and careful kerning; sophisticated and welcoming, substantial strokes, not hairline. Capital A and M, all other letters lowercase. Icon and wordmark should feel like one bespoke identity.
+Color palette: Single solid deep olive green #454D36 for the entire icon and wordmark. This logo will be used on a warm cream #FFFAF0 website; actual output background must be fully transparent.
+Composition/framing: One horizontal lockup only, centered on a wide landscape canvas, about 3:1 aspect ratio; symbol roughly the visual height of the wordmark capitals plus a modest handle extension, balanced generous clear space around entire logo, efficient margins suitable for a website header.
+Text (verbatim): "AthiMart"
+Constraints: Only the icon and the single wordmark, perfect spelling, no tagline, no extra labels, no mockups, no decorative objects, no gradients, no shadows, no 3D, no outline-only icon, no textures, no watermark. True transparent background. New creative design, not a recoloring of another logo.

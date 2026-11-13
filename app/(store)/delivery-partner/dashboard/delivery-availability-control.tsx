@@ -505,7 +505,7 @@ export default function DeliveryAvailabilityControl({
   }
 
   return (
-    <article className="flex h-full flex-col border border-[var(--border)] bg-white p-6 shadow-[0_16px_45px_rgba(17,42,91,0.06)]">
+    <article className="flex h-full flex-col border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_16px_45px_rgba(69,77,54,0.06)] rounded-[24px]">
       <div className="flex items-start justify-between gap-4">
         <span
           className={`flex h-12 w-12 items-center justify-center ${
@@ -522,7 +522,7 @@ export default function DeliveryAvailabilityControl({
         </span>
 
         <span
-          className={`rounded-full px-3 py-1.5 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] ${
+          className={`rounded-full px-3 py-1.5 font-body text-[8px] font-semibold uppercase tracking-[0.14em] ${
             isOperationallyOnline
               ? "bg-green-50 text-green-700"
               : "bg-neutral-100 text-neutral-600"
@@ -536,11 +536,11 @@ export default function DeliveryAvailabilityControl({
         Current availability
       </p>
 
-      <h2 className="mt-2 font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
+      <h2 className="mt-2 font-editorial text-2xl font-light text-[var(--brand-blue-dark)]">
         {availabilityHeading}
       </h2>
 
-      <p className="mt-3 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+      <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
         {availabilityDescription}
       </p>
 
@@ -622,7 +622,7 @@ export default function DeliveryAvailabilityControl({
             onClick={
               handleGoOnline
             }
-            className="inline-flex min-h-11 w-full items-center justify-center gap-2 bg-[var(--brand-blue)] px-4 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:bg-[var(--brand-blue-dark)] disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 bg-[var(--brand-blue)] px-4 font-body text-[10px] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:bg-[var(--brand-blue-dark)] disabled:cursor-not-allowed disabled:opacity-50 rounded-full"
           >
             {actionBusy ? (
               <>
@@ -655,7 +655,7 @@ export default function DeliveryAvailabilityControl({
               isLocked ||
               actionBusy
             }
-            className="inline-flex min-h-11 w-full items-center justify-center gap-2 border border-[var(--brand-orange)] bg-white px-4 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-orange-dark)] transition-all duration-200 hover:bg-[var(--brand-orange-soft)] disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 border border-[var(--brand-orange)] bg-[var(--surface)] px-4 font-body text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-orange-dark)] transition-all duration-200 hover:bg-[var(--brand-orange-soft)] disabled:cursor-not-allowed disabled:opacity-50 rounded-full athimart-brand-button"
           >
             {isPending ? (
               <>
@@ -685,14 +685,14 @@ export default function DeliveryAvailabilityControl({
       {locationSummary &&
         nextStatus ===
           "online" && (
-          <div className="mt-4 flex items-start gap-3 border border-blue-100 bg-blue-50 px-4 py-3 text-blue-900">
+          <div className="mt-4 flex items-start gap-3 border border-[var(--border-strong)] bg-[var(--surface-soft)] px-4 py-3 text-[var(--text)]">
             <MapPin
               aria-hidden="true"
               className="mt-0.5 h-4 w-4 shrink-0"
               strokeWidth={1.8}
             />
 
-            <p className="font-[var(--font-body)] text-xs leading-5">
+            <p className="font-body text-xs leading-5">
               Location received with
               approximately{" "}
               <strong>
@@ -708,7 +708,7 @@ export default function DeliveryAvailabilityControl({
         )}
 
       {isLocked && (
-        <div className="mt-4 border-l-4 border-amber-500 bg-amber-50 px-4 py-3 font-[var(--font-body)] text-xs leading-5 text-amber-900">
+        <div className="mt-4 border-l-4 border-amber-500 bg-amber-50 px-4 py-3 font-body text-xs leading-5 text-amber-900">
           Availability cannot be
           changed while your status is{" "}
           <strong>
@@ -722,7 +722,7 @@ export default function DeliveryAvailabilityControl({
         <div
           role="alert"
           aria-live="assertive"
-          className="mt-4 border-l-4 border-red-600 bg-red-50 px-4 py-3 font-[var(--font-body)] text-xs leading-5 text-red-800"
+          className="mt-4 border-l-4 border-red-600 bg-red-50 px-4 py-3 font-body text-xs leading-5 text-red-800"
         >
           {locationError}
         </div>
@@ -736,7 +736,7 @@ export default function DeliveryAvailabilityControl({
               : "alert"
           }
           aria-live="polite"
-          className={`mt-4 border-l-4 px-4 py-3 font-[var(--font-body)] text-xs leading-5 ${
+          className={`mt-4 border-l-4 px-4 py-3 font-body text-xs leading-5 ${
             state.success
               ? "border-green-600 bg-green-50 text-green-800"
               : "border-red-600 bg-red-50 text-red-800"

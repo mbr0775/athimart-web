@@ -27,7 +27,7 @@ function DeleteSubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border border-[var(--sale)] bg-[var(--sale)] px-4 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] text-white! transition-colors hover:bg-red-700 disabled:cursor-wait disabled:opacity-60"
+      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border border-[var(--sale)] bg-[var(--sale)] px-4 font-body text-[9px] font-semibold uppercase tracking-[0.14em] text-white! transition-colors hover:bg-red-700 disabled:cursor-wait disabled:opacity-60 rounded-full"
     >
       {pending ? (
         <LoaderCircle
@@ -106,7 +106,7 @@ export function ProductDeleteForm({
         onClick={() =>
           setDialogOpen(true)
         }
-        className="inline-flex min-h-10 items-center justify-center gap-2 border border-[var(--sale)] bg-red-50 px-3 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--sale)] transition-colors hover:bg-[var(--sale)] hover:text-white!"
+        className="inline-flex min-h-10 items-center justify-center gap-2 border border-[var(--sale)] bg-red-50 px-3 font-body text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--sale)] transition-colors hover:bg-[var(--sale)] hover:text-white! rounded-full"
       >
         <Trash2
           aria-hidden="true"
@@ -134,7 +134,7 @@ export function ProductDeleteForm({
             role="dialog"
             aria-modal="true"
             aria-labelledby={`delete-product-${productId}`}
-            className="w-full max-w-lg border border-[var(--border)] bg-white shadow-2xl"
+            className="w-full max-w-lg border border-[var(--border)] bg-[var(--surface)] shadow-2xl"
           >
             <div className="flex items-start justify-between gap-5 border-b border-[var(--border)] p-5 sm:p-6">
               <div className="flex items-start gap-4">
@@ -153,7 +153,7 @@ export function ProductDeleteForm({
 
                   <h2
                     id={`delete-product-${productId}`}
-                    className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]"
+                    className="mt-2 font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]"
                   >
                     Delete Product?
                   </h2>
@@ -177,16 +177,16 @@ export function ProductDeleteForm({
             </div>
 
             <div className="p-5 sm:p-6">
-              <p className="font-[var(--font-body)] text-sm leading-7 text-[var(--text-soft)]">
+              <p className="font-body text-sm leading-7 text-[var(--text-soft)]">
                 You are about to
                 permanently delete:
               </p>
 
-              <p className="mt-3 border-l-4 border-[var(--sale)] bg-red-50 px-4 py-3 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+              <p className="mt-3 border-l-4 border-[var(--sale)] bg-red-50 px-4 py-3 font-body text-sm font-semibold text-[var(--text)]">
                 {productName}
               </p>
 
-              <p className="mt-5 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="mt-5 font-body text-xs leading-6 text-[var(--text-muted)]">
                 This removes the shared
                 product record from both
                 the AthiMart website and

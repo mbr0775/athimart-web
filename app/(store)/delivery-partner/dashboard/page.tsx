@@ -295,7 +295,7 @@ export default async function DeliveryPartnerDashboardPage() {
                 Delivery partner portal
               </p>
 
-              <span className="inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1.5 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] text-green-700">
+              <span className="inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1.5 font-body text-[9px] font-semibold uppercase tracking-[0.14em] text-green-700">
                 <BadgeCheck
                   aria-hidden="true"
                   className="h-4 w-4"
@@ -354,8 +354,8 @@ export default async function DeliveryPartnerDashboardPage() {
         />
 
         {/* Service areas */}
-        <article className="border border-[var(--border)] bg-white p-6 shadow-[0_16px_45px_rgba(17,42,91,0.06)]">
-          <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_16px_45px_rgba(69,77,54,0.06)] rounded-[24px]">
+          <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <MapPin
               aria-hidden="true"
               className="h-6 w-6"
@@ -367,7 +367,7 @@ export default async function DeliveryPartnerDashboardPage() {
             Approved service area
           </p>
 
-          <h2 className="mt-2 font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
+          <h2 className="mt-2 font-editorial text-2xl font-light text-[var(--brand-blue-dark)]">
             {serviceAreas.length > 0
               ? `${serviceAreas.length} area${
                   serviceAreas.length === 1
@@ -377,7 +377,7 @@ export default async function DeliveryPartnerDashboardPage() {
               : "Not assigned"}
           </h2>
 
-          <p className="mt-3 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+          <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
             Approved operating radius:{" "}
             <strong>
               {
@@ -390,7 +390,7 @@ export default async function DeliveryPartnerDashboardPage() {
         </article>
 
         {/* Current assignments */}
-        <article className="border border-[var(--border)] bg-white p-6 shadow-[0_16px_45px_rgba(17,42,91,0.06)]">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_16px_45px_rgba(69,77,54,0.06)] rounded-[24px]">
           <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]">
             <PackageCheck
               aria-hidden="true"
@@ -403,18 +403,18 @@ export default async function DeliveryPartnerDashboardPage() {
             Active deliveries
           </p>
 
-          <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]">
+          <h2 className="mt-2 font-editorial text-3xl font-light text-[var(--brand-blue-dark)]">
             0
           </h2>
 
-          <p className="mt-3 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+          <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
             Delivery assignments have not
             been connected yet.
           </p>
         </article>
 
         {/* Delivery history */}
-        <article className="border border-[var(--border)] bg-white p-6 shadow-[0_16px_45px_rgba(17,42,91,0.06)]">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_16px_45px_rgba(69,77,54,0.06)] rounded-[24px]">
           <span className="flex h-12 w-12 items-center justify-center bg-neutral-100 text-neutral-600">
             <Clock3
               aria-hidden="true"
@@ -427,11 +427,11 @@ export default async function DeliveryPartnerDashboardPage() {
             Completed deliveries
           </p>
 
-          <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]">
+          <h2 className="mt-2 font-editorial text-3xl font-light text-[var(--brand-blue-dark)]">
             0
           </h2>
 
-          <p className="mt-3 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+          <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
             Completed-delivery history will
             appear here after assignments
             are implemented.
@@ -441,19 +441,19 @@ export default async function DeliveryPartnerDashboardPage() {
 
       <div className="mt-8 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         {/* Approved vehicle */}
-        <section className="border border-[var(--border)] bg-white p-6 shadow-[0_18px_50px_rgba(17,42,91,0.06)] sm:p-8">
+        <section className="border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_18px_50px_rgba(69,77,54,0.06)] sm:p-8 rounded-[24px]">
           <div className="flex items-start justify-between gap-5">
             <div>
               <p className="athimart-label text-[var(--brand-orange-dark)]">
                 Registered vehicle
               </p>
 
-              <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]">
+              <h2 className="mt-3 font-editorial text-3xl font-light text-[var(--brand-blue-dark)]">
                 Approved delivery vehicle
               </h2>
             </div>
 
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+            <span className="flex h-14 w-14 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
               {vehicle?.vehicle_type
                 .toLowerCase()
                 .includes(
@@ -477,20 +477,20 @@ export default async function DeliveryPartnerDashboardPage() {
           {vehicle ? (
             <div className="mt-7">
               <div className="flex flex-wrap items-center gap-3">
-                <h3 className="font-[var(--font-display)] text-2xl font-light text-[var(--text)]">
+                <h3 className="font-editorial text-2xl font-light text-[var(--text)]">
                   {getVehicleDisplayName(
                     vehicle
                   )}
                 </h3>
 
                 {vehicle.is_primary && (
-                  <span className="rounded-full bg-green-50 px-3 py-1.5 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] text-green-700">
+                  <span className="rounded-full bg-green-50 px-3 py-1.5 font-body text-[8px] font-semibold uppercase tracking-[0.14em] text-green-700">
                     Primary
                   </span>
                 )}
 
                 {vehicle.is_currently_available && (
-                  <span className="rounded-full bg-blue-50 px-3 py-1.5 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] text-blue-700">
+                  <span className="rounded-full bg-[var(--surface-soft)] px-3 py-1.5 font-body text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-hover)]">
                     Operational
                   </span>
                 )}
@@ -502,7 +502,7 @@ export default async function DeliveryPartnerDashboardPage() {
                     Vehicle type
                   </dt>
 
-                  <dd className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                  <dd className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
                     {formatVehicleType(
                       vehicle.vehicle_type
                     )}
@@ -514,7 +514,7 @@ export default async function DeliveryPartnerDashboardPage() {
                     Registration
                   </dt>
 
-                  <dd className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                  <dd className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
                     {normalizeText(
                       vehicle.registration_number
                     ) ||
@@ -527,7 +527,7 @@ export default async function DeliveryPartnerDashboardPage() {
                     Maximum payload
                   </dt>
 
-                  <dd className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                  <dd className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
                     {normalizeNumber(
                       vehicle.maximum_payload_kg
                     )}{" "}
@@ -540,7 +540,7 @@ export default async function DeliveryPartnerDashboardPage() {
                     Parcel capacity
                   </dt>
 
-                  <dd className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                  <dd className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
                     {vehicle.maximum_parcel_count ??
                       1}{" "}
                     parcel(s)
@@ -552,7 +552,7 @@ export default async function DeliveryPartnerDashboardPage() {
                     Colour
                   </dt>
 
-                  <dd className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                  <dd className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
                     {normalizeText(
                       vehicle.colour
                     ) ||
@@ -565,7 +565,7 @@ export default async function DeliveryPartnerDashboardPage() {
                     Approval status
                   </dt>
 
-                  <dd className="mt-2 font-[var(--font-body)] text-sm font-semibold text-green-700">
+                  <dd className="mt-2 font-body text-sm font-semibold text-green-700">
                     Approved
                   </dd>
                 </div>
@@ -573,11 +573,11 @@ export default async function DeliveryPartnerDashboardPage() {
             </div>
           ) : (
             <div className="mt-7 border-l-4 border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] p-5">
-              <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+              <p className="font-body text-sm font-semibold text-[var(--text)]">
                 No approved vehicle was found.
               </p>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
                 An approved primary vehicle
                 is required before delivery
                 operations can begin.
@@ -587,14 +587,14 @@ export default async function DeliveryPartnerDashboardPage() {
         </section>
 
         {/* Capabilities */}
-        <section className="border border-[var(--border)] bg-white p-6 shadow-[0_18px_50px_rgba(17,42,91,0.06)] sm:p-8">
+        <section className="border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_18px_50px_rgba(69,77,54,0.06)] sm:p-8 rounded-[24px]">
           <div className="flex items-start justify-between gap-5">
             <div>
               <p className="athimart-label text-[var(--brand-orange-dark)]">
                 Driver permissions
               </p>
 
-              <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]">
+              <h2 className="mt-3 font-editorial text-3xl font-light text-[var(--brand-blue-dark)]">
                 Approved capabilities
               </h2>
             </div>
@@ -635,14 +635,14 @@ export default async function DeliveryPartnerDashboardPage() {
 
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-3">
-                        <h3 className="font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                        <h3 className="font-body text-sm font-semibold text-[var(--text)]">
                           {
                             capability.label
                           }
                         </h3>
 
                         <span
-                          className={`font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] ${
+                          className={`font-body text-[8px] font-semibold uppercase tracking-[0.14em] ${
                             capability.enabled
                               ? "text-green-700"
                               : "text-neutral-500"
@@ -654,7 +654,7 @@ export default async function DeliveryPartnerDashboardPage() {
                         </span>
                       </div>
 
-                      <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
+                      <p className="mt-1 font-body text-xs leading-5 text-[var(--text-muted)]">
                         {
                           capability.description
                         }
@@ -669,21 +669,21 @@ export default async function DeliveryPartnerDashboardPage() {
       </div>
 
       {/* Service areas */}
-      <section className="mt-8 border border-[var(--border)] bg-white p-6 sm:p-8">
+      <section className="mt-8 border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 rounded-[24px]">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="athimart-label text-[var(--brand-orange-dark)]">
               Operating coverage
             </p>
 
-            <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]">
+            <h2 className="mt-3 font-editorial text-3xl font-light text-[var(--brand-blue-dark)]">
               Approved service areas
             </h2>
           </div>
 
           <Link
             href="/delivery-partner"
-            className="inline-flex min-h-11 items-center gap-2 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-blue)]"
+            className="inline-flex min-h-11 items-center gap-2 font-body text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-blue)]"
           >
             Application status
 
@@ -701,7 +701,7 @@ export default async function DeliveryPartnerDashboardPage() {
               (serviceArea) => (
                 <span
                   key={serviceArea}
-                  className="inline-flex items-center gap-2 border border-[var(--border)] bg-[var(--linen-light)] px-4 py-3 font-[var(--font-body)] text-xs font-semibold text-[var(--text)]"
+                  className="inline-flex items-center gap-2 border border-[var(--border)] bg-[var(--linen-light)] px-4 py-3 font-body text-xs font-semibold text-[var(--text)]"
                 >
                   <MapPin
                     aria-hidden="true"
@@ -716,7 +716,7 @@ export default async function DeliveryPartnerDashboardPage() {
           </div>
         ) : (
           <div className="mt-6 border-l-4 border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] p-5">
-            <p className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="font-body text-xs leading-6 text-[var(--text-muted)]">
               No service area has been
               approved for this
               delivery-partner account.

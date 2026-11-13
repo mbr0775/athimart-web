@@ -76,11 +76,11 @@ defaultValue={product.name}
 className="
 mt-2
 w-full
-rounded-lg
+rounded-xl
 border
 px-4
 py-3
-"
+ border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
 
 />
 
@@ -129,11 +129,11 @@ defaultValue={product.companyName}
 className="
 mt-2
 w-full
-rounded-lg
+rounded-xl
 border
 px-4
 py-3
-"
+ border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
 
 />
 
@@ -161,11 +161,11 @@ defaultValue={product.brand ?? ""}
 className="
 mt-2
 w-full
-rounded-lg
+rounded-xl
 border
 px-4
 py-3
-"
+ border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
 
 />
 
@@ -193,11 +193,11 @@ defaultValue={product.model ?? ""}
 className="
 mt-2
 w-full
-rounded-lg
+rounded-xl
 border
 px-4
 py-3
-"
+ border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
 
 />
 
@@ -225,11 +225,11 @@ defaultValue={product.sku ?? ""}
 className="
 mt-2
 w-full
-rounded-lg
+rounded-xl
 border
 px-4
 py-3
-"
+ border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
 
 />
 

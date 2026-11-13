@@ -326,8 +326,13 @@ export async function searchProducts({
 
 
   const cleanQuery =
-    query.trim();
+    query.trim().replace(/\s+/g, " ").slice(0, 80);
 
+  // OR uses raw PostgREST syntax: quote values to preserve punctuation,
+  // and escape LIKE wildcards so the entered text is matched literally.
+  const searchPattern = JSON.stringify(
+    `%${cleanQuery.replace(/[\\%_]/g, "\\$&")}%`
+  );
 
 
   if(
@@ -371,13 +376,19 @@ export async function searchProducts({
     )
 
     .or(
-      `
-      name.ilike.%${cleanQuery}%,
-      description.ilike.%${cleanQuery}%,
-      category.ilike.%${cleanQuery}%,
-      brand.ilike.%${cleanQuery}%
-      `
+      [
+        "name",
+        "company_name",
+        "brand",
+        "model",
+        "sku",
+        "category",
+        "sub_category",
+        "description",
+      ].map((column) => `${column}.ilike.${searchPattern}`).join(",")
     )
+
+    .order("created_at", { ascending: false })
 
     .limit(
       safeLimit

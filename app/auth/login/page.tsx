@@ -4,6 +4,8 @@ import { ArrowLeft, ArrowUpRight, ShoppingBag, Sparkles } from "lucide-react";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
+import { safeSignInPath } from "@/lib/auth/sign-in";
+import GoogleSignIn from "@/components/auth/google-sign-in";
 import LoginForm from "./login-form";
 import LoginVisual from "./login-visual";
 import LoginExperience from "./login-experience";
@@ -26,11 +28,6 @@ function getFirstValue(value: string | string[] | undefined): string {
   return Array.isArray(value) ? value[0] ?? "" : value ?? "";
 }
 
-function getSafeNextPath(value: string): string {
-  const path = value.trim();
-  return !path.startsWith("/") || path.startsWith("//") ? "/" : path;
-}
-
 function getErrorMessage(errorCode: string): string {
   switch (errorCode) {
     case "missing-fields":
@@ -41,6 +38,8 @@ function getErrorMessage(errorCode: string): string {
       return "The email address or password is incorrect.";
     case "profile-check-failed":
       return "We couldn’t load your account. Please try signing in again.";
+    case "google-sign-in-failed":
+      return "Google sign-in couldn't be completed. Please try again.";
     default:
       return "";
   }
@@ -48,7 +47,7 @@ function getErrorMessage(errorCode: string): string {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const params = await searchParams;
-  const nextPath = getSafeNextPath(getFirstValue(params.next));
+  const nextPath = safeSignInPath(getFirstValue(params.next));
   const errorMessage = getErrorMessage(getFirstValue(params.error));
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -100,6 +99,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 <h1 id="login-heading">Welcome back<span>.</span></h1>
                 <p className={styles.formIntro}>Good to see you again. Sign in to pick up<br className={styles.formBreak} /> where you left off.</p>
                 <LoginForm nextPath={nextPath} errorMessage={errorMessage} />
+                <GoogleSignIn nextPath={nextPath} from="login" />
                 <p className={styles.signup}>New around here? <Link href={`/auth/sign-up?next=${encodeURIComponent(nextPath)}`}>Create an account <ArrowUpRight size={13} aria-hidden="true" /></Link></p>
                 <div className={styles.formNote}><span /> Your favourites. Your orders. Your AthiMart.</div>
               </div>

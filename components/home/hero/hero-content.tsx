@@ -225,7 +225,7 @@ text-[10px]
 tracking-[0.5em]
 
 
-text-blue-700
+text-[var(--brand-hover)]
 
 
 "
@@ -253,7 +253,7 @@ text-sm
 leading-7
 
 
-text-slate-600
+text-[var(--text-soft)]
 
 
 md:text-base
@@ -462,7 +462,7 @@ text-[9px]
 tracking-[0.5em]
 
 
-text-slate-500
+text-[var(--text-soft)]
 
 
 "
@@ -563,7 +563,7 @@ text-[10px]
 tracking-[0.45em]
 
 
-text-blue-700
+text-[var(--brand-hover)]
 
 
 uppercase

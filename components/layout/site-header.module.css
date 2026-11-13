@@ -72,6 +72,7 @@
 }
 .iconLink:hover, .cartLink:hover, .accountLink:hover, .menuButton:hover { opacity: 0.7; }
 .cartIcon, .mobileCartCount { display: none; }
+.accountLabel { display: block; max-width: 130px; overflow: hidden; text-overflow: ellipsis; }
 .header a:focus-visible, .menuButton:focus-visible { outline: 2px solid #62613c; outline-offset: 5px; border-radius: 3px; }
 .dropdown {
   position: absolute;
@@ -110,36 +111,80 @@
   .accountLabel { display: none; }
 }
 @media (max-width: 767px) {
-  .announcement { min-height: 40px; padding: 8px 12px; gap: 5px; font-size: 12px; }
+  .header { border-bottom: 1px solid #e5e0d2; }
+  .announcement { min-height: 32px; padding: 7px 16px; gap: 7px; font-size: 11px; line-height: 1.6; }
+  .announcement a { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .announcement > span:last-child { display: none; }
   .navigation {
-    min-height: 72px;
+    min-height: 76px;
     width: calc(100% - 32px);
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    grid-template-areas: "actions brand menu";
-    gap: 6px;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    grid-template-areas: "menu brand actions";
+    gap: 12px;
   }
-  .menuButton { grid-area: menu; justify-self: end; gap: 6px; font-size: 20px; white-space: nowrap; }
-  .brand { grid-area: brand; justify-self: center; font-size: 28px; }
-  .actions { grid-area: actions; justify-content: flex-start; gap: 2px; }
-  .iconLink, .cartLink, .accountLink { min-width: 36px; }
-  .accountLink svg { width: 25px; height: 25px; }
-  .cartIcon { display: block; }
+  .menuButton {
+    grid-area: menu;
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    padding: 0;
+    border: 1px solid #e1dfd0;
+    border-radius: 14px;
+    background: #f3f1e7;
+    transition: background 180ms ease, border-color 180ms ease;
+  }
+  .menuButton > span { display: none; }
+  .menuButton svg { width: 20px; height: 20px; transform: none; }
+  .menuButton:hover { border-color: #c3c7ad; background: #e9ecde; opacity: 1; }
+  .menuButton[aria-expanded="true"] { border-color: #454530; background: #454530; color: #fffaf0; }
+  .brand { grid-area: brand; justify-self: start; display: inline-flex; min-height: 44px; align-items: center; font-size: 30px; }
+  .actions { grid-area: actions; justify-content: flex-end; gap: 8px; }
+  .iconLink, .cartLink { width: 44px; min-width: 44px; height: 44px; min-height: 44px; border-radius: 50%; }
+  .iconLink { background: #f3f1e7; }
+  .iconLink:hover { background: #e9ecde; opacity: 1; }
+  .iconLink svg, .cartIcon { width: 21px; height: 21px; }
+  .cartLink { background: #454530; color: #fffaf0; }
+  .cartLink:hover { background: #626d4c; opacity: 1; }
+  .accountLink { display: none; }
+  .cartIcon { display: block; flex-shrink: 0; }
   .cartLabel { display: none; }
   .mobileCartCount {
     position: absolute;
-    top: 0;
-    right: -1px;
+    top: -4px;
+    right: -4px;
     display: grid;
     place-items: center;
-    min-width: 15px;
-    height: 15px;
-    padding: 0 3px;
-    border-radius: 50%;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 4px;
+    border: 2px solid #fffaf0;
+    border-radius: 999px;
     background: #e7e69c;
+    color: #454530;
     font-size: 9px;
+    font-weight: 600;
+    line-height: 1;
   }
-  .dropdown { left: auto; right: 0; max-height: calc(100svh - 220px); }
+  .header a:focus-visible, .menuButton:focus-visible { outline-offset: 3px; border-radius: 14px; }
+  .dropdown {
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: calc(100svh - 220px);
+    padding: 20px 16px 16px;
+    border-radius: 20px;
+    box-shadow: 0 16px 40px #4545301f;
+  }
+  .navigationItem { min-height: 50px; border-radius: 12px; }
+  .menuItem { min-height: 68px; border-radius: 12px; }
+  .icon { width: 40px; height: 40px; border-radius: 12px; background: #f0f1e5; }
+}
+@media (max-width: 359px) {
+  .navigation { width: calc(100% - 24px); gap: 8px; }
+  .brand { font-size: 27px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .iconLink, .cartLink, .accountLink { transition: none; }
+  .iconLink, .cartLink, .accountLink, .menuButton { transition: none; }
 }

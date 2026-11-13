@@ -262,11 +262,11 @@ export default async function DeliveryPartnerPage() {
       <section className="border-b border-[var(--border)] bg-[var(--brand-blue)] text-white">
         <div className="athimart-container grid gap-10 py-14 sm:py-18 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center lg:py-24">
           <div>
-            <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--brand-orange-light)]">
+            <p className="font-body text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--brand-orange-light)]">
               AthiMart delivery opportunity
             </p>
 
-            <h1 className="mt-4 max-w-4xl font-[var(--font-display)] text-5xl font-light uppercase leading-[0.96] tracking-[0.03em] sm:text-7xl lg:text-8xl">
+            <h1 className="mt-4 max-w-4xl font-editorial text-5xl font-light normal-case leading-[0.96] tracking-[-0.035em] sm:text-7xl lg:text-8xl">
               Your Vehicle.
               <br />
               Your Local Area.
@@ -274,7 +274,7 @@ export default async function DeliveryPartnerPage() {
               A New Opportunity.
             </h1>
 
-            <p className="mt-7 max-w-2xl font-[var(--font-body)] text-sm leading-7 text-white/75 sm:text-base">
+            <p className="mt-7 max-w-2xl font-body text-sm leading-7 text-white/75 sm:text-base">
               Register your interest to become an
               AthiMart Individual Delivery Partner.
               Approved partners can receive suitable
@@ -284,7 +284,7 @@ export default async function DeliveryPartnerPage() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <span className="inline-flex items-center gap-2 border border-white/20 bg-white/10 px-4 py-3 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-white">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-3 font-body text-[9px] font-semibold uppercase tracking-[0.15em] text-white">
                 <MapPin
                   aria-hidden="true"
                   className="h-4 w-4 text-[var(--brand-orange-light)]"
@@ -294,7 +294,7 @@ export default async function DeliveryPartnerPage() {
                 Local service areas
               </span>
 
-              <span className="inline-flex items-center gap-2 border border-white/20 bg-white/10 px-4 py-3 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-white">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-3 font-body text-[9px] font-semibold uppercase tracking-[0.15em] text-white">
                 <PackageCheck
                   aria-hidden="true"
                   className="h-4 w-4 text-[var(--brand-orange-light)]"
@@ -304,7 +304,7 @@ export default async function DeliveryPartnerPage() {
                 Suitable assignments
               </span>
 
-              <span className="inline-flex items-center gap-2 border border-white/20 bg-white/10 px-4 py-3 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-white">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-3 font-body text-[9px] font-semibold uppercase tracking-[0.15em] text-white">
                 <ShieldCheck
                   aria-hidden="true"
                   className="h-4 w-4 text-[var(--brand-orange-light)]"
@@ -316,16 +316,16 @@ export default async function DeliveryPartnerPage() {
             </div>
           </div>
 
-          <div className="border border-white/20 bg-white/10 p-5 backdrop-blur-sm sm:p-7">
-            <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-light)]">
+          <div className="rounded-[28px] border border-white/20 bg-white/10 p-5 backdrop-blur-sm sm:p-7">
+            <p className="font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-light)]">
               Start here
             </p>
 
-            <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.04em] text-white">
+            <h2 className="mt-3 font-editorial text-3xl font-light normal-case tracking-[-0.035em] text-white">
               Delivery Partner Registration
             </h2>
 
-            <p className="mt-4 font-[var(--font-body)] text-sm leading-6 text-white/70">
+            <p className="mt-4 font-body text-sm leading-6 text-white/70">
               Start your application now. Detailed
               identity, licence, service-area and
               vehicle information will be completed
@@ -355,7 +355,7 @@ export default async function DeliveryPartnerPage() {
               Who Can Apply?
             </h2>
 
-            <p className="mt-5 font-[var(--font-body)] text-sm leading-7 text-[var(--text-muted)]">
+            <p className="mt-5 font-body text-sm leading-7 text-[var(--text-muted)]">
               AthiMart plans to support eligible
               individuals who own or legally use a
               suitable vehicle and can complete
@@ -370,7 +370,7 @@ export default async function DeliveryPartnerPage() {
                 strokeWidth={1.7}
               />
 
-              <p className="font-[var(--font-body)] text-sm leading-7 text-[var(--text-soft)]">
+              <p className="font-body text-sm leading-7 text-[var(--text-soft)]">
                 This programme is intended to create
                 flexible opportunities, including for
                 eligible young people in villages who
@@ -381,7 +381,7 @@ export default async function DeliveryPartnerPage() {
             </div>
           </div>
 
-          <div className="border border-[var(--border)] bg-white p-6 sm:p-8">
+          <div className="border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 rounded-[24px]">
             <p className="athimart-label text-[var(--text-muted)]">
               Basic eligibility
             </p>
@@ -399,7 +399,7 @@ export default async function DeliveryPartnerPage() {
                       strokeWidth={1.8}
                     />
 
-                    <span className="font-[var(--font-body)] text-sm leading-6 text-[var(--text-soft)]">
+                    <span className="font-body text-sm leading-6 text-[var(--text-soft)]">
                       {item}
                     </span>
                   </li>
@@ -411,7 +411,7 @@ export default async function DeliveryPartnerPage() {
       </section>
 
       {/* Vehicles */}
-      <section className="border-y border-[var(--border)] bg-white">
+      <section className="border-y border-[var(--border)] bg-[var(--surface)]">
         <div className="athimart-container py-14 sm:py-18 lg:py-22">
           <p className="athimart-label text-[var(--brand-orange-dark)]">
             Vehicle-based delivery matching
@@ -422,14 +422,14 @@ export default async function DeliveryPartnerPage() {
               Different Vehicles for Different Orders
             </h2>
 
-            <p className="max-w-xl font-[var(--font-body)] text-sm leading-7 text-[var(--text-muted)]">
+            <p className="max-w-xl font-body text-sm leading-7 text-[var(--text-muted)]">
               Assignments will consider parcel size,
               weight, quantity, handling requirements
               and vehicle capacity—not location alone.
             </p>
           </div>
 
-          <div className="mt-9 grid border-l border-t border-[var(--border)] sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {vehicleItems.map(
               ({
                 name,
@@ -440,7 +440,7 @@ export default async function DeliveryPartnerPage() {
                   key={name}
                   className="border-b border-r border-[var(--border)] p-6"
                 >
-                  <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+                  <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
                     <Icon
                       aria-hidden="true"
                       className="h-6 w-6"
@@ -448,11 +448,11 @@ export default async function DeliveryPartnerPage() {
                     />
                   </span>
 
-                  <h3 className="mt-5 font-[var(--font-display)] text-2xl font-light uppercase tracking-[0.04em]">
+                  <h3 className="mt-5 font-editorial text-2xl font-light normal-case tracking-[-0.035em]">
                     {name}
                   </h3>
 
-                  <p className="mt-3 font-[var(--font-body)] text-sm leading-6 text-[var(--text-muted)]">
+                  <p className="mt-3 font-body text-sm leading-6 text-[var(--text-muted)]">
                     {description}
                   </p>
                 </article>
@@ -472,7 +472,7 @@ export default async function DeliveryPartnerPage() {
           How It Will Work
         </h2>
 
-        <div className="mt-9 grid border-l border-t border-[var(--border)] md:grid-cols-5">
+        <div className="mt-9 grid gap-5 md:grid-cols-5">
           {processItems.map(
             (
               item,
@@ -480,9 +480,9 @@ export default async function DeliveryPartnerPage() {
             ) => (
               <article
                 key={item.title}
-                className="border-b border-r border-[var(--border)] bg-white p-6"
+                className="border border-[var(--border)] bg-[var(--surface)] p-6 rounded-[24px]"
               >
-                <span className="font-[var(--font-display)] text-4xl font-light text-[var(--brand-orange)]">
+                <span className="font-editorial text-4xl font-light text-[var(--brand-orange)]">
                   {String(
                     index + 1
                   ).padStart(
@@ -491,11 +491,11 @@ export default async function DeliveryPartnerPage() {
                   )}
                 </span>
 
-                <h3 className="mt-5 font-[var(--font-display)] text-2xl font-light uppercase tracking-[0.04em]">
+                <h3 className="mt-5 font-editorial text-2xl font-light normal-case tracking-[-0.035em]">
                   {item.title}
                 </h3>
 
-                <p className="mt-3 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+                <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
                   {
                     item.description
                   }
@@ -517,11 +517,11 @@ export default async function DeliveryPartnerPage() {
             />
 
             <div>
-              <h2 className="font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em]">
+              <h2 className="font-body text-xs font-semibold uppercase tracking-[0.14em]">
                 Verification Required
               </h2>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
                 Registration does not guarantee
                 approval. Documents and eligibility
                 must be reviewed.
@@ -537,11 +537,11 @@ export default async function DeliveryPartnerPage() {
             />
 
             <div>
-              <h2 className="font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em]">
+              <h2 className="font-body text-xs font-semibold uppercase tracking-[0.14em]">
                 Flexible Availability
               </h2>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
                 Approved drivers will later be able
                 to go online or offline according to
                 their availability.
@@ -557,11 +557,11 @@ export default async function DeliveryPartnerPage() {
             />
 
             <div>
-              <h2 className="font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em]">
+              <h2 className="font-body text-xs font-semibold uppercase tracking-[0.14em]">
                 Location Privacy
               </h2>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
                 Live location will be used only for
                 approved operational purposes and
                 suitable delivery assignment.

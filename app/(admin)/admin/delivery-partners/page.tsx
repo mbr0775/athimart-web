@@ -254,7 +254,7 @@ function getStatusStyles(
 
   return {
     badge:
-      "border-blue-200 bg-blue-50 text-[var(--brand-blue)]",
+      "border-[var(--border-strong)] bg-[var(--surface-soft)] text-[var(--brand-blue)]",
 
     dot:
       "bg-[var(--brand-blue)]",
@@ -273,23 +273,23 @@ function SummaryCard({
   iconBackgroundClassName,
 }: Readonly<SummaryCardProps>) {
   return (
-    <article className="group relative min-h-[180px] overflow-hidden rounded-[26px] border border-slate-200/80 bg-white p-7 shadow-[0_10px_32px_rgba(15,23,42,0.05)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_20px_48px_rgba(15,23,42,0.10)] motion-reduce:hover:translate-y-0">
+    <article className="group relative min-h-[180px] overflow-hidden rounded-[26px] border border-[var(--border)]/80 bg-[var(--surface)] p-7 shadow-[0_10px_32px_rgba(15,23,42,0.05)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--border-strong)] hover:shadow-[0_20px_48px_rgba(15,23,42,0.10)] motion-reduce:hover:translate-y-0">
       <div
         aria-hidden="true"
-        className="absolute -right-12 -top-12 h-36 w-36 rounded-full bg-slate-100/75 transition-transform duration-500 group-hover:scale-125"
+        className="absolute -right-12 -top-12 h-36 w-36 rounded-full bg-[var(--surface-soft)]/75 transition-transform duration-500 group-hover:scale-125"
       />
 
       <div className="relative flex h-full items-start justify-between gap-6">
         <div className="flex min-w-0 flex-1 flex-col">
-          <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+          <p className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--text-soft)]">
             {label}
           </p>
 
-          <p className="mt-4 font-[var(--font-display)] text-5xl font-light leading-none text-slate-900">
+          <p className="mt-4 font-editorial text-5xl font-light leading-none text-[var(--text-soft)]">
             {value}
           </p>
 
-          <p className="mt-auto pt-5 font-[var(--font-body)] text-[11px] leading-5 text-slate-500">
+          <p className="mt-auto pt-5 font-body text-[11px] leading-5 text-[var(--text-soft)]">
             {helper}
           </p>
         </div>
@@ -659,7 +659,7 @@ export default async function DeliveryPartnerApplicationsPage() {
 
       <div className="mx-auto w-full max-w-[1480px] space-y-10 pb-12">
         {/* Hero */}
-        <section className="athimart-admin-enter relative overflow-hidden rounded-[32px] bg-[linear-gradient(135deg,#12347c_0%,#1749a8_55%,#2465d8_100%)] px-7 py-9 text-white shadow-[0_24px_70px_rgba(23,73,168,0.22)] sm:px-10 sm:py-11 lg:px-12 lg:py-12">
+        <section className="athimart-admin-enter relative overflow-hidden rounded-[32px] bg-[linear-gradient(135deg,#353a2b_0%,#454d36_55%,#626d4c_100%)] px-7 py-9 text-white shadow-[0_24px_70px_rgba(69,77,54,0.22)] sm:px-10 sm:py-11 lg:px-12 lg:py-12">
           <div
             aria-hidden="true"
             className="absolute -right-28 -top-36 h-[390px] w-[390px] rounded-full border border-white/10 bg-white/[0.055]"
@@ -684,12 +684,12 @@ export default async function DeliveryPartnerApplicationsPage() {
                   <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-300" />
                 </span>
 
-                <span className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-white/85">
+                <span className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-white/85">
                   Delivery Operations
                 </span>
               </div>
 
-              <h1 className="mt-7 max-w-4xl font-[var(--font-display)] text-4xl font-light uppercase leading-[1.02] tracking-[0.025em] sm:text-5xl lg:text-[58px]">
+              <h1 className="mt-7 max-w-4xl font-editorial text-4xl font-light normal-case leading-[1.02] tracking-[-0.035em] sm:text-5xl lg:text-[58px]">
                 Delivery Partner
 
                 <span className="mt-1 block text-white/62">
@@ -697,7 +697,7 @@ export default async function DeliveryPartnerApplicationsPage() {
                 </span>
               </h1>
 
-              <p className="mt-6 max-w-2xl font-[var(--font-body)] text-sm leading-7 text-white/70">
+              <p className="mt-6 max-w-2xl font-body text-sm leading-7 text-white/70">
                 Review applicant identity,
                 submitted vehicles, requested
                 service areas and verification
@@ -707,9 +707,9 @@ export default async function DeliveryPartnerApplicationsPage() {
               </p>
             </div>
 
-            <div className="flex min-h-[240px] flex-col justify-between rounded-[28px] border border-white/15 bg-white/10 p-7 shadow-[0_18px_45px_rgba(7,26,70,0.12)] backdrop-blur-md sm:p-8">
+            <div className="flex min-h-[240px] flex-col justify-between rounded-[28px] border border-white/15 bg-white/10 p-7 shadow-[0_18px_45px_rgba(69,77,54,0.12)] backdrop-blur-md sm:p-8">
               <div className="flex items-start justify-between gap-5">
-                <span className="flex h-13 w-13 items-center justify-center rounded-[18px] bg-white text-[var(--brand-blue)] shadow-[0_12px_28px_rgba(7,26,70,0.17)]">
+                <span className="flex h-13 w-13 items-center justify-center rounded-[18px] bg-[var(--surface)] text-[var(--brand-blue)] shadow-[0_12px_28px_rgba(69,77,54,0.17)]">
                   <BadgeCheck
                     aria-hidden="true"
                     className="h-6 w-6"
@@ -717,22 +717,22 @@ export default async function DeliveryPartnerApplicationsPage() {
                   />
                 </span>
 
-                <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.15em] text-white/65">
+                <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 font-body text-[8px] font-semibold uppercase tracking-[0.15em] text-white/65">
                   Oldest First
                 </span>
               </div>
 
               <div className="mt-9">
-                <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-white/55">
+                <p className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-white/55">
                   Awaiting Decisions
                 </p>
 
                 <div className="mt-3 flex items-end justify-between gap-6">
-                  <p className="font-[var(--font-display)] text-6xl font-light leading-none">
+                  <p className="font-editorial text-6xl font-light leading-none">
                     {applications.length}
                   </p>
 
-                  <p className="pb-1 font-[var(--font-body)] text-[10px] text-white/55">
+                  <p className="pb-1 font-body text-[10px] text-white/55">
                     application
                     {applications.length ===
                     1
@@ -759,8 +759,8 @@ export default async function DeliveryPartnerApplicationsPage() {
               value={pendingCount}
               helper="Waiting for an administrator"
               icon={Clock3}
-              iconClassName="text-blue-700"
-              iconBackgroundClassName="bg-blue-50"
+              iconClassName="text-[var(--brand-hover)]"
+              iconBackgroundClassName="bg-[var(--surface-soft)]"
             />
           </div>
 
@@ -800,8 +800,8 @@ export default async function DeliveryPartnerApplicationsPage() {
               }
               helper="Vehicles connected to requests"
               icon={Truck}
-              iconClassName="text-orange-700"
-              iconBackgroundClassName="bg-orange-50"
+              iconClassName="text-[var(--brand-hover)]"
+              iconBackgroundClassName="bg-[var(--surface-soft)]"
             />
           </div>
 
@@ -843,29 +843,29 @@ export default async function DeliveryPartnerApplicationsPage() {
         {/* Queue heading */}
         <section className="athimart-admin-enter flex flex-col justify-between gap-6 px-1 pt-3 sm:flex-row sm:items-end">
           <div>
-            <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
+            <p className="font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-dark)]">
               Application Queue
             </p>
 
-            <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.035em] text-slate-900 sm:text-4xl">
+            <h2 className="mt-3 font-editorial text-3xl font-light normal-case tracking-[-0.035em] text-[var(--text-soft)] sm:text-4xl">
               Awaiting Review
             </h2>
 
-            <p className="mt-3 max-w-2xl font-[var(--font-body)] text-xs leading-6 text-slate-500">
+            <p className="mt-3 max-w-2xl font-body text-xs leading-6 text-[var(--text-soft)]">
               Applications are arranged according
               to submission time, with the oldest
               application displayed first.
             </p>
           </div>
 
-          <div className="inline-flex w-fit items-center gap-3 rounded-full border border-slate-200 bg-white px-5 py-3 shadow-[0_8px_24px_rgba(15,23,42,0.05)]">
+          <div className="inline-flex w-fit items-center gap-3 rounded-full border border-[var(--border)] bg-[var(--surface)] px-5 py-3 shadow-[0_8px_24px_rgba(15,23,42,0.05)]">
             <span className="relative flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--brand-blue)] opacity-25" />
 
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[var(--brand-blue)]" />
             </span>
 
-            <span className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] text-slate-600">
+            <span className="font-body text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--text-soft)]">
               {queueItems.length} in queue
             </span>
           </div>
@@ -884,11 +884,11 @@ export default async function DeliveryPartnerApplicationsPage() {
               </span>
 
               <div>
-                <p className="font-[var(--font-body)] text-sm font-semibold text-red-700">
+                <p className="font-body text-sm font-semibold text-red-700">
                   Applications could not be loaded
                 </p>
 
-                <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-red-700/70">
+                <p className="mt-2 font-body text-xs leading-6 text-red-700/70">
                   Check the server console for the
                   complete Supabase error
                   information.
@@ -902,14 +902,14 @@ export default async function DeliveryPartnerApplicationsPage() {
         {!applicationError &&
           queueItems.length ===
             0 && (
-            <section className="athimart-admin-enter relative overflow-hidden rounded-[32px] border border-slate-200 bg-white px-7 py-24 text-center shadow-[0_16px_50px_rgba(15,23,42,0.055)]">
+            <section className="athimart-admin-enter relative overflow-hidden rounded-[32px] border border-[var(--border)] bg-[var(--surface)] px-7 py-24 text-center shadow-[0_16px_50px_rgba(15,23,42,0.055)]">
               <div
                 aria-hidden="true"
-                className="absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-50 blur-3xl"
+                className="absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--surface-soft)] blur-3xl"
               />
 
               <div className="relative">
-                <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-[26px] bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] shadow-[0_16px_35px_rgba(23,73,168,0.14)]">
+                <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-[26px] bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] shadow-[0_16px_35px_rgba(69,77,54,0.14)]">
                   <UserRoundCheck
                     aria-hidden="true"
                     className="h-9 w-9"
@@ -917,11 +917,11 @@ export default async function DeliveryPartnerApplicationsPage() {
                   />
                 </span>
 
-                <h2 className="mt-8 font-[var(--font-display)] text-4xl font-light uppercase tracking-[0.04em] text-slate-900">
+                <h2 className="mt-8 font-editorial text-4xl font-light normal-case tracking-[-0.035em] text-[var(--text-soft)]">
                   Queue Is Clear
                 </h2>
 
-                <p className="mx-auto mt-5 max-w-xl font-[var(--font-body)] text-sm leading-7 text-slate-500">
+                <p className="mx-auto mt-5 max-w-xl font-body text-sm leading-7 text-[var(--text-soft)]">
                   New delivery-partner
                   applications will appear here
                   after applicants submit their
@@ -959,7 +959,7 @@ export default async function DeliveryPartnerApplicationsPage() {
                     key={
                       application.user_id
                     }
-                    className="athimart-admin-enter group relative overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-[0_12px_40px_rgba(15,23,42,0.055)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_26px_65px_rgba(15,23,42,0.11)] motion-reduce:hover:translate-y-0"
+                    className="athimart-admin-enter group relative overflow-hidden rounded-[30px] border border-[var(--border)] bg-[var(--surface)] shadow-[0_12px_40px_rgba(15,23,42,0.055)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--border-strong)] hover:shadow-[0_26px_65px_rgba(15,23,42,0.11)] motion-reduce:hover:translate-y-0"
                     style={{
                       animationDelay:
                         `${
@@ -969,14 +969,14 @@ export default async function DeliveryPartnerApplicationsPage() {
                         }ms`,
                     }}
                   >
-                    <div className="absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b from-[var(--brand-blue)] to-blue-400 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div className="absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b from-[var(--brand-blue)] to-[var(--brand-hover)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
                     <div className="grid 2xl:grid-cols-[minmax(0,1fr)_380px]">
                       {/* Main application information */}
                       <div className="p-6 sm:p-8 lg:p-10">
                         <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-start">
                           <div className="flex min-w-0 items-start gap-5">
-                            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[22px] bg-[linear-gradient(145deg,#edf4ff,#dce9ff)] font-[var(--font-body)] text-base font-bold text-[var(--brand-blue)] shadow-[0_12px_30px_rgba(23,73,168,0.14)] transition-transform duration-300 group-hover:-rotate-2 group-hover:scale-105">
+                            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[22px] bg-[linear-gradient(145deg,#edf4ff,#dce9ff)] font-body text-base font-bold text-[var(--brand-blue)] shadow-[0_12px_30px_rgba(69,77,54,0.14)] transition-transform duration-300 group-hover:-rotate-2 group-hover:scale-105">
                               {getApplicantInitials(
                                 applicant
                               )}
@@ -984,14 +984,14 @@ export default async function DeliveryPartnerApplicationsPage() {
 
                             <div className="min-w-0 pt-1">
                               <div className="flex flex-wrap items-center gap-3">
-                                <h3 className="font-[var(--font-display)] text-3xl font-light uppercase leading-tight tracking-[0.035em] text-slate-900 sm:text-4xl">
+                                <h3 className="font-editorial text-3xl font-light normal-case leading-tight tracking-[-0.035em] text-[var(--text-soft)] sm:text-4xl">
                                   {getApplicantName(
                                     applicant
                                   )}
                                 </h3>
 
                                 <span
-                                  className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-2 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] ${status.badge}`}
+                                  className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-2 font-body text-[8px] font-semibold uppercase tracking-[0.14em] ${status.badge}`}
                                 >
                                   <span className="relative flex h-2 w-2">
                                     <span
@@ -1009,13 +1009,13 @@ export default async function DeliveryPartnerApplicationsPage() {
                                 </span>
 
                                 {applicant?.is_blocked && (
-                                  <span className="rounded-full border border-red-200 bg-red-50 px-3.5 py-2 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] text-red-700">
+                                  <span className="rounded-full border border-red-200 bg-red-50 px-3.5 py-2 font-body text-[8px] font-semibold uppercase tracking-[0.14em] text-red-700">
                                     Blocked
                                   </span>
                                 )}
                               </div>
 
-                              <div className="mt-4 flex flex-col gap-2 font-[var(--font-body)] text-[11px] text-slate-500 sm:flex-row sm:flex-wrap sm:gap-x-6">
+                              <div className="mt-4 flex flex-col gap-2 font-body text-[11px] text-[var(--text-soft)] sm:flex-row sm:flex-wrap sm:gap-x-6">
                                 <span className="break-all">
                                   {applicant?.email ??
                                     "Email unavailable"}
@@ -1029,12 +1029,12 @@ export default async function DeliveryPartnerApplicationsPage() {
                             </div>
                           </div>
 
-                          <div className="w-fit shrink-0 rounded-[18px] border border-slate-100 bg-slate-50 px-5 py-4 lg:text-right">
-                            <p className="font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                          <div className="w-fit shrink-0 rounded-[18px] border border-[var(--border)] bg-[var(--surface-soft)] px-5 py-4 lg:text-right">
+                            <p className="font-body text-[8px] font-semibold uppercase tracking-[0.16em] text-[var(--text-soft)]">
                               Submitted
                             </p>
 
-                            <p className="mt-2 font-[var(--font-body)] text-[11px] font-semibold text-slate-700">
+                            <p className="mt-2 font-body text-[11px] font-semibold text-[var(--text-soft)]">
                               {formatDate(
                                 application.application_submitted_at
                               )}
@@ -1044,9 +1044,9 @@ export default async function DeliveryPartnerApplicationsPage() {
 
                         <div className="mt-9 grid gap-5 lg:grid-cols-2">
                           {/* Vehicle */}
-                          <div className="group/detail min-h-[150px] rounded-[24px] border border-slate-200 bg-slate-50/70 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50/60 hover:shadow-[0_12px_30px_rgba(23,73,168,0.07)]">
+                          <div className="group/detail min-h-[150px] rounded-[24px] border border-[var(--border)] bg-[var(--surface-soft)]/70 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:bg-[var(--surface-soft)]/60 hover:shadow-[0_12px_30px_rgba(69,77,54,0.07)]">
                             <div className="flex items-start gap-4">
-                              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[16px] bg-white text-[var(--brand-blue)] shadow-[0_7px_18px_rgba(15,23,42,0.08)] transition-transform duration-300 group-hover/detail:scale-110">
+                              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[16px] bg-[var(--surface)] text-[var(--brand-blue)] shadow-[0_7px_18px_rgba(15,23,42,0.08)] transition-transform duration-300 group-hover/detail:scale-110">
                                 <Truck
                                   aria-hidden="true"
                                   className="h-5 w-5"
@@ -1055,17 +1055,17 @@ export default async function DeliveryPartnerApplicationsPage() {
                               </span>
 
                               <div className="min-w-0 pt-1">
-                                <p className="font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.17em] text-slate-400">
+                                <p className="font-body text-[8px] font-semibold uppercase tracking-[0.17em] text-[var(--text-soft)]">
                                   Submitted Vehicle
                                 </p>
 
-                                <p className="mt-3 font-[var(--font-body)] text-sm font-semibold text-slate-800">
+                                <p className="mt-3 font-body text-sm font-semibold text-[var(--text-soft)]">
                                   {getVehicleTitle(
                                     vehicle
                                   )}
                                 </p>
 
-                                <p className="mt-2 font-[var(--font-body)] text-[11px] text-slate-500">
+                                <p className="mt-2 font-body text-[11px] text-[var(--text-soft)]">
                                   {vehicle?.registration_number ??
                                     "Registration unavailable"}
                                 </p>
@@ -1074,9 +1074,9 @@ export default async function DeliveryPartnerApplicationsPage() {
                           </div>
 
                           {/* Requested service areas */}
-                          <div className="group/detail min-h-[150px] rounded-[24px] border border-slate-200 bg-slate-50/70 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-200 hover:bg-orange-50/60 hover:shadow-[0_12px_30px_rgba(234,88,12,0.07)]">
+                          <div className="group/detail min-h-[150px] rounded-[24px] border border-[var(--border)] bg-[var(--surface-soft)]/70 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:bg-[var(--surface-soft)]/60 hover:shadow-[0_12px_30px_rgba(234,88,12,0.07)]">
                             <div className="flex items-start gap-4">
-                              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[16px] bg-white text-[var(--brand-orange-dark)] shadow-[0_7px_18px_rgba(15,23,42,0.08)] transition-transform duration-300 group-hover/detail:scale-110">
+                              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[16px] bg-[var(--surface)] text-[var(--brand-orange-dark)] shadow-[0_7px_18px_rgba(15,23,42,0.08)] transition-transform duration-300 group-hover/detail:scale-110">
                                 <MapPin
                                   aria-hidden="true"
                                   className="h-5 w-5"
@@ -1085,7 +1085,7 @@ export default async function DeliveryPartnerApplicationsPage() {
                               </span>
 
                               <div className="min-w-0 flex-1 pt-1">
-                                <p className="font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.17em] text-slate-400">
+                                <p className="font-body text-[8px] font-semibold uppercase tracking-[0.17em] text-[var(--text-soft)]">
                                   Requested Areas
                                 </p>
 
@@ -1105,7 +1105,7 @@ export default async function DeliveryPartnerApplicationsPage() {
                                             key={
                                               area
                                             }
-                                            className="rounded-full border border-orange-200 bg-white px-3 py-1.5 font-[var(--font-body)] text-[9px] font-medium text-orange-700"
+                                            className="rounded-full border border-[var(--border-strong)] bg-[var(--surface)] px-3 py-1.5 font-body text-[9px] font-medium text-[var(--brand-hover)]"
                                           >
                                             {
                                               area
@@ -1116,7 +1116,7 @@ export default async function DeliveryPartnerApplicationsPage() {
 
                                     {serviceAreas.length >
                                       4 && (
-                                      <span className="rounded-full bg-slate-200 px-3 py-1.5 font-[var(--font-body)] text-[9px] font-medium text-slate-600">
+                                      <span className="rounded-full bg-[var(--border)] px-3 py-1.5 font-body text-[9px] font-medium text-[var(--text-soft)]">
                                         +
                                         {serviceAreas.length -
                                           4}
@@ -1124,7 +1124,7 @@ export default async function DeliveryPartnerApplicationsPage() {
                                     )}
                                   </div>
                                 ) : (
-                                  <p className="mt-3 font-[var(--font-body)] text-[11px] text-slate-500">
+                                  <p className="mt-3 font-body text-[11px] text-[var(--text-soft)]">
                                     No areas recorded
                                   </p>
                                 )}
@@ -1135,10 +1135,10 @@ export default async function DeliveryPartnerApplicationsPage() {
                       </div>
 
                       {/* Review action panel */}
-                      <div className="relative flex min-h-[350px] flex-col justify-between border-t border-slate-200 bg-[linear-gradient(145deg,#f8fafc_0%,#eef4ff_100%)] p-7 sm:p-9 2xl:border-l 2xl:border-t-0">
+                      <div className="relative flex min-h-[350px] flex-col justify-between border-t border-[var(--border)] bg-[linear-gradient(145deg,#f8fafc_0%,#eef4ff_100%)] p-7 sm:p-9 2xl:border-l 2xl:border-t-0">
                         <div
                           aria-hidden="true"
-                          className="absolute right-0 top-0 h-36 w-36 rounded-bl-full bg-blue-50/80"
+                          className="absolute right-0 top-0 h-36 w-36 rounded-bl-full bg-[var(--surface-soft)]/80"
                         />
 
                         <div
@@ -1147,7 +1147,7 @@ export default async function DeliveryPartnerApplicationsPage() {
                         />
 
                         <div className="relative">
-                          <span className="flex h-13 w-13 items-center justify-center rounded-[18px] bg-white text-[var(--brand-blue)] shadow-[0_10px_25px_rgba(15,23,42,0.09)] transition-transform duration-300 group-hover:scale-105">
+                          <span className="flex h-13 w-13 items-center justify-center rounded-[18px] bg-[var(--surface)] text-[var(--brand-blue)] shadow-[0_10px_25px_rgba(15,23,42,0.09)] transition-transform duration-300 group-hover:scale-105">
                             <ShieldCheck
                               aria-hidden="true"
                               className="h-5 w-5"
@@ -1155,15 +1155,15 @@ export default async function DeliveryPartnerApplicationsPage() {
                             />
                           </span>
 
-                          <p className="mt-7 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                          <p className="mt-7 font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--text-soft)]">
                             Review Required
                           </p>
 
-                          <h4 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase leading-tight tracking-[0.035em] text-slate-900">
+                          <h4 className="mt-3 font-editorial text-3xl font-light normal-case leading-tight tracking-[-0.035em] text-[var(--text-soft)]">
                             Verify Application
                           </h4>
 
-                          <p className="mt-4 max-w-sm font-[var(--font-body)] text-[12px] leading-7 text-slate-500">
+                          <p className="mt-4 max-w-sm font-body text-[12px] leading-7 text-[var(--text-soft)]">
                             Check identity documents,
                             driving-licence details,
                             vehicle capacity and
@@ -1182,14 +1182,14 @@ export default async function DeliveryPartnerApplicationsPage() {
                             color:
                               "#ffffff",
                           }}
-                          className="athimart-blue-action group/button relative mt-9 flex min-h-[58px] items-center justify-between overflow-hidden rounded-[18px] bg-[var(--brand-blue)] px-6 text-white shadow-[0_14px_32px_rgba(23,73,168,0.24)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--brand-blue-dark)] hover:text-white hover:shadow-[0_20px_42px_rgba(23,73,168,0.33)]"
+                          className="athimart-blue-action group/button relative mt-9 flex min-h-[58px] items-center justify-between overflow-hidden rounded-[18px] bg-[var(--brand-blue)] px-6 text-white shadow-[0_14px_32px_rgba(69,77,54,0.24)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--brand-blue-dark)] hover:text-white hover:shadow-[0_20px_42px_rgba(69,77,54,0.33)]"
                         >
                           <span
                             style={{
                               color:
                                 "#ffffff",
                             }}
-                            className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.17em] text-white"
+                            className="font-body text-[9px] font-semibold uppercase tracking-[0.17em] text-white"
                           >
                             Open Application
                           </span>

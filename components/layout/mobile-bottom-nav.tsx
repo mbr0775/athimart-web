@@ -3,16 +3,12 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
-import {
-  Home,
-  ReceiptText,
-  ShoppingBag,
-  Store,
-  UserRound,
-} from "lucide-react";
-import { m } from "motion/react";
+import { Home, ReceiptText, ShoppingBag, Store, UserRound } from "lucide-react";
+import styles from "./mobile-bottom-nav.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import ProfileAvatar from "@/components/account/profile-avatar";
+import type { ProfileIdentity } from "@/lib/account/profile-identity";
 
 interface NavigationItem {
   label: string;
@@ -32,13 +28,7 @@ const navigationItems: NavigationItem[] = [
     label: "Shop",
     href: "/shop",
     icon: Store,
-    matchingPaths: [
-      "/shop",
-      "/category",
-      "/product",
-      "/products",
-      "/search",
-    ],
+    matchingPaths: ["/shop", "/category", "/product", "/products", "/search"],
   },
   {
     label: "Cart",
@@ -60,79 +50,41 @@ const navigationItems: NavigationItem[] = [
   },
 ];
 
-function isItemActive(
-  pathname: string,
-  item: NavigationItem
-): boolean {
+function isItemActive(pathname: string, item: NavigationItem): boolean {
   if (item.href === "/") {
     return pathname === "/";
   }
 
   return item.matchingPaths.some(
-    (path) =>
-      pathname === path ||
-      pathname.startsWith(`${path}/`)
+    (path) => pathname === path || pathname.startsWith(`${path}/`),
   );
 }
 
-export function MobileBottomNav() {
+export function MobileBottomNav({ identity = null }: { identity?: ProfileIdentity | null }) {
   const pathname = usePathname();
 
   return (
-    <nav
-      aria-label="Mobile primary navigation"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-[var(--border)] bg-[var(--linen)]/95 shadow-[0_-8px_24px_rgba(23,23,23,0.06)] backdrop-blur-md md:hidden"
-    >
-      <div className="mx-auto grid max-w-xl grid-cols-5 px-1 pb-[calc(8px+env(safe-area-inset-bottom))] pt-2">
+    <nav aria-label="Mobile primary navigation" className={styles.navigation}>
+      <div className={styles.items}>
         {navigationItems.map((item) => {
           const active = isItemActive(pathname, item);
           const Icon = item.icon;
-
           return (
             <Link
               key={item.href}
               href={item.href}
+              aria-label={item.href === "/account" && identity ? `Open account for ${identity.name}` : undefined}
               aria-current={active ? "page" : undefined}
-              className="relative flex min-h-[68px] items-center justify-center"
+              className={styles.item}
             >
-              {active && (
-                <m.span
-                  layoutId="mobile-navigation-active"
-                  className="absolute inset-x-2 top-0 h-[3px] bg-[var(--black)]"
-                  transition={{
-                    type: "spring",
-                    stiffness: 420,
-                    damping: 34,
-                  }}
-                />
-              )}
-
-              <m.span
-                whileTap={{
-                  scale: 0.86,
-                }}
-                className="flex flex-col items-center justify-center gap-1.5"
-              >
-                <Icon
+              <span className={styles.icon}>
+                {item.href === "/account" && identity ? <ProfileAvatar name={identity.name} avatarUrl={identity.avatarUrl} size={24} /> : <Icon
+                  size={22}
+                  strokeWidth={active ? 1.9 : 1.5}
                   aria-hidden="true"
-                  strokeWidth={active ? 2.5 : 1.9}
-                  className={`h-[27px] w-[27px] transition-colors duration-200 ${
-                    active
-                      ? "text-[var(--text)]"
-                      : "text-[var(--text-muted)]"
-                  }`}
-                />
-
-                <span
-                  className={`font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.2em] transition-colors duration-200 ${
-                    active
-                      ? "text-[var(--text)]"
-                      : "text-[var(--text-muted)]"
-                  }`}
-                >
-                  {item.label}
-                </span>
-              </m.span>
+                />}
+              </span>
+              <span className={styles.itemLabel}>{item.href === "/account" && identity ? identity.name.split(/\s+/)[0] : item.label}</span>
             </Link>
           );
         })}

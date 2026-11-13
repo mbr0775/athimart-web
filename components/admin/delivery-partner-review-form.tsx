@@ -128,10 +128,10 @@ export default function DeliveryPartnerReviewForm({
   ] = useState("");
 
   const fieldClassName =
-    "mt-2 min-h-12 w-full border border-[var(--border)] bg-white px-4 font-[var(--font-body)] text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--brand-blue)] focus:ring-0";
+    "mt-2 min-h-12 w-full border border-[var(--border)] bg-[var(--surface)] px-4 font-body text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--brand-blue)] focus:ring-0";
 
   const textareaClassName =
-    "mt-2 min-h-28 w-full resize-y border border-[var(--border)] bg-white px-4 py-3 font-[var(--font-body)] text-sm leading-6 text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--brand-blue)] focus:ring-0";
+    "mt-2 min-h-28 w-full resize-y border border-[var(--border)] bg-[var(--surface)] px-4 py-3 font-body text-sm leading-6 text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--brand-blue)] focus:ring-0";
 
   function handleSubmit(
     event: FormEvent<HTMLFormElement>
@@ -300,23 +300,23 @@ export default function DeliveryPartnerReviewForm({
             strokeWidth={1.8}
           />
 
-          <p className="font-[var(--font-body)] text-sm leading-6">
+          <p className="font-body text-sm leading-6">
             {errorMessage}
           </p>
         </div>
       )}
 
       {/* Review decision */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
         <p className="athimart-label text-[var(--text-muted)]">
           Administrator decision
         </p>
 
-        <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.04em] text-[var(--text)]">
+        <h2 className="mt-2 font-editorial text-3xl font-light normal-case tracking-[-0.035em] text-[var(--text)]">
           Review Outcome
         </h2>
 
-        <p className="mt-3 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+        <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
           Select whether this delivery-partner
           application should be approved or returned
           to the applicant as rejected.
@@ -334,7 +334,7 @@ export default function DeliveryPartnerReviewForm({
             className={`flex min-h-24 items-start gap-4 border p-5 text-left transition-colors ${
               decision === "approve"
                 ? "border-[var(--success)] bg-green-50"
-                : "border-[var(--border)] bg-white hover:border-[var(--success)]"
+                : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--success)]"
             }`}
           >
             <CheckCircle2
@@ -344,11 +344,11 @@ export default function DeliveryPartnerReviewForm({
             />
 
             <span>
-              <span className="block font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em] text-[var(--text)]">
+              <span className="block font-body text-xs font-semibold uppercase tracking-[0.14em] text-[var(--text)]">
                 Approve Application
               </span>
 
-              <span className="mt-2 block font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <span className="mt-2 block font-body text-xs leading-6 text-[var(--text-muted)]">
                 Verify the applicant and vehicle,
                 define service areas and grant
                 approved delivery capabilities.
@@ -367,7 +367,7 @@ export default function DeliveryPartnerReviewForm({
             className={`flex min-h-24 items-start gap-4 border p-5 text-left transition-colors ${
               decision === "reject"
                 ? "border-[var(--sale)] bg-red-50"
-                : "border-[var(--border)] bg-white hover:border-[var(--sale)]"
+                : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--sale)]"
             }`}
           >
             <XCircle
@@ -377,11 +377,11 @@ export default function DeliveryPartnerReviewForm({
             />
 
             <span>
-              <span className="block font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em] text-[var(--text)]">
+              <span className="block font-body text-xs font-semibold uppercase tracking-[0.14em] text-[var(--text)]">
                 Reject Application
               </span>
 
-              <span className="mt-2 block font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <span className="mt-2 block font-body text-xs leading-6 text-[var(--text-muted)]">
                 Return the application with a clear
                 reason so the applicant can correct
                 eligible information.
@@ -394,12 +394,12 @@ export default function DeliveryPartnerReviewForm({
       {decision === "approve" ? (
         <>
           {/* Service-area approval */}
-          <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
+          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
             <p className="athimart-label text-[var(--brand-orange-dark)]">
               Operational approval
             </p>
 
-            <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.04em]">
+            <h2 className="mt-2 font-editorial text-3xl font-light normal-case tracking-[-0.035em]">
               Service Areas
             </h2>
 
@@ -426,7 +426,7 @@ Mawanella`}
                   className={textareaClassName}
                 />
 
-                <span className="mt-2 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+                <span className="mt-2 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
                   Enter one area per line or separate
                   areas using commas.
                 </span>
@@ -454,7 +454,7 @@ Mawanella`}
                   className={fieldClassName}
                 />
 
-                <span className="mt-2 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+                <span className="mt-2 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
                   Used later for eligible-driver
                   shortlisting and delivery matching.
                 </span>
@@ -463,12 +463,12 @@ Mawanella`}
           </section>
 
           {/* Capabilities */}
-          <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
+          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
             <p className="athimart-label text-[var(--brand-orange-dark)]">
               Approved permissions
             </p>
 
-            <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.04em]">
+            <h2 className="mt-2 font-editorial text-3xl font-light normal-case tracking-[-0.035em]">
               Delivery Capabilities
             </h2>
 
@@ -488,11 +488,11 @@ Mawanella`}
                 />
 
                 <span>
-                  <span className="block font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.1em]">
+                  <span className="block font-body text-xs font-semibold uppercase tracking-[0.1em]">
                     Cash on Delivery
                   </span>
 
-                  <span className="mt-1 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+                  <span className="mt-1 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
                     Driver may receive assignments
                     involving customer cash
                     collection.
@@ -515,11 +515,11 @@ Mawanella`}
                 />
 
                 <span>
-                  <span className="block font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.1em]">
+                  <span className="block font-body text-xs font-semibold uppercase tracking-[0.1em]">
                     Food Delivery
                   </span>
 
-                  <span className="mt-1 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+                  <span className="mt-1 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
                     Driver and vehicle may receive
                     suitable food-delivery
                     assignments.
@@ -542,11 +542,11 @@ Mawanella`}
                 />
 
                 <span>
-                  <span className="block font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.1em]">
+                  <span className="block font-body text-xs font-semibold uppercase tracking-[0.1em]">
                     Fragile Parcels
                   </span>
 
-                  <span className="mt-1 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+                  <span className="mt-1 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
                     Driver may receive protected
                     fragile-parcel assignments.
                   </span>
@@ -561,7 +561,7 @@ Mawanella`}
             Required explanation
           </p>
 
-          <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.04em]">
+          <h2 className="mt-2 font-editorial text-3xl font-light normal-case tracking-[-0.035em]">
             Rejection Reason
           </h2>
 
@@ -590,12 +590,12 @@ Mawanella`}
       )}
 
       {/* Administrator notes */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-7">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
         <p className="athimart-label text-[var(--text-muted)]">
           Internal information
         </p>
 
-        <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.04em]">
+        <h2 className="mt-2 font-editorial text-3xl font-light normal-case tracking-[-0.035em]">
           Administrator Notes
         </h2>
 
@@ -640,11 +640,11 @@ Mawanella`}
           />
 
           <div className="flex-1">
-            <h2 className="font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em]">
+            <h2 className="font-body text-xs font-semibold uppercase tracking-[0.14em]">
               Confirm Administrator Decision
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               This decision updates both the
               delivery-partner application and its
               selected primary vehicle.
@@ -652,7 +652,7 @@ Mawanella`}
           </div>
         </div>
 
-        <label className="mt-5 flex cursor-pointer items-start gap-3 border border-[var(--border)] bg-white p-4">
+        <label className="mt-5 flex cursor-pointer items-start gap-3 border border-[var(--border)] bg-[var(--surface)] p-4">
           <input
             type="checkbox"
             checked={
@@ -667,7 +667,7 @@ Mawanella`}
             className="mt-1 h-4 w-4 accent-[var(--brand-blue)]"
           />
 
-          <span className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-soft)]">
+          <span className="font-body text-xs leading-6 text-[var(--text-soft)]">
             I confirm that I reviewed the submitted
             applicant details, vehicle information
             and required verification documents
@@ -681,7 +681,7 @@ Mawanella`}
             isPending ||
             !confirmationAccepted
           }
-          className={`mt-5 flex min-h-14 w-full items-center justify-center gap-3 px-6 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-colors disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-600 ${
+          className={`mt-5 flex min-h-14 w-full items-center justify-center gap-3 px-6 font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-colors disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-600 ${
             decision === "approve"
               ? "bg-[var(--success)] hover:opacity-90"
               : "bg-[var(--sale)] hover:opacity-90"

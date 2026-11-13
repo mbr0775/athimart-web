@@ -61,10 +61,10 @@ interface PersonalDetailsFormProps {
 }
 
 const fieldClassName =
-  "mt-2 min-h-12 w-full border border-[var(--border)] bg-white px-4 font-[var(--font-body)] text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--brand-blue)] focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0";
+  "mt-2 min-h-12 w-full border border-[var(--border)] bg-[var(--surface)] px-4 font-body text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--brand-blue)] focus:!outline-none focus:!ring-0  focus-visible:!ring-0";
 
 const textareaClassName =
-  "mt-2 min-h-28 w-full resize-y border border-[var(--border)] bg-white px-4 py-3 font-[var(--font-body)] text-sm leading-6 text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--brand-blue)] focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0";
+  "mt-2 min-h-28 w-full resize-y border border-[var(--border)] bg-[var(--surface)] px-4 py-3 font-body text-sm leading-6 text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--brand-blue)] focus:!outline-none focus:!ring-0  focus-visible:!ring-0";
 
 function getFormText(
   formData: FormData,
@@ -421,7 +421,7 @@ export default function PersonalDetailsForm({
             strokeWidth={1.8}
           />
 
-          <p className="font-[var(--font-body)] text-sm leading-6">
+          <p className="font-body text-sm leading-6">
             {errorMessage}
           </p>
         </div>
@@ -441,11 +441,11 @@ export default function PersonalDetailsForm({
             />
 
             <div>
-              <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--success)]">
+              <p className="font-body text-sm font-semibold text-[var(--success)]">
                 Personal details saved successfully
               </p>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
                 Application status:{" "}
                 {formatStatus(
                   savedApplication.applicationStatus
@@ -464,10 +464,10 @@ export default function PersonalDetailsForm({
       <section
         data-personal-details-section="1"
         hidden={activeSection !== 1}
-        className="border border-[var(--border)] bg-white p-5 sm:p-8"
+        className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]"
       >
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <UserRound
               aria-hidden="true"
               className="h-6 w-6"
@@ -484,7 +484,7 @@ export default function PersonalDetailsForm({
               Personal Information
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Enter your legal name, active phone
               number and date of birth.
             </p>
@@ -580,7 +580,7 @@ export default function PersonalDetailsForm({
       <section
         data-personal-details-section="2"
         hidden={activeSection !== 2}
-        className="border border-[var(--border)] bg-white p-5 sm:p-8"
+        className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]"
       >
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]">
@@ -600,7 +600,7 @@ export default function PersonalDetailsForm({
               Identity Information
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Enter the details exactly as shown on
               your official identity document.
             </p>
@@ -669,7 +669,7 @@ export default function PersonalDetailsForm({
             strokeWidth={1.8}
           />
 
-          <p className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+          <p className="font-body text-xs leading-6 text-[var(--text-muted)]">
             Document images will be uploaded
             separately to AthiMart’s private,
             access-controlled document storage.
@@ -681,10 +681,10 @@ export default function PersonalDetailsForm({
       <section
         data-personal-details-section="3"
         hidden={activeSection !== 3}
-        className="border border-[var(--border)] bg-white p-5 sm:p-8"
+        className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]"
       >
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <FileText
               aria-hidden="true"
               className="h-6 w-6"
@@ -701,7 +701,7 @@ export default function PersonalDetailsForm({
               Driving Licence
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Provide the licence number, permitted
               classes and validity dates.
             </p>
@@ -748,7 +748,7 @@ export default function PersonalDetailsForm({
               className={fieldClassName}
             />
 
-            <span className="mt-2 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+            <span className="mt-2 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
               Separate multiple classes using commas.
             </span>
           </label>
@@ -792,7 +792,7 @@ export default function PersonalDetailsForm({
       <section
         data-personal-details-section="4"
         hidden={activeSection !== 4}
-        className="border border-[var(--border)] bg-white p-5 sm:p-8"
+        className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]"
       >
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-red-50 text-[var(--sale)]">
@@ -812,7 +812,7 @@ export default function PersonalDetailsForm({
               Emergency Contact
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Provide a trusted person AthiMart may
               contact during an operational emergency.
             </p>
@@ -887,10 +887,10 @@ export default function PersonalDetailsForm({
       <section
         data-personal-details-section="5"
         hidden={activeSection !== 5}
-        className="border border-[var(--border)] bg-white p-5 sm:p-8"
+        className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]"
       >
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <MapPin
               aria-hidden="true"
               className="h-6 w-6"
@@ -907,7 +907,7 @@ export default function PersonalDetailsForm({
               Requested Service Areas
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Enter the towns, villages or local areas
               where you are prepared to complete
               deliveries.
@@ -935,7 +935,7 @@ Mawanella`}
             className={textareaClassName}
           />
 
-          <span className="mt-2 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+          <span className="mt-2 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
             Enter one location per line or separate
             locations using commas. Final approved
             service areas will be determined by
@@ -948,7 +948,7 @@ Mawanella`}
       <section
         data-personal-details-section="6"
         hidden={activeSection !== 6}
-        className="border border-[var(--border)] bg-white p-5 sm:p-8"
+        className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]"
       >
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-green-50 text-[var(--success)]">
@@ -968,7 +968,7 @@ Mawanella`}
               Consent and Declarations
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               You may save the form as a draft.
               Required declarations must be accepted
               before final submission.
@@ -984,10 +984,10 @@ Mawanella`}
               defaultChecked={
                 initialValues.termsAccepted ?? false
               }
-              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none focus-visible:!outline-none"
+              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none "
             />
 
-            <span className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-soft)]">
+            <span className="font-body text-xs leading-6 text-[var(--text-soft)]">
               I confirm that the information provided
               is accurate and I agree to the AthiMart
               Delivery Partner terms and operating
@@ -1002,10 +1002,10 @@ Mawanella`}
               defaultChecked={
                 initialValues.privacyConsent ?? false
               }
-              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none focus-visible:!outline-none"
+              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none "
             />
 
-            <span className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-soft)]">
+            <span className="font-body text-xs leading-6 text-[var(--text-soft)]">
               I consent to AthiMart processing the
               submitted personal and verification
               information for delivery-partner
@@ -1020,10 +1020,10 @@ Mawanella`}
               defaultChecked={
                 initialValues.locationConsent ?? false
               }
-              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none focus-visible:!outline-none"
+              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none "
             />
 
-            <span className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-soft)]">
+            <span className="font-body text-xs leading-6 text-[var(--text-soft)]">
               I understand that approved operational
               drivers may share location information
               while online or completing an active
@@ -1036,7 +1036,7 @@ Mawanella`}
       <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p
           aria-live="polite"
-          className="font-[var(--font-body)] text-xs text-[var(--text-muted)]"
+          className="font-body text-xs text-[var(--text-muted)]"
         >
           Section {activeSection} of 6: {" "}
           {personalDetailsSectionLabels[activeSection]}
@@ -1047,7 +1047,7 @@ Mawanella`}
             <button
               type="button"
               onClick={handlePreviousSection}
-              className="inline-flex min-h-12 items-center justify-center gap-2 border border-[var(--border-strong)] bg-white px-5 font-[var(--font-body)] text-xs font-semibold text-[var(--text)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)]"
+              className="inline-flex min-h-12 items-center justify-center gap-2 border border-[var(--border-strong)] bg-[var(--surface)] px-5 font-body text-xs font-semibold text-[var(--text)] transition-colors hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)] rounded-full"
             >
               <ArrowLeft
                 aria-hidden="true"
@@ -1063,7 +1063,7 @@ Mawanella`}
             <button
               type="button"
               onClick={handleNextSection}
-              className="inline-flex min-h-12 items-center justify-center gap-2 bg-[var(--brand-blue)] px-6 font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[var(--brand-blue-dark)]"
+              className="inline-flex min-h-12 items-center justify-center gap-2 bg-[var(--brand-blue)] px-6 font-body text-xs font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[var(--brand-blue-dark)] rounded-full"
             >
               Next section
 
@@ -1084,15 +1084,15 @@ Mawanella`}
       >
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
           <div>
-            <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-light)]">
+            <p className="font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-light)]">
               Save registration progress
             </p>
 
-            <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.04em]">
+            <h2 className="mt-2 font-editorial text-3xl font-light normal-case tracking-[-0.035em]">
               Save and Continue
             </h2>
 
-            <p className="mt-3 max-w-xl font-[var(--font-body)] text-xs leading-6 text-white/70">
+            <p className="mt-3 max-w-xl font-body text-xs leading-6 text-white/70">
               Saving this section does not submit the
               application for approval. Vehicle and
               document details will be completed next.
@@ -1102,7 +1102,7 @@ Mawanella`}
           <button
             type="submit"
             disabled={isPending}
-            className="flex min-h-14 min-w-64 items-center justify-center gap-3 bg-white px-7 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-orange-light)] hover:text-white disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-600"
+            className="flex min-h-14 min-w-64 items-center justify-center gap-3 bg-[var(--surface)] px-7 font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-orange-light)] hover:text-white disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-600 rounded-full athimart-brand-button"
           >
             {isPending ? (
               <LoaderCircle

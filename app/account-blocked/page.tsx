@@ -100,7 +100,7 @@ export default async function AccountBlockedPage() {
         <header className="flex items-center justify-between gap-5">
           <Link
             href="/"
-            className="font-[var(--font-display)] text-2xl font-light uppercase tracking-[0.18em] text-[var(--brand-blue-dark)]"
+            className="font-editorial text-2xl font-light normal-case tracking-[-0.035em] text-[var(--brand-blue-dark)]"
           >
             Athi
             <span className="text-[var(--brand-orange)]">
@@ -111,7 +111,7 @@ export default async function AccountBlockedPage() {
           <Link
             href="/"
             aria-label="Return to AthiMart"
-            className="flex h-11 w-11 items-center justify-center border border-[var(--border)] bg-white text-[var(--brand-blue)] transition-colors hover:border-[var(--brand-blue)]"
+            className="flex h-11 w-11 items-center justify-center border border-[var(--border)] bg-[var(--surface)] text-[var(--brand-blue)] transition-colors hover:border-[var(--brand-blue)]"
           >
             <ArrowLeft
               aria-hidden="true"
@@ -121,7 +121,7 @@ export default async function AccountBlockedPage() {
           </Link>
         </header>
 
-        <section className="mt-12 border border-[var(--border)] bg-white p-6 sm:p-10">
+        <section className="mt-12 border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-10 rounded-[24px]">
           <span className="flex h-16 w-16 items-center justify-center bg-red-50 text-[var(--sale)]">
             <ShieldAlert
               aria-hidden="true"
@@ -149,11 +149,11 @@ export default async function AccountBlockedPage() {
           </p>
 
           <div className="mt-7 border-l-4 border-[var(--sale)] bg-red-50 px-5 py-4">
-            <p className="font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em] text-[var(--sale)]">
+            <p className="font-body text-xs font-semibold uppercase tracking-[0.14em] text-[var(--sale)]">
               Administrator message
             </p>
 
-            <p className="mt-3 font-[var(--font-body)] text-sm leading-7 text-[var(--text-soft)]">
+            <p className="mt-3 font-body text-sm leading-7 text-[var(--text-soft)]">
               {blockedReason}
             </p>
           </div>
@@ -166,7 +166,7 @@ export default async function AccountBlockedPage() {
                 strokeWidth={1.8}
               />
 
-              <p className="break-all font-[var(--font-body)] text-sm text-[var(--text-muted)]">
+              <p className="break-all font-body text-sm text-[var(--text-muted)]">
                 {email}
               </p>
             </div>
@@ -178,7 +178,7 @@ export default async function AccountBlockedPage() {
                 strokeWidth={1.8}
               />
 
-              <p className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="font-body text-xs leading-6 text-[var(--text-muted)]">
                 Product management, account management and seller tools are unavailable while the restriction remains active.
               </p>
             </div>

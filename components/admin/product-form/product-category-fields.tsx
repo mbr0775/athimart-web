@@ -123,11 +123,11 @@ export default function ProductCategoryFields({
             className="
               mt-2
               w-full
-              rounded-lg
+              rounded-xl
               border
               px-4
               py-3
-            "
+             border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
 
           >
 
@@ -230,11 +230,11 @@ export default function ProductCategoryFields({
             className="
               mt-2
               w-full
-              rounded-lg
+              rounded-xl
               border
               px-4
               py-3
-            "
+             border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
 
 
           >

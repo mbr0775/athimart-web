@@ -6,20 +6,7 @@ import {
 } from "next/server";
 
 import { createClient } from "@/lib/supabase/server";
-
-function getSafeNextPath(
-  value: string | null
-): string {
-  if (
-    !value ||
-    !value.startsWith("/") ||
-    value.startsWith("//")
-  ) {
-    return "/";
-  }
-
-  return value;
-}
+import { getSignInDestination, googleSignInError, safeSignInPath } from "@/lib/auth/sign-in";
 
 function getPublicOrigin(
   request: NextRequest
@@ -51,43 +38,32 @@ function getPublicOrigin(
 export async function GET(
   request: NextRequest
 ) {
-  const code =
-    request.nextUrl.searchParams.get(
-      "code"
-    );
-
-  const nextPath =
-    getSafeNextPath(
-      request.nextUrl.searchParams.get(
-        "next"
-      )
-    );
-
-  const publicOrigin =
-    getPublicOrigin(request);
+  const params = request.nextUrl.searchParams;
+  const code = params.get("code");
+  const nextPath = safeSignInPath(params.get("next"));
+  const isGoogleSignIn = params.get("flow") === "google";
+  const publicOrigin = getPublicOrigin(request);
+  const failurePath = isGoogleSignIn
+    ? googleSignInError(params.get("from"), nextPath)
+    : "/auth/sign-up?error=confirmation-failed";
 
   if (code) {
-    const supabase =
-      await createClient();
+    const supabase = await createClient();
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
-    const { error } =
-      await supabase.auth
-        .exchangeCodeForSession(code);
+    if (!error && data.user) {
+      if (!isGoogleSignIn) {
+        return NextResponse.redirect(new URL(nextPath, publicOrigin));
+      }
 
-    if (!error) {
-      return NextResponse.redirect(
-        new URL(
-          nextPath,
-          publicOrigin
-        )
-      );
+      const destination = await getSignInDestination(supabase, data.user.id, nextPath);
+      if (destination) {
+        return NextResponse.redirect(new URL(destination, publicOrigin));
+      }
+
+      await supabase.auth.signOut({ scope: "local" });
     }
   }
 
-  return NextResponse.redirect(
-    new URL(
-      "/auth/sign-up?error=confirmation-failed",
-      publicOrigin
-    )
-  );
+  return NextResponse.redirect(new URL(failurePath, publicOrigin));
 }

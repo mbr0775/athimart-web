@@ -369,7 +369,7 @@ export default async function AdminProductsPage({
     );
 
   return (
-    <div className="px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
+    <div className="min-w-0">
       {/* Page heading */}
       <header className="border-b border-[var(--border-strong)] pb-8">
         <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
@@ -422,12 +422,12 @@ export default async function AdminProductsPage({
           className="mt-7 flex items-start justify-between gap-5 border-l-4 border-[var(--success)] bg-green-50 px-5 py-4"
         >
           <div>
-            <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--success)]">
+            <p className="font-body text-sm font-semibold text-[var(--success)]">
               Product created
               successfully.
             </p>
 
-            <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-soft)]">
+            <p className="mt-1 font-body text-xs leading-5 text-[var(--text-soft)]">
               The new product has
               been added to the shared
               AthiMart database.
@@ -437,7 +437,7 @@ export default async function AdminProductsPage({
           <Link
             href="/admin/products"
             aria-label="Close creation message"
-            className="flex h-9 w-9 shrink-0 items-center justify-center text-[var(--success)] transition-colors hover:bg-white"
+            className="flex h-9 w-9 shrink-0 items-center justify-center text-[var(--success)] transition-colors hover:bg-[var(--surface)]"
           >
             <X
               aria-hidden="true"
@@ -455,12 +455,12 @@ export default async function AdminProductsPage({
           className="mt-7 flex items-start justify-between gap-5 border-l-4 border-[var(--brand-blue)] bg-[var(--brand-blue-soft)] px-5 py-4"
         >
           <div>
-            <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--brand-blue-dark)]">
+            <p className="font-body text-sm font-semibold text-[var(--brand-blue-dark)]">
               Product updated
               successfully.
             </p>
 
-            <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-soft)]">
+            <p className="mt-1 font-body text-xs leading-5 text-[var(--text-soft)]">
               The updated product
               information has been
               saved in the AthiMart
@@ -471,7 +471,7 @@ export default async function AdminProductsPage({
           <Link
             href="/admin/products"
             aria-label="Close update message"
-            className="flex h-9 w-9 shrink-0 items-center justify-center text-[var(--brand-blue)] transition-colors hover:bg-white"
+            className="flex h-9 w-9 shrink-0 items-center justify-center text-[var(--brand-blue)] transition-colors hover:bg-[var(--surface)]"
           >
             <X
               aria-hidden="true"
@@ -496,12 +496,12 @@ export default async function AdminProductsPage({
             />
 
             <div>
-              <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--success)]">
+              <p className="font-body text-sm font-semibold text-[var(--success)]">
                 Product activated
                 successfully.
               </p>
 
-              <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-soft)]">
+              <p className="mt-1 font-body text-xs leading-5 text-[var(--text-soft)]">
                 The product is now
                 available in the
                 AthiMart storefront.
@@ -512,7 +512,7 @@ export default async function AdminProductsPage({
           <Link
             href="/admin/products"
             aria-label="Close activation message"
-            className="flex h-9 w-9 shrink-0 items-center justify-center text-[var(--success)] transition-colors hover:bg-white"
+            className="flex h-9 w-9 shrink-0 items-center justify-center text-[var(--success)] transition-colors hover:bg-[var(--surface)]"
           >
             <X
               aria-hidden="true"
@@ -537,12 +537,12 @@ export default async function AdminProductsPage({
             />
 
             <div>
-              <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--brand-orange-dark)]">
+              <p className="font-body text-sm font-semibold text-[var(--brand-orange-dark)]">
                 Product deactivated
                 successfully.
               </p>
 
-              <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-soft)]">
+              <p className="mt-1 font-body text-xs leading-5 text-[var(--text-soft)]">
                 The product is hidden
                 from the storefront
                 but remains in the
@@ -554,7 +554,7 @@ export default async function AdminProductsPage({
           <Link
             href="/admin/products"
             aria-label="Close deactivation message"
-            className="flex h-9 w-9 shrink-0 items-center justify-center text-[var(--brand-orange-dark)] transition-colors hover:bg-white"
+            className="flex h-9 w-9 shrink-0 items-center justify-center text-[var(--brand-orange-dark)] transition-colors hover:bg-[var(--surface)]"
           >
             <X
               aria-hidden="true"
@@ -579,12 +579,12 @@ export default async function AdminProductsPage({
             />
 
             <div>
-              <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--sale)]">
+              <p className="font-body text-sm font-semibold text-[var(--sale)]">
                 Product deleted
                 permanently.
               </p>
 
-              <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-soft)]">
+              <p className="mt-1 font-body text-xs leading-5 text-[var(--text-soft)]">
                 The product was
                 removed from the
                 AthiMart database and
@@ -598,7 +598,7 @@ export default async function AdminProductsPage({
           <Link
             href="/admin/products"
             aria-label="Close deletion message"
-            className="flex h-9 w-9 shrink-0 items-center justify-center text-[var(--sale)] transition-colors hover:bg-white"
+            className="flex h-9 w-9 shrink-0 items-center justify-center text-[var(--sale)] transition-colors hover:bg-[var(--surface)]"
           >
             <X
               aria-hidden="true"
@@ -621,8 +621,8 @@ export default async function AdminProductsPage({
           Product statistics
         </h2>
 
-        <div className="grid border-l border-t border-[var(--border)] sm:grid-cols-2 xl:grid-cols-4">
-          <article className="border-b border-r border-[var(--border)] bg-white p-5">
+        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
             <Boxes
               aria-hidden="true"
               className="h-6 w-6 text-[var(--brand-blue)]"
@@ -633,7 +633,7 @@ export default async function AdminProductsPage({
               Total products
             </p>
 
-            <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-blue-dark)]">
+            <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-blue-dark)]">
               {statistics.total}
             </p>
           </article>
@@ -649,12 +649,12 @@ export default async function AdminProductsPage({
               Active
             </p>
 
-            <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--success)]">
+            <p className="mt-2 font-editorial text-4xl font-light text-[var(--success)]">
               {statistics.active}
             </p>
           </article>
 
-          <article className="border-b border-r border-[var(--border)] bg-white p-5">
+          <article className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
             <Archive
               aria-hidden="true"
               className="h-6 w-6 text-[var(--brand-orange-dark)]"
@@ -665,7 +665,7 @@ export default async function AdminProductsPage({
               Inactive
             </p>
 
-            <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-orange-dark)]">
+            <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-orange-dark)]">
               {statistics.inactive}
             </p>
           </article>
@@ -681,7 +681,7 @@ export default async function AdminProductsPage({
               Out of stock
             </p>
 
-            <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--sale)]">
+            <p className="mt-2 font-editorial text-4xl font-light text-[var(--sale)]">
               {
                 statistics.outOfStock
               }
@@ -691,7 +691,7 @@ export default async function AdminProductsPage({
       </section>
 
       {/* Search */}
-      <section className="mt-8 border border-[var(--border)] bg-white p-5 sm:p-6">
+      <section className="mt-8 border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 rounded-[24px]">
         <form
           action="/admin/products"
           method="get"
@@ -724,7 +724,7 @@ export default async function AdminProductsPage({
               maxLength={80}
               autoComplete="off"
               placeholder="Search name, brand, model, category or SKU..."
-              className="min-w-0 flex-1 border-0 bg-transparent py-3 font-[var(--font-body)] text-sm text-[var(--text)] outline-none placeholder:text-[var(--placeholder)] focus:outline-none focus-visible:!outline-none"
+              className="min-w-0 flex-1 border-0 bg-transparent py-3 font-body text-sm text-[var(--text)] outline-none placeholder:text-[var(--placeholder)] focus:outline-none  rounded-xl"
             />
 
             {query && (
@@ -737,7 +737,7 @@ export default async function AdminProductsPage({
                   }
                 )}
                 aria-label="Clear product search"
-                className="ml-3 flex h-9 w-9 shrink-0 items-center justify-center text-[var(--text-muted)] transition-colors hover:bg-white hover:text-[var(--sale)]"
+                className="ml-3 flex h-9 w-9 shrink-0 items-center justify-center text-[var(--text-muted)] transition-colors hover:bg-[var(--surface)] hover:text-[var(--sale)]"
               >
                 <X
                   aria-hidden="true"
@@ -794,10 +794,10 @@ export default async function AdminProductsPage({
                     ? "page"
                     : undefined
                 }
-                className={`inline-flex min-h-12 shrink-0 items-center gap-2 border px-4 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+                className={`inline-flex min-h-12 shrink-0 items-center gap-2 border px-4 font-body text-[9px] font-semibold uppercase tracking-[0.14em] transition-colors ${
                   isActive
                     ? "border-[var(--brand-blue)] bg-[var(--brand-blue)] text-white!"
-                    : "border-[var(--border)] bg-white text-[var(--text-muted)] hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)]"
+                    : "border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)] hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)]"
                 }`}
               >
                 <span
@@ -866,7 +866,7 @@ export default async function AdminProductsPage({
 
         {products.length ===
         0 ? (
-          <div className="mt-6 border border-[var(--border)] bg-white p-10 text-center">
+          <div className="mt-6 border border-[var(--border)] bg-[var(--surface)] p-10 text-center rounded-[24px]">
             <Boxes
               aria-hidden="true"
               className="mx-auto h-12 w-12 text-[var(--brand-blue)]"
@@ -911,7 +911,7 @@ export default async function AdminProductsPage({
         ) : (
           <>
             {/* Desktop table */}
-            <div className="mt-6 hidden overflow-x-auto border border-[var(--border)] bg-white lg:block">
+            <div className="mt-6 hidden overflow-x-auto border border-[var(--border)] bg-[var(--surface)] lg:block">
               <table className="w-full min-w-[1260px] border-collapse text-left">
                 <thead className="bg-[var(--brand-blue-dark)]">
                   <tr>
@@ -930,7 +930,7 @@ export default async function AdminProductsPage({
                             heading
                           }
                           scope="col"
-                          className="px-5 py-4 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.16em] text-white!"
+                          className="px-5 py-4 font-body text-[9px] font-semibold uppercase tracking-[0.16em] text-white!"
                         >
                           {heading}
                         </th>
@@ -951,7 +951,7 @@ export default async function AdminProductsPage({
                         {/* Product */}
                         <td className="px-5 py-4">
                           <div className="flex min-w-64 items-center gap-4">
-                            <div className="relative h-16 w-16 shrink-0 overflow-hidden border border-[var(--border)] bg-white">
+                            <div className="relative h-16 w-16 shrink-0 overflow-hidden border border-[var(--border)] bg-[var(--surface)]">
                               {product.imageUrl ? (
                                 <Image
                                   src={
@@ -976,13 +976,13 @@ export default async function AdminProductsPage({
                             </div>
 
                             <div className="min-w-0">
-                              <p className="truncate font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                              <p className="truncate font-body text-sm font-semibold text-[var(--text)]">
                                 {
                                   product.name
                                 }
                               </p>
 
-                              <p className="mt-1 truncate font-[var(--font-body)] text-[9px] uppercase tracking-[0.13em] text-[var(--text-muted)]">
+                              <p className="mt-1 truncate font-body text-[9px] uppercase tracking-[0.13em] text-[var(--text-muted)]">
                                 {product.brand ??
                                   product.companyName}
                               </p>
@@ -997,13 +997,13 @@ export default async function AdminProductsPage({
 
                         {/* Category */}
                         <td className="px-5 py-4">
-                          <p className="font-[var(--font-body)] text-xs font-semibold text-[var(--text)]">
+                          <p className="font-body text-xs font-semibold text-[var(--text)]">
                             {
                               product.category
                             }
                           </p>
 
-                          <p className="mt-1 font-[var(--font-body)] text-[10px] text-[var(--text-muted)]">
+                          <p className="mt-1 font-body text-[10px] text-[var(--text-muted)]">
                             {
                               product.subCategory
                             }
@@ -1012,7 +1012,7 @@ export default async function AdminProductsPage({
 
                         {/* Price */}
                         <td className="px-5 py-4">
-                          <p className="font-[var(--font-body)] text-sm font-bold text-[var(--text)]">
+                          <p className="font-body text-sm font-bold text-[var(--text)]">
                             {formatLkr(
                               product.priceLkr
                             )}
@@ -1021,13 +1021,13 @@ export default async function AdminProductsPage({
                           {product.discountPercent >
                             0 && (
                             <>
-                              <p className="mt-1 font-[var(--font-body)] text-[10px] text-[var(--text-muted)] line-through">
+                              <p className="mt-1 font-body text-[10px] text-[var(--text-muted)] line-through">
                                 {formatLkr(
                                   product.originalPriceLkr
                                 )}
                               </p>
 
-                              <p className="mt-1 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.12em] text-[var(--sale)]">
+                              <p className="mt-1 font-body text-[9px] font-semibold uppercase tracking-[0.12em] text-[var(--sale)]">
                                 {
                                   product.discountPercent
                                 }
@@ -1040,7 +1040,7 @@ export default async function AdminProductsPage({
                         {/* Stock */}
                         <td className="px-5 py-4">
                           <span
-                            className={`font-[var(--font-body)] text-sm font-semibold ${
+                            className={`font-body text-sm font-semibold ${
                               product.stock <=
                               0
                                 ? "text-[var(--sale)]"
@@ -1057,7 +1057,7 @@ export default async function AdminProductsPage({
                         {/* Status */}
                         <td className="px-5 py-4">
                           <span
-                            className={`inline-flex border px-3 py-2 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] ${
+                            className={`inline-flex border px-3 py-2 font-body text-[8px] font-semibold uppercase tracking-[0.14em] ${
                               product.isActive
                                 ? "border-[var(--success)] bg-green-50 text-[var(--success)]"
                                 : "border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]"
@@ -1072,10 +1072,10 @@ export default async function AdminProductsPage({
                         {/* Featured */}
                         <td className="px-5 py-4">
                           <span
-                            className={`inline-flex border px-3 py-2 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] ${
+                            className={`inline-flex border px-3 py-2 font-body text-[8px] font-semibold uppercase tracking-[0.14em] ${
                               product.isFeatured
                                 ? "border-[var(--brand-blue)] bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]"
-                                : "border-[var(--border)] bg-white text-[var(--text-muted)]"
+                                : "border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)]"
                             }`}
                           >
                             {product.isFeatured
@@ -1089,7 +1089,7 @@ export default async function AdminProductsPage({
                           <div className="flex min-w-72 flex-wrap items-center gap-2">
                             <Link
                               href={`/admin/products/${product.id}/edit`}
-                              className="inline-flex min-h-10 items-center justify-center gap-2 border border-[var(--brand-blue)] bg-[var(--brand-blue-soft)] px-3 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-blue)] hover:text-white!"
+                              className="inline-flex min-h-10 items-center justify-center gap-2 border border-[var(--brand-blue)] bg-[var(--brand-blue-soft)] px-3 font-body text-[8px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-blue)] hover:text-white! rounded-full"
                             >
                               <Pencil
                                 aria-hidden="true"
@@ -1138,10 +1138,10 @@ export default async function AdminProductsPage({
                     key={
                       product.id
                     }
-                    className="border border-[var(--border)] bg-white p-4"
+                    className="border border-[var(--border)] bg-[var(--surface)] p-4 rounded-[24px]"
                   >
                     <div className="flex gap-4">
-                      <div className="relative h-24 w-24 shrink-0 overflow-hidden border border-[var(--border)] bg-white">
+                      <div className="relative h-24 w-24 shrink-0 overflow-hidden border border-[var(--border)] bg-[var(--surface)]">
                         {product.imageUrl ? (
                           <Image
                             src={
@@ -1166,26 +1166,26 @@ export default async function AdminProductsPage({
                       </div>
 
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.12em] text-[var(--brand-orange-dark)]">
+                        <p className="truncate font-body text-[9px] font-semibold uppercase tracking-[0.12em] text-[var(--brand-orange-dark)]">
                           {product.brand ??
                             product.companyName}
                         </p>
 
-                        <h3 className="mt-1 font-[var(--font-display)] text-2xl font-light leading-tight text-[var(--brand-blue-dark)]">
+                        <h3 className="mt-1 font-editorial text-2xl font-light leading-tight text-[var(--brand-blue-dark)]">
                           {
                             product.name
                           }
                         </h3>
 
                         {product.model && (
-                          <p className="mt-1 font-[var(--font-body)] text-[10px] text-[var(--text-muted)]">
+                          <p className="mt-1 font-body text-[10px] text-[var(--text-muted)]">
                             {
                               product.model
                             }
                           </p>
                         )}
 
-                        <p className="mt-2 font-[var(--font-body)] text-sm font-bold text-[var(--text)]">
+                        <p className="mt-2 font-body text-sm font-bold text-[var(--text)]">
                           {formatLkr(
                             product.priceLkr
                           )}
@@ -1193,7 +1193,7 @@ export default async function AdminProductsPage({
 
                         {product.discountPercent >
                           0 && (
-                          <p className="mt-1 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.12em] text-[var(--sale)]">
+                          <p className="mt-1 font-body text-[9px] font-semibold uppercase tracking-[0.12em] text-[var(--sale)]">
                             {
                               product.discountPercent
                             }
@@ -1203,13 +1203,13 @@ export default async function AdminProductsPage({
                       </div>
                     </div>
 
-                    <dl className="mt-4 grid grid-cols-2 border-l border-t border-[var(--border)]">
+                    <dl className="mt-4 grid grid-cols-2 gap-5">
                       <div className="border-b border-r border-[var(--border)] p-3">
                         <dt className="athimart-label text-[var(--text-muted)]">
                           Category
                         </dt>
 
-                        <dd className="mt-2 font-[var(--font-body)] text-xs text-[var(--text)]">
+                        <dd className="mt-2 font-body text-xs text-[var(--text)]">
                           {
                             product.category
                           }
@@ -1222,7 +1222,7 @@ export default async function AdminProductsPage({
                         </dt>
 
                         <dd
-                          className={`mt-2 font-[var(--font-body)] text-xs font-semibold ${
+                          className={`mt-2 font-body text-xs font-semibold ${
                             product.stock <=
                             0
                               ? "text-[var(--sale)]"
@@ -1241,7 +1241,7 @@ export default async function AdminProductsPage({
                           Status
                         </dt>
 
-                        <dd className="mt-2 font-[var(--font-body)] text-xs text-[var(--text)]">
+                        <dd className="mt-2 font-body text-xs text-[var(--text)]">
                           {product.isActive
                             ? "Active"
                             : "Inactive"}
@@ -1253,7 +1253,7 @@ export default async function AdminProductsPage({
                           Featured
                         </dt>
 
-                        <dd className="mt-2 font-[var(--font-body)] text-xs text-[var(--text)]">
+                        <dd className="mt-2 font-body text-xs text-[var(--text)]">
                           {product.isFeatured
                             ? "Yes"
                             : "No"}
@@ -1264,7 +1264,7 @@ export default async function AdminProductsPage({
                     <div className="mt-4 grid gap-3 sm:grid-cols-3">
                       <Link
                         href={`/admin/products/${product.id}/edit`}
-                        className="inline-flex min-h-11 w-full items-center justify-center gap-2 border border-[var(--brand-blue)] bg-[var(--brand-blue-soft)] px-4 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-blue)] hover:text-white!"
+                        className="inline-flex min-h-11 w-full items-center justify-center gap-2 border border-[var(--brand-blue)] bg-[var(--brand-blue-soft)] px-4 font-body text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-blue)] hover:text-white! rounded-full"
                       >
                         <Pencil
                           aria-hidden="true"
@@ -1310,17 +1310,17 @@ export default async function AdminProductsPage({
             {totalPages > 1 && (
               <nav
                 aria-label="Product list pagination"
-                className="mt-8 border border-[var(--border)] bg-white p-4 sm:p-5"
+                className="mt-8 border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-5"
               >
                 <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                   <div>
-                    <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--brand-blue-dark)]">
+                    <p className="font-body text-sm font-semibold text-[var(--brand-blue-dark)]">
                       Showing {from}–
                       {to} of {total}{" "}
                       products
                     </p>
 
-                    <p className="mt-1 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+                    <p className="mt-1 font-body text-xs text-[var(--text-muted)]">
                       Page {page} of{" "}
                       {totalPages}
                     </p>
@@ -1340,7 +1340,7 @@ export default async function AdminProductsPage({
                         )}
                         rel="prev"
                         aria-label="Go to previous product page"
-                        className="inline-flex min-h-11 items-center justify-center gap-2 border border-[var(--border)] bg-white px-4 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.13em] text-[var(--text-muted)] transition-colors hover:border-[var(--brand-blue)] hover:bg-[var(--brand-blue-soft)] hover:text-[var(--brand-blue)]"
+                        className="inline-flex min-h-11 items-center justify-center gap-2 border border-[var(--border)] bg-[var(--surface)] px-4 font-body text-[9px] font-semibold uppercase tracking-[0.13em] text-[var(--text-muted)] transition-colors hover:border-[var(--brand-blue)] hover:bg-[var(--brand-blue-soft)] hover:text-[var(--brand-blue)] rounded-full"
                       >
                         <ChevronLeft
                           aria-hidden="true"
@@ -1357,7 +1357,7 @@ export default async function AdminProductsPage({
                     ) : (
                       <span
                         aria-disabled="true"
-                        className="inline-flex min-h-11 cursor-not-allowed items-center justify-center gap-2 border border-[var(--border)] bg-[var(--linen-light)] px-4 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.13em] text-[var(--text-muted)] opacity-45"
+                        className="inline-flex min-h-11 cursor-not-allowed items-center justify-center gap-2 border border-[var(--border)] bg-[var(--linen-light)] px-4 font-body text-[9px] font-semibold uppercase tracking-[0.13em] text-[var(--text-muted)] opacity-45"
                       >
                         <ChevronLeft
                           aria-hidden="true"
@@ -1386,7 +1386,7 @@ export default async function AdminProductsPage({
                                   item
                                 }
                                 aria-hidden="true"
-                                className="flex h-11 min-w-8 items-center justify-center font-[var(--font-body)] text-sm text-[var(--text-muted)]"
+                                className="flex h-11 min-w-8 items-center justify-center font-body text-sm text-[var(--text-muted)]"
                               >
                                 …
                               </span>
@@ -1415,10 +1415,10 @@ export default async function AdminProductsPage({
                                   : undefined
                               }
                               aria-label={`Go to product page ${item}`}
-                              className={`flex h-11 min-w-11 items-center justify-center border px-3 font-[var(--font-body)] text-xs font-semibold transition-colors ${
+                              className={`flex h-11 min-w-11 items-center justify-center border px-3 font-body text-xs font-semibold transition-colors ${
                                 isCurrentPage
                                   ? "border-[var(--brand-blue)] bg-[var(--brand-blue)] text-white!"
-                                  : "border-[var(--border)] bg-white text-[var(--text-muted)] hover:border-[var(--brand-blue)] hover:bg-[var(--brand-blue-soft)] hover:text-[var(--brand-blue)]"
+                                  : "border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)] hover:border-[var(--brand-blue)] hover:bg-[var(--brand-blue-soft)] hover:text-[var(--brand-blue)]"
                               }`}
                             >
                               <span
@@ -1449,7 +1449,7 @@ export default async function AdminProductsPage({
                         )}
                         rel="next"
                         aria-label="Go to next product page"
-                        className="inline-flex min-h-11 items-center justify-center gap-2 border border-[var(--brand-blue)] bg-[var(--brand-blue-soft)] px-4 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.13em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-blue)] hover:text-white!"
+                        className="inline-flex min-h-11 items-center justify-center gap-2 border border-[var(--brand-blue)] bg-[var(--brand-blue-soft)] px-4 font-body text-[9px] font-semibold uppercase tracking-[0.13em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-blue)] hover:text-white! rounded-full"
                       >
                         <span>
                           Next
@@ -1466,7 +1466,7 @@ export default async function AdminProductsPage({
                     ) : (
                       <span
                         aria-disabled="true"
-                        className="inline-flex min-h-11 cursor-not-allowed items-center justify-center gap-2 border border-[var(--border)] bg-[var(--linen-light)] px-4 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.13em] text-[var(--text-muted)] opacity-45"
+                        className="inline-flex min-h-11 cursor-not-allowed items-center justify-center gap-2 border border-[var(--border)] bg-[var(--linen-light)] px-4 font-body text-[9px] font-semibold uppercase tracking-[0.13em] text-[var(--text-muted)] opacity-45"
                       >
                         <span>
                           Next

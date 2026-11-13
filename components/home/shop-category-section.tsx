@@ -2,22 +2,11 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { getCategoryPath, productCategories } from "@/config/categories";
+import { categoryCoverPhotos } from "@/config/category-images";
 import { editorialFont } from "@/lib/fonts";
 import type { CategoryPreviews } from "@/lib/products/product-category-service";
 import CategoryCard from "./category-card";
 import styles from "./shop-category-section.module.css";
-
-// Illustrative covers are only used when a category has no uploaded product photo.
-const categoryCovers: Record<string, string> = {
-  "digital-products": "photo-1496181133206-80ce9b88a853",
-  "it-solutions": "photo-1498050108023-c5249f4df085",
-  "ai-gadgets": "photo-1523275335684-37898b6baf30",
-  "fitness-tech": "photo-1517836357463-d25dfeac3438",
-  "natural-essences": "photo-1608571423902-eed4a5ad8108",
-  fashion: "photo-1445205170230-053b83016050",
-  vehicles: "photo-1492144534655-ae79c964c9d7",
-  "real-estate": "photo-1600596542815-ffad4c1539a9",
-};
 
 export default function ShopCategorySection({ previews = {} }: { previews?: CategoryPreviews }) {
   return (
@@ -34,7 +23,7 @@ export default function ShopCategorySection({ previews = {} }: { previews?: Cate
         <div className={styles.grid}>
           {productCategories.map((category, index) => {
             const preview = previews[category.slug];
-            const cover = categoryCovers[category.slug] ?? categoryCovers["digital-products"];
+            const cover = categoryCoverPhotos[category.slug] ?? categoryCoverPhotos["digital-products"];
             return (
               <CategoryCard
                 key={category.slug}

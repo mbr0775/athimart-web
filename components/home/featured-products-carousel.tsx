@@ -73,7 +73,7 @@ export function FeaturedProductsCarousel({
             onBlurCapture={(event) => {
               if (!event.currentTarget.contains(event.relatedTarget)) setIsPaused(false);
             }}
-            className="overflow-hidden rounded-3xl border border-[#e6e2d8] bg-white"
+            className="overflow-hidden rounded-3xl border border-[#e6e2d8] bg-[var(--surface)]"
           >
             <Link
               href={getProductPath(activeProduct)}

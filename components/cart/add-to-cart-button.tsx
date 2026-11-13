@@ -15,6 +15,7 @@ import {
   writeCart,
 } from "@/lib/cart/cart-storage";
 import type { CartItem } from "@/types/cart";
+import styles from "./add-to-cart-button.module.css";
 
 interface AddToCartButtonProps {
   product: Omit<
@@ -248,7 +249,9 @@ export default function AddToCartButton({
       onClick={
         handleAddToCart
       }
-      className="flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-blue)] px-6 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-all duration-200 hover:bg-[var(--brand-blue-dark)] disabled:cursor-not-allowed disabled:bg-neutral-400"
+      className={styles.button}
+      data-added={recentlyAdded}
+      aria-live="polite"
     >
       {recentlyAdded ? (
         <Check

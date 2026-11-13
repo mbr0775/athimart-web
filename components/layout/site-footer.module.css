@@ -1,0 +1,88 @@
+.footer {
+  --footer-ink: #fffaf0;
+  --footer-muted: #c4c8b4;
+  --footer-line: #fffaf026;
+  position: relative;
+  background: #353a2b;
+  color: var(--footer-ink);
+  scroll-margin-top: 126px;
+}
+.container { width: 84%; max-width: 1600px; margin: 0 auto; }
+.main { display: grid; grid-template-columns: 1.05fr 1.35fr; gap: clamp(56px, 7vw, 130px); padding: 76px 0 66px; }
+.intro { min-width: 0; }
+.eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 24px; color: #d1d5bd; font-size: 9px; font-weight: 500; line-height: 1.7; letter-spacing: 0.17em; text-transform: uppercase; }
+.eyebrow > span { width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: #e7e69c; box-shadow: 0 0 0 4px #e7e69c12; }
+.heading { margin: 0; font-family: var(--font-editorial), "Times New Roman", serif; font-size: clamp(36px, 3.4vw, 62px); font-weight: 400; line-height: 1.12; letter-spacing: -0.045em; }
+.heading em { color: #e7e69c; font-weight: 400; }
+.description { max-width: 310px; margin: 22px 0 0; color: var(--footer-muted); font-size: 11px; line-height: 1.9; }
+.shopLink { display: inline-flex; min-height: 48px; align-items: center; gap: 22px; margin-top: 26px; padding: 5px 6px 5px 20px; border: 1px solid #c9cfb359; border-radius: 999px; color: #fffaf0; font-size: 11px; transition: color 200ms ease, border-color 200ms ease, background 200ms ease; }
+.shopLink > span { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 50%; background: #e7e69c; color: #353a2b; transition: transform 250ms ease; }
+.shopLink:hover { border-color: #e7e69c; background: #ffffff08; }
+.shopLink:hover > span { transform: rotate(45deg); }
+.navigation { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: 28px; padding-top: 5px; }
+.groupTitle { margin: 0 0 23px; color: #e7e69c; font-size: 9px; font-weight: 500; line-height: 1.8; letter-spacing: 0.12em; text-transform: uppercase; }
+.links { margin: 0; padding: 0; list-style: none; }
+.links a { display: flex; min-height: 44px; align-items: center; justify-content: space-between; gap: 8px; padding-block: 9px; color: var(--footer-muted); font-size: 11px; line-height: 1.7; transition: color 200ms ease; }
+.links a > svg { flex-shrink: 0; opacity: 0; transform: translate(-3px, 3px); transition: opacity 200ms ease, transform 200ms ease; }
+.links a:hover, .links a:focus-visible { color: #fffaf0; }
+.links a:hover > svg, .links a:focus-visible > svg { opacity: 1; transform: translate(0, 0); }
+.brandMeta { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 24px; border-top: 1px solid var(--footer-line); }
+.markets { display: inline-flex; align-items: center; gap: 10px; color: #d1d5bd; font-size: 10px; }
+.brandNote { color: #b9c0a8; font-size: 9px; letter-spacing: 0.025em; }
+.backToTop { display: inline-flex; min-height: 44px; align-items: center; gap: 12px; color: #d1d5bd; font-size: 10px; }
+.backToTop svg { transition: transform 200ms ease; }
+.backToTop:hover { color: #e7e69c; }
+.backToTop:hover svg { transform: translateY(-3px); }
+.wordmark { display: block; width: fit-content; max-width: 100%; margin: 24px 0 26px -0.045em; padding-right: 0.07em; color: #e7e69c; font-family: var(--font-editorial), "Times New Roman", serif; font-size: clamp(110px, 21.5vw, 390px); font-weight: 400; line-height: 1.08; letter-spacing: -0.075em; white-space: nowrap; }
+.wordmark > span { color: #929e77; }
+.bottom { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 25px 0 30px; border-top: 1px solid var(--footer-line); color: #b9c0a8; font-size: 9px; line-height: 1.8; }
+.bottom p { margin: 0; }
+.credit { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 5px; }
+.credit > span { color: #d1d5bd; }
+.footer a:focus-visible { outline: 2px solid #e7e69c; outline-offset: 5px; border-radius: 4px; }
+@media (max-width: 1199px) {
+  .main { grid-template-columns: 1fr 1.5fr; gap: 48px; }
+  .navigation { gap: 20px; }
+  .links a { font-size: 10px; }
+}
+@media (max-width: 1023px) {
+  .container { width: calc(100% - 64px); }
+  .main { grid-template-columns: minmax(0, 1fr); gap: 48px; padding: 64px 0 50px; }
+  .intro { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 36px; }
+  .eyebrow, .heading, .description { grid-column: 1; }
+  .shopLink { grid-column: 2; grid-row: 1 / span 3; margin: 0; }
+  .heading { font-size: 48px; }
+  .description { margin-top: 18px; }
+  .navigation { gap: 36px; }
+  .groupTitle { margin-bottom: 14px; }
+  .links a { font-size: 12px; }
+  .wordmark { font-size: 22vw; }
+  .bottom > p:nth-child(2) { display: none; }
+}
+@media (max-width: 767px) {
+  .footer { padding-bottom: calc(100px + env(safe-area-inset-bottom)); scroll-margin-top: 108px; }
+  .container { width: calc(100% - 40px); }
+  .main { gap: 40px; padding: 48px 0 34px; }
+  .intro { display: block; }
+  .eyebrow { margin-bottom: 18px; font-size: 8px; }
+  .heading { font-size: clamp(37px, 8.4vw, 54px); }
+  .description { max-width: 290px; margin-top: 18px; font-size: 11px; }
+  .shopLink { margin-top: 24px; }
+  .navigation { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 24px; padding-top: 0; }
+  .linkGroup:last-child { grid-column: 1 / -1; padding-top: 24px; border-top: 1px solid var(--footer-line); }
+  .linkGroup:last-child .links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  .groupTitle { margin-bottom: 10px; font-size: 9px; }
+  .links a { min-height: 44px; font-size: 11px; }
+  .links a > svg { width: 12px; opacity: 0.55; transform: none; }
+  .brandMeta { gap: 12px; padding-top: 18px; }
+  .brandNote { display: none; }
+  .markets, .backToTop { font-size: 9px; }
+  .markets { gap: 7px; }
+  .backToTop { gap: 7px; }
+  .wordmark { margin-top: 20px; margin-bottom: 22px; font-size: 21.5vw; }
+  .bottom { align-items: flex-start; flex-direction: column; gap: 8px; padding: 20px 0 0; font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer *, .footer *::before, .footer *::after { transition: none; }
+  .shopLink:hover > span, .backToTop:hover svg { transform: none; }
+}

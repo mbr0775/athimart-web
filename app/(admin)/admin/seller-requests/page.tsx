@@ -192,7 +192,7 @@ export default async function SellerRequestsPage({
     (data ?? []) as SellerRequest[];
 
   return (
-    <div className="px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
+    <div className="min-w-0">
       {/* Page heading */}
       <header className="border-b border-[var(--border-strong)] pb-8">
         <p className="athimart-label text-[var(--brand-orange-dark)]">
@@ -227,7 +227,7 @@ export default async function SellerRequestsPage({
             strokeWidth={1.8}
           />
 
-          <p className="font-[var(--font-body)] text-sm leading-6 text-[var(--text)]">
+          <p className="font-body text-sm leading-6 text-[var(--text)]">
             The seller account was approved
             successfully.
           </p>
@@ -245,7 +245,7 @@ export default async function SellerRequestsPage({
             strokeWidth={1.8}
           />
 
-          <p className="font-[var(--font-body)] text-sm leading-6 text-[var(--text)]">
+          <p className="font-body text-sm leading-6 text-[var(--text)]">
             The seller request was rejected.
           </p>
         </div>
@@ -262,7 +262,7 @@ export default async function SellerRequestsPage({
             strokeWidth={1.8}
           />
 
-          <p className="font-[var(--font-body)] text-sm leading-6 text-[var(--sale)]">
+          <p className="font-body text-sm leading-6 text-[var(--sale)]">
             {errorMessage}
           </p>
         </div>
@@ -270,7 +270,7 @@ export default async function SellerRequestsPage({
 
       {/* Request summary */}
       <section className="mt-8 grid gap-5 sm:grid-cols-2">
-        <article className="border border-[var(--border)] bg-white p-6">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 rounded-[24px]">
           <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]">
             <Clock3
               aria-hidden="true"
@@ -283,13 +283,13 @@ export default async function SellerRequestsPage({
             Pending applications
           </p>
 
-          <p className="mt-3 font-[var(--font-display)] text-5xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-3 font-editorial text-5xl font-light text-[var(--brand-blue-dark)]">
             {sellerRequests.length}
           </p>
         </article>
 
-        <article className="border border-[var(--border)] bg-white p-6">
-          <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 rounded-[24px]">
+          <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <ShieldCheck
               aria-hidden="true"
               className="h-6 w-6"
@@ -301,7 +301,7 @@ export default async function SellerRequestsPage({
             Review requirement
           </p>
 
-          <p className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+          <p className="mt-3 font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
             Admin Approval
           </p>
         </article>
@@ -309,8 +309,8 @@ export default async function SellerRequestsPage({
 
       {/* Empty state */}
       {sellerRequests.length === 0 ? (
-        <section className="mt-8 border border-[var(--border)] bg-white px-6 py-16 text-center">
-          <span className="mx-auto flex h-16 w-16 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+        <section className="mt-8 border border-[var(--border)] bg-[var(--surface)] px-6 py-16 text-center rounded-[24px]">
+          <span className="mx-auto flex h-16 w-16 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <Store
               aria-hidden="true"
               className="h-8 w-8"
@@ -318,7 +318,7 @@ export default async function SellerRequestsPage({
             />
           </span>
 
-          <h2 className="mt-6 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+          <h2 className="mt-6 font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
             No Pending Requests
           </h2>
 
@@ -341,13 +341,13 @@ export default async function SellerRequestsPage({
 
               <h2
                 id="pending-sellers-heading"
-                className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]"
+                className="mt-2 font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]"
               >
                 Pending Sellers
               </h2>
             </div>
 
-            <span className="flex h-12 min-w-12 items-center justify-center bg-[var(--brand-orange)] px-4 font-[var(--font-display)] text-2xl font-light text-white">
+            <span className="flex h-12 min-w-12 items-center justify-center bg-[var(--brand-orange)] px-4 font-editorial text-2xl font-light text-white">
               {sellerRequests.length}
             </span>
           </div>
@@ -374,13 +374,13 @@ export default async function SellerRequestsPage({
                 return (
                   <article
                     key={seller.id}
-                    className="border border-[var(--border)] bg-white"
+                    className="border border-[var(--border)] bg-[var(--surface)]"
                   >
                     {/* Seller information */}
                     <div className="grid gap-6 p-6 lg:grid-cols-[1fr_0.85fr] lg:p-7">
                       <div>
                         <div className="flex items-start gap-4">
-                          <span className="flex h-14 w-14 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+                          <span className="flex h-14 w-14 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
                             <UserRound
                               aria-hidden="true"
                               className="h-7 w-7"
@@ -393,7 +393,7 @@ export default async function SellerRequestsPage({
                               Seller applicant
                             </p>
 
-                            <h3 className="mt-2 break-words font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]">
+                            <h3 className="mt-2 break-words font-editorial text-3xl font-light text-[var(--brand-blue-dark)]">
                               {sellerName}
                             </h3>
 
@@ -416,7 +416,7 @@ export default async function SellerRequestsPage({
                                 Email
                               </p>
 
-                              <p className="mt-2 break-all font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                              <p className="mt-2 break-all font-body text-sm font-semibold text-[var(--text)]">
                                 {sellerEmail}
                               </p>
                             </div>
@@ -434,7 +434,7 @@ export default async function SellerRequestsPage({
                                 Phone
                               </p>
 
-                              <p className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                              <p className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
                                 {sellerPhone}
                               </p>
                             </div>
@@ -452,7 +452,7 @@ export default async function SellerRequestsPage({
                                 Country
                               </p>
 
-                              <p className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                              <p className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
                                 {sellerCountry}
                               </p>
                             </div>
@@ -470,7 +470,7 @@ export default async function SellerRequestsPage({
                                 Requested
                               </p>
 
-                              <p className="mt-2 font-[var(--font-body)] text-sm font-semibold leading-6 text-[var(--text)]">
+                              <p className="mt-2 font-body text-sm font-semibold leading-6 text-[var(--text)]">
                                 {formatDate(
                                   seller.seller_requested_at
                                 )}
@@ -486,11 +486,11 @@ export default async function SellerRequestsPage({
                           Administrator decision
                         </p>
 
-                        <h4 className="mt-3 font-[var(--font-display)] text-2xl font-light uppercase text-[var(--brand-blue-dark)]">
+                        <h4 className="mt-3 font-editorial text-2xl font-light normal-case text-[var(--brand-blue-dark)]">
                           Review Application
                         </h4>
 
-                        <p className="mt-3 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+                        <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
                           Approving changes the marketplace
                           profile role to vendor and enables
                           seller access.
@@ -509,7 +509,7 @@ export default async function SellerRequestsPage({
 
                           <button
                             type="submit"
-                            className="inline-flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--success)] px-5 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] text-white transition-opacity hover:opacity-90"
+                            className="inline-flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--success)] px-5 font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-white transition-opacity hover:opacity-90 rounded-full"
                           >
                             <CheckCircle2
                               aria-hidden="true"
@@ -544,13 +544,13 @@ export default async function SellerRequestsPage({
                               maxLength={1000}
                               rows={4}
                               placeholder="Explain why this seller request cannot be approved."
-                              className="mt-3 w-full resize-y border border-[var(--border)] bg-white px-4 py-3 font-[var(--font-body)] text-sm leading-6 text-[var(--text)] outline-none transition-colors placeholder:text-[var(--placeholder)] focus:border-[var(--sale)]"
+                              className="mt-3 w-full resize-y border border-[var(--border)] bg-[var(--surface)] px-4 py-3 font-body text-sm leading-6 text-[var(--text)] outline-none transition-colors placeholder:text-[var(--placeholder)] focus:border-[var(--sale)] rounded-xl focus:border-[var(--brand-hover)]"
                             />
                           </label>
 
                           <button
                             type="submit"
-                            className="mt-4 inline-flex min-h-14 w-full items-center justify-center gap-3 border border-[var(--sale)] bg-white px-5 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--sale)] transition-colors hover:bg-[var(--sale)] hover:text-white"
+                            className="mt-4 inline-flex min-h-14 w-full items-center justify-center gap-3 border border-[var(--sale)] bg-[var(--surface)] px-5 font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--sale)] transition-colors hover:bg-[var(--sale)] hover:text-white rounded-full"
                           >
                             <XCircle
                               aria-hidden="true"

@@ -61,7 +61,7 @@ z-50
 w-10
 h-10
 rounded-lg
-bg-[#163b91]
+bg-[var(--surface-inverse)]
 text-white
 flex
 items-center
@@ -105,7 +105,7 @@ top-0
 left-0
 bottom-0
 w-72
-bg-[#163b91]
+bg-[var(--surface-inverse)]
 text-white
 z-50
 transition-transform
@@ -143,7 +143,7 @@ ATHIMART
 className="
 text-[10px]
 tracking-[3px]
-text-blue-200
+text-[#e5ead6]
 "
 >
 ADMINISTRATION
@@ -173,7 +173,7 @@ text-2xl
 className="
 text-xs
 tracking-[3px]
-text-blue-200
+text-[#e5ead6]
 mb-5
 "
 >
@@ -212,7 +212,7 @@ border-white/20
 <p
 className="
 text-xs
-text-blue-200
+text-[#e5ead6]
 break-all
 "
 >

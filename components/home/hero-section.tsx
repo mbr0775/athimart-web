@@ -73,7 +73,7 @@ uppercase
 
 tracking-[0.3em]
 
-text-[#2349b9]
+text-[#454d36]
 "
 >
 
@@ -90,7 +90,7 @@ Connected Marketplace
 className="
 mt-6
 
-font-[var(--font-display)]
+font-editorial
 
 text-[clamp(3.5rem,8vw,6.8rem)]
 
@@ -115,7 +115,7 @@ BEYOND
 
 <span
 className="
-text-[#ff7800]
+text-[#626d4c]
 "
 >
 
@@ -194,7 +194,7 @@ gap-3
 
 rounded-xl
 
-bg-[#2349b9]
+bg-[#454d36]
 
 px-8
 
@@ -216,7 +216,7 @@ duration-300
 
 hover:-translate-y-1
 
-hover:bg-[#ff7800]
+hover:bg-[#626d4c]
 
 hover:shadow-xl
 
@@ -275,9 +275,9 @@ rounded-xl
 
 border-2
 
-border-[#2349b9]
+border-[#454d36]
 
-bg-white
+bg-[var(--surface)]
 
 px-8
 
@@ -285,7 +285,7 @@ text-sm
 
 font-semibold
 
-text-[#2349b9]
+text-[#454d36]
 
 
 transition-all

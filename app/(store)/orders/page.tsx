@@ -212,11 +212,11 @@ function getStatusClasses(
 
     case "confirmed":
     case "processing":
-      return "border-blue-200 bg-blue-50 text-blue-800";
+      return "border-[var(--border-strong)] bg-[var(--surface-soft)] text-[var(--text)]";
 
     case "shipped":
     case "in_transit":
-      return "border-cyan-200 bg-cyan-50 text-cyan-800";
+      return "border-[var(--border-strong)] bg-[var(--surface-soft)] text-[var(--text)]";
 
     case "delivered":
     case "completed":
@@ -346,12 +346,7 @@ export default async function OrdersPage() {
         <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <h1 className="athimart-display-large text-[var(--brand-blue-dark)]">
-              My
-              <br />
-
-              <span className="text-[var(--brand-orange)]">
-                Orders
-              </span>
+Your orders<span className="text-[var(--brand-hover)]">.</span>
             </h1>
 
             <p className="athimart-body-large mt-5 max-w-2xl">
@@ -362,7 +357,7 @@ export default async function OrdersPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3 border border-[var(--border)] bg-white px-5 py-4">
+          <div className="flex items-center gap-3 border border-[var(--border)] bg-[var(--surface)] px-5 py-4 rounded-[24px]">
             <ReceiptText
               aria-hidden="true"
               className="h-5 w-5 text-[var(--brand-blue)]"
@@ -374,7 +369,7 @@ export default async function OrdersPage() {
                 Total orders
               </p>
 
-              <p className="mt-1 font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
+              <p className="mt-1 font-editorial text-2xl font-light text-[var(--brand-blue-dark)]">
                 {orders.length}
               </p>
             </div>
@@ -385,18 +380,18 @@ export default async function OrdersPage() {
       {/* Empty state */}
       {orders.length ===
       0 ? (
-        <section className="mt-10 border border-[var(--border)] bg-white px-6 py-14 text-center sm:px-10 sm:py-18">
+        <section className="mt-10 border border-[var(--border)] bg-[var(--surface)] px-6 py-14 text-center sm:px-10 sm:py-18 rounded-[24px]">
           <ShoppingBag
             aria-hidden="true"
             className="mx-auto h-12 w-12 text-[var(--brand-blue)]"
             strokeWidth={1.5}
           />
 
-          <h2 className="mt-6 font-[var(--font-display)] text-4xl font-light uppercase text-[var(--brand-blue-dark)]">
+          <h2 className="mt-6 font-editorial text-4xl font-light normal-case text-[var(--brand-blue-dark)]">
             No Orders Yet
           </h2>
 
-          <p className="mx-auto mt-4 max-w-xl font-[var(--font-body)] text-sm leading-7 text-[var(--text-muted)]">
+          <p className="mx-auto mt-4 max-w-xl font-body text-sm leading-7 text-[var(--text-muted)]">
             When you complete an
             AthiMart checkout, your
             orders will appear here.
@@ -421,7 +416,7 @@ export default async function OrdersPage() {
             (order) => (
               <article
                 key={order.id}
-                className="border border-[var(--border)] bg-white shadow-[0_14px_40px_rgba(17,42,91,0.05)]"
+                className="overflow-hidden rounded-[24px] border border-[var(--border)] bg-[var(--surface)] shadow-[0_14px_40px_rgba(69,77,54,0.05)]"
               >
                 {/* Order header */}
                 <div className="flex flex-col gap-5 border-b border-[var(--border)] p-5 sm:flex-row sm:items-start sm:justify-between sm:p-7">
@@ -430,13 +425,13 @@ export default async function OrdersPage() {
                       Order number
                     </p>
 
-                    <h2 className="mt-2 break-all font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)] sm:text-3xl">
+                    <h2 className="mt-2 break-all font-editorial text-2xl font-light text-[var(--brand-blue-dark)] sm:text-3xl">
                       {
                         order.order_number
                       }
                     </h2>
 
-                    <p className="mt-3 flex items-center gap-2 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+                    <p className="mt-3 flex items-center gap-2 font-body text-xs text-[var(--text-muted)]">
                       <CalendarDays
                         aria-hidden="true"
                         className="h-4 w-4"
@@ -452,7 +447,7 @@ export default async function OrdersPage() {
                   </div>
 
                   <span
-                    className={`inline-flex w-fit items-center border px-3 py-2 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] ${getStatusClasses(
+                    className={`inline-flex w-fit items-center rounded-full border px-3 py-2 font-body text-[9px] font-semibold uppercase tracking-[0.14em] ${getStatusClasses(
                       order.status
                     )}`}
                   >
@@ -477,7 +472,7 @@ export default async function OrdersPage() {
                       Items
                     </p>
 
-                    <p className="mt-2 font-[var(--font-body)] text-sm font-semibold">
+                    <p className="mt-2 font-body text-sm font-semibold">
                       {
                         order.items_count
                       }{" "}
@@ -502,7 +497,7 @@ export default async function OrdersPage() {
                       Payment
                     </p>
 
-                    <p className="mt-2 font-[var(--font-body)] text-sm font-semibold">
+                    <p className="mt-2 font-body text-sm font-semibold">
                       {
                         order.payment_method
                       }
@@ -522,13 +517,13 @@ export default async function OrdersPage() {
                       Delivery
                     </p>
 
-                    <p className="mt-2 font-[var(--font-body)] text-sm font-semibold">
+                    <p className="mt-2 font-body text-sm font-semibold">
                       {
                         order.shipping_city
                       }
                     </p>
 
-                    <p className="mt-1 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+                    <p className="mt-1 font-body text-xs text-[var(--text-muted)]">
                       {
                         order.shipping_country
                       }
@@ -548,7 +543,7 @@ export default async function OrdersPage() {
                       Total
                     </p>
 
-                    <p className="mt-2 font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
+                    <p className="mt-2 font-editorial text-2xl font-light text-[var(--brand-blue-dark)]">
                       {formatMoney(
                         order.total,
                         order.currency_code
@@ -564,7 +559,7 @@ export default async function OrdersPage() {
                       Subtotal
                     </p>
 
-                    <p className="mt-2 font-[var(--font-body)] text-sm font-semibold">
+                    <p className="mt-2 font-body text-sm font-semibold">
                       {formatMoney(
                         order.subtotal,
                         order.currency_code
@@ -577,7 +572,7 @@ export default async function OrdersPage() {
                       Delivery fee
                     </p>
 
-                    <p className="mt-2 font-[var(--font-body)] text-sm font-semibold">
+                    <p className="mt-2 font-body text-sm font-semibold">
                       {formatMoney(
                         order.delivery_fee,
                         order.currency_code
@@ -590,7 +585,7 @@ export default async function OrdersPage() {
                       Order total
                     </p>
 
-                    <p className="mt-2 font-[var(--font-body)] text-sm font-bold text-[var(--brand-blue-dark)]">
+                    <p className="mt-2 font-body text-sm font-bold text-[var(--brand-blue-dark)]">
                       {formatMoney(
                         order.total,
                         order.currency_code

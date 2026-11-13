@@ -116,7 +116,7 @@ export default function StartApplicationButton({
       "approved";
 
     return (
-      <div className="border border-[var(--border)] bg-white p-5 sm:p-6">
+      <div className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 rounded-[24px]">
         <div className="flex items-start gap-4">
           <span
             className={`flex h-12 w-12 shrink-0 items-center justify-center ${
@@ -153,7 +153,7 @@ export default function StartApplicationButton({
                 : "Application started"}
             </p>
 
-            <h2 className="mt-2 font-[var(--font-display)] text-2xl font-light uppercase tracking-[0.04em] text-[var(--text)]">
+            <h2 className="mt-2 font-editorial text-2xl font-light normal-case tracking-[-0.035em] text-[var(--text)]">
               {canEditApplication
                 ? "Continue Your Registration"
                 : isUnderReview
@@ -163,7 +163,7 @@ export default function StartApplicationButton({
                     : "Delivery Partner Application"}
             </h2>
 
-            <p className="mt-3 font-[var(--font-body)] text-sm leading-6 text-[var(--text-muted)]">
+            <p className="mt-3 font-body text-sm leading-6 text-[var(--text-muted)]">
               {canEditApplication
                 ? "Complete your identity, driving licence, service-area, vehicle and supporting-document information before submitting the application for review."
                 : isUnderReview
@@ -175,14 +175,14 @@ export default function StartApplicationButton({
           </div>
         </div>
 
-        <dl className="mt-6 grid border-l border-t border-[var(--border)] sm:grid-cols-2">
+        <dl className="mt-6 grid gap-5 sm:grid-cols-2">
           <div className="border-b border-r border-[var(--border)] p-4">
             <dt className="athimart-label text-[var(--text-muted)]">
               Application status
             </dt>
 
             <dd
-              className={`mt-2 font-[var(--font-body)] text-sm font-semibold ${
+              className={`mt-2 font-body text-sm font-semibold ${
                 isApproved
                   ? "text-[var(--success)]"
                   : "text-[var(--brand-blue)]"
@@ -199,7 +199,7 @@ export default function StartApplicationButton({
               Availability
             </dt>
 
-            <dd className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+            <dd className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
               {formatStatus(
                 application.availabilityStatus
               )}
@@ -210,7 +210,7 @@ export default function StartApplicationButton({
         {canEditApplication ? (
           <Link
             href="/delivery-partner/register"
-            className="mt-6 flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-blue)] px-6 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--brand-blue-dark)]"
+            className="mt-6 flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-blue)] px-6 text-center font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--brand-blue-dark)] rounded-full"
           >
             <Truck
               aria-hidden="true"
@@ -221,7 +221,7 @@ export default function StartApplicationButton({
             Continue Registration
           </Link>
         ) : isUnderReview ? (
-          <div className="mt-6 flex min-h-14 w-full items-center justify-center gap-3 bg-neutral-400 px-6 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
+          <div className="mt-6 flex min-h-14 w-full items-center justify-center gap-3 bg-neutral-400 px-6 text-center font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
             <ClipboardList
               aria-hidden="true"
               className="h-5 w-5"
@@ -233,7 +233,7 @@ export default function StartApplicationButton({
         ) : isApproved ? (
           <Link
             href="/delivery-partner/dashboard"
-            className="mt-6 flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--success)] px-6 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-green-700"
+            className="mt-6 flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--success)] px-6 text-center font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-green-700 rounded-full"
           >
             <LayoutDashboard
               aria-hidden="true"
@@ -244,7 +244,7 @@ export default function StartApplicationButton({
             Open Driver Dashboard
           </Link>
         ) : (
-          <div className="mt-6 flex min-h-14 w-full items-center justify-center gap-3 bg-neutral-400 px-6 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
+          <div className="mt-6 flex min-h-14 w-full items-center justify-center gap-3 bg-neutral-400 px-6 text-center font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
             <ClipboardList
               aria-hidden="true"
               className="h-5 w-5"
@@ -274,7 +274,7 @@ export default function StartApplicationButton({
             strokeWidth={1.8}
           />
 
-          <p className="font-[var(--font-body)] text-sm leading-6">
+          <p className="font-body text-sm leading-6">
             {errorMessage}
           </p>
         </div>
@@ -286,7 +286,7 @@ export default function StartApplicationButton({
         onClick={
           handleStartApplication
         }
-        className="flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-blue)] px-6 text-center font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--brand-blue-dark)] disabled:cursor-not-allowed disabled:bg-neutral-400"
+        className="flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-blue)] px-6 text-center font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--brand-blue-dark)] disabled:cursor-not-allowed disabled:bg-neutral-400 rounded-full"
       >
         {isPending ? (
           <LoaderCircle

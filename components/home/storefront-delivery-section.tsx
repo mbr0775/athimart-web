@@ -8,7 +8,7 @@ export default function StorefrontDeliverySection() {
   return (
     <section aria-labelledby="storefront-delivery-heading" className="bg-[#faf7ef] py-8 sm:py-12">
       <div className="athimart-container">
-        <div className="mx-auto grid max-w-6xl items-center gap-4 overflow-hidden rounded-3xl border border-[#dce8fa] bg-[#eef4ff] p-5 sm:p-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-8 lg:p-10">
+        <div className="mx-auto grid max-w-6xl items-center gap-4 overflow-hidden rounded-3xl border border-[#dce8fa] bg-[var(--surface-soft)] p-5 sm:p-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-8 lg:p-10">
           <div className={styles.copy}>
             <p className={styles.eyebrow}>Find it. Love it. Make it yours.</p>
             <h2 id="storefront-delivery-heading" className={styles.heading}>

@@ -1,45 +1,18 @@
-interface Props{
-name:string;
-}
+import styles from "@/components/layout/workspace-shell.module.css";
 
-
-export default function AdminAvatar({
-name
-}:Props){
-
-const initials =
-name
-.split(" ")
-.map(
-x=>x[0]
-)
-.join("")
-.substring(0,2)
-.toUpperCase();
-
-
-return(
-
-<div
-className="
-w-11
-h-11
-rounded-full
-bg-blue-900
-text-white
-flex
-items-center
-justify-center
-font-semibold
-text-sm
-shadow
-"
->
-
-{initials}
-
-</div>
-
-)
-
+export default function AdminAvatar({ name }: { name: string }) {
+  const initials =
+    name
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((part) => part[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase() || "AM";
+  return (
+    <span className={styles.avatar} title={name} aria-label={name}>
+      {initials}
+    </span>
+  );
 }

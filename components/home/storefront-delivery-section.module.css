@@ -3,8 +3,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 18px;
-  max-width: 28rem;
-  color: #171717;
+  max-width: 28rem; color: var(--text);
 }
 .eyebrow {
   margin: 0;
@@ -37,15 +36,13 @@
   min-height: 48px;
   margin-top: 6px;
   padding: 12px 22px;
-  border-radius: 999px;
-  background: #b9d5ff;
-  color: #171717;
+  border-radius: 999px; background: var(--brand); color: var(--white);
   font-size: 13px;
   font-weight: 600;
   line-height: 1.5;
   transition: background 180ms ease;
 }
-.shopLink:hover { background: #a6c9ff; }
+.shopLink:hover { background: var(--brand-hover); }
 .shopLink:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 4px; }
 @media (min-width: 640px) {
   .copy { gap: 22px; }

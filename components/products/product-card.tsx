@@ -3,16 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
+  ArrowUpRight,
   CheckCircle2,
   CircleX,
 } from "lucide-react";
 
 import { getProductPath } from "@/lib/products/product-url";
 import type { Product } from "@/types/product";
+import styles from "./product-card.module.css";
 
 interface ProductCardProps {
   product: Product;
   priority?: boolean;
+  variant?: "default" | "editorial";
 }
 
 /**
@@ -35,6 +38,7 @@ function formatLkr(value: number): string {
 export function ProductCard({
   product,
   priority = false,
+  variant = "editorial",
 }: Readonly<ProductCardProps>) {
   const currentPrice = product.prices.LKR;
   const originalPrice =
@@ -43,6 +47,7 @@ export function ProductCard({
   const hasPrice = currentPrice > 0;
 
   const hasDiscount =
+    hasPrice &&
     product.discountPercent > 0 &&
     originalPrice > currentPrice;
 
@@ -56,15 +61,68 @@ export function ProductCard({
     product.subCategory ||
     product.category;
 
+  if (variant === "editorial") {
+    return (
+      <article className={styles.card}>
+        <Link href={getProductPath(product)} aria-label={`View ${product.name}`} className={styles.productLink}>
+          <div className={styles.imageStage}>
+            {product.imageUrls[0] ? (
+              <Image
+                src={product.imageUrls[0]}
+                alt={`${product.name} by ${brandName}`}
+                fill
+                priority={priority}
+                sizes="(max-width: 767px) 45vw, (max-width: 1023px) 30vw, 22vw"
+                className={styles.image}
+              />
+            ) : (
+              <div className={styles.placeholder}>
+                <span aria-hidden="true">{product.emoji || "📦"}</span>
+                <span className="sr-only">No product image available</span>
+              </div>
+            )}
+            <div className={styles.badges}>
+              {hasDiscount && <span className={styles.discountBadge}>{product.discountPercent}% off</span>}
+              {isOutOfStock && <span className={styles.stockBadge}>Out of stock</span>}
+            </div>
+            <span className={styles.imageCta} aria-hidden="true">
+              Take a closer look <ArrowUpRight size={16} />
+            </span>
+          </div>
+          <div className={styles.details}>
+            <p className={styles.category}>{brandName} · {productType}</p>
+            <h3 className={styles.productName}>{product.name}</h3>
+            <div className={styles.cardFooter}>
+              <div>
+                <div className={styles.priceRow}>
+                  <span className={styles.price}>{hasPrice ? formatLkr(currentPrice) : "Price unavailable"}</span>
+                  {hasDiscount && (
+                    <span className={styles.originalPrice}>
+                      <span className="sr-only">Original price </span><s>{formatLkr(originalPrice)}</s>
+                    </span>
+                  )}
+                </div>
+                <p className={styles.availability} data-unavailable={isOutOfStock}>
+                  {isOutOfStock ? "Currently unavailable" : `${product.stock} in stock`}
+                </p>
+              </div>
+              <span className={styles.productArrow} aria-hidden="true"><ArrowUpRight size={18} /></span>
+            </div>
+          </div>
+        </Link>
+      </article>
+    );
+  }
+
   return (
     <article className="group h-full min-w-0">
       <Link
         href={getProductPath(product)}
         aria-label={`View ${product.name}`}
-        className="flex h-full flex-col overflow-hidden border border-[var(--border)] bg-white transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-[var(--black)] hover:shadow-[0_18px_45px_rgba(23,23,23,0.11)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--black)]"
+        className="flex h-full flex-col overflow-hidden border border-[var(--border)] bg-[var(--surface)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-[var(--black)] hover:shadow-[0_18px_45px_rgba(23,23,23,0.11)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--black)]"
       >
         {/* Product image */}
-        <div className="relative aspect-[4/5] overflow-hidden border-b border-[var(--border)] bg-white">
+        <div className="relative aspect-[4/5] overflow-hidden border-b border-[var(--border)] bg-[var(--surface)]">
           {product.imageUrls[0] ? (
             <Image
               src={product.imageUrls[0]}
@@ -92,7 +150,7 @@ export function ProductCard({
 
           {/* Discount badge */}
           {product.discountPercent > 0 && (
-            <span className="absolute left-0 top-0 z-10 bg-[var(--sale)] px-3 py-2 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-white">
+            <span className="absolute left-0 top-0 z-10 bg-[var(--sale)] px-3 py-2 font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-white">
               {product.discountPercent}% off
             </span>
           )}
@@ -100,7 +158,7 @@ export function ProductCard({
           {/* Out-of-stock overlay */}
           {isOutOfStock && (
             <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/80 backdrop-blur-[1px]">
-              <span className="athimart-label border border-[var(--black)] bg-white px-4 py-2.5 text-center">
+              <span className="athimart-label border border-[var(--black)] bg-[var(--surface)] px-4 py-2.5 text-center">
                 Out of stock
               </span>
             </div>
@@ -110,15 +168,15 @@ export function ProductCard({
         {/* Product information */}
         <div className="flex flex-1 flex-col p-3.5 sm:p-5">
           <div>
-            <p className="truncate font-[var(--font-body)] text-[9px] font-semibold uppercase leading-normal tracking-[0.2em] text-[var(--text-muted)] sm:text-[10px]">
+            <p className="truncate font-body text-[9px] font-semibold uppercase leading-normal tracking-[0.2em] text-[var(--text-muted)] sm:text-[10px]">
               {brandName}
             </p>
 
-            <h3 className="mt-1.5 line-clamp-2 font-[var(--font-display)] text-[21px] font-normal leading-[1.1] tracking-[0.015em] text-[var(--text)] transition-opacity duration-200 group-hover:opacity-70 sm:mt-2 sm:text-[26px]">
+            <h3 className="mt-1.5 line-clamp-2 font-editorial text-[21px] font-normal leading-[1.1] tracking-[-0.035em] text-[var(--text)] transition-opacity duration-200 group-hover:opacity-70 sm:mt-2 sm:text-[26px]">
               {product.name}
             </h3>
 
-            <p className="mt-2 truncate font-[var(--font-body)] text-[9px] font-medium uppercase leading-normal tracking-[0.14em] text-[var(--text-muted)] sm:mt-2.5 sm:text-[10px]">
+            <p className="mt-2 truncate font-body text-[9px] font-medium uppercase leading-normal tracking-[0.14em] text-[var(--text-muted)] sm:mt-2.5 sm:text-[10px]">
               {productType}
             </p>
           </div>
@@ -128,12 +186,12 @@ export function ProductCard({
             <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
               {hasPrice ? (
                 <>
-                  <p className="font-[var(--font-body)] text-sm font-bold leading-tight text-[var(--text)] sm:text-lg">
+                  <p className="font-body text-sm font-bold leading-tight text-[var(--text)] sm:text-lg">
                     {formatLkr(currentPrice)}
                   </p>
 
                   {hasDiscount && (
-                    <p className="font-[var(--font-body)] text-[10px] leading-tight text-[var(--text-muted)] line-through sm:text-xs">
+                    <p className="font-body text-[10px] leading-tight text-[var(--text-muted)] line-through sm:text-xs">
                       {formatLkr(
                         originalPrice
                       )}
@@ -141,7 +199,7 @@ export function ProductCard({
                   )}
                 </>
               ) : (
-                <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--warning)] sm:text-xs">
+                <p className="font-body text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--warning)] sm:text-xs">
                   Price unavailable
                 </p>
               )}
@@ -168,7 +226,7 @@ export function ProductCard({
                 />
               )}
 
-              <span className="truncate font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.11em] sm:text-[9px] sm:tracking-[0.14em]">
+              <span className="truncate font-body text-[8px] font-semibold uppercase tracking-[0.11em] sm:text-[9px] sm:tracking-[0.14em]">
                 {isOutOfStock
                   ? "Currently unavailable"
                   : `${product.stock} in stock`}

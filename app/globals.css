@@ -1,82 +1,58 @@
 @import "tailwindcss";
 
 :root {
-  /* ========================================================
-     AthiMart brand palette
-  ======================================================== */
-
-  --brand-blue: #123f9e;
-  --brand-blue-dark: #082d75;
-  --brand-blue-light: #2f68d8;
-  --brand-blue-soft: #eef4ff;
-
-  --brand-orange: #ff7900;
-  --brand-orange-dark: #dc6400;
-  --brand-orange-light: #ff9c43;
-  --brand-orange-soft: #fff2e6;
-
-  /* ========================================================
-     AthiMart mobile-inspired neutral palette
-  ======================================================== */
-
-  --linen: #f2ede7;
-  --linen-light: #f8f4ef;
-  --linen-dark: #ebe5de;
-
-  --background: var(--linen);
-
-  --surface: #ffffff;
-  --surface-soft: #f6f1eb;
-
-  --card: #ffffff;
-  --card-muted: #ede8e2;
-
-  --text: #171717;
-  --text-soft: #555555;
-  --text-muted: #85817d;
-
-  --placeholder: #b5b2ae;
-
-  --border: #ddd8d1;
-  --border-strong: #bdb6ae;
-  --border-dark: #171717;
-
-  --black: #171717;
+  /* Shared roles for every storefront, account and management screen. */
+  --brand: #454d36;
+  --brand-hover: #626d4c;
+  --accent: #e7e69c;
+  --accent-ink: #62613c;
+  --background: #fffaf0;
+  --surface: #fffdf7;
+  --surface-soft: #eff1e5;
+  --surface-inverse: #353a2b;
+  --text: #454530;
+  --text-soft: #666a54;
+  --text-muted: #737762;
+  --placeholder: #8b907a;
+  --border: #dde1cf;
+  --border-strong: #c3cbb0;
+  --border-dark: #626d4c;
+  --radius-panel: 24px;
+  --radius-field: 12px;
+  --radius-control: 999px;
+  --shadow-panel: 0 12px 35px #353a2b08;
+  --sale: #984d38;
+  --success: #4f703c;
+  --warning: #886b2f;
+  --disabled: #929a81;
+  --black: #454530;
   --white: #ffffff;
-
-  --sale: #b42318;
-  --success: #0e7a4f;
-  --warning: #b7791f;
-  --disabled: #969696;
-
-  /* Compatibility aliases */
-
+  --linen: var(--background);
+  --linen-light: #fffdf7;
+  --linen-dark: #eef0e3;
+  --card: var(--surface);
+  --card-muted: var(--surface-soft);
+  /* Compatibility aliases keep existing components on the same palette. */
+  --brand-blue: var(--brand);
+  --brand-blue-dark: #353a2b;
+  --brand-blue-light: #626d4c;
+  --brand-blue-soft: #eff1e5;
+  --brand-orange: #626d4c;
+  --brand-orange-dark: #626d4c;
+  --brand-orange-light: #e7e69c;
+  --brand-orange-soft: #f2f2df;
   --text-primary: var(--text);
   --text-secondary: var(--text-soft);
-
   --dark-gray: var(--text-soft);
   --light-gray: var(--text-muted);
-
-  /* ========================================================
-     Typography
-  ======================================================== */
-
-  --font-display: var(--font-oswald);
+  --font-display: var(--font-editorial);
   --font-body: var(--font-poppins);
-
-  /* ========================================================
-     Responsive layout
-  ======================================================== */
-
-  --content-width: 1320px;
-
+  --content-width: 1600px;
   --page-padding-mobile: 20px;
-  --page-padding-tablet: 32px;
-  --page-padding-desktop: 48px;
-
+  --page-padding-tablet: 40px;
+  --page-padding-desktop: 64px;
   --mobile-header-height: 96px;
   --mobile-bottom-navigation-height: 88px;
-
   --section-spacing-mobile: 56px;
   --section-spacing-desktop: 88px;
 }
@@ -102,31 +78,11 @@ body {
   min-height: 100vh;
   margin: 0;
 
-  background:
-    radial-gradient(
-      circle at 5% 0%,
-      rgba(18, 63, 158, 0.055),
-      transparent 30rem
-    ),
-    radial-gradient(
-      circle at 95% 5%,
-      rgba(255, 121, 0, 0.055),
-      transparent 28rem
-    ),
-    linear-gradient(
-      135deg,
-      var(--linen-light) 0%,
-      var(--linen) 55%,
-      var(--linen-dark) 100%
-    );
+  background: var(--background);
 
   color: var(--text);
 
-  font-family:
-    var(--font-body),
-    Arial,
-    Helvetica,
-    sans-serif;
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
 
   text-rendering: optimizeLegibility;
 
@@ -134,13 +90,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   overscroll-behavior-y: none;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
 }
 
 /*
@@ -164,11 +113,6 @@ summary {
   -webkit-tap-highlight-color: transparent;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 img,
 svg {
   display: block;
@@ -176,25 +120,6 @@ svg {
 
 img {
   max-width: 100%;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-  margin: 0;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: inherit;
 }
 
 /* ==========================================================
@@ -212,7 +137,7 @@ input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
 summary:focus-visible {
-  outline: 3px solid rgba(255, 121, 0, 0.48);
+  outline: 2px solid #7d8965;
   outline-offset: 3px;
 }
 
@@ -226,21 +151,18 @@ summary:focus-visible {
 
   margin-inline: auto;
 
-  padding-inline:
-    var(--page-padding-mobile);
+  padding-inline: var(--page-padding-mobile);
 }
 
 @media (min-width: 640px) {
   .athimart-container {
-    padding-inline:
-      var(--page-padding-tablet);
+    padding-inline: var(--page-padding-tablet);
   }
 }
 
 @media (min-width: 1024px) {
   .athimart-container {
-    padding-inline:
-      var(--page-padding-desktop);
+    padding-inline: var(--page-padding-desktop);
   }
 }
 
@@ -249,85 +171,69 @@ summary:focus-visible {
 ========================================================== */
 
 .athimart-display-xl {
-  font-family:
-    var(--font-display),
-    sans-serif;
+  font-family: var(--font-display), sans-serif;
 
-  font-size:
-    clamp(3.5rem, 12vw, 7rem);
+  font-size: clamp(3.5rem, 12vw, 7rem);
 
-  font-weight: 300;
+  font-weight: 400;
   line-height: 0.98;
 
-  letter-spacing: 0.025em;
+  letter-spacing: -0.045em;
 
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .athimart-display-large {
-  font-family:
-    var(--font-display),
-    sans-serif;
+  font-family: var(--font-display), sans-serif;
 
-  font-size:
-    clamp(2.9rem, 9vw, 5.5rem);
+  font-size: clamp(2.9rem, 9vw, 5.5rem);
 
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1;
 
-  letter-spacing: 0.025em;
+  letter-spacing: -0.045em;
 
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .athimart-display-medium {
-  font-family:
-    var(--font-display),
-    sans-serif;
+  font-family: var(--font-display), sans-serif;
 
-  font-size:
-    clamp(2.2rem, 7vw, 4rem);
+  font-size: clamp(2.2rem, 7vw, 4rem);
 
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.04;
 
-  letter-spacing: 0.025em;
+  letter-spacing: -0.045em;
 
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .athimart-title-large {
-  font-family:
-    var(--font-display),
-    sans-serif;
+  font-family: var(--font-display), sans-serif;
 
-  font-size:
-    clamp(1.8rem, 5vw, 3rem);
+  font-size: clamp(1.8rem, 5vw, 3rem);
 
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.1;
 
-  letter-spacing: 0.025em;
+  letter-spacing: -0.045em;
 
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .athimart-title {
-  font-family:
-    var(--font-display),
-    sans-serif;
+  font-family: var(--font-display), sans-serif;
 
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 1.15;
 
-  letter-spacing: 0.035em;
+  letter-spacing: -0.045em;
 }
 
 .athimart-label {
-  font-family:
-    var(--font-body),
-    sans-serif;
+  font-family: var(--font-body), sans-serif;
 
   font-size: 0.7rem;
   font-weight: 600;
@@ -339,9 +245,7 @@ summary:focus-visible {
 }
 
 .athimart-label-large {
-  font-family:
-    var(--font-body),
-    sans-serif;
+  font-family: var(--font-body), sans-serif;
 
   font-size: 0.8rem;
   font-weight: 600;
@@ -355,9 +259,7 @@ summary:focus-visible {
 .athimart-body {
   color: var(--text-soft);
 
-  font-family:
-    var(--font-body),
-    sans-serif;
+  font-family: var(--font-body), sans-serif;
 
   font-size: 0.95rem;
   font-weight: 400;
@@ -367,9 +269,7 @@ summary:focus-visible {
 .athimart-body-large {
   color: var(--text-soft);
 
-  font-family:
-    var(--font-body),
-    sans-serif;
+  font-family: var(--font-body), sans-serif;
 
   font-size: 1.05rem;
   font-weight: 400;
@@ -379,9 +279,7 @@ summary:focus-visible {
 .athimart-body-bold {
   color: var(--text);
 
-  font-family:
-    var(--font-body),
-    sans-serif;
+  font-family: var(--font-body), sans-serif;
 
   font-weight: 600;
   line-height: 1.4;
@@ -409,13 +307,12 @@ summary:focus-visible {
   width: 100%;
   height: 2px;
 
-  background:
-    linear-gradient(
-      90deg,
-      var(--brand-blue) 0%,
-      var(--brand-blue-light) 55%,
-      var(--brand-orange) 100%
-    );
+  background: linear-gradient(
+    90deg,
+    var(--brand-blue) 0%,
+    var(--brand-blue-light) 55%,
+    var(--brand-orange) 100%
+  );
 }
 
 /* ==========================================================
@@ -424,7 +321,7 @@ summary:focus-visible {
 
 .athimart-card {
   border: 1px solid var(--border);
-  border-radius: 0;
+  border-radius: var(--radius-panel);
 
   background: var(--card);
 
@@ -433,14 +330,14 @@ summary:focus-visible {
 
 .athimart-card-soft {
   border: 1px solid var(--border);
-  border-radius: 0;
+  border-radius: var(--radius-panel);
 
   background: var(--card-muted);
 }
 
 .athimart-card-interactive {
   border: 1px solid var(--border);
-  border-radius: 0;
+  border-radius: var(--radius-panel);
 
   background: var(--card);
 
@@ -455,277 +352,78 @@ summary:focus-visible {
 
   transform: translateY(-3px);
 
-  box-shadow:
-    0 16px 34px
-    rgba(18, 63, 158, 0.1);
+  box-shadow: 0 16px 34px rgba(69, 77, 54, 0.1);
 }
 
-/* ==========================================================
-   Original app-style buttons
-========================================================== */
-
-.athimart-primary-button {
+/* Shared controls: a quiet pill silhouette and visible keyboard focus. */
+.athimart-primary-button,
+.athimart-brand-button,
+.athimart-outline-button,
+.athimart-brand-outline-button,
+.athimart-filter-button {
   display: inline-flex;
-
-  min-height: 54px;
-
+  min-height: 50px;
   align-items: center;
   justify-content: center;
-
   gap: 12px;
-
-  border: 1px solid var(--black);
-  border-radius: 0;
-
-  background: var(--black);
+  padding: 12px 24px;
+  border: 1px solid var(--brand);
+  border-radius: var(--radius-control);
+  background: var(--brand);
   color: var(--white);
-
-  padding: 0 26px;
-
-  font-family:
-    var(--font-body),
-    sans-serif;
-
-  font-size: 0.72rem;
-  font-weight: 600;
-
-  letter-spacing: 0.22em;
-
-  text-transform: uppercase;
-
+  font-family: var(--font-body), Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0;
+  text-transform: none;
   cursor: pointer;
-
   transition:
-    background-color 180ms ease,
-    color 180ms ease,
-    border-color 180ms ease,
-    transform 180ms ease,
-    box-shadow 180ms ease;
+    background 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease,
+    transform 200ms ease;
 }
-
-.athimart-primary-button:hover {
-  background: #000000;
-
-  transform: translateY(-1px);
-}
-
-.athimart-outline-button {
-  display: inline-flex;
-
-  min-height: 54px;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 12px;
-
-  border: 1px solid var(--black);
-  border-radius: 0;
-
-  background: transparent;
-  color: var(--black);
-
-  padding: 0 26px;
-
-  font-family:
-    var(--font-body),
-    sans-serif;
-
-  font-size: 0.72rem;
-  font-weight: 600;
-
-  letter-spacing: 0.22em;
-
-  text-transform: uppercase;
-
-  cursor: pointer;
-
-  transition:
-    background-color 180ms ease,
-    color 180ms ease,
-    border-color 180ms ease,
-    transform 180ms ease;
-}
-
-.athimart-outline-button:hover {
-  background: var(--black);
-  color: var(--white);
-
-  transform: translateY(-1px);
-}
-
-/* ==========================================================
-   AthiMart brand buttons
-========================================================== */
-
-.athimart-brand-button {
-  display: inline-flex;
-
-  min-height: 56px;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 12px;
-
-  border: 1px solid var(--brand-blue);
-  border-radius: 0;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--brand-blue-dark) 0%,
-      var(--brand-blue) 100%
-    );
-
-  color: var(--white);
-
-  padding: 0 27px;
-
-  font-family:
-    var(--font-body),
-    sans-serif;
-
-  font-size: 0.72rem;
-  font-weight: 600;
-
-  letter-spacing: 0.2em;
-
-  text-transform: uppercase;
-
-  cursor: pointer;
-
-  box-shadow:
-    0 12px 28px
-    rgba(18, 63, 158, 0.16);
-
-  transition:
-    background 220ms ease,
-    border-color 220ms ease,
-    transform 220ms ease,
-    box-shadow 220ms ease;
-}
-
-.athimart-brand-button:hover {
-  border-color: var(--brand-orange);
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--brand-orange-dark) 0%,
-      var(--brand-orange) 100%
-    );
-
-  transform: translateY(-2px);
-
-  box-shadow:
-    0 16px 34px
-    rgba(255, 121, 0, 0.2);
-}
-
+.athimart-outline-button,
 .athimart-brand-outline-button {
-  display: inline-flex;
-
-  min-height: 56px;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 12px;
-
-  border: 1px solid var(--brand-blue);
-  border-radius: 0;
-
-  background:
-    rgba(255, 255, 255, 0.58);
-
-  color: var(--brand-blue-dark);
-
-  padding: 0 27px;
-
-  font-family:
-    var(--font-body),
-    sans-serif;
-
-  font-size: 0.72rem;
-  font-weight: 600;
-
-  letter-spacing: 0.2em;
-
-  text-transform: uppercase;
-
-  cursor: pointer;
-
-  backdrop-filter: blur(8px);
-
-  transition:
-    background-color 220ms ease,
-    color 220ms ease,
-    border-color 220ms ease,
-    transform 220ms ease,
-    box-shadow 220ms ease;
-}
-
-.athimart-brand-outline-button:hover {
-  border-color: var(--brand-orange);
-
-  background: var(--brand-orange);
-  color: var(--white);
-
-  transform: translateY(-2px);
-
-  box-shadow:
-    0 14px 30px
-    rgba(255, 121, 0, 0.16);
-}
-
-.athimart-square-button {
-  display: inline-flex;
-
-  width: 56px;
-  height: 56px;
-
-  align-items: center;
-  justify-content: center;
-
-  border: 1px solid var(--border);
-  border-radius: 0;
-
+  border-color: var(--border-strong);
   background: transparent;
-  color: var(--black);
-
-  cursor: pointer;
-
-  transition:
-    background-color 180ms ease,
-    border-color 180ms ease,
-    color 180ms ease,
-    transform 180ms ease;
+  color: var(--brand);
 }
-
+.athimart-primary-button:hover,
+.athimart-brand-button:hover {
+  background: var(--brand-hover);
+  border-color: var(--brand-hover);
+  transform: translateY(-2px);
+}
+.athimart-outline-button:hover,
+.athimart-brand-outline-button:hover {
+  background: var(--surface-soft);
+  border-color: var(--brand-hover);
+  transform: translateY(-2px);
+}
+.athimart-square-button {
+  display: inline-grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--brand);
+  background: var(--surface);
+}
 .athimart-square-button:hover {
-  border-color: var(--brand-blue);
-
-  background: var(--brand-blue-soft);
-  color: var(--brand-blue);
-
-  transform: translateY(-1px);
+  background: var(--surface-soft);
 }
-
 .athimart-primary-button:disabled,
-.athimart-outline-button:disabled,
 .athimart-brand-button:disabled,
+.athimart-outline-button:disabled,
 .athimart-brand-outline-button:disabled {
-  border-color: var(--disabled);
-
-  background: var(--disabled);
-  color: var(--white);
-
+  border-color: var(--border);
+  background: var(--surface-soft);
+  color: var(--disabled);
   cursor: not-allowed;
-
   transform: none;
-
-  box-shadow: none;
 }
 
 /* ==========================================================
@@ -735,29 +433,27 @@ summary:focus-visible {
 .athimart-filter-button {
   display: inline-flex;
 
-  min-height: 52px;
+  min-height: 44px;
 
   align-items: center;
   justify-content: center;
 
-  border: 1px solid var(--black);
-  border-radius: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
 
   background: transparent;
   color: var(--black);
 
-  padding: 0 24px;
+  padding: 10px 18px;
 
-  font-family:
-    var(--font-body),
-    sans-serif;
+  font-family: var(--font-body), sans-serif;
 
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 500;
 
-  letter-spacing: 0.2em;
+  letter-spacing: 0;
 
-  text-transform: uppercase;
+  text-transform: none;
 
   transition:
     background-color 160ms ease,
@@ -789,9 +485,7 @@ summary:focus-visible {
 
   margin-bottom: 8px;
 
-  font-family:
-    var(--font-body),
-    sans-serif;
+  font-family: var(--font-body), sans-serif;
 
   font-size: 0.68rem;
   font-weight: 600;
@@ -803,31 +497,16 @@ summary:focus-visible {
 
 .athimart-input {
   width: 100%;
-  min-height: 58px;
-
-  border: 0;
-  border-bottom: 1px solid var(--black);
-  border-radius: 0;
-
-  background: transparent;
+  min-height: 52px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-field);
+  background: var(--surface);
   color: var(--text);
-
-  padding: 8px 0;
-
-  font-family:
-    var(--font-display),
-    sans-serif;
-
-  font-size: 1.65rem;
-  font-weight: 300;
-
-  letter-spacing: 0.01em;
-
-  outline: none;
-
-  transition:
-    border-color 180ms ease,
-    border-width 180ms ease;
+  padding: 12px 16px;
+  font-family: var(--font-body), Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  transition: border-color 180ms ease;
 }
 
 .athimart-input::placeholder {
@@ -835,8 +514,7 @@ summary:focus-visible {
 }
 
 .athimart-input:focus {
-  border-bottom: 2px solid
-    var(--brand-blue);
+  border-color: var(--brand-hover);
 }
 
 .athimart-select {
@@ -844,7 +522,7 @@ summary:focus-visible {
   min-height: 54px;
 
   border: 1px solid var(--black);
-  border-radius: 0;
+  border-radius: var(--radius-field);
 
   background: transparent;
   color: var(--text);
@@ -878,14 +556,12 @@ summary:focus-visible {
 ========================================================== */
 
 .athimart-section {
-  padding-block:
-    var(--section-spacing-mobile);
+  padding-block: var(--section-spacing-mobile);
 }
 
 @media (min-width: 1024px) {
   .athimart-section {
-    padding-block:
-      var(--section-spacing-desktop);
+    padding-block: var(--section-spacing-desktop);
   }
 }
 
@@ -949,11 +625,9 @@ summary:focus-visible {
 }
 
 .athimart-home-hero-card:hover {
-  border-color: #b8c8ed;
+  border-color: var(--border-strong);
 
-  box-shadow:
-    0 22px 42px
-    rgba(29, 59, 110, 0.13);
+  box-shadow: 0 22px 42px rgba(69, 77, 54, 0.13);
 }
 
 /* Keep this explicit in case a general link colour rule is added later. */
@@ -970,880 +644,22 @@ summary:focus-visible {
 }
 
 /* ==========================================================
-   Account page: focused mobile experience
-========================================================== */
-
-@media (min-width: 640px) {
-  body:has(.account-page) {
-    background: #f1f4f9;
-  }
-
-  body:has(.account-page) > header {
-    display: none;
-  }
-
-  body:has(.account-page) #main-content {
-    background: #f1f4f9;
-    padding-bottom: 0;
-  }
-
-  .account-page {
-    max-width: 1320px;
-    padding-top: 42px;
-    padding-bottom: 40px;
-  }
-
-  .account-page-heading {
-    display: none;
-  }
-
-  .account-page-grid {
-    margin-top: 0;
-    grid-template-columns: 306px minmax(0, 1fr);
-    align-items: stretch;
-    gap: 24px;
-  }
-
-  .account-navigation-card {
-    position: relative;
-    display: flex;
-    min-height: 783px;
-    flex-direction: column;
-    overflow: hidden;
-    border: 0;
-    border-radius: 28px;
-    background:
-      radial-gradient(circle at 70% 22%, transparent 0 136px, rgba(255, 255, 255, 0.075) 137px 138px, transparent 139px),
-      linear-gradient(160deg, #1e61da 0%, #1848be 100%);
-    box-shadow: 0 16px 28px rgba(18, 62, 152, 0.2);
-  }
-
-  .account-navigation-identity {
-    position: relative;
-    background: transparent;
-    padding: 84px 28px 0;
-  }
-
-  .account-navigation-identity::before {
-    content: "AthiMart";
-    position: absolute;
-    top: 34px;
-    left: 28px;
-    border-left: 10px solid var(--brand-orange);
-    color: #ffffff;
-    padding-left: 8px;
-    font-family: var(--font-body), sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1;
-  }
-
-  .account-navigation-identity > span {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    border: 0;
-    border-radius: 999px;
-    background: #ffffff;
-    color: #1d60db;
-    font-family: var(--font-body), sans-serif;
-    font-size: 26px;
-    font-weight: 700;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  }
-
-  .account-navigation-identity > span::after {
-    content: "";
-    position: absolute;
-    right: -2px;
-    bottom: 0;
-    width: 17px;
-    height: 17px;
-    border: 3px solid #1e61da;
-    border-radius: 999px;
-    background: #26b34a;
-  }
-
-  .account-navigation-identity > p:first-of-type {
-    margin-top: 18px;
-    color: #b9d4ff;
-    font-size: 9px;
-    letter-spacing: 0.04em;
-  }
-
-  .account-navigation-identity > h2 {
-    margin-top: 8px;
-    color: #ffffff;
-    font-family: var(--font-body), sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.12;
-  }
-
-  .account-navigation-identity > p:nth-of-type(2) {
-    margin-top: 4px;
-    color: #c9dcff;
-    font-size: 11px;
-  }
-
-  .account-navigation-actions {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    background: transparent;
-    padding: 14px 28px 28px;
-  }
-
-  .account-navigation-actions > .flex {
-    position: absolute;
-    top: 260px;
-    left: 28px;
-    gap: 6px;
-    border-radius: 999px;
-    background: #0f44ba;
-    padding: 6px 12px;
-    color: #ffffff;
-  }
-
-  .account-navigation-actions > .flex svg {
-    width: 14px;
-    height: 14px;
-    color: #36d565;
-  }
-
-  .account-navigation-actions > .flex p {
-    color: #ffffff;
-    font-size: 10px;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-
-  .account-navigation-links {
-    display: flex;
-    min-height: 0;
-    flex: 1;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 68px;
-  }
-
-  .account-navigation-links > :not([hidden]) ~ :not([hidden]) {
-    margin-top: 0;
-  }
-
-  .account-navigation-links > a,
-  .account-navigation-links > form > button {
-    min-height: 48px;
-    border-radius: 12px;
-    padding-inline: 15px;
-    font-size: 13px;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-
-  .account-navigation-links > a svg,
-  .account-navigation-links > form > button svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .account-navigation-admin {
-    border: 0;
-    background: #ffffff !important;
-    color: #175bda !important;
-  }
-
-  .account-navigation-admin svg {
-    color: #175bda !important;
-  }
-
-  .account-navigation-delivery {
-    border: 0;
-    background: linear-gradient(135deg, #ff7b00, #ff5900) !important;
-    color: #ffffff !important;
-  }
-
-  .account-navigation-shop {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.08) !important;
-    color: #ffffff !important;
-  }
-
-  .account-navigation-links > form {
-    margin-top: auto;
-  }
-
-  .account-navigation-signout {
-    min-height: 48px !important;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    background: rgba(8, 47, 153, 0.38);
-    color: #ffffff !important;
-  }
-
-  .account-content {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .account-content > .account-delivery-panel {
-    margin-top: 0 !important;
-  }
-
-  .account-profile-panel {
-    min-height: 459px;
-    border-color: #e2e7ef;
-    border-radius: 26px;
-    background: #ffffff;
-    padding: 36px;
-    box-shadow: 0 1px 2px rgba(22, 43, 75, 0.08);
-  }
-
-  .account-profile-heading {
-    border: 0;
-    padding: 0;
-  }
-
-  .account-profile-heading .athimart-label {
-    color: var(--brand-orange);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-  }
-
-  .account-profile-title {
-    margin-top: 12px;
-    color: #071c42;
-    font-family: var(--font-body), sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    line-height: 1.1;
-    text-transform: none;
-  }
-
-  .account-profile-title-break {
-    display: none;
-  }
-
-  .account-profile-heading > span {
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
-  }
-
-  .account-profile-heading > span svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .account-profile-grid {
-    margin-top: 24px;
-    gap: 16px;
-  }
-
-  .account-profile-field {
-    display: grid;
-    min-height: 87px;
-    grid-template-columns: 44px minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    column-gap: 16px;
-    align-items: center;
-    border-color: #e1e7f0;
-    border-radius: 16px;
-    background: #fbfcfe;
-    padding: 16px 20px;
-  }
-
-  .account-profile-field > svg {
-    grid-row: 1 / -1;
-    width: 44px;
-    height: 44px;
-    border: 1px solid #e1e7f0;
-    border-radius: 12px;
-    padding: 12px;
-  }
-
-  .account-profile-field .athimart-label {
-    margin: 0;
-    color: #8ba0c8;
-    font-size: 9px;
-    letter-spacing: 0.09em;
-  }
-
-  .account-profile-field > p:last-child {
-    margin-top: 4px;
-    color: #071c42;
-    font-size: 14px;
-    line-height: 1.25;
-  }
-
-  .account-roles-panel {
-    margin-top: 35px;
-    border-left-color: var(--brand-orange);
-    background: transparent;
-    padding: 5px 0 0 14px;
-  }
-
-  .account-roles-panel .athimart-label {
-    color: #142f62;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-  }
-
-  .account-roles-list {
-    margin-top: 17px;
-    gap: 12px;
-  }
-
-  .account-roles-list > span {
-    border: 1px solid #d6e3fb;
-    border-radius: 999px;
-    background: #edf4ff;
-    padding: 10px 16px;
-    color: #1e62d5;
-    font-size: 13px;
-  }
-
-  .account-roles-list > span:nth-child(2) {
-    border-color: #f1cb61;
-    background: #fffdf1;
-    color: #a75900;
-  }
-
-  .account-roles-list > span:nth-child(3) {
-    border-color: #f8dfcb;
-    background: #fff3eb;
-    color: #d85b00;
-  }
-
-  .account-delivery-panel {
-    min-height: 299px;
-    border-color: #e2e7ef;
-    border-left: 5px solid var(--brand-orange);
-    border-radius: 26px;
-    background: #ffffff;
-    padding: 31px 32px;
-    box-shadow: 0 1px 2px rgba(22, 43, 75, 0.08);
-  }
-
-  .account-delivery-content {
-    gap: 24px;
-  }
-
-  .account-delivery-content > div {
-    gap: 20px;
-  }
-
-  .account-delivery-content > div > span {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
-    background: var(--brand-orange-soft);
-    color: var(--brand-orange);
-  }
-
-  .account-delivery-content > div > span svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .account-delivery-content .athimart-label {
-    color: var(--brand-orange);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-  }
-
-  .account-delivery-content h2 {
-    margin-top: 8px;
-    color: #071c42;
-    font-family: var(--font-body), sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    line-height: 1.1;
-  }
-
-  .account-delivery-content p:not(.athimart-label) {
-    margin-top: 8px;
-    color: #59709b;
-    font-size: 13px;
-    line-height: 1.7;
-  }
-
-  .account-delivery-cta {
-    min-height: 48px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #ff7b00, #ff5900) !important;
-    padding-inline: 24px;
-    font-size: 12px;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    box-shadow: 0 10px 16px rgba(255, 99, 0, 0.18);
-  }
-
-  .account-delivery-panel > div + div {
-    margin-top: 26px;
-    border-top: 1px solid #edf0f5;
-    padding-top: 24px;
-  }
-
-  .account-delivery-panel article {
-    min-height: 81px;
-    border-color: #e1e7f0;
-    border-radius: 16px;
-    background: #fbfcfe;
-    padding: 16px;
-  }
-
-  .account-delivery-panel article > p:first-child {
-    color: #8ba0c8;
-    font-size: 9px;
-    letter-spacing: 0.08em;
-  }
-
-  .account-delivery-panel article > p:not(:first-child) {
-    color: #071c42;
-    font-family: var(--font-body), sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-  }
-
-  body:has(.account-page) footer {
-    border-top: 1px solid #dfe6ef;
-    background: #f1f4f9;
-  }
-
-  body:has(.account-page) footer > div:first-child {
-    max-width: 1320px;
-    gap: 64px;
-    padding-top: 42px;
-    padding-bottom: 36px;
-  }
-
-  body:has(.account-page) footer p,
-  body:has(.account-page) footer a,
-  body:has(.account-page) footer span {
-    color: #58709d;
-  }
-
-  body:has(.account-page) footer h2 {
-    color: #071c42;
-  }
-
-  body:has(.account-page) footer h2 span:first-child {
-    color: var(--brand-blue) !important;
-  }
-
-  body:has(.account-page) footer h2 span:nth-child(2) {
-    color: var(--brand-orange) !important;
-  }
-
-  body:has(.account-page) footer > div:last-child {
-    border-top-color: #dfe6ef;
-    background: transparent;
-  }
-}
-
-@media (max-width: 639px) {
-  /* The account is a self-contained mobile workspace. */
-  body:has(.account-page) {
-    background: var(--brand-blue);
-  }
-
-  body:has(.account-page) > header,
-  body:has(.account-page) nav[aria-label="Mobile primary navigation"] {
-    display: none;
-  }
-
-  body:has(.account-page) #main-content {
-    min-height: 0;
-    padding-bottom: 0;
-  }
-
-  .account-page {
-    min-height: 100vh;
-    overflow: hidden;
-    border-radius: 0 0 32px 32px;
-    background: #f5f7fb;
-    padding: 0;
-  }
-
-  .account-page-heading {
-    display: none;
-  }
-
-  .account-page-grid {
-    display: block;
-    margin-top: 0;
-  }
-
-  .account-navigation-card {
-    overflow: hidden;
-    border: 0;
-    border-radius: 0;
-    background: linear-gradient(145deg, #1f67c9 0%, #246ed4 100%);
-    box-shadow: none;
-  }
-
-  .account-navigation-identity {
-    display: grid;
-    grid-template-columns: 42px minmax(0, 1fr);
-    grid-template-rows: auto auto auto;
-    column-gap: 10px;
-    row-gap: 0;
-    background: transparent;
-    padding: 22px 20px 12px;
-  }
-
-  .account-navigation-identity > span {
-    grid-column: 1;
-    grid-row: 1;
-    width: 42px;
-    height: 42px;
-    border-color: rgba(255, 255, 255, 0.22);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.1);
-    font-family: var(--font-body), sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-  }
-
-  .account-navigation-identity > p:first-of-type {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: center;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.96);
-    font-size: 9px;
-    letter-spacing: 0;
-    line-height: 1.2;
-  }
-
-  .account-navigation-identity > h2 {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    margin-top: 21px;
-    color: #ffffff;
-    font-family: var(--font-body), sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1.25;
-  }
-
-  .account-navigation-identity > p:nth-of-type(2) {
-    grid-column: 1 / -1;
-    grid-row: 3;
-    margin-top: 3px;
-    color: rgba(255, 255, 255, 0.82);
-    font-size: 11px;
-    line-height: 1.35;
-  }
-
-  .account-navigation-identity > div {
-    grid-column: 1 / -1;
-    margin-top: 13px;
-    justify-self: start;
-  }
-
-  .account-navigation-actions {
-    background: transparent;
-    padding: 8px 20px 24px;
-  }
-
-  .account-navigation-actions > .flex {
-    width: fit-content;
-    gap: 6px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.13);
-    padding: 5px 10px;
-    color: #ffffff;
-  }
-
-  .account-navigation-actions > .flex svg {
-    width: 14px;
-    height: 14px;
-    color: #a5f2c2;
-  }
-
-  .account-navigation-actions > .flex p {
-    color: #ffffff;
-    font-size: 9px;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-
-  .account-navigation-links {
-    margin-top: 24px;
-  }
-
-  .account-navigation-links > :not([hidden]) ~ :not([hidden]) {
-    margin-top: 9px !important;
-  }
-
-  .account-navigation-links > a,
-  .account-navigation-links > form > button {
-    min-height: 37px;
-    border-radius: 9px;
-    padding-inline: 12px;
-    font-size: 11px;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-
-  .account-navigation-links > a svg,
-  .account-navigation-links > form > button svg {
-    width: 15px;
-    height: 15px;
-  }
-
-  .account-navigation-admin {
-    border: 0;
-    background: #ffffff !important;
-    color: #1e69ce !important;
-  }
-
-  .account-navigation-admin svg {
-    color: #1e69ce !important;
-  }
-
-  .account-navigation-delivery {
-    border: 0;
-    background: linear-gradient(135deg, #f6a22b, #f78218) !important;
-    color: #ffffff !important;
-  }
-
-  .account-navigation-shop {
-    border: 1px solid rgba(255, 255, 255, 0.32);
-    background: transparent !important;
-    color: #ffffff !important;
-  }
-
-  .account-navigation-signout {
-    min-height: 35px !important;
-    border: 0;
-    background: transparent;
-    color: #ffffff !important;
-  }
-
-  .account-content {
-    background: #f5f7fb;
-    padding: 24px 16px 40px;
-  }
-
-  .account-profile-panel {
-    border: 0;
-    background: transparent;
-    padding: 0;
-    box-shadow: none;
-  }
-
-  .account-profile-heading {
-    display: block;
-    gap: 0;
-    border: 0;
-    padding: 0;
-  }
-
-  .account-profile-heading > span {
-    display: none;
-  }
-
-  .account-profile-heading .athimart-label {
-    color: var(--brand-orange);
-    font-size: 9px;
-    letter-spacing: 0.18em;
-  }
-
-  .account-profile-title {
-    margin-top: 8px;
-    color: #1d355d;
-    font-family: var(--font-body), sans-serif;
-    font-size: 23px;
-    font-weight: 700;
-    line-height: 1.12;
-    letter-spacing: -0.03em;
-    text-transform: none;
-  }
-
-  .account-profile-title-break {
-    display: none;
-  }
-
-  .account-profile-description {
-    display: block;
-    max-width: 260px;
-    margin-top: 7px;
-    color: #6b7a94;
-    font-family: var(--font-body), sans-serif;
-    font-size: 11px;
-    line-height: 1.35;
-  }
-
-  .account-profile-grid {
-    margin-top: 26px;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
-  }
-
-  .account-profile-field {
-    min-height: 103px;
-    border-color: #dbe3ef;
-    border-radius: 10px;
-    background: #ffffff;
-    padding: 16px;
-    box-shadow: 0 2px 2px rgba(37, 71, 122, 0.12);
-  }
-
-  .account-profile-field > svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .account-profile-field .athimart-label {
-    margin-top: 16px;
-    color: #72809a;
-    font-size: 9px;
-    letter-spacing: 0.14em;
-  }
-
-  .account-profile-field > p:last-child {
-    margin-top: 7px;
-    color: #22395f;
-    font-size: 14px;
-    line-height: 1.3;
-  }
-
-  .account-roles-panel {
-    margin-top: 28px;
-    border-left-color: var(--brand-orange);
-    background: transparent;
-    padding: 0 0 0 14px;
-  }
-
-  .account-roles-panel .athimart-label {
-    color: var(--brand-orange);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-  }
-
-  .account-roles-title {
-    display: block;
-    margin-top: 4px;
-    color: #1d355d;
-    font-family: var(--font-body), sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
-  .account-roles-list {
-    margin-top: 15px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .account-roles-list > span {
-    border: 0;
-    border-radius: 8px;
-    background: #eaf2ff;
-    padding: 8px 12px;
-    color: #1262c9;
-    font-size: 11px;
-  }
-
-  .account-delivery-panel {
-    margin-top: 30px !important;
-    border-color: #dbe3ef;
-    border-radius: 10px;
-    background: #ffffff;
-    padding: 16px;
-    box-shadow: 0 2px 2px rgba(37, 71, 122, 0.12);
-  }
-
-  .account-delivery-content {
-    gap: 17px;
-  }
-
-  .account-delivery-content > div {
-    gap: 12px;
-  }
-
-  .account-delivery-content > div > span {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    background: var(--brand-orange-soft);
-    color: var(--brand-orange);
-  }
-
-  .account-delivery-content > div > span svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .account-delivery-content .athimart-label {
-    font-size: 9px;
-    letter-spacing: 0.13em;
-  }
-
-  .account-delivery-content h2 {
-    margin-top: 3px;
-    color: #1d355d;
-    font-family: var(--font-body), sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.18;
-  }
-
-  .account-delivery-content p:not(.athimart-label) {
-    margin-top: 8px;
-    color: #6b7a94;
-    font-size: 11px;
-    line-height: 1.4;
-  }
-
-  .account-delivery-cta {
-    width: 100%;
-    min-height: 37px;
-    border-radius: 9px;
-    background: linear-gradient(135deg, #f6a22b, #f78218) !important;
-    padding: 0 12px;
-    font-size: 11px;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-
-  .account-delivery-cta svg {
-    width: 15px;
-    height: 15px;
-  }
-}
-
-/* ==========================================================
    Mobile safe areas
 ========================================================== */
 
 .mobile-safe-bottom {
-  padding-bottom:
-    calc(
-      var(--mobile-bottom-navigation-height) +
-      env(safe-area-inset-bottom)
-    );
+  padding-bottom: calc(
+    var(--mobile-bottom-navigation-height) + env(safe-area-inset-bottom)
+  );
 }
 
 .mobile-safe-top {
-  padding-top:
-    env(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
 }
 
 @media (max-width: 767px) {
   body {
-    padding-bottom:
-      env(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 
@@ -1862,9 +678,7 @@ section[id] {
 * {
   scrollbar-width: thin;
 
-  scrollbar-color:
-    var(--brand-blue)
-    var(--linen-dark);
+  scrollbar-color: var(--brand-blue) var(--linen-dark);
 }
 
 *::-webkit-scrollbar {
@@ -1877,14 +691,9 @@ section[id] {
 }
 
 *::-webkit-scrollbar-thumb {
-  border: 2px solid
-    var(--linen-dark);
+  border: 2px solid var(--linen-dark);
 
-  background:
-    linear-gradient(
-      var(--brand-blue),
-      var(--brand-blue-light)
-    );
+  background: linear-gradient(var(--brand-blue), var(--brand-blue-light));
 }
 
 *::-webkit-scrollbar-thumb:hover {
@@ -1905,17 +714,13 @@ section[id] {
   *::after {
     scroll-behavior: auto !important;
 
-    transition-duration:
-      0.01ms !important;
+    transition-duration: 0.01ms !important;
 
-    animation-duration:
-      0.01ms !important;
+    animation-duration: 0.01ms !important;
 
-    animation-iteration-count:
-      1 !important;
+    animation-iteration-count: 1 !important;
   }
 }
-
 
 .sidebar-scroll::-webkit-scrollbar {
   width: 5px;
@@ -1926,11 +731,9 @@ section[id] {
 }
 
 .sidebar-scroll::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.25);
-  border-radius:20px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
 }
-
-
 
 /* ==========================================================
    Checkout input focus
@@ -1957,4 +760,53 @@ form[aria-busy] input:focus-visible {
   --tw-ring-offset-color: transparent !important;
   --tw-ring-shadow: 0 0 #0000 !important;
   --tw-ring-offset-shadow: 0 0 #0000 !important;
+}
+
+/* Management pages share the storefront language with a denser type scale. */
+.athimart-workspace {
+  min-width: 0;
+  background: var(--background);
+  color: var(--text);
+}
+.athimart-workspace .athimart-display-large {
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+}
+.athimart-workspace .athimart-title-large {
+  font-size: clamp(1.65rem, 2.8vw, 2.5rem);
+}
+.athimart-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  box-shadow: var(--shadow-panel);
+}
+:where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(
+      [type="hidden"]
+    ),
+  select,
+  textarea
+) {
+  border-radius: var(--radius-field);
+  accent-color: var(--brand);
+}
+:where(input[type="checkbox"], input[type="radio"]) {
+  accent-color: var(--brand);
+}
+@media (prefers-reduced-motion: reduce) {
+  .athimart-primary-button:hover,
+  .athimart-brand-button:hover,
+  .athimart-outline-button:hover,
+  .athimart-brand-outline-button:hover,
+  .athimart-card-interactive:hover {
+    transform: none;
+  }
+}
+
+/* Explicit font roles avoid ambiguous arbitrary font utilities. */
+.font-editorial {
+  font-family: var(--font-display), Georgia, serif;
+}
+.font-body {
+  font-family: var(--font-body), Arial, sans-serif;
 }

@@ -8,11 +8,6 @@ import {
   useTransform,
 } from "motion/react";
 
-import { useState } from "react";
-
-
-
-
 const galleryImages = [
 
   {
@@ -155,7 +150,7 @@ overflow-hidden
 
 rounded-[45px]
 
-bg-white
+bg-[var(--surface)]
 
 shadow-[0_35px_90px_rgba(20,80,120,.25)]
 
@@ -236,8 +231,7 @@ export default function GallerySection(){
 
 
 
-const [isDragging,setIsDragging] =
-useState(false);
+
 
 
 
@@ -317,7 +311,7 @@ text-center
 className="
 text-xs
 tracking-[0.45em]
-text-blue-700
+text-[var(--brand-hover)]
 "
 
 >

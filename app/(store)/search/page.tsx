@@ -1,375 +1,206 @@
-// app/(store)/search/page.tsx
-
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  PackageSearch,
-  Search,
-  Sparkles,
-  X,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChevronRight, PackageSearch, Search, X } from "lucide-react";
 
 import { ProductCard } from "@/components/products/product-card";
-import {
-  getCategoryPath,
-  productCategories,
-} from "@/config/categories";
+import SearchCategoryGrid from "@/components/search/search-category-grid";
+import { getCategoryPath, productCategories } from "@/config/categories";
+import { categoryCoverPhotos } from "@/config/category-images";
+import { editorialFont } from "@/lib/fonts";
 import { searchProducts } from "@/lib/products/product-service";
 import type { Product } from "@/types/product";
+import styles from "./search.module.css";
 
 export const metadata: Metadata = {
   title: "Search Products",
-
-  description:
-    "Search AthiMart products by product name, brand, model, category or product type.",
-
-  alternates: {
-    canonical: "/search",
-  },
-
-  /*
-   * Search-result combinations should not become
-   * separate indexed pages.
-   */
-  robots: {
-    index: false,
-    follow: true,
-  },
+  description: "Search AthiMart products by product name, brand, model, category or product type.",
+  alternates: { canonical: "/search" },
+  robots: { index: false, follow: true },
 };
 
 interface SearchPageProps {
-  searchParams: Promise<{
-    q?: string | string[];
-  }>;
+  searchParams: Promise<{ q?: string | string[] }>;
 }
 
-/**
- * Read a single search query from the URL.
- *
- * Examples:
- * /search?q=honor
- * /search?q=chargers
- */
-function getQueryValue(
-  value: string | string[] | undefined
-): string {
-  if (Array.isArray(value)) {
-    return value[0]?.trim() ?? "";
-  }
+const suggestions = ["Mobiles", "Laptops", "Smart watches", "Fashion"];
 
-  return value?.trim() ?? "";
+// Reuse the collection photography already featured on the home page.
+const collections = [
+  { name: "Everyday technology", label: "Work. Play. Create.", href: "/category/digital-products", image: "photo-1496181133206-80ce9b88a853" },
+  { name: "A little more you", label: "Find your everyday style", href: "/category/fashion", image: "photo-1445205170230-053b83016050" },
+];
+
+function getQueryValue(value: string | string[] | undefined): string {
+  return (Array.isArray(value) ? value[0] : value)?.trim() ?? "";
 }
 
-export default async function SearchPage({
-  searchParams,
-}: SearchPageProps) {
-  const resolvedSearchParams = await searchParams;
-
-  const query = getQueryValue(
-    resolvedSearchParams.q
-  );
-
+export default async function SearchPage({ searchParams }: SearchPageProps) {
+  const query = getQueryValue((await searchParams).q);
   const hasSearchQuery = query.length >= 2;
-
   let products: Product[] = [];
-  let errorMessage = "";
+  let searchFailed = false;
 
   if (hasSearchQuery) {
     try {
-      products = await searchProducts({
-        query,
-        countryCode: "LK",
-        limit: 48,
-      });
-    } catch (error) {
-      errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Unable to search products.";
+      products = await searchProducts({ query, countryCode: "LK", limit: 48 });
+    } catch {
+      searchFailed = true;
     }
   }
 
   return (
-    <div className="athimart-container py-8 sm:py-10 lg:py-14">
-      {/* =====================================================
-          Page heading
-      ====================================================== */}
-      <header className="border-b border-[var(--border-strong)] pb-8 sm:pb-10">
-        <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]">
-            <Search
-              aria-hidden="true"
-              className="h-5 w-5"
-              strokeWidth={1.8}
-            />
-          </span>
+    <div className={`${styles.page} ${editorialFont.variable}`}>
+      <div className={styles.container}>
+        <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
+          <Link href="/">Home</Link>
+          <ChevronRight size={12} aria-hidden="true" />
+          <span aria-current="page">Search</span>
+        </nav>
 
-          <p className="athimart-label text-[var(--brand-blue)]">
-            AthiMart product discovery
-          </p>
-        </div>
-
-        <h1 className="athimart-display-large mt-5 text-[var(--brand-blue-dark)]">
-          Search
-          <br />
-          Products
-        </h1>
-
-        <p className="athimart-body-large mt-5 max-w-3xl">
-          Search by product name, company, brand, model, category or product
-          type.
-        </p>
-      </header>
-
-      {/* =====================================================
-          Search form
-      ====================================================== */}
-      <section
-        aria-labelledby="product-search-heading"
-        className="mt-9 sm:mt-12"
-      >
-        <h2
-          id="product-search-heading"
-          className="sr-only"
-        >
-          Search AthiMart products
-        </h2>
-
-        <form
-          action="/search"
-          method="get"
-          role="search"
-          className="border border-[var(--border-strong)] bg-white p-4 shadow-[0_16px_45px_rgba(18,63,158,0.07)] sm:p-6"
-        >
-          <div className="flex flex-col gap-4 md:flex-row">
-            <label className="relative flex min-h-16 flex-1 items-center border-b-2 border-[var(--brand-blue)] transition-colors duration-200 focus-within:border-[var(--brand-blue-dark)]">
-              <Search
-                aria-hidden="true"
-                className="mr-4 h-6 w-6 shrink-0 text-[var(--brand-blue)]"
-                strokeWidth={1.7}
-              />
-
-              <span className="sr-only">
-                Search products
-              </span>
-
-              <input
-                type="search"
-                name="q"
-                defaultValue={query}
-                minLength={2}
-                maxLength={80}
-                autoComplete="off"
-                enterKeyHint="search"
-                placeholder="Search products, brands..."
-                className="min-w-0 flex-1 border-0 bg-transparent py-3 font-[var(--font-display)] text-2xl font-light text-[var(--text)] !outline-none placeholder:text-[var(--placeholder)] focus:!outline-none focus-visible:!outline-none sm:text-3xl"
-                style={{
-                  outline: "none",
-                  boxShadow: "none",
-                }}
-              />
-
-              {query && (
-                <Link
-                  href="/search"
-                  aria-label="Clear product search"
-                  className="ml-3 flex h-10 w-10 shrink-0 items-center justify-center text-[var(--text-muted)] transition-colors duration-200 hover:bg-[var(--brand-orange-soft)] hover:text-[var(--brand-orange-dark)]"
-                >
-                  <X
-                    aria-hidden="true"
-                    className="h-5 w-5"
-                    strokeWidth={1.8}
-                  />
-                </Link>
-              )}
-            </label>
-
-            <button
-              type="submit"
-              className="athimart-brand-button min-w-48"
-            >
-              <Search
-                aria-hidden="true"
-                className="h-5 w-5"
-                strokeWidth={1.8}
-              />
-
-              Search store
-            </button>
-          </div>
-
-          <p className="mt-4 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
-            Enter at least two characters. Examples: Honor, chargers, fashion
-            or mobile.
-          </p>
-        </form>
-      </section>
-
-      {/* =====================================================
-          Search error
-      ====================================================== */}
-      {errorMessage && (
-        <section
-          aria-labelledby="search-error-heading"
-          className="mt-10 border border-[var(--sale)] bg-white p-7"
-        >
-          <PackageSearch
-            aria-hidden="true"
-            className="h-10 w-10 text-[var(--sale)]"
-            strokeWidth={1.6}
-          />
-
-          <h2
-            id="search-error-heading"
-            className="athimart-title mt-5"
-          >
-            Search could not be completed
-          </h2>
-
-          <p className="athimart-body mt-3">
-            {errorMessage}
-          </p>
-        </section>
-      )}
-
-      {/* =====================================================
-          Initial screen before searching
-      ====================================================== */}
-      {!hasSearchQuery && !errorMessage && (
-        <section
-          aria-labelledby="search-departments-heading"
-          className="mt-12"
-        >
-          <div className="flex items-end justify-between gap-5 border-b border-[var(--border)] pb-5">
-            <div>
-              <p className="athimart-label text-[var(--brand-orange-dark)]">
-                Browse without searching
-              </p>
-
-              <h2
-                id="search-departments-heading"
-                className="athimart-title-large mt-2 text-[var(--brand-blue-dark)]"
-              >
-                Popular Departments
-              </h2>
-            </div>
-
-            <Sparkles
-              aria-hidden="true"
-              className="h-5 w-5 text-[var(--brand-orange)]"
-              strokeWidth={1.7}
-            />
-          </div>
-
-          <div className="mt-7 grid border-l border-t border-[var(--border)] sm:grid-cols-2 lg:grid-cols-4">
-            {productCategories.map((category) => (
-              <Link
-                key={category.slug}
-                href={getCategoryPath(category.slug)}
-                className="group flex min-h-44 flex-col justify-between border-b border-r border-[var(--border)] bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--brand-blue)] hover:bg-[var(--brand-blue-soft)] sm:p-6"
-              >
-                <div>
-                  <h3 className="font-[var(--font-display)] text-2xl font-light uppercase leading-tight text-[var(--brand-blue-dark)] sm:text-3xl">
-                    {category.name}
-                  </h3>
-
-                  <p className="mt-3 font-[var(--font-body)] text-sm leading-6 text-[var(--text-muted)]">
-                    {category.shortDescription}
-                  </p>
-                </div>
-
-                <span className="mt-5 inline-flex items-center gap-2 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-orange-dark)]">
-                  Browse category
-
-                  <ArrowRight
-                    aria-hidden="true"
-                    className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-                    strokeWidth={1.8}
-                  />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* =====================================================
-          Search results
-      ====================================================== */}
-      {hasSearchQuery && !errorMessage && (
-        <section
-          aria-labelledby="search-results-heading"
-          className="mt-12"
-        >
-          <div className="flex flex-col gap-4 border-b border-[var(--border)] pb-5 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="athimart-label text-[var(--brand-orange-dark)]">
-                Search results
-              </p>
-
-              <h2
-                id="search-results-heading"
-                className="athimart-title-large mt-2 text-[var(--brand-blue-dark)]"
-              >
-                Results for “{query}”
-              </h2>
-            </div>
-
-            <p
-              className="athimart-label text-[var(--text-muted)]"
-              aria-live="polite"
-            >
-              {products.length}{" "}
-              {products.length === 1
-                ? "product"
-                : "products"}
+        <section aria-labelledby="search-heading" className={styles.hero} data-results={hasSearchQuery}>
+          <div className={styles.heroCopy}>
+            <p className={styles.eyebrow}>
+              <span className={styles.statusDot} aria-hidden="true" />
+              A world of everyday discoveries
             </p>
-          </div>
+            <h1 id="search-heading" className={styles.heading}>
+              Find your next<br /> <em>favourite.</em>
+            </h1>
+            <p className={styles.description}>
+              A little inspiration. Something you need. Discover technology,
+              style, and more, all in one place.
+            </p>
 
-          {products.length === 0 ? (
-            <div className="mt-8 border border-[var(--border)] bg-white p-9 text-center sm:p-12">
-              <PackageSearch
-                aria-hidden="true"
-                className="mx-auto h-12 w-12 text-[var(--brand-blue)]"
-                strokeWidth={1.5}
-              />
-
-              <h3 className="athimart-title-large mt-6 text-[var(--brand-blue-dark)]">
-                No matching products
-              </h3>
-
-              <p className="athimart-body mx-auto mt-4 max-w-xl">
-                Try a shorter product name, another brand, or a broader
-                category such as mobiles, fashion or chargers.
+            <form action="/search" method="get" role="search" aria-label="Product search" className={styles.searchForm}>
+              <div className={styles.searchBar}>
+                <Search size={21} strokeWidth={1.6} className={styles.searchIcon} aria-hidden="true" />
+                <label htmlFor="product-search" className="sr-only">Search products</label>
+                <input
+                  key={query}
+                  id="product-search"
+                  name="q"
+                  type="search"
+                  defaultValue={query}
+                  minLength={2}
+                  maxLength={80}
+                  required
+                  autoComplete="off"
+                  enterKeyHint="search"
+                  placeholder="Search products, brands, and more"
+                  aria-describedby="search-hint"
+                  className={styles.searchInput}
+                />
+                {query && (
+                  <Link href="/search" aria-label="Clear product search" className={styles.clearButton}>
+                    <X size={17} aria-hidden="true" />
+                  </Link>
+                )}
+                <button type="submit" className={styles.searchButton}>
+                  <span>Search</span><ArrowRight size={19} aria-hidden="true" />
+                </button>
+              </div>
+              <p id="search-hint" className={styles.hint}>
+                {query.length === 1
+                  ? "Keep going. Enter at least 2 characters to search."
+                  : "Search by name, brand, model, or category. At least 2 characters."}
               </p>
+            </form>
 
-              <Link
-                href="/shop"
-                className="athimart-brand-outline-button mt-7"
-              >
-                Browse all products
-
-                <ArrowRight
-                  aria-hidden="true"
-                  className="h-5 w-5"
-                  strokeWidth={1.8}
-                />
-              </Link>
-            </div>
-          ) : (
-            <div className="mt-8 grid grid-cols-2 items-stretch gap-x-3 gap-y-8 sm:gap-x-5 sm:gap-y-10 md:grid-cols-3 md:gap-x-7 lg:grid-cols-4 lg:gap-x-6">
-              {products.map((product, index) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  priority={index < 4}
-                />
+            <div className={styles.suggestions} aria-label="Suggested searches">
+              <span>Try searching</span>
+              {suggestions.map((suggestion) => (
+                <Link key={suggestion} href={`/search?q=${encodeURIComponent(suggestion)}`}>
+                  {suggestion}<ArrowUpRight size={12} aria-hidden="true" />
+                </Link>
               ))}
             </div>
+          </div>
+
+          {!hasSearchQuery && (
+            <aside className={styles.collections} aria-label="Explore our collections">
+              {collections.map((collection, index) => (
+                <Link key={collection.href} href={collection.href} className={styles.collectionCard}>
+                  <Image
+                    src={`https://images.unsplash.com/${collection.image}?auto=format&fit=crop&w=700&q=85`}
+                    alt=""
+                    fill
+                    priority={index === 0}
+                    sizes="(max-width: 767px) 45vw, (max-width: 1023px) 24vw, 20vw"
+                    className={styles.collectionImage}
+                  />
+                  <div className={styles.collectionCopy}>
+                    <span>{collection.label}</span><h2>{collection.name}</h2>
+                  </div>
+                  <span className={styles.collectionArrow} aria-hidden="true"><ArrowUpRight size={18} /></span>
+                </Link>
+              ))}
+              <p className={styles.collectionNote}>Thoughtful finds. Endless possibilities.</p>
+            </aside>
           )}
         </section>
-      )}
+
+        {searchFailed ? (
+          <section aria-labelledby="search-error-heading" className={styles.emptyState} role="status">
+            <span className={styles.emptyIcon}><PackageSearch size={29} strokeWidth={1.4} aria-hidden="true" /></span>
+            <p className={styles.eyebrow}>Let&apos;s try that again</p>
+            <h2 id="search-error-heading">We couldn&apos;t complete your search.</h2>
+            <p>Something went wrong while finding your products. Please try again in a moment.</p>
+            <form action="/search" method="get">
+              <input type="hidden" name="q" value={query} />
+              <button type="submit" className={styles.primaryLink}>
+                Try again <ArrowRight size={17} aria-hidden="true" />
+              </button>
+            </form>
+          </section>
+        ) : hasSearchQuery ? (
+          <section aria-labelledby="search-results-heading" className={styles.results}>
+            <div className={styles.sectionHeader}>
+              <div className={styles.resultHeading}>
+                <p className={styles.eyebrow}>Your discoveries</p>
+                <h2 id="search-results-heading" className={styles.sectionTitle}>Results for <em>&ldquo;{query}&rdquo;</em></h2>
+              </div>
+              <p className={styles.resultCount} role="status">
+                {products.length === 48 ? "Showing 48" : products.length} {products.length === 1 ? "product" : "products"}
+              </p>
+            </div>
+            {products.length === 0 ? (
+              <div className={styles.emptyState}>
+                <span className={styles.emptyIcon}><PackageSearch size={29} strokeWidth={1.4} aria-hidden="true" /></span>
+                <h3>No finds just yet.</h3>
+                <p>Try another name, check your spelling, or explore a broader category. Your next favourite is out there.</p>
+                <Link href="/shop" className={styles.primaryLink}>Explore all products <ArrowUpRight size={17} aria-hidden="true" /></Link>
+              </div>
+            ) : (
+              <div className={styles.productGrid}>
+                {products.map((product, index) => (
+                  <ProductCard key={product.id} product={product} priority={index < 4} variant="editorial" />
+                ))}
+              </div>
+            )}
+          </section>
+        ) : null}
+
+        <section aria-labelledby="search-departments-heading" className={styles.departments}>
+          <div className={styles.sectionHeader}>
+            <div>
+              <p className={styles.eyebrow}>A little inspiration</p>
+              <h2 id="search-departments-heading" className={styles.sectionTitle}>
+                {hasSearchQuery ? "Keep exploring." : "Where will you wander?"}
+              </h2>
+            </div>
+            <Link href="/shop" className={styles.browseLink}>Explore all products <ArrowUpRight size={17} aria-hidden="true" /></Link>
+          </div>
+          <SearchCategoryGrid categories={productCategories.map((category) => ({
+            name: category.name,
+            slug: category.slug,
+            href: getCategoryPath(category.slug),
+            description: category.shortDescription,
+            typeCount: category.subcategories.length,
+            image: `https://images.unsplash.com/${categoryCoverPhotos[category.slug]}?auto=format&fit=crop&w=900&q=85`,
+          }))} />
+        </section>
+      </div>
     </div>
   );
 }

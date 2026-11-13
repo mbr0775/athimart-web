@@ -58,7 +58,7 @@ export default async function AdminDashboardPage() {
     );
 
   return (
-    <div className="px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
+    <div className="min-w-0">
       {/* Dashboard heading */}
       <header className="border-b border-[var(--border-strong)] pb-8">
         <p className="athimart-label text-[var(--brand-orange-dark)]">
@@ -91,9 +91,9 @@ export default async function AdminDashboardPage() {
           Admin status
         </h2>
 
-        <div className="grid border-l border-t border-[var(--border)] md:grid-cols-3">
-          <article className="border-b border-r border-[var(--border)] bg-white p-6">
-            <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+        <div className="grid gap-5 md:grid-cols-3">
+          <article className="border border-[var(--border)] bg-[var(--surface)] p-6 rounded-[24px]">
+            <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
               <ShieldCheck
                 aria-hidden="true"
                 className="h-6 w-6"
@@ -105,7 +105,7 @@ export default async function AdminDashboardPage() {
               Access level
             </p>
 
-            <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+            <h2 className="mt-3 font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
               {role}
             </h2>
 
@@ -115,7 +115,7 @@ export default async function AdminDashboardPage() {
             </p>
           </article>
 
-          <article className="border-b border-r border-[var(--border)] bg-white p-6">
+          <article className="border border-[var(--border)] bg-[var(--surface)] p-6 rounded-[24px]">
             <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]">
               <Database
                 aria-hidden="true"
@@ -128,7 +128,7 @@ export default async function AdminDashboardPage() {
               Database
             </p>
 
-            <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+            <h2 className="mt-3 font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
               Shared
             </h2>
 
@@ -138,8 +138,8 @@ export default async function AdminDashboardPage() {
             </p>
           </article>
 
-          <article className="border-b border-r border-[var(--border)] bg-white p-6">
-            <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+          <article className="border border-[var(--border)] bg-[var(--surface)] p-6 rounded-[24px]">
+            <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
               <Smartphone
                 aria-hidden="true"
                 className="h-6 w-6"
@@ -151,7 +151,7 @@ export default async function AdminDashboardPage() {
               Platforms
             </p>
 
-            <h2 className="mt-3 font-[var(--font-display)] text-3xl font-light uppercase text-[var(--brand-blue-dark)]">
+            <h2 className="mt-3 font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
               Mobile + Web
             </h2>
 
@@ -165,7 +165,7 @@ export default async function AdminDashboardPage() {
 
       {/* Admin identity */}
       <section className="mt-9 grid gap-7 lg:grid-cols-[1.15fr_0.85fr]">
-        <article className="border border-[var(--border)] bg-white p-6 sm:p-8">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 rounded-[24px]">
           <p className="athimart-label text-[var(--brand-orange-dark)]">
             Verified administrator
           </p>
@@ -180,7 +180,7 @@ export default async function AdminDashboardPage() {
                 Admin email
               </dt>
 
-              <dd className="mt-3 break-all font-[var(--font-body)] text-sm text-[var(--text)]">
+              <dd className="mt-3 break-all font-body text-sm text-[var(--text)]">
                 {email}
               </dd>
             </div>
@@ -206,24 +206,24 @@ export default async function AdminDashboardPage() {
             />
           </span>
 
-          <p className="mt-8 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-light)]">
+          <p className="mt-8 font-body text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-light)]">
             Next admin module
           </p>
 
-          <h2 className="mt-3 font-[var(--font-display)] text-4xl font-light uppercase leading-tight text-white">
+          <h2 className="mt-3 font-editorial text-4xl font-light normal-case leading-tight text-white">
             Product
             <br />
             Management
           </h2>
 
-          <p className="mt-5 font-[var(--font-body)] text-sm leading-7 text-white/72">
+          <p className="mt-5 font-body text-sm leading-7 text-white/72">
             The next step will create the admin products table with add, edit,
             activate, deactivate and stock-management controls.
           </p>
 
           <Link
             href="/shop"
-            className="mt-8 inline-flex min-h-13 items-center justify-center gap-3 border border-white/35 bg-white/10 px-5 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:border-[var(--brand-orange-light)] hover:bg-[var(--brand-orange)]"
+            className="mt-8 inline-flex min-h-13 items-center justify-center gap-3 border border-white/35 bg-white/10 px-5 font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:border-[var(--brand-orange-light)] hover:bg-[var(--brand-orange)] rounded-full"
           >
             <Store
               aria-hidden="true"
@@ -245,7 +245,7 @@ export default async function AdminDashboardPage() {
       {/* Future modules */}
       <section
         aria-labelledby="future-admin-modules-heading"
-        className="mt-9 border border-[var(--border)] bg-white p-6 sm:p-8"
+        className="mt-9 border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 rounded-[24px]"
       >
         <p className="athimart-label text-[var(--brand-orange-dark)]">
           Administration roadmap
@@ -266,19 +266,19 @@ export default async function AdminDashboardPage() {
               strokeWidth={1.8}
             />
 
-            <p className="mt-4 font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.15em] text-[var(--brand-blue-dark)]">
+            <p className="mt-4 font-body text-xs font-semibold uppercase tracking-[0.15em] text-[var(--brand-blue-dark)]">
               Products
             </p>
           </div>
 
-          <div className="border border-[var(--border)] bg-white p-5">
+          <div className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-[24px]">
             <UsersRound
               aria-hidden="true"
               className="h-5 w-5 text-[var(--brand-orange-dark)]"
               strokeWidth={1.8}
             />
 
-            <p className="mt-4 font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.15em] text-[var(--brand-blue-dark)]">
+            <p className="mt-4 font-body text-xs font-semibold uppercase tracking-[0.15em] text-[var(--brand-blue-dark)]">
               Users
             </p>
           </div>
@@ -290,7 +290,7 @@ export default async function AdminDashboardPage() {
               strokeWidth={1.8}
             />
 
-            <p className="mt-4 font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.15em] text-[var(--brand-blue-dark)]">
+            <p className="mt-4 font-body text-xs font-semibold uppercase tracking-[0.15em] text-[var(--brand-blue-dark)]">
               Orders
             </p>
           </div>

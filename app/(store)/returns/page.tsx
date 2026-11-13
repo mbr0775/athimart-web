@@ -92,7 +92,7 @@ export default function ReturnsPage() {
         <div className="athimart-container py-12 sm:py-16 lg:py-20">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-blue)] transition-colors hover:text-[var(--brand-orange-dark)]"
+            className="inline-flex items-center gap-2 font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-blue)] transition-colors hover:text-[var(--brand-orange-dark)]"
           >
             <ArrowLeft
               aria-hidden="true"
@@ -134,7 +134,7 @@ export default function ReturnsPage() {
                   strokeWidth={1.8}
                 />
 
-                <p className="font-[var(--font-body)] text-sm leading-6 text-[var(--text-muted)]">
+                <p className="font-body text-sm leading-6 text-[var(--text-muted)]">
                   When a product has specific return conditions, those
                   conditions apply to that product and should be reviewed
                   before completing the purchase.
@@ -150,7 +150,7 @@ export default function ReturnsPage() {
       ====================================================== */}
       <section className="border-b border-[var(--border)] bg-[var(--surface-soft)]">
         <div className="athimart-container py-10 sm:py-12">
-          <div className="grid border-l border-t border-[var(--border)] sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {policyHighlights.map(
               ({
                 icon: Icon,
@@ -160,9 +160,9 @@ export default function ReturnsPage() {
               }) => (
                 <section
                   key={label}
-                  className="border-b border-r border-[var(--border)] bg-white p-6"
+                  className="border border-[var(--border)] bg-[var(--surface)] p-6 rounded-[24px]"
                 >
-                  <span className="flex h-11 w-11 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+                  <span className="flex h-11 w-11 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
                     <Icon
                       aria-hidden="true"
                       className="h-5 w-5"
@@ -174,11 +174,11 @@ export default function ReturnsPage() {
                     {label}
                   </p>
 
-                  <p className="mt-2 font-[var(--font-display)] text-2xl font-light uppercase tracking-[0.03em] text-[var(--brand-blue-dark)]">
+                  <p className="mt-2 font-editorial text-2xl font-light normal-case tracking-[-0.035em] text-[var(--brand-blue-dark)]">
                     {value}
                   </p>
 
-                  <p className="mt-3 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+                  <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
                     {description}
                   </p>
                 </section>
@@ -220,7 +220,7 @@ export default function ReturnsPage() {
             <div className="border-t border-[var(--border-strong)]">
               {/* Eligibility */}
               <section className="grid gap-5 border-b border-[var(--border)] py-8 sm:grid-cols-[60px_1fr] sm:py-10">
-                <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+                <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
                   <PackageCheck
                     aria-hidden="true"
                     className="h-6 w-6"
@@ -272,7 +272,7 @@ export default function ReturnsPage() {
                   </p>
 
                   <div className="mt-5 border-l-2 border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] px-5 py-4">
-                    <p className="font-[var(--font-body)] text-sm leading-6 text-[var(--text)]">
+                    <p className="font-body text-sm leading-6 text-[var(--text)]">
                       Customers should check the specific return conditions
                       provided for the product or order rather than assuming
                       every product has the maximum 20-day period.
@@ -283,7 +283,7 @@ export default function ReturnsPage() {
 
               {/* Methods */}
               <section className="grid gap-5 border-b border-[var(--border)] py-8 sm:grid-cols-[60px_1fr] sm:py-10">
-                <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+                <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
                   <Truck
                     aria-hidden="true"
                     className="h-6 w-6"
@@ -339,7 +339,7 @@ export default function ReturnsPage() {
 
               {/* Return costs */}
               <section className="grid gap-5 border-b border-[var(--border)] py-8 sm:grid-cols-[60px_1fr] sm:py-10">
-                <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+                <span className="flex h-12 w-12 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
                   <ShieldCheck
                     aria-hidden="true"
                     className="h-6 w-6"
@@ -372,7 +372,7 @@ export default function ReturnsPage() {
       {/* =====================================================
           Return checklist
       ====================================================== */}
-      <section className="border-y border-[var(--border-strong)] bg-white">
+      <section className="border-y border-[var(--border-strong)] bg-[var(--surface)]">
         <div className="athimart-container py-12 sm:py-16">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
             <div>
@@ -404,7 +404,7 @@ export default function ReturnsPage() {
                     strokeWidth={1.8}
                   />
 
-                  <p className="font-[var(--font-body)] text-sm leading-6 text-[var(--text)]">
+                  <p className="font-body text-sm leading-6 text-[var(--text)]">
                     {item}
                   </p>
                 </div>
@@ -422,18 +422,18 @@ export default function ReturnsPage() {
           <div className="overflow-hidden bg-gradient-to-br from-[var(--brand-blue-dark)] via-[var(--brand-blue)] to-[var(--brand-blue-light)] p-7 text-white sm:p-10 lg:p-12">
             <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
               <div>
-                <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--brand-orange-light)]">
+                <p className="font-body text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--brand-orange-light)]">
                   Important
                 </p>
 
-                <h2 className="mt-4 font-[var(--font-display)] text-4xl font-light uppercase leading-[1.05] tracking-[0.025em] sm:text-5xl">
+                <h2 className="mt-4 font-editorial text-4xl font-light normal-case leading-[1.05] tracking-[-0.035em] sm:text-5xl">
                   Product-specific
                   conditions matter
                 </h2>
               </div>
 
               <div>
-                <p className="font-[var(--font-body)] text-sm leading-7 text-white/75 sm:text-base">
+                <p className="font-body text-sm leading-7 text-white/75 sm:text-base">
                   Because AthiMart supports different kinds of products,
                   return eligibility, return windows, return methods and
                   resolutions can differ. Where a specific product or order
@@ -443,7 +443,7 @@ export default function ReturnsPage() {
 
                 <Link
                   href="/shop"
-                  className="mt-7 inline-flex min-h-12 items-center justify-center border border-white/30 bg-white px-6 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-blue-dark)] transition-colors hover:bg-[var(--brand-orange-light)]"
+                  className="mt-7 inline-flex min-h-12 items-center justify-center border border-white/30 bg-[var(--surface)] px-6 font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-blue-dark)] transition-colors hover:bg-[var(--brand-orange-light)] rounded-full"
                 >
                   Continue shopping
                 </Link>

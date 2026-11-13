@@ -3,11 +3,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  ArrowLeft,
+  ArrowUpRight,
   CheckCircle2,
   ChevronRight,
   CircleX,
   PackageCheck,
   ShieldCheck,
+  ShoppingBag,
   Truck,
 } from "lucide-react";
 import {
@@ -26,6 +29,8 @@ import {
   getProductPath,
 } from "@/lib/products/product-url";
 import type { Product } from "@/types/product";
+import { editorialFont } from "@/lib/fonts";
+import styles from "@/components/products/product-detail.module.css";
 
 /**
  * Product pages use request-time rendering.
@@ -325,7 +330,7 @@ export default async function ProductPage({
     currentPrice > 0;
 
   const hasDiscount =
-    product.discountPercent >
+    hasPrice && product.discountPercent >
       0 &&
     originalPrice >
       currentPrice;
@@ -581,408 +586,89 @@ export default async function ProductPage({
         }}
       />
 
-      <article className="athimart-container py-7 sm:py-10 lg:py-14">
-        {/* Visible breadcrumbs */}
-        <nav
-          aria-label="Breadcrumb"
-          className="overflow-x-auto pb-1"
-        >
-          <ol className="flex min-w-max items-center gap-2 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--text-muted)] sm:text-[10px]">
-            <li>
-              <Link
-                href="/"
-                className="transition-colors duration-200 hover:text-[var(--text)]"
-              >
-                Home
-              </Link>
-            </li>
+      <article className={`${styles.page} ${editorialFont.variable}`}>
+        <div className={styles.container}>
+          <nav aria-label="Breadcrumb" className={styles.breadcrumbs}>
+            <ol>
+              <li><Link href="/">Home</Link></li>
+              <li aria-hidden="true"><ChevronRight size={11} /></li>
+              <li><Link href={`/category/${categorySlug}`}>{product.category}</Link></li>
+              <li aria-hidden="true"><ChevronRight size={11} /></li>
+              <li><Link href={`/category/${categorySlug}/${subcategorySlug}`}>{product.subCategory}</Link></li>
+              <li aria-hidden="true"><ChevronRight size={11} /></li>
+              <li aria-current="page">{product.name}</li>
+            </ol>
+          </nav>
 
-            <li aria-hidden="true">
-              <ChevronRight
-                className="h-3.5 w-3.5"
-                strokeWidth={
-                  1.8
-                }
-              />
-            </li>
+          <div className={styles.main}>
+            <ProductGallery
+              key={product.id}
+              images={product.imageUrls}
+              productName={product.name}
+              companyName={brandName || "AthiMart"}
+              fallbackEmoji={product.emoji}
+              discountPercent={hasDiscount ? product.discountPercent : 0}
+            />
 
-            <li>
-              <Link
-                href={`/category/${categorySlug}`}
-                className="transition-colors duration-200 hover:text-[var(--text)]"
-              >
-                {
-                  product.category
-                }
-              </Link>
-            </li>
+            <section aria-labelledby="product-title" className={styles.details}>
+              <div className={styles.headingTop}><p className={styles.eyebrow}>{brandName || "The AthiMart collection"}</p><span>{product.subCategory}</span></div>
+              <h1 id="product-title" className={styles.title}>{product.name}<span aria-hidden="true">.</span></h1>
+              {(product.model || product.sku) && <div className={styles.identifiers}>{product.model && <span>Model {product.model}</span>}{product.sku && <span>SKU {product.sku}</span>}</div>}
+              <p className={styles.intro}>{visibleDescription.length > 200 ? `${visibleDescription.slice(0, 200).trimEnd()}…` : visibleDescription}</p>
+              <a href="#product-description-heading" className={styles.readMore}>Discover the details <ArrowUpRight size={14} aria-hidden="true" /></a>
 
-            <li aria-hidden="true">
-              <ChevronRight
-                className="h-3.5 w-3.5"
-                strokeWidth={
-                  1.8
-                }
-              />
-            </li>
+              {attributeEntries.length > 0 && <dl className={styles.quickFacts}>{attributeEntries.slice(0, 3).map(([label, value]) => <div key={label}><dt>{formatAttributeLabel(label)}</dt><dd>{formatAttributeValue(value)}</dd></div>)}</dl>}
 
-            <li>
-              <Link
-                href={`/category/${categorySlug}/${subcategorySlug}`}
-                className="transition-colors duration-200 hover:text-[var(--text)]"
-              >
-                {
-                  product.subCategory
-                }
-              </Link>
-            </li>
-
-            <li aria-hidden="true">
-              <ChevronRight
-                className="h-3.5 w-3.5"
-                strokeWidth={
-                  1.8
-                }
-              />
-            </li>
-
-            <li
-              aria-current="page"
-              className="max-w-52 truncate text-[var(--text)] sm:max-w-none"
-            >
-              {
-                product.name
-              }
-            </li>
-          </ol>
-        </nav>
-
-        {/* Main product area */}
-        <div className="mt-7 grid items-start gap-9 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14">
-          {/* Interactive image gallery */}
-          <ProductGallery
-            images={
-              product.imageUrls
-            }
-            productName={
-              product.name
-            }
-            companyName={
-              product.companyName
-            }
-            fallbackEmoji={
-              product.emoji
-            }
-            discountPercent={
-              product.discountPercent
-            }
-          />
-
-          {/* Product details */}
-          <section
-            aria-labelledby="product-title"
-            className="lg:sticky lg:top-32"
-          >
-            <p className="athimart-label text-[var(--text-muted)]">
-              {brandName}
-            </p>
-
-            <h1
-              id="product-title"
-              className="athimart-display-medium mt-3 sm:mt-4"
-            >
-              {
-                product.name
-              }
-            </h1>
-
-            {(product.model ||
-              product.sku) && (
-              <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
-                {product.model && (
-                  <p className="font-[var(--font-body)] text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)]">
-                    Model:{" "}
-                    {
-                      product.model
-                    }
-                  </p>
-                )}
-
-                {product.sku && (
-                  <p className="font-[var(--font-body)] text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)]">
-                    SKU:{" "}
-                    {
-                      product.sku
-                    }
-                  </p>
-                )}
-              </div>
-            )}
-
-            {/* Price and availability */}
-            <div className="mt-7 border-y border-[var(--border)] py-6">
-              {hasPrice ? (
-                <div className="flex flex-wrap items-baseline gap-3">
-                  <p className="font-[var(--font-body)] text-2xl font-bold text-[var(--text)] sm:text-3xl">
-                    {formatLkr(
-                      currentPrice
-                    )}
-                  </p>
-
-                  {hasDiscount && (
-                    <p className="font-[var(--font-body)] text-sm text-[var(--text-muted)] line-through sm:text-base">
-                      {formatLkr(
-                        originalPrice
-                      )}
-                    </p>
-                  )}
-
-                  {hasDiscount && (
-                    <span className="bg-[var(--sale)] px-2.5 py-1 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] text-white">
-                      Save{" "}
-                      {formatLkr(
-                        originalPrice -
-                          currentPrice
-                      )}
-                    </span>
-                  )}
-                </div>
-              ) : (
-                <p className="font-[var(--font-body)] text-sm font-semibold uppercase tracking-[0.14em] text-[var(--warning)]">
-                  Price unavailable
-                </p>
-              )}
-
-              <div
-                className={`mt-4 inline-flex items-center gap-2 border px-3 py-2 ${
-                  isOutOfStock
-                    ? "border-[var(--sale)] text-[var(--sale)]"
-                    : "border-[var(--success)] text-[var(--success)]"
-                }`}
-              >
-                {isOutOfStock ? (
-                  <CircleX
-                    className="h-4 w-4"
-                    strokeWidth={
-                      2
-                    }
-                    aria-hidden="true"
-                  />
-                ) : (
-                  <CheckCircle2
-                    className="h-4 w-4"
-                    strokeWidth={
-                      2
-                    }
-                    aria-hidden="true"
-                  />
-                )}
-
-                <span className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.15em]">
-                  {isOutOfStock
-                    ? "Currently unavailable"
-                    : `${product.stock} in stock`}
-                </span>
-              </div>
-            </div>
-
-            {/* Category */}
-            <div className="mt-7">
-              <p className="athimart-label text-[var(--text-muted)]">
-                Product category
-              </p>
-
-              <p className="mt-2 font-[var(--font-body)] text-sm leading-6 text-[var(--text)]">
-                {
-                  product.category
-                }
-
-                <span
-                  aria-hidden="true"
-                  className="mx-2 text-[var(--text-muted)]"
-                >
-                  /
-                </span>
-
-                {
-                  product.subCategory
-                }
-              </p>
-            </div>
-
-            {/* Information cards */}
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-              <div className="border border-[var(--border)] bg-white p-4 transition-colors duration-200 hover:border-[var(--black)]">
-                <Truck
-                  className="h-5 w-5"
-                  strokeWidth={
-                    1.7
-                  }
-                  aria-hidden="true"
-                />
-
-                <p className="mt-3 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em]">
-                  Delivery
-                </p>
-
-                <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
-                  Market-specific delivery
-                </p>
-              </div>
-
-              <div className="border border-[var(--border)] bg-white p-4 transition-colors duration-200 hover:border-[var(--black)]">
-                <ShieldCheck
-                  className="h-5 w-5"
-                  strokeWidth={
-                    1.7
-                  }
-                  aria-hidden="true"
-                />
-
-                <p className="mt-3 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em]">
-                  Secure
-                </p>
-
-                <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
-                  Connected AthiMart account
-                </p>
-              </div>
-
-              <div className="border border-[var(--border)] bg-white p-4 transition-colors duration-200 hover:border-[var(--black)]">
-                <PackageCheck
-                  className="h-5 w-5"
-                  strokeWidth={
-                    1.7
-                  }
-                  aria-hidden="true"
-                />
-
-                <p className="mt-3 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em]">
-                  Availability
-                </p>
-
-                <p className="mt-1 font-[var(--font-body)] text-xs leading-5 text-[var(--text-muted)]">
-                  Live marketplace stock
-                </p>
-              </div>
-            </div>
-
-            {/* Working Add to Cart button */}
-            <div className="mt-8">
-              <AddToCartButton
-                product={{
-                  productId:
-                    product.id,
-
-                  slug:
-                    product.slug,
-
-                  name:
-                    product.name,
-
-                  companyName:
-                    product.companyName ||
-                    "AthiMart",
-
-                  category:
-                    product.category,
-
-                  subCategory:
-                    product.subCategory,
-
-                  imageUrl:
-                    product
-                      .imageUrls[0] ??
-                    null,
-
-                  emoji:
-                    product.emoji ||
-                    "📦",
-
-                  unitPrice:
-                    currentPrice,
-
-                  stock:
-                    product.stock,
-
-                  currencyCode:
-                    "LKR",
-                }}
-              />
-            </div>
-          </section>
-        </div>
-
-        {/* Product description */}
-        <section
-          aria-labelledby="product-description-heading"
-          className="mt-14 border-t border-[var(--black)] pt-9 lg:mt-20 lg:pt-12"
-        >
-          <p className="athimart-label text-[var(--text-muted)]">
-            About this product
-          </p>
-
-          <h2
-            id="product-description-heading"
-            className="athimart-title-large mt-3"
-          >
-            Product Description
-          </h2>
-
-          <p className="athimart-body-large mt-5 max-w-4xl whitespace-pre-line">
-            {
-              visibleDescription
-            }
-          </p>
-        </section>
-
-        {/* Product specifications */}
-        {attributeEntries.length >
-          0 && (
-          <section
-            aria-labelledby="product-specifications-heading"
-            className="mt-12 border-t border-[var(--border)] pt-9 lg:mt-16"
-          >
-            <p className="athimart-label text-[var(--text-muted)]">
-              Product information
-            </p>
-
-            <h2
-              id="product-specifications-heading"
-              className="athimart-title-large mt-3"
-            >
-              Specifications
-            </h2>
-
-            <dl className="mt-7 grid border-l border-t border-[var(--border)] sm:grid-cols-2 lg:grid-cols-3">
-              {attributeEntries.map(
-                ([
-                  label,
-                  value,
-                ]) => (
-                  <div
-                    key={
-                      label
-                    }
-                    className="border-b border-r border-[var(--border)] bg-white p-5 transition-colors duration-200 hover:bg-[var(--surface-soft)]"
-                  >
-                    <dt className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)]">
-                      {formatAttributeLabel(
-                        label
-                      )}
-                    </dt>
-
-                    <dd className="mt-2 font-[var(--font-body)] text-sm leading-6 text-[var(--text)]">
-                      {formatAttributeValue(
-                        value
-                      )}
-                    </dd>
+              <div className={styles.purchase}>
+                <div className={styles.priceRow}>
+                  <div>
+                    <p className={styles.priceLabel}>Your price</p>
+                    {hasPrice ? <div className={styles.prices}><p className={styles.price}>{formatLkr(currentPrice)}</p>{hasDiscount && <del>{formatLkr(originalPrice)}</del>}</div> : <p className={styles.priceUnavailable}>Price unavailable</p>}
                   </div>
-                )
-              )}
-            </dl>
-          </section>
-        )}
+                  <span className={styles.stock} data-unavailable={isOutOfStock}>{isOutOfStock ? <CircleX size={14} aria-hidden="true" /> : <CheckCircle2 size={14} aria-hidden="true" />}{isOutOfStock ? "Out of stock" : `${product.stock} in stock`}</span>
+                </div>
+                {hasDiscount && <p className={styles.savings}>A little more to love. <span>Save {formatLkr(originalPrice - currentPrice)}</span></p>}
+                <div className={styles.actions}>
+                  <AddToCartButton product={{
+                    productId: product.id,
+                    slug: product.slug,
+                    name: product.name,
+                    companyName: product.companyName || "AthiMart",
+                    category: product.category,
+                    subCategory: product.subCategory,
+                    imageUrl: product.imageUrls[0] ?? null,
+                    emoji: product.emoji || "📦",
+                    unitPrice: currentPrice,
+                    stock: product.stock,
+                    currencyCode: "LKR",
+                  }} />
+                  <Link href="/cart" className={styles.bagLink} aria-label="View your shopping bag"><ShoppingBag size={20} strokeWidth={1.5} aria-hidden="true" /></Link>
+                </div>
+                <p className={styles.purchaseNote}><ShieldCheck size={13} aria-hidden="true" />Price and availability verified at checkout.</p>
+              </div>
+
+              <ul className={styles.serviceList} aria-label="Shopping information">
+                <li><Truck size={20} strokeWidth={1.4} aria-hidden="true" /><div><span>Made for your market</span><p>Delivery options are confirmed at checkout.</p></div></li>
+                <li><PackageCheck size={20} strokeWidth={1.4} aria-hidden="true" /><div><span>From the marketplace</span><p>{product.companyName || "AthiMart"} · {product.subCategory}</p></div></li>
+              </ul>
+              <div className={styles.collectionLink}><span>Part of the collection</span><Link href={`/category/${categorySlug}/${subcategorySlug}`}>{product.subCategory}<ArrowUpRight size={15} aria-hidden="true" /></Link></div>
+            </section>
+          </div>
+
+          <div className={styles.information}>
+            <section aria-labelledby="product-description-heading" className={styles.description}>
+              <p className={styles.eyebrow}>Considered in every detail</p>
+              <h2 id="product-description-heading" className={styles.sectionTitle}>Meet your next<br />everyday favourite.</h2>
+              <p className={styles.descriptionText}>{visibleDescription}</p>
+              <Link href={`/category/${categorySlug}/${subcategorySlug}`} className={styles.backLink}><ArrowLeft size={15} aria-hidden="true" />Explore more {product.subCategory}</Link>
+            </section>
+            {attributeEntries.length > 0 && <section aria-labelledby="product-specifications-heading" className={styles.specifications}>
+              <p className={styles.eyebrow}>The finer points</p>
+              <h2 id="product-specifications-heading" className={styles.sectionTitle}>At a glance.</h2>
+              <dl>{attributeEntries.map(([label, value]) => <div key={label}><dt>{formatAttributeLabel(label)}</dt><dd>{formatAttributeValue(value)}</dd></div>)}</dl>
+            </section>}
+          </div>
+        </div>
       </article>
     </>
   );

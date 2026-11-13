@@ -1,6 +1,8 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
+import { persistDeliveryProfile } from "@/lib/account/delivery-profile-service";
 
 export interface CheckoutCartItemInput {
   productId: string;
@@ -470,6 +472,24 @@ export async function createCheckoutOrder(
         "Please sign in before placing your order.",
     };
   }
+
+  // Save the validated address for the authenticated owner before creating an
+  // order. A profile-save failure must never leave an already-created order.
+  const profileSave = await persistDeliveryProfile(supabase, user.id, {
+    shippingName: validation.data.shippingName,
+    shippingPhone: validation.data.shippingPhone,
+    shippingAddressLine1: validation.data.shippingAddressLine1,
+    shippingAddressLine2: validation.data.shippingAddressLine2,
+    shippingCity: validation.data.shippingCity,
+    shippingState: validation.data.shippingState,
+    shippingPostalCode: validation.data.shippingPostalCode,
+    shippingCountry: validation.data.shippingCountry,
+  });
+  if (!profileSave.success) {
+    return { success: false, code: "CHECKOUT_ERROR", message: "Your delivery details could not be saved to your profile. Your order has not been placed. Please try again." };
+  }
+  revalidatePath("/account");
+  revalidatePath("/checkout");
 
   const {
     data,

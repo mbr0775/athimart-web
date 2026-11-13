@@ -68,7 +68,7 @@ interface VehicleFormProps {
 }
 
 const fieldClassName =
-  "mt-2 min-h-12 w-full border border-[var(--border)] bg-white px-4 font-[var(--font-body)] text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--brand-blue)] focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0";
+  "mt-2 min-h-12 w-full border border-[var(--border)] bg-[var(--surface)] px-4 font-body text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--brand-blue)] focus:!outline-none focus:!ring-0  focus-visible:!ring-0";
 
 function getFormText(
   formData: FormData,
@@ -386,7 +386,7 @@ export default function VehicleForm({
             strokeWidth={1.8}
           />
 
-          <p className="font-[var(--font-body)] text-sm leading-6">
+          <p className="font-body text-sm leading-6">
             {errorMessage}
           </p>
         </div>
@@ -406,11 +406,11 @@ export default function VehicleForm({
             />
 
             <div>
-              <p className="font-[var(--font-body)] text-sm font-semibold text-[var(--success)]">
+              <p className="font-body text-sm font-semibold text-[var(--success)]">
                 Vehicle information saved successfully
               </p>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
                 Vehicle status:{" "}
                 {formatStatus(
                   savedVehicle.vehicleStatus
@@ -431,9 +431,9 @@ export default function VehicleForm({
       )}
 
       {/* Vehicle identity */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]">
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <Truck
               aria-hidden="true"
               className="h-6 w-6"
@@ -450,7 +450,7 @@ export default function VehicleForm({
               Vehicle Information
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Enter the vehicle type and identifying
               details exactly as shown on its official
               records.
@@ -636,7 +636,7 @@ export default function VehicleForm({
       </section>
 
       {/* Ownership */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]">
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]">
             <FileText
@@ -655,7 +655,7 @@ export default function VehicleForm({
               Vehicle Ownership
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               AthiMart must understand who legally
               owns or authorises use of the vehicle.
             </p>
@@ -750,7 +750,7 @@ export default function VehicleForm({
             strokeWidth={1.8}
           />
 
-          <p className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+          <p className="font-body text-xs leading-6 text-[var(--text-muted)]">
             Registration, ownership and insurance
             documents will be uploaded separately to
             AthiMart’s private document storage.
@@ -759,9 +759,9 @@ export default function VehicleForm({
       </section>
 
       {/* Capacity */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]">
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
             <Scale
               aria-hidden="true"
               className="h-6 w-6"
@@ -778,7 +778,7 @@ export default function VehicleForm({
               Carrying Capacity
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Capacity values will help AthiMart avoid
               assigning parcels that are unsuitable
               for your vehicle.
@@ -841,11 +841,11 @@ export default function VehicleForm({
             />
 
             <div>
-              <h3 className="font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.14em]">
+              <h3 className="font-body text-xs font-semibold uppercase tracking-[0.14em]">
                 Cargo measurements
               </h3>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
                 These measurements are optional during
                 the draft stage but improve parcel and
                 vehicle matching.
@@ -942,7 +942,7 @@ export default function VehicleForm({
       </section>
 
       {/* Equipment */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]">
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]">
             <Box
@@ -961,7 +961,7 @@ export default function VehicleForm({
               Cargo Equipment
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Select the equipment currently available
               on this vehicle.
             </p>
@@ -977,15 +977,15 @@ export default function VehicleForm({
                 initialValues.hasClosedCargoArea ??
                 false
               }
-              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none focus-visible:!outline-none"
+              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none "
             />
 
             <span>
-              <span className="block font-[var(--font-body)] text-xs font-semibold">
+              <span className="block font-body text-xs font-semibold">
                 Closed cargo area
               </span>
 
-              <span className="mt-1 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+              <span className="mt-1 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
                 Parcels can be protected from rain and
                 external exposure.
               </span>
@@ -1000,15 +1000,15 @@ export default function VehicleForm({
                 initialValues.hasDeliveryBox ??
                 false
               }
-              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none focus-visible:!outline-none"
+              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none "
             />
 
             <span>
-              <span className="block font-[var(--font-body)] text-xs font-semibold">
+              <span className="block font-body text-xs font-semibold">
                 Delivery box
               </span>
 
-              <span className="mt-1 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+              <span className="mt-1 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
                 The vehicle has a secure parcel or
                 food-delivery box.
               </span>
@@ -1023,11 +1023,11 @@ export default function VehicleForm({
                 initialValues.hasRefrigeration ??
                 false
               }
-              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none focus-visible:!outline-none"
+              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none "
             />
 
             <span>
-              <span className="flex items-center gap-2 font-[var(--font-body)] text-xs font-semibold">
+              <span className="flex items-center gap-2 font-body text-xs font-semibold">
                 <Snowflake
                   aria-hidden="true"
                   className="h-4 w-4 text-[var(--brand-blue)]"
@@ -1037,7 +1037,7 @@ export default function VehicleForm({
                 Refrigeration
               </span>
 
-              <span className="mt-1 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+              <span className="mt-1 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
                 The vehicle has functioning
                 temperature-controlled storage.
               </span>
@@ -1047,7 +1047,7 @@ export default function VehicleForm({
       </section>
 
       {/* Delivery capabilities */}
-      <section className="border border-[var(--border)] bg-white p-5 sm:p-8">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-8 rounded-[24px]">
         <div className="flex items-start gap-4 border-b border-[var(--border)] pb-6">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-green-50 text-[var(--success)]">
             <Package
@@ -1066,7 +1066,7 @@ export default function VehicleForm({
               Delivery Capabilities
             </h2>
 
-            <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+            <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
               Select the delivery types this vehicle
               can safely support.
             </p>
@@ -1082,15 +1082,15 @@ export default function VehicleForm({
                 initialValues.supportsFoodDelivery ??
                 false
               }
-              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none focus-visible:!outline-none"
+              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none "
             />
 
             <span>
-              <span className="block font-[var(--font-body)] text-xs font-semibold">
+              <span className="block font-body text-xs font-semibold">
                 Food delivery
               </span>
 
-              <span className="mt-1 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+              <span className="mt-1 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
                 Suitable for safely carrying prepared
                 food or grocery orders.
               </span>
@@ -1105,15 +1105,15 @@ export default function VehicleForm({
                 initialValues.supportsFragileParcels ??
                 false
               }
-              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none focus-visible:!outline-none"
+              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none "
             />
 
             <span>
-              <span className="block font-[var(--font-body)] text-xs font-semibold">
+              <span className="block font-body text-xs font-semibold">
                 Fragile parcels
               </span>
 
-              <span className="mt-1 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+              <span className="mt-1 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
                 Suitable for carefully protected
                 breakable or sensitive goods.
               </span>
@@ -1128,15 +1128,15 @@ export default function VehicleForm({
                 initialValues.supportsFrozenItems ??
                 false
               }
-              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none focus-visible:!outline-none"
+              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none "
             />
 
             <span>
-              <span className="block font-[var(--font-body)] text-xs font-semibold">
+              <span className="block font-body text-xs font-semibold">
                 Frozen items
               </span>
 
-              <span className="mt-1 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+              <span className="mt-1 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
                 Requires the refrigeration option to
                 be selected.
               </span>
@@ -1151,15 +1151,15 @@ export default function VehicleForm({
                 initialValues.supportsBulkOrders ??
                 false
               }
-              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none focus-visible:!outline-none"
+              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none "
             />
 
             <span>
-              <span className="block font-[var(--font-body)] text-xs font-semibold">
+              <span className="block font-body text-xs font-semibold">
                 Bulk orders
               </span>
 
-              <span className="mt-1 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+              <span className="mt-1 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
                 Suitable for multiple parcels or
                 larger consolidated orders.
               </span>
@@ -1174,11 +1174,11 @@ export default function VehicleForm({
                 initialValues.supportsCashOnDelivery ??
                 false
               }
-              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none focus-visible:!outline-none"
+              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none "
             />
 
             <span>
-              <span className="flex items-center gap-2 font-[var(--font-body)] text-xs font-semibold">
+              <span className="flex items-center gap-2 font-body text-xs font-semibold">
                 <Banknote
                   aria-hidden="true"
                   className="h-4 w-4 text-[var(--success)]"
@@ -1188,7 +1188,7 @@ export default function VehicleForm({
                 Cash on Delivery handling
               </span>
 
-              <span className="mt-1 block font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+              <span className="mt-1 block font-body text-[10px] leading-5 text-[var(--text-muted)]">
                 Indicates that this vehicle may later
                 be used for assignments involving
                 customer cash collection. Final COD
@@ -1204,15 +1204,15 @@ export default function VehicleForm({
       <section className="border border-[var(--border)] bg-[var(--brand-blue)] p-5 text-white sm:p-8">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
           <div>
-            <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-light)]">
+            <p className="font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-orange-light)]">
               Save vehicle registration
             </p>
 
-            <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.04em]">
+            <h2 className="mt-2 font-editorial text-3xl font-light normal-case tracking-[-0.035em]">
               Save and Continue
             </h2>
 
-            <p className="mt-3 max-w-xl font-[var(--font-body)] text-xs leading-6 text-white/70">
+            <p className="mt-3 max-w-xl font-body text-xs leading-6 text-white/70">
               Saving this information does not approve
               or activate the vehicle. Supporting
               documents and administrator verification
@@ -1223,7 +1223,7 @@ export default function VehicleForm({
           <button
             type="submit"
             disabled={isPending}
-            className="flex min-h-14 min-w-64 items-center justify-center gap-3 bg-white px-7 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-orange-light)] hover:text-white disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-600"
+            className="flex min-h-14 min-w-64 items-center justify-center gap-3 bg-[var(--surface)] px-7 font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-orange-light)] hover:text-white disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-600 rounded-full athimart-brand-button"
           >
             {isPending ? (
               <LoaderCircle

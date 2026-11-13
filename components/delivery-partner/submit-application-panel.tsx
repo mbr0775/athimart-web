@@ -130,15 +130,15 @@ export default function SubmitApplicationPanel({
             </span>
 
             <div>
-              <p className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--brand-orange-light)]">
+              <p className="font-body text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--brand-orange-light)]">
                 Final registration stage
               </p>
 
-              <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light uppercase tracking-[0.04em] sm:text-4xl">
+              <h2 className="mt-2 font-editorial text-3xl font-light normal-case tracking-[-0.035em] sm:text-4xl">
                 Submit for Review
               </h2>
 
-              <p className="mt-4 max-w-2xl font-[var(--font-body)] text-sm leading-7 text-white/75">
+              <p className="mt-4 max-w-2xl font-body text-sm leading-7 text-white/75">
                 AthiMart will validate your personal
                 details, vehicle information,
                 consents and required private
@@ -150,22 +150,22 @@ export default function SubmitApplicationPanel({
 
           <div className="mt-7 grid border-l border-t border-white/20 sm:grid-cols-2">
             <div className="border-b border-r border-white/20 p-4">
-              <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-white/60">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.15em] text-white/60">
                 After submission
               </p>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-white/85">
+              <p className="mt-2 font-body text-xs leading-6 text-white/85">
                 Your application and selected vehicle
                 will move to Pending status.
               </p>
             </div>
 
             <div className="border-b border-r border-white/20 p-4">
-              <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-white/60">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.15em] text-white/60">
                 Editing
               </p>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-white/85">
+              <p className="mt-2 font-body text-xs leading-6 text-white/85">
                 Draft information cannot be changed
                 while the application is under
                 review.
@@ -173,22 +173,22 @@ export default function SubmitApplicationPanel({
             </div>
 
             <div className="border-b border-r border-white/20 p-4">
-              <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-white/60">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.15em] text-white/60">
                 Driver availability
               </p>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-white/85">
+              <p className="mt-2 font-body text-xs leading-6 text-white/85">
                 Your delivery availability remains
                 Offline until approval.
               </p>
             </div>
 
             <div className="border-b border-r border-white/20 p-4">
-              <p className="font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.15em] text-white/60">
+              <p className="font-body text-[9px] font-semibold uppercase tracking-[0.15em] text-white/60">
                 Approval
               </p>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-white/85">
+              <p className="mt-2 font-body text-xs leading-6 text-white/85">
                 Submission does not automatically
                 approve you as a delivery partner.
               </p>
@@ -196,7 +196,7 @@ export default function SubmitApplicationPanel({
           </div>
         </div>
 
-        <div className="border border-white/20 bg-white p-5 text-[var(--text)] sm:p-6">
+        <div className="border border-white/20 bg-[var(--surface)] p-5 text-[var(--text)] sm:p-6 rounded-[24px]">
           <div className="flex items-start gap-3">
             <ShieldCheck
               aria-hidden="true"
@@ -205,11 +205,11 @@ export default function SubmitApplicationPanel({
             />
 
             <div>
-              <p className="font-[var(--font-body)] text-xs font-semibold uppercase tracking-[0.12em]">
+              <p className="font-body text-xs font-semibold uppercase tracking-[0.12em]">
                 Applicant Declaration
               </p>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
                 Review your information and uploaded
                 documents carefully before submitting.
               </p>
@@ -228,7 +228,7 @@ export default function SubmitApplicationPanel({
                 strokeWidth={1.8}
               />
 
-              <p className="font-[var(--font-body)] text-xs leading-6">
+              <p className="font-body text-xs leading-6">
                 {errorMessage}
               </p>
             </div>
@@ -247,11 +247,11 @@ export default function SubmitApplicationPanel({
               />
 
               <div>
-                <p className="font-[var(--font-body)] text-xs font-semibold text-[var(--success)]">
+                <p className="font-body text-xs font-semibold text-[var(--success)]">
                   Application submitted successfully
                 </p>
 
-                <p className="mt-1 font-[var(--font-body)] text-[10px] leading-5 text-[var(--text-muted)]">
+                <p className="mt-1 font-body text-[10px] leading-5 text-[var(--text-muted)]">
                   Status:{" "}
                   {formatStatus(
                     submittedApplication.applicationStatus
@@ -278,10 +278,10 @@ export default function SubmitApplicationPanel({
 
                 setErrorMessage("");
               }}
-              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none focus-visible:!outline-none"
+              className="mt-1 h-4 w-4 accent-[var(--brand-blue)] focus:!outline-none "
             />
 
-            <span className="font-[var(--font-body)] text-xs leading-6 text-[var(--text-soft)]">
+            <span className="font-body text-xs leading-6 text-[var(--text-soft)]">
               I confirm that the information and
               documents provided are accurate,
               current and submitted with permission.
@@ -301,7 +301,7 @@ export default function SubmitApplicationPanel({
             onClick={
               handleSubmitApplication
             }
-            className="mt-5 flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-orange)] px-6 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--brand-orange-dark)] disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-600"
+            className="mt-5 flex min-h-14 w-full items-center justify-center gap-3 bg-[var(--brand-orange)] px-6 font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--brand-orange-dark)] disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-600 rounded-full"
           >
             {isPending ? (
               <LoaderCircle
@@ -323,7 +323,7 @@ export default function SubmitApplicationPanel({
           </button>
 
           {disabled && (
-            <p className="mt-3 text-center font-[var(--font-body)] text-[10px] leading-5 text-[var(--sale)]">
+            <p className="mt-3 text-center font-body text-[10px] leading-5 text-[var(--sale)]">
               Complete the required registration
               information before submitting.
             </p>

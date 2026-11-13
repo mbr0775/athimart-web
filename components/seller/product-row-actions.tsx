@@ -101,7 +101,7 @@ export function ProductRowActions({
         <Link
           href={`/seller/products/${productId}/edit`}
           aria-label={`Edit ${productName}`}
-          className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border border-[var(--brand-blue)] bg-white px-4 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-blue)] hover:text-white lg:flex-none"
+          className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border border-[var(--brand-blue)] bg-[var(--surface)] px-4 font-body text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-blue)] transition-colors hover:bg-[var(--brand-blue)] hover:text-white lg:flex-none rounded-full"
         >
           <Pencil
             aria-hidden="true"
@@ -119,7 +119,7 @@ export function ProductRowActions({
                 productSlug
               )}`}
               aria-label={`View ${productName}`}
-              className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border border-[var(--border)] bg-white px-4 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--text-muted)] transition-colors hover:border-[var(--brand-orange)] hover:text-[var(--brand-orange-dark)] lg:flex-none"
+              className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border border-[var(--border)] bg-[var(--surface)] px-4 font-body text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--text-muted)] transition-colors hover:border-[var(--brand-orange)] hover:text-[var(--brand-orange-dark)] lg:flex-none rounded-full"
             >
               <Eye
                 aria-hidden="true"
@@ -140,7 +140,7 @@ export function ProductRowActions({
           onClick={
             handleStatusChange
           }
-          className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border border-[var(--brand-orange)] bg-white px-4 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-orange-dark)] transition-colors hover:bg-[var(--brand-orange-soft)] disabled:cursor-wait disabled:opacity-60 lg:flex-none"
+          className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border border-[var(--brand-orange)] bg-[var(--surface)] px-4 font-body text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-orange-dark)] transition-colors hover:bg-[var(--brand-orange-soft)] disabled:cursor-wait disabled:opacity-60 lg:flex-none rounded-full"
         >
           {isActive ? (
             <EyeOff
@@ -172,7 +172,7 @@ export function ProductRowActions({
           onClick={() =>
             setIsDeleteOpen(true)
           }
-          className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border border-[var(--sale)] bg-white px-4 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--sale)] transition-colors hover:bg-red-50 disabled:cursor-wait disabled:opacity-60 lg:flex-none"
+          className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border border-[var(--sale)] bg-[var(--surface)] px-4 font-body text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--sale)] transition-colors hover:bg-red-50 disabled:cursor-wait disabled:opacity-60 lg:flex-none rounded-full"
         >
           <Trash2
             aria-hidden="true"
@@ -191,7 +191,7 @@ export function ProductRowActions({
           aria-labelledby={`delete-product-${productId}`}
           className="fixed inset-0 z-100 flex items-center justify-center bg-black/55 px-5 py-8"
         >
-          <div className="w-full max-w-lg border border-[var(--border)] bg-white p-6 shadow-2xl sm:p-8">
+          <div className="w-full max-w-lg border border-[var(--border)] bg-[var(--surface)] p-6 shadow-2xl sm:p-8 rounded-[24px]">
             <span className="flex h-14 w-14 items-center justify-center bg-red-50 text-[var(--sale)]">
               <Trash2
                 aria-hidden="true"
@@ -206,12 +206,12 @@ export function ProductRowActions({
 
             <h2
               id={`delete-product-${productId}`}
-              className="mt-2 font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]"
+              className="mt-2 font-editorial text-3xl font-light text-[var(--brand-blue-dark)]"
             >
               Delete {productName}?
             </h2>
 
-            <p className="mt-4 font-[var(--font-body)] text-sm leading-7 text-[var(--text-muted)]">
+            <p className="mt-4 font-body text-sm leading-7 text-[var(--text-muted)]">
               This permanently removes the
               product from AthiMart. Uploaded
               product images will also be
@@ -241,7 +241,7 @@ export function ProductRowActions({
                 onClick={
                   handleDelete
                 }
-                className="inline-flex min-h-14 items-center justify-center gap-3 border border-[var(--sale)] bg-[var(--sale)] px-5 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:bg-red-800 disabled:cursor-wait disabled:opacity-60"
+                className="inline-flex min-h-14 items-center justify-center gap-3 border border-[var(--sale)] bg-[var(--sale)] px-5 font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:bg-red-800 disabled:cursor-wait disabled:opacity-60 rounded-full"
               >
                 <Trash2
                   aria-hidden="true"

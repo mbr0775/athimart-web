@@ -303,10 +303,10 @@ function getOrderStatusClasses(
       return "border-red-200 bg-red-50 text-red-800";
 
     case "processing":
-      return "border-blue-200 bg-blue-50 text-blue-800";
+      return "border-[var(--border-strong)] bg-[var(--surface-soft)] text-[var(--text)]";
 
     case "shipped":
-      return "border-violet-200 bg-violet-50 text-violet-800";
+      return "border-[var(--border-strong)] bg-[var(--surface-soft)] text-[var(--text)]";
 
     case "pending":
     default:
@@ -326,19 +326,19 @@ function getShipmentStatusClasses(
       return "border-amber-200 bg-amber-50 text-amber-800";
 
     case "ready_for_pickup":
-      return "border-blue-200 bg-blue-50 text-blue-800";
+      return "border-[var(--border-strong)] bg-[var(--surface-soft)] text-[var(--text)]";
 
     case "offered":
-      return "border-orange-200 bg-orange-50 text-orange-800";
+      return "border-[var(--border-strong)] bg-[var(--surface-soft)] text-[var(--text)]";
 
     case "assigned":
-      return "border-indigo-200 bg-indigo-50 text-indigo-800";
+      return "border-[var(--border-strong)] bg-[var(--surface-soft)] text-[var(--text)]";
 
     case "picked_up":
-      return "border-violet-200 bg-violet-50 text-violet-800";
+      return "border-[var(--border-strong)] bg-[var(--surface-soft)] text-[var(--text)]";
 
     case "in_transit":
-      return "border-cyan-200 bg-cyan-50 text-cyan-800";
+      return "border-[var(--border-strong)] bg-[var(--surface-soft)] text-[var(--text)]";
 
     case "delivered":
       return "border-green-200 bg-green-50 text-green-800";
@@ -688,12 +688,12 @@ export default async function DeliveryShipmentsPage({
     ).length;
 
   return (
-    <div className="px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
+    <div className="min-w-0">
       {/* Page heading */}
       <header className="border-b border-[var(--border-strong)] pb-8">
         <Link
           href="/admin"
-          className="inline-flex items-center gap-2 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-blue)] transition-colors hover:text-[var(--brand-orange-dark)]"
+          className="inline-flex items-center gap-2 font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-blue)] transition-colors hover:text-[var(--brand-orange-dark)]"
         >
           <ArrowLeft
             aria-hidden="true"
@@ -710,7 +710,7 @@ export default async function DeliveryShipmentsPage({
               Order fulfilment
             </p>
 
-            <h1 className="mt-3 font-[var(--font-display)] text-5xl font-light uppercase tracking-[0.03em] text-[var(--brand-blue-dark)] sm:text-6xl">
+            <h1 className="mt-3 font-editorial text-5xl font-light normal-case tracking-[-0.035em] text-[var(--brand-blue-dark)] sm:text-6xl">
               Delivery
               <br />
 
@@ -719,7 +719,7 @@ export default async function DeliveryShipmentsPage({
               </span>
             </h1>
 
-            <p className="mt-5 max-w-3xl font-[var(--font-body)] text-sm leading-7 text-[var(--text-muted)]">
+            <p className="mt-5 max-w-3xl font-body text-sm leading-7 text-[var(--text-muted)]">
               Generate seller-based
               shipments from customer
               orders and review the
@@ -728,7 +728,7 @@ export default async function DeliveryShipmentsPage({
             </p>
           </div>
 
-          <div className="flex items-center gap-3 border border-[var(--border)] bg-white px-5 py-4">
+          <div className="flex items-center gap-3 border border-[var(--border)] bg-[var(--surface)] px-5 py-4 rounded-[24px]">
             <Truck
               aria-hidden="true"
               className="h-6 w-6 text-[var(--brand-blue)]"
@@ -740,7 +740,7 @@ export default async function DeliveryShipmentsPage({
                 Shipment records
               </p>
 
-              <p className="mt-1 font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]">
+              <p className="mt-1 font-editorial text-3xl font-light text-[var(--brand-blue-dark)]">
                 {shipments.length}
               </p>
             </div>
@@ -762,12 +762,12 @@ export default async function DeliveryShipmentsPage({
             />
 
             <div>
-              <p className="font-[var(--font-body)] text-sm font-semibold">
+              <p className="font-body text-sm font-semibold">
                 Delivery shipments
                 generated successfully.
               </p>
 
-              <p className="mt-1 font-[var(--font-body)] text-xs leading-6">
+              <p className="mt-1 font-body text-xs leading-6">
                 Order{" "}
                 <strong>
                   {generatedOrder}
@@ -798,12 +798,12 @@ export default async function DeliveryShipmentsPage({
           />
 
           <div>
-            <p className="font-[var(--font-body)] text-sm font-semibold">
+            <p className="font-body text-sm font-semibold">
               Shipment generation
               failed.
             </p>
 
-            <p className="mt-1 font-[var(--font-body)] text-xs leading-6">
+            <p className="mt-1 font-body text-xs leading-6">
               {getErrorMessage(
                 errorCode
               )}
@@ -814,7 +814,7 @@ export default async function DeliveryShipmentsPage({
 
       {/* Statistics */}
       <section className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <article className="border border-[var(--border)] bg-white p-6 shadow-[0_14px_40px_rgba(17,42,91,0.05)]">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_14px_40px_rgba(69,77,54,0.05)] rounded-[24px]">
           <span className="flex h-12 w-12 items-center justify-center bg-amber-50 text-amber-700">
             <PackagePlus
               aria-hidden="true"
@@ -827,15 +827,15 @@ export default async function DeliveryShipmentsPage({
             Awaiting generation
           </p>
 
-          <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-blue-dark)]">
             {
               ordersAwaitingGeneration.length
             }
           </p>
         </article>
 
-        <article className="border border-[var(--border)] bg-white p-6 shadow-[0_14px_40px_rgba(17,42,91,0.05)]">
-          <span className="flex h-12 w-12 items-center justify-center bg-blue-50 text-blue-700">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_14px_40px_rgba(69,77,54,0.05)] rounded-[24px]">
+          <span className="flex h-12 w-12 items-center justify-center bg-[var(--surface-soft)] text-[var(--brand-hover)]">
             <Clock3
               aria-hidden="true"
               className="h-6 w-6"
@@ -847,13 +847,13 @@ export default async function DeliveryShipmentsPage({
             Active shipments
           </p>
 
-          <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-blue-dark)]">
             {activeShipmentCount}
           </p>
         </article>
 
-        <article className="border border-[var(--border)] bg-white p-6 shadow-[0_14px_40px_rgba(17,42,91,0.05)]">
-          <span className="flex h-12 w-12 items-center justify-center bg-orange-50 text-orange-700">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_14px_40px_rgba(69,77,54,0.05)] rounded-[24px]">
+          <span className="flex h-12 w-12 items-center justify-center bg-[var(--surface-soft)] text-[var(--brand-hover)]">
             <UserRound
               aria-hidden="true"
               className="h-6 w-6"
@@ -865,12 +865,12 @@ export default async function DeliveryShipmentsPage({
             Unassigned
           </p>
 
-          <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-blue-dark)]">
             {unassignedShipmentCount}
           </p>
         </article>
 
-        <article className="border border-[var(--border)] bg-white p-6 shadow-[0_14px_40px_rgba(17,42,91,0.05)]">
+        <article className="border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_14px_40px_rgba(69,77,54,0.05)] rounded-[24px]">
           <span className="flex h-12 w-12 items-center justify-center bg-green-50 text-green-700">
             <BadgeCheck
               aria-hidden="true"
@@ -883,14 +883,14 @@ export default async function DeliveryShipmentsPage({
             Delivered
           </p>
 
-          <p className="mt-2 font-[var(--font-display)] text-4xl font-light text-[var(--brand-blue-dark)]">
+          <p className="mt-2 font-editorial text-4xl font-light text-[var(--brand-blue-dark)]">
             {deliveredShipmentCount}
           </p>
         </article>
       </section>
 
       {/* Orders awaiting generation */}
-      <section className="mt-10 border border-[var(--border)] bg-white shadow-[0_20px_55px_rgba(17,42,91,0.06)]">
+      <section className="mt-10 border border-[var(--border)] bg-[var(--surface)] shadow-[0_20px_55px_rgba(69,77,54,0.06)]">
         <header className="flex flex-col gap-4 border-b border-[var(--border)] p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-start gap-4">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)]">
@@ -906,12 +906,12 @@ export default async function DeliveryShipmentsPage({
                 New fulfilment
               </p>
 
-              <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]">
+              <h2 className="mt-2 font-editorial text-3xl font-light text-[var(--brand-blue-dark)]">
                 Orders Awaiting
                 Shipment Generation
               </h2>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
                 One shipment will be
                 created for each seller
                 represented in an order.
@@ -919,7 +919,7 @@ export default async function DeliveryShipmentsPage({
             </div>
           </div>
 
-          <span className="inline-flex min-h-10 items-center justify-center bg-[var(--brand-blue-soft)] px-4 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-blue)]">
+          <span className="inline-flex min-h-10 items-center justify-center bg-[var(--brand-blue-soft)] px-4 font-body text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-blue)] rounded-2xl">
             {
               ordersAwaitingGeneration.length
             }{" "}
@@ -936,11 +936,11 @@ export default async function DeliveryShipmentsPage({
               strokeWidth={1.5}
             />
 
-            <h3 className="mt-5 font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]">
+            <h3 className="mt-5 font-editorial text-3xl font-light text-[var(--brand-blue-dark)]">
               No Orders Waiting
             </h3>
 
-            <p className="mx-auto mt-3 max-w-xl font-[var(--font-body)] text-sm leading-7 text-[var(--text-muted)]">
+            <p className="mx-auto mt-3 max-w-xl font-body text-sm leading-7 text-[var(--text-muted)]">
               Every eligible recent order
               already has delivery shipments,
               or there are currently no
@@ -961,7 +961,7 @@ export default async function DeliveryShipmentsPage({
                         Order number
                       </p>
 
-                      <h3 className="mt-2 break-all font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
+                      <h3 className="mt-2 break-all font-editorial text-2xl font-light text-[var(--brand-blue-dark)]">
                         {
                           order.order_number
                         }
@@ -969,7 +969,7 @@ export default async function DeliveryShipmentsPage({
                     </div>
 
                     <span
-                      className={`inline-flex w-fit items-center border px-3 py-2 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] ${getOrderStatusClasses(
+                      className={`inline-flex w-fit items-center border px-3 py-2 font-body text-[9px] font-semibold uppercase tracking-[0.14em] ${getOrderStatusClasses(
                         order.status
                       )}`}
                     >
@@ -980,18 +980,18 @@ export default async function DeliveryShipmentsPage({
                   </div>
 
                   <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                    <div className="border border-[var(--border)] bg-white p-4">
+                    <div className="border border-[var(--border)] bg-[var(--surface)] p-4 rounded-[24px]">
                       <p className="athimart-label text-[var(--text-muted)]">
                         Customer
                       </p>
 
-                      <p className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                      <p className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
                         {
                           order.shipping_name
                         }
                       </p>
 
-                      <p className="mt-1 flex items-center gap-2 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+                      <p className="mt-1 flex items-center gap-2 font-body text-xs text-[var(--text-muted)]">
                         <MapPin
                           aria-hidden="true"
                           className="h-4 w-4"
@@ -1004,18 +1004,18 @@ export default async function DeliveryShipmentsPage({
                       </p>
                     </div>
 
-                    <div className="border border-[var(--border)] bg-white p-4">
+                    <div className="border border-[var(--border)] bg-[var(--surface)] p-4 rounded-[24px]">
                       <p className="athimart-label text-[var(--text-muted)]">
                         Order value
                       </p>
 
-                      <p className="mt-2 font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
+                      <p className="mt-2 font-editorial text-2xl font-light text-[var(--brand-blue-dark)]">
                         {formatLkr(
                           order.total
                         )}
                       </p>
 
-                      <p className="mt-1 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+                      <p className="mt-1 font-body text-xs text-[var(--text-muted)]">
                         {
                           order.payment_method
                         }
@@ -1023,7 +1023,7 @@ export default async function DeliveryShipmentsPage({
                     </div>
                   </div>
 
-                  <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+                  <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-body text-xs text-[var(--text-muted)]">
                     <span>
                       Items:{" "}
                       <strong className="text-[var(--text)]">
@@ -1057,7 +1057,7 @@ export default async function DeliveryShipmentsPage({
 
                     <button
                       type="submit"
-                      className="inline-flex min-h-12 w-full items-center justify-center gap-3 bg-[var(--brand-orange)] px-5 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.16em] !text-white transition-colors hover:bg-[var(--brand-orange-dark)] hover:!text-white [&_svg]:!text-white"
+                      className="inline-flex min-h-12 w-full items-center justify-center gap-3 bg-[var(--brand-orange)] px-5 font-body text-[10px] font-semibold uppercase tracking-[0.16em] !text-white transition-colors hover:bg-[var(--brand-orange-dark)] hover:!text-white [&_svg]:!text-white rounded-full athimart-brand-button"
                     >
                       <PackagePlus
                         aria-hidden="true"
@@ -1077,10 +1077,10 @@ export default async function DeliveryShipmentsPage({
       </section>
 
       {/* Existing shipments */}
-      <section className="mt-10 border border-[var(--border)] bg-white shadow-[0_20px_55px_rgba(17,42,91,0.06)]">
+      <section className="mt-10 border border-[var(--border)] bg-[var(--surface)] shadow-[0_20px_55px_rgba(69,77,54,0.06)]">
         <header className="flex flex-col gap-4 border-b border-[var(--border)] p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-start gap-4">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)]">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--brand-blue-soft)] text-[var(--brand-blue)] rounded-2xl">
               <Truck
                 aria-hidden="true"
                 className="h-6 w-6"
@@ -1093,11 +1093,11 @@ export default async function DeliveryShipmentsPage({
                 Delivery records
               </p>
 
-              <h2 className="mt-2 font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]">
+              <h2 className="mt-2 font-editorial text-3xl font-light text-[var(--brand-blue-dark)]">
                 Existing Shipments
               </h2>
 
-              <p className="mt-2 font-[var(--font-body)] text-xs leading-6 text-[var(--text-muted)]">
+              <p className="mt-2 font-body text-xs leading-6 text-[var(--text-muted)]">
                 Review generated shipment
                 groups, payment values and
                 assigned drivers.
@@ -1105,7 +1105,7 @@ export default async function DeliveryShipmentsPage({
             </div>
           </div>
 
-          <span className="inline-flex min-h-10 items-center justify-center bg-[var(--brand-blue-soft)] px-4 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-blue)]">
+          <span className="inline-flex min-h-10 items-center justify-center bg-[var(--brand-blue-soft)] px-4 font-body text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-blue)] rounded-2xl">
             {shipments.length}{" "}
             Shipment(s)
           </span>
@@ -1120,11 +1120,11 @@ export default async function DeliveryShipmentsPage({
               strokeWidth={1.5}
             />
 
-            <h3 className="mt-5 font-[var(--font-display)] text-3xl font-light text-[var(--brand-blue-dark)]">
+            <h3 className="mt-5 font-editorial text-3xl font-light text-[var(--brand-blue-dark)]">
               No Shipments Yet
             </h3>
 
-            <p className="mx-auto mt-3 max-w-xl font-[var(--font-body)] text-sm leading-7 text-[var(--text-muted)]">
+            <p className="mx-auto mt-3 max-w-xl font-body text-sm leading-7 text-[var(--text-muted)]">
               Generate delivery shipments
               from an eligible customer
               order to see them here.
@@ -1174,13 +1174,13 @@ export default async function DeliveryShipmentsPage({
                           Shipment number
                         </p>
 
-                        <h3 className="mt-2 break-all font-[var(--font-display)] text-2xl font-light text-[var(--brand-blue-dark)]">
+                        <h3 className="mt-2 break-all font-editorial text-2xl font-light text-[var(--brand-blue-dark)]">
                           {
                             shipment.shipment_number
                           }
                         </h3>
 
-                        <p className="mt-2 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+                        <p className="mt-2 font-body text-xs text-[var(--text-muted)]">
                           Order:{" "}
                           <strong className="text-[var(--text)]">
                             {order
@@ -1191,7 +1191,7 @@ export default async function DeliveryShipmentsPage({
                       </div>
 
                       <span
-                        className={`inline-flex w-fit items-center border px-3 py-2 font-[var(--font-body)] text-[9px] font-semibold uppercase tracking-[0.14em] ${getShipmentStatusClasses(
+                        className={`inline-flex w-fit items-center border px-3 py-2 font-body text-[9px] font-semibold uppercase tracking-[0.14em] ${getShipmentStatusClasses(
                           shipment.status
                         )}`}
                       >
@@ -1202,12 +1202,12 @@ export default async function DeliveryShipmentsPage({
                     </div>
 
                     <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                      <div className="border border-[var(--border)] bg-white p-4">
+                      <div className="border border-[var(--border)] bg-[var(--surface)] p-4 rounded-[24px]">
                         <p className="athimart-label text-[var(--text-muted)]">
                           Fulfilment source
                         </p>
 
-                        <p className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                        <p className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
                           {shipment.vendor_id
                             ? getProfileDisplayName(
                                 vendor
@@ -1215,19 +1215,19 @@ export default async function DeliveryShipmentsPage({
                             : "AthiMart Fulfilment"}
                         </p>
 
-                        <p className="mt-1 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+                        <p className="mt-1 font-body text-xs text-[var(--text-muted)]">
                           {shipment.vendor_id
                             ? "Seller shipment"
                             : "Admin-owned products"}
                         </p>
                       </div>
 
-                      <div className="border border-[var(--border)] bg-white p-4">
+                      <div className="border border-[var(--border)] bg-[var(--surface)] p-4 rounded-[24px]">
                         <p className="athimart-label text-[var(--text-muted)]">
                           Assigned driver
                         </p>
 
-                        <p className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                        <p className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
                           {shipment
                             .assigned_driver_user_id
                             ? getProfileDisplayName(
@@ -1236,7 +1236,7 @@ export default async function DeliveryShipmentsPage({
                             : "Not assigned"}
                         </p>
 
-                        <p className="mt-1 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+                        <p className="mt-1 font-body text-xs text-[var(--text-muted)]">
                           {shipment
                             .assigned_driver_user_id
                             ? "Delivery partner"
@@ -1246,36 +1246,36 @@ export default async function DeliveryShipmentsPage({
                     </div>
 
                     <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                      <div className="border border-[var(--border)] bg-white p-4">
+                      <div className="border border-[var(--border)] bg-[var(--surface)] p-4 rounded-[24px]">
                         <p className="athimart-label text-[var(--text-muted)]">
                           COD amount
                         </p>
 
-                        <p className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                        <p className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
                           {formatLkr(
                             shipment.cod_amount
                           )}
                         </p>
                       </div>
 
-                      <div className="border border-[var(--border)] bg-white p-4">
+                      <div className="border border-[var(--border)] bg-[var(--surface)] p-4 rounded-[24px]">
                         <p className="athimart-label text-[var(--text-muted)]">
                           Item rows
                         </p>
 
-                        <p className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                        <p className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
                           {
                             itemSummary.itemRows
                           }
                         </p>
                       </div>
 
-                      <div className="border border-[var(--border)] bg-white p-4">
+                      <div className="border border-[var(--border)] bg-[var(--surface)] p-4 rounded-[24px]">
                         <p className="athimart-label text-[var(--text-muted)]">
                           Quantity
                         </p>
 
-                        <p className="mt-2 font-[var(--font-body)] text-sm font-semibold text-[var(--text)]">
+                        <p className="mt-2 font-body text-sm font-semibold text-[var(--text)]">
                           {
                             itemSummary.totalQuantity
                           }
@@ -1283,7 +1283,7 @@ export default async function DeliveryShipmentsPage({
                       </div>
                     </div>
 
-                    <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-[var(--font-body)] text-xs text-[var(--text-muted)]">
+                    <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-body text-xs text-[var(--text-muted)]">
                       <span className="inline-flex items-center gap-2">
                         <MapPin
                           aria-hidden="true"

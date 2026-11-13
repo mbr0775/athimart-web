@@ -28,7 +28,7 @@ function StatusButton({
     <button
       type="submit"
       disabled={pending}
-      className={`inline-flex min-h-10 items-center justify-center gap-2 border px-3 font-[var(--font-body)] text-[8px] font-semibold uppercase tracking-[0.14em] transition-colors disabled:cursor-wait disabled:opacity-60 ${
+      className={`inline-flex min-h-10 items-center justify-center gap-2 border px-3 font-body text-[8px] font-semibold uppercase tracking-[0.14em] transition-colors disabled:cursor-wait disabled:opacity-60 ${
         isActive
           ? "border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] text-[var(--brand-orange-dark)] hover:bg-[var(--brand-orange)] hover:text-white!"
           : "border-[var(--success)] bg-green-50 text-[var(--success)] hover:bg-[var(--success)] hover:text-white!"
