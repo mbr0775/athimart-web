@@ -1,5 +1,6 @@
 import "server-only";
 
+import { AVATAR_BUCKET, ownedAvatarPath } from "@/lib/account/profile-identity";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { PRODUCT_COLUMNS } from "@/lib/products/product-columns";
 import { mapProduct } from "@/lib/products/product-mapper";
@@ -26,6 +27,27 @@ export async function findShops({
   });
   if (error) throw new Error(`Unable to load marketplace shops: ${error.message}`);
   return data ?? [];
+}
+
+export type HomeShop = MarketplaceShop & { avatarUrl: string | null };
+
+export async function findHomeShops(): Promise<HomeShop[]> {
+  const shops = await findShops({ limit: 9 });
+  const ids = shops.filter(({ id }) => id !== OFFICIAL_SHOP_ID && isShopId(id)).map(({ id }) => id);
+  const avatars = new Map<string, string>();
+
+  if (ids.length) {
+    const { data, error } = await publicSupabase.rpc("find_marketplace_shop_avatar_paths", { shop_ids: ids });
+    if (!error) {
+      const origin = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+      for (const row of data ?? []) {
+        const { data: { publicUrl } } = publicSupabase.storage.from(AVATAR_BUCKET).getPublicUrl(row.object_path);
+        if (ownedAvatarPath(publicUrl, origin, row.id) === row.object_path) avatars.set(row.id, publicUrl);
+      }
+    }
+  }
+
+  return shops.map((shop) => ({ ...shop, avatarUrl: avatars.get(shop.id) ?? null }));
 }
 
 export async function findShop(id: string, client?: SupabaseClient) {

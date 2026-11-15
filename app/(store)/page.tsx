@@ -10,12 +10,12 @@ import ProductDiscoverySection from "@/components/home/product-discovery-section
 import ShopCategorySection from "@/components/home/shop-category-section";
 import StorefrontDeliverySection from "@/components/home/storefront-delivery-section";
 import WhyAthiMartSection from "@/components/home/why-athimart-section";
-import { ShopPreview } from "@/components/shops/shop-card";
+import SellerShowcase from "@/components/home/seller-showcase";
 import { siteConfig } from "@/config/site";
 import { getHomeCategoryPreviews } from "@/lib/products/product-category-service";
 import { getFeaturedDrops } from "@/lib/products/product-home-service";
 import { getActiveProducts } from "@/lib/products/product-service";
-import { findShops } from "@/lib/shops/shop-service";
+import { findHomeShops } from "@/lib/shops/shop-service";
 
 const title = "AthiMart Online Marketplace";
 const description = "Explore local sellers, groceries, technology, fashion and everyday essentials on AthiMart.";
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 export default async function StoreHomePage() {
   await connection();
   const [shops, latest, featured, previews] = await Promise.allSettled([
-    findShops({ limit: 9 }),
+    findHomeShops(),
     getActiveProducts({ countryCode: "LK", limit: 10 }),
     getFeaturedDrops({ countryCode: "LK", limit: 8 }),
     getHomeCategoryPreviews("LK"),
@@ -51,7 +51,7 @@ export default async function StoreHomePage() {
       }} />
       <HomeScrollReveal>
         <HeroCollectionSection />
-        <ShopPreview shops={shops.status === "fulfilled" ? shops.value : []} />
+        <SellerShowcase shops={shops.status === "fulfilled" ? shops.value : []} />
         <LatestProductsSection products={latestProducts} />
         <FeaturedProductsCarousel products={featured.status === "fulfilled" ? featured.value : []} />
         <ShopCategorySection previews={previews.status === "fulfilled" ? previews.value : {}} />
