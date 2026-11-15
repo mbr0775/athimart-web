@@ -1,5 +1,6 @@
 "use server";
 
+import { validatePackFields, withoutPackFields } from "@/lib/products/product-packs";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -366,6 +367,9 @@ export async function createProduct(
       imageResult.error;
   }
 
+  const pack = validatePackFields(formData, name);
+  if (pack.error) fieldErrors.pack = pack.error;
+
   if (
     attributesResult.error
   ) {
@@ -530,7 +534,7 @@ export async function createProduct(
         imageResult.urls,
 
       attributes:
-        attributesResult.attributes,
+        { ...withoutPackFields(attributesResult.attributes), ...pack.attributes },
 
       country_code:
         "LK",

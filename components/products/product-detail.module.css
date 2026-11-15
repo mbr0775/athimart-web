@@ -528,3 +528,30 @@
     transform: none;
   }
 }
+
+.packChoices { margin-block: .9rem; }
+
+.packChoices p {
+  margin: 0 0 .45rem;
+  font-size: .9rem;
+  font-weight: 600;
+}
+
+.packChoices ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+}
+
+.packChoices a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: .45rem .8rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: .85rem;
+}
+
+.packChoices a:hover { border-color: var(--brand); }
+.packChoices a[aria-current] { background: var(--brand); color: var(--surface); }

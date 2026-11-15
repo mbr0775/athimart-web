@@ -206,3 +206,24 @@
   .page *, .page *::before, .page *::after { transition: none; animation: none; }
   .checkoutLink:hover, .quantity button:active:not(:disabled), .imageLink:hover .productImage img { transform: none; }
 }
+
+.packSelector {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem .65rem;
+  margin-top: .7rem;
+  color: var(--text);
+  font-size: .85rem;
+  font-weight: 500;
+}
+
+.packSelector select {
+  min-height: 44px;
+  max-width: 100%;
+  padding: .45rem .65rem;
+  border: 1px solid var(--border);
+  border-radius: .6rem;
+  background: var(--surface);
+  font: inherit;
+}

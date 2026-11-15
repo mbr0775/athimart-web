@@ -19,6 +19,8 @@ import { updateProduct } from "@/app/(seller)/seller/products/[productId]/edit/a
 import { ProductImageUploader } from "@/components/admin/product-image-uploader";
 import type { SellerEditableProduct } from "@/lib/products/seller-product-edit-service";
 import type { AdminProductFormState } from "@/types/admin-product-form";
+import { readPack, withoutPackFields } from "@/lib/products/product-packs";
+import ProductPackFields from "./product-pack-fields";
 import { ProductCategoryFields, type CategoryOption } from "./product-category-fields";
 
 interface EditProductFormProps {
@@ -63,6 +65,7 @@ export function EditProductForm({
   product,
   categories,
 }: Readonly<EditProductFormProps>) {
+  const pack = readPack(product.attributes);
   const updateProductWithId =
     updateProduct.bind(
       null,
@@ -292,6 +295,8 @@ export function EditProductForm({
                 inputClassName={() => inputClassName + " rounded-xl"}
                 errors={state.fieldErrors}
               />
+
+              <ProductPackFields group={pack?.group} size={pack?.size} error={state.fieldErrors.pack} />
 
               {/* Slug */}
               <label>
@@ -697,7 +702,7 @@ export function EditProductForm({
                 name="attributes"
                 rows={10}
                 defaultValue={JSON.stringify(
-                  product.attributes,
+                  withoutPackFields(product.attributes),
                   null,
                   2
                 )}

@@ -6,6 +6,9 @@ import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronRight, LockKeyhole, Minus, Plus, RotateCcw, ShoppingBag, Trash2 } from "lucide-react";
 
 import { CART_STORAGE_KEY, clearStoredCart, getCartSubtotal, readCart, writeCart } from "@/lib/cart/cart-storage";
+import { loadCartPacks } from "./actions";
+import { switchCartPack } from "@/lib/cart/switch-cart-pack";
+import type { PackOption } from "@/lib/products/product-pack-service";
 import CartProductImage from "@/components/cart/cart-product-image";
 import { editorialFont } from "@/lib/fonts";
 import { getProductPath } from "@/lib/products/product-url";
@@ -27,6 +30,8 @@ export default function CartPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [undoCart, setUndoCart] = useState<ShoppingCart | null>(null);
   const [notice, setNotice] = useState("");
+  const [packs, setPacks] = useState<Record<string, PackOption[]>>({});
+  const packLookupKey = cart.items.filter((item) => item.currencyCode === "LKR").map((item) => item.productId).sort().join(",");
   const reduceMotion = useReducedMotion();
   const refreshCart = useCallback(() => { setCart(readCart()); setIsLoaded(true); }, []);
 
@@ -48,6 +53,20 @@ export default function CartPage() {
     };
   }, [refreshCart]);
 
+  useEffect(() => {
+    if (!packLookupKey) return;
+    let active = true;
+    loadCartPacks(packLookupKey.split(",")).then((variants) => {
+      if (!active) return;
+      const byId: Record<string, PackOption[]> = {};
+      for (const options of Object.values(variants)) {
+        for (const option of options) byId[option.product.productId] = options;
+      }
+      setPacks(byId);
+    }).catch(() => { if (active) setPacks({}); });
+    return () => { active = false; };
+  }, [packLookupKey]);
+
   const subtotal = useMemo(() => getCartSubtotal(cart), [cart]);
   const itemCount = useMemo(() => cart.items.reduce((total, item) => total + item.quantity, 0), [cart.items]);
   const currencyCode = cart.items[0]?.currencyCode ?? "LKR";
@@ -55,6 +74,16 @@ export default function CartPage() {
   function saveUpdatedCart(updatedCart: ShoppingCart) {
     setCart(writeCart(updatedCart));
     window.dispatchEvent(new CustomEvent(CART_UPDATED_EVENT));
+  }
+
+  function changePack(currentId: string, nextId: string) {
+    const target = packs[currentId]?.find((option) => option.product.productId === nextId);
+    if (!target) return;
+    const result = switchCartPack(readCart(), currentId, target);
+    if (!result) return;
+    setUndoCart(null);
+    if (result.cart) saveUpdatedCart(result.cart);
+    setNotice(result.notice);
   }
 
   function changeQuantity(productId: string, change: number) {
@@ -163,6 +192,20 @@ export default function CartPage() {
                         </div>
                         <button type="button" onClick={() => removeItem(item.productId)} className={styles.removeButton} aria-label={`Remove ${item.name} from cart`} title="Remove item"><Trash2 size={16} strokeWidth={1.6} aria-hidden="true" /></button>
                       </div>
+                      {item.currencyCode === "LKR" && (packs[item.productId]?.length ?? 0) > 1 && (
+                        <label className={styles.packSelector}>
+                          <span>Pack size</span>
+                          <select aria-label={`Pack size for ${item.name}`} value={item.productId}
+                            onChange={(event) => changePack(item.productId, event.target.value)}>
+                            {packs[item.productId].map(({ size, product }) => (
+                              <option key={product.productId} value={product.productId}
+                                disabled={product.productId !== item.productId && (product.stock <= 0 || product.unitPrice <= 0)}>
+                                {size} · {product.stock > 0 && product.unitPrice > 0 ? formatCurrency(product.unitPrice, product.currencyCode) : "Unavailable"}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                      )}
                       <div className={styles.itemBottom}>
                         <div className={styles.quantity} role="group" aria-label={`Quantity for ${item.name}`}>
                           <button type="button" disabled={item.quantity <= 1} onClick={() => changeQuantity(item.productId, -1)} aria-label={`Reduce ${item.name} quantity`}><Minus size={15} aria-hidden="true" /></button>

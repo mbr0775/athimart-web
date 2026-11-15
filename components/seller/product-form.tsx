@@ -23,6 +23,8 @@ import {
 import { createProduct } from "@/app/(seller)/seller/products/new/actions";
 import { ProductImageUploader } from "@/components/admin/product-image-uploader";
 import type { AdminProductFormState } from "@/types/admin-product-form";
+import { validatePackFields } from "@/lib/products/product-packs";
+import ProductPackFields from "./product-pack-fields";
 import { ProductCategoryFields, type CategoryOption } from "./product-category-fields";
 
 interface ProductFormProps {
@@ -47,6 +49,7 @@ const validationOrder = [
   "priceLkr",
   "stock",
   "attributes",
+  "pack",
 ] as const;
 
 const inputClassName =
@@ -402,6 +405,9 @@ function validateProductForm(
         "Specifications contain invalid JSON.";
     }
   }
+
+  const pack = validatePackFields(formData, name);
+  if (pack.error) errors.pack = pack.error;
 
   return errors;
 }
@@ -882,6 +888,8 @@ export function ProductForm({
                 errors={{ category: getFieldError("category"), subCategory: getFieldError("subCategory") }}
                 onChange={clearClientError}
               />
+
+              <ProductPackFields error={getFieldError("pack")} onChange={() => clearClientError("pack")} />
 
               {/* Slug */}
               <label>

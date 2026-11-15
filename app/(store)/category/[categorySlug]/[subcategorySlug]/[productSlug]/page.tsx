@@ -20,6 +20,8 @@ import {
 } from "next/navigation";
 import { cache } from "react";
 
+import { findProductPacks } from "@/lib/products/product-pack-service";
+import { withoutPackFields } from "@/lib/products/product-packs";
 import AddToCartButton from "@/components/cart/add-to-cart-button";
 import { ProductGallery } from "@/components/products/product-gallery";
 import { siteConfig } from "@/config/site";
@@ -321,6 +323,7 @@ export default async function ProductPage({
     );
   }
 
+  const packs = await findProductPacks(product);
   const currentPrice =
     product.prices.LKR;
 
@@ -350,7 +353,7 @@ export default async function ProductPage({
 
   const attributeEntries =
     Object.entries(
-      product.attributes
+      withoutPackFields(product.attributes)
     ).filter(
       ([, value]) => {
         if (
@@ -629,6 +632,20 @@ export default async function ProductPage({
                   <span className={styles.stock} data-unavailable={isOutOfStock}>{isOutOfStock ? <CircleX size={14} aria-hidden="true" /> : <CheckCircle2 size={14} aria-hidden="true" />}{isOutOfStock ? "Out of stock" : `${product.stock} in stock`}</span>
                 </div>
                 {hasDiscount && <p className={styles.savings}>A little more to love. <span>Save {formatLkr(originalPrice - currentPrice)}</span></p>}
+                {packs.length > 1 && (
+                  <div className={styles.packChoices}>
+                    <p>Pack size</p>
+                    <ul aria-label="Pack sizes">
+                      {packs.map(({ size, product: option }) => (
+                        <li key={option.productId}>
+                          <Link href={getProductPath(option)} aria-current={option.productId === product.id ? "page" : undefined}>
+                            {size}{option.stock <= 0 ? " · Out of stock" : ""}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 <div className={styles.actions}>
                   <AddToCartButton product={{
                     productId: product.id,

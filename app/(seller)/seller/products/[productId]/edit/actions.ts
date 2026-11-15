@@ -2,6 +2,7 @@
 
 "use server";
 
+import { validatePackFields, withoutPackFields } from "@/lib/products/product-packs";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -469,6 +470,9 @@ export async function updateProduct(
       imageResult.error;
   }
 
+  const pack = validatePackFields(formData, name);
+  if (pack.error) fieldErrors.pack = pack.error;
+
   if (
     attributesResult.error
   ) {
@@ -729,7 +733,7 @@ export async function updateProduct(
         imageResult.urls,
 
       attributes:
-        attributesResult.attributes,
+        { ...withoutPackFields(attributesResult.attributes), ...pack.attributes },
 
       updated_at:
         new Date().toISOString(),
