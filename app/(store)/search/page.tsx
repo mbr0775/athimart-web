@@ -189,7 +189,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           </section>
         ) : null}
 
-        <section aria-labelledby="search-departments-heading" className={styles.departments}>
+        <section id="categories" aria-labelledby="search-departments-heading" className={styles.departments}>
           <div className={styles.sectionHeader}>
             <div>
               <p className={styles.eyebrow}>A little inspiration</p>

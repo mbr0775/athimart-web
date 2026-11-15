@@ -45,7 +45,7 @@ export default function ProductDiscoverySection({ products }: { products: Produc
           <Link href="/shop" className={styles.shopLink}>
             Shop our products <ArrowUpRight size={20} aria-hidden="true" />
           </Link>
-          <Link href="/#categories" className={styles.categoryLink}>Explore all categories</Link>
+          <Link href="/search#categories" className={styles.categoryLink}>Explore all categories</Link>
         </div>
 
         <div className={styles.productGrid} data-count={cards.length}>

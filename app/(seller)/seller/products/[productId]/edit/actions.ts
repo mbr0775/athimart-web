@@ -5,6 +5,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { getCategoryByName, getSubcategoryByName } from "@/config/categories";
 import { getCurrentSeller } from "@/lib/auth/seller";
 import { getRemovedProductImagePaths } from "@/lib/storage/product-image-storage";
 import { createClient } from "@/lib/supabase/server";
@@ -543,7 +544,7 @@ export async function updateProduct(
   } = await athimartClient
     .from("products")
     .select(
-      "id, image_urls"
+      "id, image_urls, category, sub_category"
     )
     .eq(
       "id",
@@ -579,6 +580,18 @@ export async function updateProduct(
           "Return to your product list and select one of your own products.",
       },
     };
+  }
+
+  // Keep existing category values editable, including listings created by older apps.
+  if (category !== currentProduct.category || subCategory !== currentProduct.sub_category) {
+    if (getCategoryByName(category)?.name !== category) {
+      fieldErrors.category = "Select a category.";
+    } else if (getSubcategoryByName(category, subCategory)?.name !== subCategory) {
+      fieldErrors.subCategory = "Select a product type for this category.";
+    }
+    if (fieldErrors.category || fieldErrors.subCategory) {
+      return { message: "Check the product category.", fieldErrors };
+    }
   }
 
   const previousImageUrls =

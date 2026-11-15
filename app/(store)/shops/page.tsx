@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Heart, Search } from "lucide-react";
+import { Heart } from "lucide-react";
+import { ShopSearchForm } from "@/components/shops/shop-search-form";
 import { ShopCard } from "@/components/shops/shop-card";
 import { getShopPage, SHOP_PAGE_SIZE, ShopPagination } from "@/components/shops/shop-pagination";
 import styles from "@/components/shops/shops.module.css";
@@ -37,12 +38,7 @@ export default async function ShopsPage({ searchParams }: {
       <header className={styles.hero}>
         <h1>Shop the marketplace</h1>
         <p>Find independent sellers, local shops, and businesses on AthiMart.</p>
-        <form action="/shops" role="search" aria-label="Shop directory search" className={styles.search}>
-          <label htmlFor="shop-search" className="sr-only">Search shops</label>
-          <input key={query} id="shop-search" type="search" name="q" placeholder="Search by shop name" maxLength={80} defaultValue={query} />
-          {saved && <input name="saved" type="hidden" value="1" />}
-          <button type="submit"><Search size={18} aria-hidden="true" /> Search</button>
-        </form>
+        <ShopSearchForm query={query} saved={saved} />
       </header>
       <nav className={styles.tabs} aria-label="Shop directory">
         <Link href="/shops" aria-current={!saved ? "page" : undefined}>All shops</Link>

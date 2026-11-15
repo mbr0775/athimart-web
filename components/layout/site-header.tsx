@@ -12,11 +12,9 @@ import type { ProfileIdentity } from "@/lib/account/profile-identity";
 import styles from "./site-header.module.css";
 
 const navigationItems = [
-  { href: "/shop", label: "Products" },
   { href: "/shops", label: "Shops" },
-  { href: "/#categories", label: "Categories" },
-  { href: "/#markets", label: "Markets" },
-  { href: "/#why-athimart", label: "Why AthiMart" },
+  { href: "/shop", label: "Products" },
+  { href: "/search#categories", label: "Categories" },
   { href: "/auth/sign-up?accountType=seller&next=%2Fseller", label: "Sell on AthiMart" },
 ];
 

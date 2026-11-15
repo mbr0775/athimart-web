@@ -13,8 +13,7 @@ const footerNavigation = [
       { href: "/shops", label: "Browse shops" },
       { href: "/shops?saved=1", label: "Favourite shops" },
       { href: "/search", label: "Find your favourite" },
-      { href: "/#categories", label: "Explore categories" },
-      { href: "/#markets", label: "Our markets" },
+      { href: "/search#categories", label: "Explore categories" },
     ],
   },
   {
@@ -29,7 +28,6 @@ const footerNavigation = [
   {
     title: "The marketplace",
     links: [
-      { href: "/#why-athimart", label: "Our story" },
       { href: "/delivery-partner", label: "Deliver with AthiMart" },
       { href: "/auth/sign-up?accountType=seller&next=%2Fseller", label: "Sell on AthiMart" },
     ],

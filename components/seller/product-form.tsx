@@ -23,17 +23,7 @@ import {
 import { createProduct } from "@/app/(seller)/seller/products/new/actions";
 import { ProductImageUploader } from "@/components/admin/product-image-uploader";
 import type { AdminProductFormState } from "@/types/admin-product-form";
-
-interface SubcategoryOption {
-  name: string;
-  slug: string;
-}
-
-interface CategoryOption {
-  name: string;
-  slug: string;
-  subcategories: SubcategoryOption[];
-}
+import { ProductCategoryFields, type CategoryOption } from "./product-category-fields";
 
 interface ProductFormProps {
   categories: CategoryOption[];
@@ -419,26 +409,6 @@ function validateProductForm(
 export function ProductForm({
   categories,
 }: Readonly<ProductFormProps>) {
-  const firstCategory =
-    categories[0];
-
-  const [
-    selectedCategory,
-    setSelectedCategory,
-  ] = useState(
-    firstCategory?.name ??
-      ""
-  );
-
-  const [
-    selectedSubcategory,
-    setSelectedSubcategory,
-  ] = useState(
-    firstCategory
-      ?.subcategories[0]
-      ?.name ?? ""
-  );
-
   const [
     clientErrors,
     setClientErrors,
@@ -455,17 +425,6 @@ export function ProductForm({
     createProduct,
     initialState
   );
-
-  const currentCategory =
-    categories.find(
-      (category) =>
-        category.name ===
-        selectedCategory
-    );
-
-  const subcategories =
-    currentCategory
-      ?.subcategories ?? [];
 
   const combinedErrors: FieldErrors =
     {
@@ -550,40 +509,6 @@ export function ProductForm({
         return nextErrors;
       }
     );
-  }
-
-  function handleCategoryChange(
-    categoryName: string
-  ) {
-    setSelectedCategory(
-      categoryName
-    );
-
-    clearClientError(
-      "category"
-    );
-
-    const nextCategory =
-      categories.find(
-        (category) =>
-          category.name ===
-          categoryName
-      );
-
-    const nextSubcategory =
-      nextCategory
-        ?.subcategories[0]
-        ?.name ?? "";
-
-    setSelectedSubcategory(
-      nextSubcategory
-    );
-
-    if (nextSubcategory) {
-      clearClientError(
-        "subCategory"
-      );
-    }
   }
 
   function handleSubmit(
@@ -951,144 +876,12 @@ export function ProductForm({
                 />
               </label>
 
-              {/* Category */}
-              <label data-product-field="category">
-                <RequiredLabel>
-                  Category
-                </RequiredLabel>
-
-                <select
-                  name="category"
-                  value={
-                    selectedCategory
-                  }
-                  aria-invalid={Boolean(
-                    getFieldError(
-                      "category"
-                    )
-                  )}
-                  aria-describedby="category-error"
-                  onChange={(
-                    event
-                  ) =>
-                    handleCategoryChange(
-                      event
-                        .target
-                        .value
-                    )
-                  }
-                  className={getInputClass(
-                    "category"
-                  )}
-                >
-                  {categories.length ===
-                    0 && (
-                    <option value="">
-                      No
-                      categories
-                      available
-                    </option>
-                  )}
-
-                  {categories.map(
-                    (
-                      category
-                    ) => (
-                      <option
-                        key={
-                          category.slug
-                        }
-                        value={
-                          category.name
-                        }
-                      >
-                        {
-                          category.name
-                        }
-                      </option>
-                    )
-                  )}
-                </select>
-
-                <FieldError
-                  id="category-error"
-                  message={getFieldError(
-                    "category"
-                  )}
-                />
-              </label>
-
-              {/* Subcategory */}
-              <label data-product-field="subCategory">
-                <RequiredLabel>
-                  Product type
-                </RequiredLabel>
-
-                <select
-                  name="subCategory"
-                  value={
-                    selectedSubcategory
-                  }
-                  aria-invalid={Boolean(
-                    getFieldError(
-                      "subCategory"
-                    )
-                  )}
-                  aria-describedby="subCategory-error"
-                  onChange={(
-                    event
-                  ) => {
-                    setSelectedSubcategory(
-                      event
-                        .target
-                        .value
-                    );
-
-                    clearClientError(
-                      "subCategory"
-                    );
-                  }}
-                  className={getInputClass(
-                    "subCategory"
-                  )}
-                >
-                  {subcategories.length ===
-                    0 && (
-                    <option value="">
-                      No
-                      product
-                      types
-                      available
-                    </option>
-                  )}
-
-                  {subcategories.map(
-                    (
-                      subcategory
-                    ) => (
-                      <option
-                        key={
-                          subcategory.slug
-                        }
-                        value={
-                          subcategory.name
-                        }
-                      >
-                        {
-                          subcategory.name
-                        }
-                      </option>
-                    )
-                  )}
-                </select>
-
-                <FieldError
-                  id="subCategory-error"
-                  message={getFieldError(
-                    "subCategory"
-                  )}
-                />
-              </label>
+              <ProductCategoryFields
+                categories={categories}
+                inputClassName={getInputClass}
+                errors={{ category: getFieldError("category"), subCategory: getFieldError("subCategory") }}
+                onChange={clearClientError}
+              />
 
               {/* Slug */}
               <label>

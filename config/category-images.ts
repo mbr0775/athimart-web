@@ -1,6 +1,8 @@
 // Shared collection photos for the home page and search discovery cards.
 // Replace a photo ID here to update both sections together.
 export const categoryCoverPhotos: Record<string, string> = {
+  // Tim Photoguy on Unsplash, photo 2h1O8DtRu3g.
+  grocery: "photo-1767364084218-a18f3ea7e93f",
   "digital-products": "photo-1496181133206-80ce9b88a853",
   "it-solutions": "photo-1498050108023-c5249f4df085",
   "ai-gadgets": "photo-1523275335684-37898b6baf30",

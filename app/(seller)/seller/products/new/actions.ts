@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { getCategoryByName, getSubcategoryByName } from "@/config/categories";
 import { getCurrentSeller } from "@/lib/auth/seller";
 import { createClient } from "@/lib/supabase/server";
 import type { AdminProductFormState } from "@/types/admin-product-form";
@@ -306,14 +307,10 @@ export async function createProduct(
       "Enter the company or seller name.";
   }
 
-  if (!category) {
-    fieldErrors.category =
-      "Select a category.";
-  }
-
-  if (!subCategory) {
-    fieldErrors.subCategory =
-      "Select a product type.";
+  if (getCategoryByName(category)?.name !== category) {
+    fieldErrors.category = "Select a category.";
+  } else if (getSubcategoryByName(category, subCategory)?.name !== subCategory) {
+    fieldErrors.subCategory = "Select a product type for this category.";
   }
 
   if (

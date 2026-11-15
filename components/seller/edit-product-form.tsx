@@ -13,24 +13,13 @@ import {
 import Link from "next/link";
 import {
   useActionState,
-  useState,
 } from "react";
 
 import { updateProduct } from "@/app/(seller)/seller/products/[productId]/edit/actions";
 import { ProductImageUploader } from "@/components/admin/product-image-uploader";
 import type { SellerEditableProduct } from "@/lib/products/seller-product-edit-service";
 import type { AdminProductFormState } from "@/types/admin-product-form";
-
-interface SubcategoryOption {
-  name: string;
-  slug: string;
-}
-
-interface CategoryOption {
-  name: string;
-  slug: string;
-  subcategories: SubcategoryOption[];
-}
+import { ProductCategoryFields, type CategoryOption } from "./product-category-fields";
 
 interface EditProductFormProps {
   product: SellerEditableProduct;
@@ -74,44 +63,6 @@ export function EditProductForm({
   product,
   categories,
 }: Readonly<EditProductFormProps>) {
-  /*
-   * Preserve the product's current category
-   * even if it is not present in the latest
-   * website category configuration.
-   */
-  const initialCategory =
-    product.category ||
-    categories[0]?.name ||
-    "";
-
-  const initialCategoryRecord =
-    categories.find(
-      (category) =>
-        category.name ===
-        initialCategory
-    );
-
-  const initialSubcategory =
-    product.subCategory ||
-    initialCategoryRecord
-      ?.subcategories[0]
-      ?.name ||
-    "";
-
-  const [
-    selectedCategory,
-    setSelectedCategory,
-  ] = useState(
-    initialCategory
-  );
-
-  const [
-    selectedSubcategory,
-    setSelectedSubcategory,
-  ] = useState(
-    initialSubcategory
-  );
-
   const updateProductWithId =
     updateProduct.bind(
       null,
@@ -126,61 +77,6 @@ export function EditProductForm({
     updateProductWithId,
     initialState
   );
-
-  const currentCategory =
-    categories.find(
-      (category) =>
-        category.name ===
-        selectedCategory
-    );
-
-  const subcategories =
-    currentCategory
-      ?.subcategories ?? [];
-
-  const currentCategoryMissing =
-    Boolean(
-      selectedCategory
-    ) &&
-    !categories.some(
-      (category) =>
-        category.name ===
-        selectedCategory
-    );
-
-  const currentSubcategoryMissing =
-    Boolean(
-      selectedSubcategory
-    ) &&
-    !subcategories.some(
-      (subcategory) =>
-        subcategory.name ===
-        selectedSubcategory
-    );
-
-  function handleCategoryChange(
-    categoryName: string
-  ) {
-    setSelectedCategory(
-      categoryName
-    );
-
-    const nextCategory =
-      categories.find(
-        (category) =>
-          category.name ===
-          categoryName
-      );
-
-    const firstSubcategory =
-      nextCategory
-        ?.subcategories[0]
-        ?.name ?? "";
-
-    setSelectedSubcategory(
-      firstSubcategory
-    );
-  }
 
   return (
     <form action={formAction}>
@@ -389,147 +285,13 @@ export function EditProductForm({
                 />
               </label>
 
-              {/* Category */}
-              <label>
-                <span className="athimart-label text-[var(--text-muted)]">
-                  Category{" "}
-
-                  <span className="text-[var(--sale)]">
-                    *
-                  </span>
-                </span>
-
-                <select
-                  name="category"
-                  required
-                  value={
-                    selectedCategory
-                  }
-                  onChange={(event) =>
-                    handleCategoryChange(
-                      event.target.value
-                    )
-                  }
-                  className={
-                    inputClassName
-                  }
-                >
-                  {!selectedCategory && (
-                    <option value="">
-                      Select a category
-                    </option>
-                  )}
-
-                  {currentCategoryMissing && (
-                    <option
-                      value={
-                        selectedCategory
-                      }
-                    >
-                      {
-                        selectedCategory
-                      }{" "}
-                      — Current
-                    </option>
-                  )}
-
-                  {categories.map(
-                    (category) => (
-                      <option
-                        key={
-                          category.slug
-                        }
-                        value={
-                          category.name
-                        }
-                      >
-                        {
-                          category.name
-                        }
-                      </option>
-                    )
-                  )}
-                </select>
-
-                <FieldError
-                  message={
-                    state
-                      .fieldErrors
-                      .category
-                  }
-                />
-              </label>
-
-              {/* Subcategory */}
-              <label>
-                <span className="athimart-label text-[var(--text-muted)]">
-                  Product type{" "}
-
-                  <span className="text-[var(--sale)]">
-                    *
-                  </span>
-                </span>
-
-                <select
-                  name="subCategory"
-                  required
-                  value={
-                    selectedSubcategory
-                  }
-                  onChange={(event) =>
-                    setSelectedSubcategory(
-                      event.target.value
-                    )
-                  }
-                  className={
-                    inputClassName
-                  }
-                >
-                  {!selectedSubcategory && (
-                    <option value="">
-                      Select a product type
-                    </option>
-                  )}
-
-                  {currentSubcategoryMissing && (
-                    <option
-                      value={
-                        selectedSubcategory
-                      }
-                    >
-                      {
-                        selectedSubcategory
-                      }{" "}
-                      — Current
-                    </option>
-                  )}
-
-                  {subcategories.map(
-                    (subcategory) => (
-                      <option
-                        key={
-                          subcategory.slug
-                        }
-                        value={
-                          subcategory.name
-                        }
-                      >
-                        {
-                          subcategory.name
-                        }
-                      </option>
-                    )
-                  )}
-                </select>
-
-                <FieldError
-                  message={
-                    state
-                      .fieldErrors
-                      .subCategory
-                  }
-                />
-              </label>
+              <ProductCategoryFields
+                categories={categories}
+                initialCategory={product.category}
+                initialSubcategory={product.subCategory}
+                inputClassName={() => inputClassName + " rounded-xl"}
+                errors={state.fieldErrors}
+              />
 
               {/* Slug */}
               <label>
