@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import {
   MAX_PRODUCT_VARIANTS, productVariantFields, variantKey, variantSummary,
@@ -25,6 +25,8 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
   onChange?: (field: string) => void;
 }) {
   const id = useId();
+  const composer = useRef<HTMLDivElement>(null);
+  const pendingPriceFocus = useRef<string | null>(null);
   const [primaryPricing, setPrimaryPricing] = useState(() => ({
     price: String(initialPricing.priceLkr ?? ""),
     originalPrice: String(initialPricing.originalPriceLkr ?? ""),
@@ -39,7 +41,8 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
   const [draftError, setDraftError] = useState("");
   const hasDraft = editing !== null || productVariantFields.some(({ key }) => checked[key] && selection[key]?.trim());
   const message = draftError || errors.variants;
-  const pricingRows = rows.length ? rows : [{ values: {}, ...emptyPricing }];
+  const pricingRows = (rows.length ? rows : [{ values: {}, ...emptyPricing }])
+    .map((row, index) => ({ row, index })).reverse();
 
   function clearDraft() {
     setSelection({});
@@ -63,6 +66,7 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
       setDraftError("Save up to 100 variants per product.");
       return;
     }
+    pendingPriceFocus.current = variantKey(next);
     setRows((current) => editing === null
       ? [...current, { values: next, ...emptyPricing }]
       : current.map((row, index) => index === editing ? { ...row, values: next } : row));
@@ -75,6 +79,7 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
     setChecked(Object.fromEntries(Object.keys(row.values).map((key) => [key, true])));
     setEditing(index);
     setDraftError("");
+    composer.current?.focus();
   }
 
   return (
@@ -87,13 +92,54 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
       </p>
       <input type="hidden" name="variantRows" value={JSON.stringify(rows)} />
       <input type="hidden" name="variantDraftPending" value={String(hasDraft)} />
-      <ul aria-label="Product prices and stock" className="mb-4 space-y-2">
-        {pricingRows.map((row, index) => {
+      <div ref={composer} tabIndex={-1} className="rounded-xl border border-[var(--border)] bg-[var(--linen-light)] p-3 sm:p-4">
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Variant options">
+          {productVariantFields.map(({ key, label }) => (
+            <label key={key} className="flex min-h-10 cursor-pointer items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 text-sm font-medium has-checked:border-[var(--brand)]">
+              <input type="checkbox" checked={Boolean(checked[key])} className="size-4 accent-[var(--brand)]"
+                onChange={(event) => {
+                  const isChecked = event.target.checked;
+                  setChecked((current) => ({ ...current, [key]: isChecked }));
+                }} />
+              {label}
+            </label>
+          ))}
+        </div>
+        {productVariantFields.some(({ key }) => checked[key]) && (
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            {productVariantFields.filter(({ key }) => checked[key]).map(({ key, label, examples }) => (
+              <label key={key} className="min-w-0 text-sm">
+                {label}
+                <input type="text" value={selection[key] ?? ""} maxLength={48}
+                  aria-label={`${label} value`} list={examples.length ? `${id}-${key}` : undefined}
+                  placeholder={examples[0] ?? "Enter an option"} className={control}
+                  onChange={(event) => {
+                    const value = event.target.value;
+                    setSelection((current) => ({ ...current, [key]: value }));
+                    setDraftError("");
+                  }} />
+                {examples.length > 0 && (
+                  <datalist id={`${id}-${key}`}>{examples.map((example) => <option value={example} key={example} />)}</datalist>
+                )}
+              </label>
+            ))}
+          </div>
+        )}
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button type="button" className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-[var(--brand)] px-3 text-sm font-medium text-[var(--linen-light)] hover:bg-[var(--brand-hover)]" onClick={addVariant}>
+            <Plus size={16} aria-hidden="true" />{editing === null ? "Add variant" : "Update variant"}
+          </button>
+          {hasDraft && <button type="button" className={smallButton} onClick={clearDraft}>Cancel option</button>}
+        </div>
+      </div>
+      {message && <p id={`${id}-error`} role="alert" className="mt-2 text-sm text-[var(--sale)]">{message}</p>}
+      <ul aria-label="Product prices and stock" className="mt-3 space-y-2">
+        {pricingRows.map(({ row, index }) => {
           const label = variantSummary(row.values);
           const primary = index === 0;
           const pricing = primary ? primaryPricing : row;
           return (
-            <li key={primary ? "primary" : variantKey(row.values)} className="rounded-xl border border-[var(--border)] p-3">
+            <li key={primary ? "primary" : variantKey(row.values)} className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 focus-within:border-[var(--brand-hover)] sm:p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <strong className="text-sm">{label || "Product price and stock"}</strong>
                 {label && (
@@ -116,6 +162,12 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
                     <label key={key} className="min-w-0 text-sm" data-product-field={primary ? name : undefined}>
                       {fieldLabel}
                       <input className={`${control}${fieldError ? " border-[var(--sale)]" : ""}`}
+                        ref={key === "price" ? (input) => {
+                          if (input && pendingPriceFocus.current === variantKey(row.values)) {
+                            pendingPriceFocus.current = null;
+                            input.focus();
+                          }
+                        } : undefined}
                         name={primary ? name : undefined}
                         aria-label={label ? `${fieldLabel} for ${label}` : undefined}
                         aria-invalid={Boolean(fieldError)}
@@ -140,38 +192,6 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
           );
         })}
       </ul>
-      <div className="grid gap-2 sm:grid-cols-2">
-        {productVariantFields.map(({ key, label, examples }) => (
-          <div key={key} className="min-w-0 rounded-xl border border-[var(--border)] p-2.5">
-            <label className="flex min-h-8 cursor-pointer items-center gap-2 text-sm font-medium">
-              <input type="checkbox" checked={Boolean(checked[key])} className="size-4 accent-[var(--brand)]"
-                onChange={(event) => {
-                  const isChecked = event.target.checked;
-                  setChecked((current) => ({ ...current, [key]: isChecked }));
-                }} />
-              {label}
-            </label>
-            {checked[key] && <input type="text" value={selection[key] ?? ""} maxLength={48}
-              aria-label={`${label} value`} list={examples.length ? `${id}-${key}` : undefined}
-              placeholder={examples[0] ?? "Enter an option"} className={control}
-              onChange={(event) => {
-                const value = event.target.value;
-                setSelection((current) => ({ ...current, [key]: value }));
-                setDraftError("");
-              }} />}
-            {examples.length > 0 && (
-              <datalist id={`${id}-${key}`}>{examples.map((example) => <option value={example} key={example} />)}</datalist>
-            )}
-          </div>
-        ))}
-      </div>
-      <div className="mt-3 flex flex-wrap gap-2">
-        <button type="button" className={smallButton} onClick={addVariant}>
-          <Plus size={16} aria-hidden="true" />{editing === null ? "Add variant" : "Update variant"}
-        </button>
-        {hasDraft && <button type="button" className={smallButton} onClick={clearDraft}>Cancel option</button>}
-      </div>
-      {message && <p id={`${id}-error`} role="alert" className="mt-2 text-sm text-[var(--sale)]">{message}</p>}
     </fieldset>
   );
 }
