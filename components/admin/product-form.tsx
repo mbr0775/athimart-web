@@ -33,10 +33,6 @@ import ProductGallery
 from "./product-form/product-gallery";
 
 
-import ProductPricing
-from "./product-form/product-pricing";
-
-
 import ProductSeo
 from "./product-form/product-seo";
 
@@ -322,7 +318,7 @@ errors={state.fieldErrors}
 
 
 
-<ProductVariantFields error={state.fieldErrors.variants} />
+<ProductVariantFields initialPricing={emptyProduct} errors={state.fieldErrors} />
 
 <ProductDescription
 
@@ -332,19 +328,6 @@ errors={state.fieldErrors}
 
 />
 
-
-
-
-
-
-
-<ProductPricing
-
-product={emptyProduct}
-
-errors={state.fieldErrors}
-
-/>
 
 
 

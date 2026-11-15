@@ -10,13 +10,27 @@ import {
 const control = "mt-1 min-h-11 w-full rounded-xl border border-[var(--border)] bg-[var(--linen-light)] px-3 text-sm";
 const smallButton = "inline-flex min-h-10 items-center gap-2 rounded-lg border border-[var(--border)] px-3 text-sm font-medium hover:bg-[var(--linen-light)]";
 
-export default function ProductVariantFields({ values = {}, error, onChange }: {
+const pricingFields = [
+  { key: "price", name: "priceLkr", label: "Selling price (LKR)", step: "0.01" },
+  { key: "originalPrice", name: "originalPriceLkr", label: "Original price (optional, LKR)", step: "0.01" },
+  { key: "stock", name: "stock", label: "Stock", step: "1" },
+] as const;
+
+const emptyPricing = { price: "", originalPrice: "", stock: "" };
+
+export default function ProductVariantFields({ values = {}, initialPricing, errors = {}, onChange }: {
   values?: VariantValues;
-  error?: string;
-  onChange?: () => void;
+  initialPricing: { priceLkr?: number; originalPriceLkr?: number; stock: number };
+  errors?: Record<string, string | undefined>;
+  onChange?: (field: string) => void;
 }) {
   const id = useId();
-  const [rows, setRows] = useState<VariantRow[]>(() => variantSummary(values) ? [{ values, price: "", stock: "" }] : []);
+  const [primaryPricing, setPrimaryPricing] = useState(() => ({
+    price: String(initialPricing.priceLkr ?? ""),
+    originalPrice: String(initialPricing.originalPriceLkr ?? ""),
+    stock: String(initialPricing.stock),
+  }));
+  const [rows, setRows] = useState<VariantRow[]>(() => variantSummary(values) ? [{ values, ...emptyPricing }] : []);
   const [selection, setSelection] = useState<VariantValues>({});
   const [checked, setChecked] = useState<Partial<Record<VariantKey, boolean>>>(
     () => Object.fromEntries(Object.keys(values).map((key) => [key, true])),
@@ -24,13 +38,14 @@ export default function ProductVariantFields({ values = {}, error, onChange }: {
   const [editing, setEditing] = useState<number | null>(null);
   const [draftError, setDraftError] = useState("");
   const hasDraft = editing !== null || productVariantFields.some(({ key }) => checked[key] && selection[key]?.trim());
-  const message = draftError || error;
+  const message = draftError || errors.variants;
+  const pricingRows = rows.length ? rows : [{ values: {}, ...emptyPricing }];
 
   function clearDraft() {
     setSelection({});
     setEditing(null);
     setDraftError("");
-    onChange?.();
+    onChange?.("variants");
   }
 
   function addVariant() {
@@ -49,7 +64,7 @@ export default function ProductVariantFields({ values = {}, error, onChange }: {
       return;
     }
     setRows((current) => editing === null
-      ? [...current, { values: next, price: "", stock: "" }]
+      ? [...current, { values: next, ...emptyPricing }]
       : current.map((row, index) => index === editing ? { ...row, values: next } : row));
     clearDraft();
   }
@@ -68,51 +83,63 @@ export default function ProductVariantFields({ values = {}, error, onChange }: {
       <legend className="px-2 font-semibold">Product variants</legend>
       <p id={`${id}-help`} className="mb-3 text-sm text-[var(--text-muted)]">
         Enter a size, colour, style or other option, then click Add variant. Repeat for each combination.
-        All variants share the product details and images. Each has its own price and stock.
+        Set the price and stock for each variant here. Enter an original price only for a genuine discount.
       </p>
       <input type="hidden" name="variantRows" value={JSON.stringify(rows)} />
       <input type="hidden" name="variantDraftPending" value={String(hasDraft)} />
-      {rows.length > 0 && (
-        <ul aria-label="Added variants" className="mb-4 space-y-2">
-          {rows.map((row, index) => {
-            const label = variantSummary(row.values);
-            return (
-              <li key={variantKey(row.values)} className="rounded-xl border border-[var(--border)] p-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div><strong className="text-sm">{label}</strong>{index === 0 && (
-                    <p className="text-xs text-[var(--text-muted)]">Uses the price and stock in Pricing &amp; Stock below.</p>
-                  )}</div>
+      <ul aria-label="Product prices and stock" className="mb-4 space-y-2">
+        {pricingRows.map((row, index) => {
+          const label = variantSummary(row.values);
+          const primary = index === 0;
+          const pricing = primary ? primaryPricing : row;
+          return (
+            <li key={primary ? "primary" : variantKey(row.values)} className="rounded-xl border border-[var(--border)] p-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <strong className="text-sm">{label || "Product price and stock"}</strong>
+                {label && (
                   <div className="flex gap-1">
                     <button type="button" className={smallButton} aria-label={`Edit ${label} options`} onClick={() => editRow(index)}>Edit</button>
-                    {(index > 0 || rows.length === 1) && (
+                    {(!primary || rows.length === 1) && (
                       <button type="button" className={smallButton} aria-label={`Remove ${label}`} onClick={() => {
                         setRows((current) => current.filter((_, position) => position !== index));
                         clearDraft();
                       }}><Trash2 size={15} aria-hidden="true" /></button>
                     )}
                   </div>
-                </div>
-                {index > 0 && (
-                  <div className="mt-2 grid gap-2 sm:grid-cols-2">
-                    {(["price", "stock"] as const).map((field) => (
-                      <label key={field} className="text-sm">
-                        {field === "price" ? "Price (LKR)" : "Stock"}
-                        <input className={control} aria-label={`${field === "price" ? "Price" : "Stock"} for ${label}`}
-                          type="number" min={0} step={field === "price" ? "0.01" : "1"} value={row[field]}
-                          onChange={(event) => {
-                            const value = event.target.value;
-                            setRows((current) => current.map((item, position) => position === index ? { ...item, [field]: value } : item));
-                            onChange?.();
-                          }} />
-                      </label>
-                    ))}
-                  </div>
                 )}
-              </li>
-            );
-          })}
-        </ul>
-      )}
+              </div>
+              <div className="mt-2 grid gap-3 sm:grid-cols-3">
+                {pricingFields.map(({ key, name, label: fieldLabel, step }) => {
+                  const fieldError = primary ? errors[name] : undefined;
+                  const fieldErrorId = `${id}-${name}-error`;
+                  return (
+                    <label key={key} className="min-w-0 text-sm" data-product-field={primary ? name : undefined}>
+                      {fieldLabel}
+                      <input className={`${control}${fieldError ? " border-[var(--sale)]" : ""}`}
+                        name={primary ? name : undefined}
+                        aria-label={label ? `${fieldLabel} for ${label}` : undefined}
+                        aria-invalid={Boolean(fieldError)}
+                        aria-describedby={fieldError ? fieldErrorId : undefined}
+                        type="number" min={0} step={step} required={key !== "originalPrice"} value={pricing[key]}
+                        onChange={(event) => {
+                          const value = event.target.value;
+                          if (primary) {
+                            setPrimaryPricing((current) => ({ ...current, [key]: value }));
+                            onChange?.(name);
+                          } else {
+                            setRows((current) => current.map((item, position) => position === index ? { ...item, [key]: value } : item));
+                            onChange?.("variants");
+                          }
+                        }} />
+                      {fieldError && <span id={fieldErrorId} className="mt-1 block text-xs text-[var(--sale)]">{fieldError}</span>}
+                    </label>
+                  );
+                })}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
       <div className="grid gap-2 sm:grid-cols-2">
         {productVariantFields.map(({ key, label, examples }) => (
           <div key={key} className="min-w-0 rounded-xl border border-[var(--border)] p-2.5">

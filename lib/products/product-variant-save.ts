@@ -57,10 +57,12 @@ export function buildVariantRows<T extends ProductWrite>(
       attributes,
       price: row.price,
       price_lkr: row.price,
-      original_price: row.price,
-      original_price_lkr: row.price,
+      original_price: row.originalPrice,
+      original_price_lkr: row.originalPrice,
       stock: row.stock,
-      discount_percent: 0,
+      discount_percent: row.originalPrice > row.price
+        ? Math.round(((row.originalPrice - row.price) / row.originalPrice) * 100)
+        : 0,
       ...("is_featured" in product ? { is_featured: false } : {}),
       ...("featured_drop" in product ? { featured_drop: false } : {}),
     };

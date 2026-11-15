@@ -75,6 +75,7 @@ const sharedImagesKey = "shared_variant_images";
 export interface VariantRow {
   values: VariantValues;
   price: string;
+  originalPrice: string;
   stock: string;
 }
 
@@ -98,7 +99,7 @@ export function variantAttributes(group: string, values: VariantValues, sharedIm
   };
 }
 
-type ParsedRow = { values: VariantValues; price: number; stock: number };
+type ParsedRow = { values: VariantValues; price: number; originalPrice: number; stock: number };
 type VariantSubmission =
   | { valid: true; rows: ParsedRow[] }
   | { valid: false; error: string };
@@ -124,12 +125,17 @@ export function parseVariantRows(form: FormData): VariantSubmission {
     combinations.add(key);
 
     const price = Number(row.price);
+    const originalPrice = Number(row.originalPrice ?? "");
     const stock = Number(row.stock);
     if (index > 0 && (typeof row.price !== "string" || !row.price.trim() || !Number.isFinite(price) || price < 0
       || typeof row.stock !== "string" || !row.stock.trim() || !Number.isSafeInteger(stock) || stock < 0 || stock > 2147483647)) {
       return invalid(`Enter a valid price and whole-number stock for ${label}.`);
     }
-    rows.push({ values, price, stock });
+    if (index > 0 && row.originalPrice !== undefined && (typeof row.originalPrice !== "string"
+      || !Number.isFinite(originalPrice) || originalPrice < 0)) {
+      return invalid(`Enter a valid original price for ${label}.`);
+    }
+    rows.push({ values, price, originalPrice: Math.max(price, originalPrice), stock });
   }
   return { valid: true, rows };
 }
