@@ -6,9 +6,9 @@ import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronRight, LockKeyhole, Minus, Plus, RotateCcw, ShoppingBag, Trash2 } from "lucide-react";
 
 import { CART_STORAGE_KEY, clearStoredCart, getCartSubtotal, readCart, writeCart } from "@/lib/cart/cart-storage";
-import { loadCartPacks } from "./actions";
-import { switchCartPack } from "@/lib/cart/switch-cart-pack";
-import type { PackOption } from "@/lib/products/product-pack-service";
+import { loadCartVariants } from "./actions";
+import { switchCartVariant } from "@/lib/cart/switch-cart-variant";
+import type { VariantOption } from "@/lib/products/product-variant-service";
 import CartProductImage from "@/components/cart/cart-product-image";
 import { editorialFont } from "@/lib/fonts";
 import { getProductPath } from "@/lib/products/product-url";
@@ -30,8 +30,8 @@ export default function CartPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [undoCart, setUndoCart] = useState<ShoppingCart | null>(null);
   const [notice, setNotice] = useState("");
-  const [packs, setPacks] = useState<Record<string, PackOption[]>>({});
-  const packLookupKey = cart.items.filter((item) => item.currencyCode === "LKR").map((item) => item.productId).sort().join(",");
+  const [variants, setVariants] = useState<Record<string, VariantOption[]>>({});
+  const variantLookupKey = cart.items.filter((item) => item.currencyCode === "LKR").map((item) => item.productId).sort().join(",");
   const reduceMotion = useReducedMotion();
   const refreshCart = useCallback(() => { setCart(readCart()); setIsLoaded(true); }, []);
 
@@ -54,18 +54,18 @@ export default function CartPage() {
   }, [refreshCart]);
 
   useEffect(() => {
-    if (!packLookupKey) return;
+    if (!variantLookupKey) return;
     let active = true;
-    loadCartPacks(packLookupKey.split(",")).then((variants) => {
+    loadCartVariants(variantLookupKey.split(",")).then((groups) => {
       if (!active) return;
-      const byId: Record<string, PackOption[]> = {};
-      for (const options of Object.values(variants)) {
+      const byId: Record<string, VariantOption[]> = {};
+      for (const options of Object.values(groups)) {
         for (const option of options) byId[option.product.productId] = options;
       }
-      setPacks(byId);
-    }).catch(() => { if (active) setPacks({}); });
+      setVariants(byId);
+    }).catch(() => { if (active) setVariants({}); });
     return () => { active = false; };
-  }, [packLookupKey]);
+  }, [variantLookupKey]);
 
   const subtotal = useMemo(() => getCartSubtotal(cart), [cart]);
   const itemCount = useMemo(() => cart.items.reduce((total, item) => total + item.quantity, 0), [cart.items]);
@@ -76,10 +76,10 @@ export default function CartPage() {
     window.dispatchEvent(new CustomEvent(CART_UPDATED_EVENT));
   }
 
-  function changePack(currentId: string, nextId: string) {
-    const target = packs[currentId]?.find((option) => option.product.productId === nextId);
+  function changeVariant(currentId: string, nextId: string) {
+    const target = variants[currentId]?.find((option) => option.product.productId === nextId);
     if (!target) return;
-    const result = switchCartPack(readCart(), currentId, target);
+    const result = switchCartVariant(readCart(), currentId, target);
     if (!result) return;
     setUndoCart(null);
     if (result.cart) saveUpdatedCart(result.cart);
@@ -192,15 +192,15 @@ export default function CartPage() {
                         </div>
                         <button type="button" onClick={() => removeItem(item.productId)} className={styles.removeButton} aria-label={`Remove ${item.name} from cart`} title="Remove item"><Trash2 size={16} strokeWidth={1.6} aria-hidden="true" /></button>
                       </div>
-                      {item.currencyCode === "LKR" && (packs[item.productId]?.length ?? 0) > 1 && (
+                      {item.currencyCode === "LKR" && (variants[item.productId]?.length ?? 0) > 1 && (
                         <label className={styles.packSelector}>
-                          <span>Pack size</span>
-                          <select aria-label={`Pack size for ${item.name}`} value={item.productId}
-                            onChange={(event) => changePack(item.productId, event.target.value)}>
-                            {packs[item.productId].map(({ size, product }) => (
+                          <span>{variants[item.productId].every(({ values }) => values.packSize && Object.keys(values).length === 1) ? "Pack size" : "Product option"}</span>
+                          <select aria-label={`Product option for ${item.name}`} value={item.productId}
+                            onChange={(event) => changeVariant(item.productId, event.target.value)}>
+                            {variants[item.productId].map(({ label, product }) => (
                               <option key={product.productId} value={product.productId}
                                 disabled={product.productId !== item.productId && (product.stock <= 0 || product.unitPrice <= 0)}>
-                                {size} · {product.stock > 0 && product.unitPrice > 0 ? formatCurrency(product.unitPrice, product.currencyCode) : "Unavailable"}
+                                {label} · {product.stock > 0 && product.unitPrice > 0 ? formatCurrency(product.unitPrice, product.currencyCode) : "Unavailable"}
                               </option>
                             ))}
                           </select>

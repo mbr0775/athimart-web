@@ -2,7 +2,7 @@
 
 "use server";
 
-import { validatePackFields, withoutPackFields } from "@/lib/products/product-packs";
+import { validateVariantFields, withoutVariantFields } from "@/lib/products/product-variants";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -470,8 +470,8 @@ export async function updateProduct(
       imageResult.error;
   }
 
-  const pack = validatePackFields(formData, name);
-  if (pack.error) fieldErrors.pack = pack.error;
+  const variant = validateVariantFields(formData, name);
+  if (variant.error) fieldErrors.variants = variant.error;
 
   if (
     attributesResult.error
@@ -733,7 +733,7 @@ export async function updateProduct(
         imageResult.urls,
 
       attributes:
-        { ...withoutPackFields(attributesResult.attributes), ...pack.attributes },
+        { ...withoutVariantFields(attributesResult.attributes), ...variant.attributes },
 
       updated_at:
         new Date().toISOString(),

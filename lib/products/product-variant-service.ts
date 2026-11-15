@@ -6,35 +6,38 @@ import type { Product } from "@/types/product";
 import { OFFICIAL_SHOP_ID, isShopId } from "@/lib/shops/shop-identity";
 import { PRODUCT_COLUMNS } from "./product-columns";
 import { mapProduct } from "./product-mapper";
-import { PACK_GROUP_KEY, readPack } from "./product-packs";
+import { VARIANT_GROUP_KEY, readVariant, variantSummary, type VariantValues } from "./product-variants";
 
-export interface PackOption {
-  size: string;
+export interface VariantOption {
+  label: string;
+  values: VariantValues;
   product: Omit<CartItem, "quantity">;
 }
 
-export async function findProductPacks(product: Product): Promise<PackOption[]> {
-  const pack = readPack(product.attributes);
+export async function findProductVariants(product: Product): Promise<VariantOption[]> {
+  const { group, values } = readVariant(product.attributes);
   const shopId = product.shopId;
-  if (!pack || !shopId || !isShopId(shopId) || product.countryCode !== "LK") return [];
+  if (!group || !variantSummary(values) || !shopId || !isShopId(shopId) || product.countryCode !== "LK") return [];
 
   const query = publicSupabase.from("products").select(PRODUCT_COLUMNS)
     .eq("is_active", true).eq("country_code", product.countryCode)
-    .eq(`attributes->>${PACK_GROUP_KEY}`, pack.group);
+    .eq(`attributes->>${VARIANT_GROUP_KEY}`, group);
   if (shopId === OFFICIAL_SHOP_ID) {
     query.eq("is_official_listing", true).is("vendor_id", null);
   } else {
     query.eq("vendor_id", shopId).eq("is_official_listing", false);
   }
-  const { data, error } = await query.order("id").limit(24);
+  const { data, error } = await query.order("id").limit(100);
   if (error) return [];
 
   return (data ?? []).flatMap((row) => {
     const item = mapProduct(row as Record<string, unknown>);
-    const variant = readPack(item.attributes);
-    if (!variant || variant.group !== pack.group) return [];
+    const variant = readVariant(item.attributes);
+    const label = variantSummary(variant.values);
+    if (!label || variant.group !== group) return [];
     return [{
-      size: variant.size,
+      label,
+      values: variant.values,
       product: {
         productId: item.id,
         slug: item.slug,
@@ -49,5 +52,5 @@ export async function findProductPacks(product: Product): Promise<PackOption[]> 
         currencyCode: "LKR" as const,
       },
     }];
-  }).sort((a, b) => a.product.unitPrice - b.product.unitPrice || a.size.localeCompare(b.size));
+  }).sort((a, b) => a.product.unitPrice - b.product.unitPrice || a.label.localeCompare(b.label));
 }

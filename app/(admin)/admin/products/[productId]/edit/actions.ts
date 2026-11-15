@@ -2,6 +2,7 @@
 
 "use server";
 
+import { validateVariantFields, withoutVariantFields } from "@/lib/products/product-variants";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -370,6 +371,9 @@ export async function updateProduct(
     string,
     string
   > = {};
+  const variant = validateVariantFields(formData, name);
+  if (variant.error) fieldErrors.variants = variant.error;
+
   if (shippedBy.length > 120) {
     fieldErrors.shippedBy = "Keep the dispatch name within 120 characters.";
   }
@@ -521,7 +525,7 @@ export async function updateProduct(
   } = await athimartClient
     .from("products")
     .select(
-      "id, image_urls, vendor_id, is_official_listing"
+      "id, image_urls, vendor_id, is_official_listing, attributes"
     )
     .eq(
       "id",
@@ -682,7 +686,7 @@ export async function updateProduct(
         imageResult.urls,
 
       attributes:
-        attributesResult.attributes,
+        { ...withoutVariantFields(currentProduct.attributes ?? {}), ...withoutVariantFields(attributesResult.attributes), ...variant.attributes },
 
       updated_at:
         new Date().toISOString(),

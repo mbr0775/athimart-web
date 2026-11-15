@@ -1,5 +1,6 @@
 "use server";
 
+import { validateVariantFields, withoutVariantFields } from "@/lib/products/product-variants";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -273,6 +274,9 @@ export async function createProduct(
     string,
     string
   > = {};
+  const variant = validateVariantFields(formData, name);
+  if (variant.error) fieldErrors.variants = variant.error;
+
   if (shippedBy.length > 120) {
     fieldErrors.shippedBy = "Keep the dispatch name within 120 characters.";
   }
@@ -473,7 +477,7 @@ export async function createProduct(
         image_urls:
           imageResult.urls,
         attributes:
-          attributesResult.attributes,
+          { ...withoutVariantFields(attributesResult.attributes), ...variant.attributes },
         country_code: "LK",
         updated_at:
           new Date().toISOString(),

@@ -19,8 +19,8 @@ import { updateProduct } from "@/app/(seller)/seller/products/[productId]/edit/a
 import { ProductImageUploader } from "@/components/admin/product-image-uploader";
 import type { SellerEditableProduct } from "@/lib/products/seller-product-edit-service";
 import type { AdminProductFormState } from "@/types/admin-product-form";
-import { readPack, withoutPackFields } from "@/lib/products/product-packs";
-import ProductPackFields from "./product-pack-fields";
+import { readVariant, withoutVariantFields } from "@/lib/products/product-variants";
+import ProductVariantFields from "@/components/products/product-variant-fields";
 import { ProductCategoryFields, type CategoryOption } from "./product-category-fields";
 
 interface EditProductFormProps {
@@ -65,7 +65,7 @@ export function EditProductForm({
   product,
   categories,
 }: Readonly<EditProductFormProps>) {
-  const pack = readPack(product.attributes);
+  const variant = readVariant(product.attributes);
   const updateProductWithId =
     updateProduct.bind(
       null,
@@ -296,7 +296,7 @@ export function EditProductForm({
                 errors={state.fieldErrors}
               />
 
-              <ProductPackFields group={pack?.group} size={pack?.size} error={state.fieldErrors.pack} />
+              <ProductVariantFields group={variant.group} values={variant.values} error={state.fieldErrors.variants} />
 
               {/* Slug */}
               <label>
@@ -702,7 +702,7 @@ export function EditProductForm({
                 name="attributes"
                 rows={10}
                 defaultValue={JSON.stringify(
-                  withoutPackFields(product.attributes),
+                  withoutVariantFields(product.attributes),
                   null,
                   2
                 )}

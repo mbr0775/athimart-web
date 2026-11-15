@@ -23,6 +23,8 @@ import ProductCategoryFields
 from "./product-form/product-category-fields";
 
 
+import ProductVariantFields from "@/components/products/product-variant-fields";
+import { readVariant } from "@/lib/products/product-variants";
 import ProductDescription
 from "./product-form/product-description";
 
@@ -97,6 +99,7 @@ shopOptions,
 
 
 
+const variant = readVariant(product.attributes);
 const updateProductWithId =
   updateProduct.bind(
     null,
@@ -305,6 +308,8 @@ errors={state.fieldErrors}
 
 
 
+
+<ProductVariantFields group={variant.group} values={variant.values} error={state.fieldErrors.variants} />
 
 <ProductDescription
 

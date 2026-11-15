@@ -23,8 +23,8 @@ import {
 import { createProduct } from "@/app/(seller)/seller/products/new/actions";
 import { ProductImageUploader } from "@/components/admin/product-image-uploader";
 import type { AdminProductFormState } from "@/types/admin-product-form";
-import { validatePackFields } from "@/lib/products/product-packs";
-import ProductPackFields from "./product-pack-fields";
+import { validateVariantFields } from "@/lib/products/product-variants";
+import ProductVariantFields from "@/components/products/product-variant-fields";
 import { ProductCategoryFields, type CategoryOption } from "./product-category-fields";
 
 interface ProductFormProps {
@@ -49,7 +49,7 @@ const validationOrder = [
   "priceLkr",
   "stock",
   "attributes",
-  "pack",
+  "variants",
 ] as const;
 
 const inputClassName =
@@ -121,67 +121,6 @@ function getTextValue(
     "string"
     ? value.trim()
     : "";
-}
-
-function hasMeaningfulAttributeValue(
-  value: unknown
-): boolean {
-  if (
-    value === null ||
-    value === undefined
-  ) {
-    return false;
-  }
-
-  if (
-    typeof value ===
-    "string"
-  ) {
-    return (
-      value.trim().length >
-      0
-    );
-  }
-
-  if (
-    typeof value ===
-    "number"
-  ) {
-    return Number.isFinite(
-      value
-    );
-  }
-
-  if (
-    typeof value ===
-    "boolean"
-  ) {
-    return true;
-  }
-
-  if (
-    Array.isArray(value)
-  ) {
-    return value.some(
-      hasMeaningfulAttributeValue
-    );
-  }
-
-  if (
-    typeof value ===
-    "object"
-  ) {
-    return Object.values(
-      value as Record<
-        string,
-        unknown
-      >
-    ).some(
-      hasMeaningfulAttributeValue
-    );
-  }
-
-  return false;
 }
 
 function validateProductForm(
@@ -364,10 +303,10 @@ function validateProductForm(
     }
   }
 
-  if (!attributesValue) {
-    errors.attributes =
-      "Add product specifications in JSON format.";
-  } else {
+  const variant = validateVariantFields(formData, name);
+  if (variant.error) errors.variants = variant.error;
+
+  if (attributesValue) {
     try {
       const parsedAttributes: unknown =
         JSON.parse(
@@ -385,20 +324,6 @@ function validateProductForm(
       ) {
         errors.attributes =
           "Specifications must be a JSON object.";
-      } else if (
-        Object.keys(
-          parsedAttributes
-        ).length === 0
-      ) {
-        errors.attributes =
-          "Add at least one product specification.";
-      } else if (
-        !hasMeaningfulAttributeValue(
-          parsedAttributes
-        )
-      ) {
-        errors.attributes =
-          "Add content to at least one product specification.";
       }
     } catch {
       errors.attributes =
@@ -406,8 +331,6 @@ function validateProductForm(
     }
   }
 
-  const pack = validatePackFields(formData, name);
-  if (pack.error) errors.pack = pack.error;
 
   return errors;
 }
@@ -889,7 +812,7 @@ export function ProductForm({
                 onChange={clearClientError}
               />
 
-              <ProductPackFields error={getFieldError("pack")} onChange={() => clearClientError("pack")} />
+              <ProductVariantFields error={getFieldError("variants")} onChange={() => clearClientError("variants")} />
 
               {/* Slug */}
               <label>
@@ -1306,45 +1229,16 @@ export function ProductForm({
             }`}
           >
             <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
-              Specifications{" "}
-
-              <span
-                aria-hidden="true"
-                className="text-[var(--sale)]"
-              >
-                *
-              </span>
+              Additional specifications
             </h2>
 
-            <div className="mt-3 flex items-start gap-2 border-l-4 border-[var(--sale)] bg-red-50 px-4 py-3">
-              <AlertCircle
-                aria-hidden="true"
-                className="mt-0.5 h-4 w-4 shrink-0 text-[var(--sale)]"
-                strokeWidth={
-                  1.8
-                }
-              />
-
-              <p className="font-body text-xs leading-5 text-[var(--sale)]">
-                Specifications
-                are required.
-                Add at least one
-                specification
-                with actual
-                content.
-              </p>
-            </div>
-
             <label className="mt-6 block">
-              <RequiredLabel>
-                Attributes JSON
-              </RequiredLabel>
+              <span className="text-sm font-medium">Attributes JSON (optional)</span>
 
               <textarea
                 name="attributes"
                 rows={10}
                 defaultValue={`{
-  "color": "",
   "condition": "New"
 }`}
                 aria-invalid={Boolean(

@@ -20,6 +20,7 @@ import ProductCategoryFields
 from "./product-form/product-category-fields";
 
 
+import ProductVariantFields from "@/components/products/product-variant-fields";
 import ProductDescription
 from "./product-form/product-description";
 
@@ -320,6 +321,8 @@ errors={state.fieldErrors}
 
 
 
+
+<ProductVariantFields error={state.fieldErrors.variants} />
 
 <ProductDescription
 
