@@ -204,6 +204,22 @@ export const productCategories: ProductCategory[] = [
         metaDescription: "Shop canned foods, dried foods and freezer staples. Find products from sellers on AthiMart.",
       },
       {
+        name: "Bath & Body",
+        slug: "bath-and-body",
+        shortDescription: "Shop bathing soap, body wash and hand wash.",
+        description: "Browse bathing soap, body wash and hand wash from AthiMart sellers.",
+        seoTitle: "Bath & Body",
+        metaDescription: "Find bathing soap, body wash and hand wash on AthiMart.",
+      },
+      {
+        name: "Oral Care",
+        slug: "oral-care",
+        shortDescription: "Shop toothpaste, toothbrushes and mouthwash.",
+        description: "Browse toothpaste, toothbrushes and mouthwash from AthiMart sellers.",
+        seoTitle: "Oral Care",
+        metaDescription: "Find toothpaste, toothbrushes and mouthwash on AthiMart.",
+      },
+      {
         name: "Household & Cleaning",
         slug: "household-and-cleaning",
         shortDescription: "Shop detergents, cleaners, tissues and household supplies.",
