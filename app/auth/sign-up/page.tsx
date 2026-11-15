@@ -66,6 +66,9 @@ function getErrorMessage(errorCode: string): string {
     case "missing-fields":
       return "Enter your name, email address and both password fields.";
 
+    case "seller-name-reserved":
+      return "AthiMart is reserved for the official store. Enter your own name or business name.";
+
     case "weak-password":
       return "Use a password containing at least eight characters.";
 
@@ -113,7 +116,7 @@ export default async function SignUpPage({ searchParams }: SignUpPageProps) {
   } = await supabase.auth.getUser();
 
   if (user) {
-    redirect(nextPath);
+    redirect(isSeller ? "/seller" : nextPath);
   }
 
   const awaitingConfirmation = status === "check-email";

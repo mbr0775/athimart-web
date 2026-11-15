@@ -81,8 +81,8 @@ export default function SignUpForm({ nextPath, accountType, errorMessage }: {
       </fieldset>
       <div className={styles.fields}>
         <div className={styles.field}>
-          <label htmlFor="signup-name">Full name</label>
-          <div className={styles.inputWrap}><UserRound size={18} strokeWidth={1.6} aria-hidden="true" /><input id="signup-name" type="text" name="fullName" required minLength={2} maxLength={120} autoComplete="name" placeholder="Your full name" /></div>
+          <label htmlFor="signup-name">{isSeller ? "Public seller name" : "Full name"}</label>
+          <div className={styles.inputWrap}><UserRound size={18} strokeWidth={1.6} aria-hidden="true" /><input id="signup-name" type="text" name="fullName" required minLength={2} maxLength={120} autoComplete="name" placeholder={isSeller ? "Your name or business name" : "Your full name"} /></div>
         </div>
         <div className={styles.field}>
           <label htmlFor="signup-email">Email address</label>
@@ -98,7 +98,7 @@ export default function SignUpForm({ nextPath, accountType, errorMessage }: {
         </div>
       </div>
       <p id="signup-password-hint" className={styles.passwordHint}>Use at least 8 characters for your password.</p>
-      <div className={styles.securityNote} aria-live="polite"><ShieldCheck size={18} strokeWidth={1.6} aria-hidden="true" /><p>{isSeller ? "Verify your email, then we’ll review your seller application before you can start selling." : "We’ll send a confirmation email to activate your account. A small step to keep it safe."}</p></div>
+      <div className={styles.securityNote} aria-live="polite"><ShieldCheck size={18} strokeWidth={1.6} aria-hidden="true" /><p>{isSeller ? "This name appears on your listings. Verify your email so we can review your seller application." : "We’ll send a confirmation email to activate your account. A small step to keep it safe."}</p></div>
       <SubmitButton isSeller={isSeller} />
     </form>
   );

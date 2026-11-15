@@ -274,7 +274,7 @@ export function EditProductForm({
               {/* Company or seller */}
               <label>
                 <span className="athimart-label text-[var(--text-muted)]">
-                  Company / Seller{" "}
+                  Manufacturer / Brand{" "}
 
                   <span className="text-[var(--sale)]">
                     *
@@ -290,7 +290,7 @@ export function EditProductForm({
                   defaultValue={
                     product.companyName
                   }
-                  placeholder="Example: Agro Herds"
+                  placeholder="Example: Xiaomi"
                   className={
                     inputClassName
                   }

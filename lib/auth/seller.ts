@@ -16,6 +16,7 @@ export interface SellerProfile {
   id: string;
   email: string;
   fullName: string;
+  publicName: string;
   phone: string;
   role: ApprovedSellerRole;
   sellerApprovalStatus: "approved";
@@ -128,6 +129,11 @@ export const getCurrentSeller = cache(
       user.email ||
       "";
 
+    const accountName = profile.full_name?.toString().trim().slice(0, 120);
+    const publicName = accountName && accountName.toLowerCase() !== "athimart"
+      ? accountName
+      : "Marketplace seller";
+
     const fullName =
       profile.full_name
         ?.toString()
@@ -151,6 +157,7 @@ export const getCurrentSeller = cache(
         id: user.id,
         email,
         fullName,
+        publicName,
         phone,
 
         role:

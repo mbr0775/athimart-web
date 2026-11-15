@@ -242,25 +242,16 @@ py-3
 
 <fieldset className="grid gap-4 sm:grid-cols-2">
   <legend className="athimart-label">Seller and dispatch</legend>
-  <label className="text-sm font-medium">
-    Seller display name
-    <input name="sellerName" maxLength={120} defaultValue={product.sellerName}
-      className="mt-2 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3" />
-  </label>
-  <label className="text-sm font-medium">
-    Seller type
-    <select name="sellerType" defaultValue={product.sellerType || "business"}
-      className="mt-2 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3">
-      <option value="business">Business</option>
-      <option value="individual">Individual</option>
-    </select>
-  </label>
+  <div className="text-sm">
+    <p className="font-medium">Sold by</p>
+    <p className="mt-2">{product.sellerName || "Marketplace seller"}</p>
+  </div>
   <label className="text-sm font-medium">
     Shipped by (optional)
     <input name="shippedBy" maxLength={120} defaultValue={product.shippedBy}
       className="mt-2 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3" />
   </label>
-  {errors.sellerName && <p role="alert">{errors.sellerName}</p>}
+  {errors.shippedBy && <p role="alert">{errors.shippedBy}</p>}
 </fieldset>
 </section>
 

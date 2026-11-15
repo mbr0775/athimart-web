@@ -173,8 +173,6 @@ export async function createProduct(
     "slug"
   );
 
-  const sellerName = getText(formData, "sellerName");
-  const sellerType = getText(formData, "sellerType");
   const shippedBy = getText(formData, "shippedBy");
 
   const companyName = getText(
@@ -273,9 +271,8 @@ export async function createProduct(
     string,
     string
   > = {};
-  if (sellerName.length > 120 || shippedBy.length > 120 ||
-      (sellerName && sellerType !== "individual" && sellerType !== "business")) {
-    fieldErrors.sellerName = "Choose a seller type and keep names within 120 characters.";
+  if (shippedBy.length > 120) {
+    fieldErrors.shippedBy = "Keep the dispatch name within 120 characters.";
   }
 
 
@@ -432,8 +429,8 @@ export async function createProduct(
       .insert({
         slug,
         name,
-        seller_name: sellerName || null,
-        seller_type: sellerName ? sellerType : null,
+        seller_name: "AthiMart",
+        seller_type: "business",
         shipped_by: shippedBy || null,
         company_name:
           companyName,

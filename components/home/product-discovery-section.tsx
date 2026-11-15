@@ -8,9 +8,9 @@ import type { Product } from "@/types/product";
 import styles from "./product-discovery-section.module.css";
 
 const categoryCards = [
-  { id: "digital", name: "Digital devices", category: "Explore technology", href: "/category/digital-products", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1000&q=85", price: null, emoji: "" },
-  { id: "fashion", name: "Everyday style", category: "Explore fashion", href: "/category/fashion", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=85", price: null, emoji: "" },
-  { id: "audio", name: "Audio essentials", category: "Explore accessories", href: "/category/digital-products/audio-devices", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=85", price: null, emoji: "" },
+  { id: "digital", name: "Digital devices", category: "Explore technology", href: "/category/digital-products", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1000&q=85", price: null, sellerName: "", emoji: "" },
+  { id: "fashion", name: "Everyday style", category: "Explore fashion", href: "/category/fashion", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=85", price: null, sellerName: "", emoji: "" },
+  { id: "audio", name: "Audio essentials", category: "Explore accessories", href: "/category/digital-products/audio-devices", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=85", price: null, sellerName: "", emoji: "" },
 ];
 
 export default function ProductDiscoverySection({ products }: { products: Product[] }) {
@@ -18,6 +18,7 @@ export default function ProductDiscoverySection({ products }: { products: Produc
     id: product.id,
     name: product.name,
     category: product.category,
+    sellerName: product.sellerName,
     href: getProductPath(product),
     image: product.imageUrls[0],
     price: product.prices.LKR > 0 ? `Rs ${product.prices.LKR.toLocaleString("en-LK")}` : null,
@@ -71,6 +72,7 @@ export default function ProductDiscoverySection({ products }: { products: Produc
               <div className={styles.productDetails}>
                 <p className={styles.productCategory}>{card.category}</p>
                 <h3 className={styles.productName}>{card.name}</h3>
+                {card.sellerName && <p className="mt-1 break-words text-xs">Sold by {card.sellerName}</p>}
                 {card.price && <p className={styles.productPrice}>{card.price}</p>}
                 <ArrowUpRight size={18} aria-hidden="true" className={styles.productArrow} />
               </div>

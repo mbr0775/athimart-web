@@ -96,11 +96,11 @@ export default async function NewSellerProductPage() {
 
               <div>
                 <p className="font-body text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--success)]">
-                  Approved seller
+                  Sold by
                 </p>
 
                 <p className="mt-1 font-body text-xs text-[var(--text-muted)]">
-                  {profile.fullName}
+                  {profile.publicName}
                 </p>
               </div>
             </div>

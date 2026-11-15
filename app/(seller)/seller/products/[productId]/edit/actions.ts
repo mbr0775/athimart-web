@@ -240,6 +240,7 @@ export async function updateProduct(
 
   const {
     user,
+    profile,
   } = await getCurrentSeller();
 
   const cleanedProductId =
@@ -660,6 +661,8 @@ export async function updateProduct(
       slug,
       name,
 
+      seller_name: profile.publicName,
+      seller_type: "individual",
       company_name:
         companyName,
 

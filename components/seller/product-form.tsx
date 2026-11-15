@@ -272,13 +272,13 @@ function validateProductForm(
 
   if (!companyName) {
     errors.companyName =
-      "Company or seller name is required.";
+      "Manufacturer or brand name is required.";
   } else if (
     companyName.length <
     2
   ) {
     errors.companyName =
-      "Company or seller name must contain at least 2 characters.";
+      "Manufacturer or brand name must contain at least 2 characters.";
   }
 
   if (!category) {
@@ -839,8 +839,7 @@ export function ProductForm({
               {/* Company */}
               <label data-product-field="companyName">
                 <RequiredLabel>
-                  Company /
-                  Seller
+                  Manufacturer / Brand
                 </RequiredLabel>
 
                 <input

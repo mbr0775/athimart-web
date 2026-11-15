@@ -101,6 +101,7 @@ export function FeaturedProductsCarousel({
                 <h3 className="!mt-2 line-clamp-2 break-words text-xl font-semibold leading-snug text-[#303024] sm:text-2xl">
                   {activeProduct.name}
                 </h3>
+                {activeProduct.sellerName && <p className="mt-1 break-words text-xs text-[var(--text-muted)]">Sold by {activeProduct.sellerName}</p>}
                 <p className="!mt-3 text-lg font-semibold text-[#494638]">
                   {formatPrice(activeProduct.prices.LKR)}
                 </p>

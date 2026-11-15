@@ -176,6 +176,7 @@ export default function LatestProductsSection({
                   <div className={styles.details}>
                     <p className={styles.category}>{product.subCategory || product.category}</p>
                     <h3 className={styles.productName}>{product.name}</h3>
+                    {product.sellerName && <p className="mt-1 break-words text-xs text-[var(--text-muted)]">Sold by {product.sellerName}</p>}
                     <div className={styles.cardFooter}>
                       <div>
                         <div className={styles.priceRow}>

@@ -7,6 +7,7 @@ import "server-only";
 import { getCurrentAdmin } from "@/lib/auth/admin";
 
 import { createClient } from "@/lib/supabase/server";
+import { toStringValue } from "./product-utils";
 
 
 
@@ -115,6 +116,7 @@ const EDITABLE_PRODUCT_COLUMNS = `
 
   name,
 
+  vendor_id,
   seller_name,
   seller_type,
   shipped_by,
@@ -552,7 +554,9 @@ function mapEditableProduct(
 
 
 
-    sellerName: typeof row.seller_name === "string" ? row.seller_name : "",
+    sellerName: row.vendor_id === null
+      ? "AthiMart"
+      : toStringValue(row.seller_name).trim() || "Marketplace seller",
     sellerType: typeof row.seller_type === "string" ? row.seller_type : "",
     shippedBy: typeof row.shipped_by === "string" ? row.shipped_by : "",
     companyName:

@@ -16,6 +16,7 @@ const navigationItems = [
   { href: "/#categories", label: "Categories" },
   { href: "/#markets", label: "Markets" },
   { href: "/#why-athimart", label: "Why AthiMart" },
+  { href: "/auth/sign-up?accountType=seller&next=%2Fseller", label: "Sell on AthiMart" },
 ];
 
 const menuItems = [

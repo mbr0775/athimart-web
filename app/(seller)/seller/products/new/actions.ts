@@ -187,7 +187,7 @@ export async function createProduct(
   _previousState: AdminProductFormState,
   formData: FormData
 ): Promise<AdminProductFormState> {
-  const { user } =
+  const { user, profile } =
     await getCurrentSeller();
 
   const name = getText(
@@ -464,6 +464,8 @@ export async function createProduct(
       slug,
       name,
 
+      seller_name: profile.publicName,
+      seller_type: "individual",
       company_name:
         companyName,
 

@@ -202,6 +202,10 @@ export async function signUp(
   const siteUrl =
     getSiteUrl();
 
+  if (accountType === "seller" && fullName.toLowerCase() === "athimart") {
+    redirect(createSignUpUrl({ nextPath, accountType, error: "seller-name-reserved" }));
+  }
+
   const confirmationDestination =
     accountType === "seller"
       ? "/seller-pending"

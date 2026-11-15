@@ -104,6 +104,7 @@ const emptyProduct = {
   discountPercent:0,
 
 
+  sellerName: "AthiMart",
   isActive:true,
 
   isFeatured:false,

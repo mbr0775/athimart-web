@@ -10,6 +10,7 @@ import {
 import { notFound } from "next/navigation";
 
 import { EditProductForm } from "@/components/seller/edit-product-form";
+import { getCurrentSeller } from "@/lib/auth/seller";
 import { productCategories } from "@/config/categories";
 import { getSellerEditableProduct } from "@/lib/products/seller-product-edit-service";
 
@@ -49,6 +50,7 @@ export default async function EditSellerProductPage({
    * 3. The product vendor_id belongs to
    *    the signed-in seller.
    */
+  const { profile } = await getCurrentSeller();
   const product =
     await getSellerEditableProduct(
       productId
@@ -128,6 +130,8 @@ export default async function EditSellerProductPage({
             />
           </span>
         </div>
+
+        <p className="mt-5 text-sm">Sold by <strong>{profile.publicName}</strong></p>
 
         {/* Product summary */}
         <div className="mt-7 flex flex-col gap-4 border border-[var(--border)] bg-[var(--surface)] p-5 sm:flex-row sm:items-center sm:justify-between rounded-[24px]">

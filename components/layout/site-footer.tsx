@@ -29,7 +29,7 @@ const footerNavigation = [
     links: [
       { href: "/#why-athimart", label: "Our story" },
       { href: "/delivery-partner", label: "Deliver with AthiMart" },
-      { href: "/auth/sign-up", label: "Join the community" },
+      { href: "/auth/sign-up?accountType=seller&next=%2Fseller", label: "Sell on AthiMart" },
     ],
   },
 ];
