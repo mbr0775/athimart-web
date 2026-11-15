@@ -1,3 +1,5 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
+
 import { MobileBottomNav } from "@/components/layout/mobile-bottom-nav";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -13,6 +15,7 @@ export default async function StoreLayout({
   children,
 }: Readonly<StoreLayoutProps>) {
 const identity = await getCurrentProfileIdentity();
+const analyticsId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
 
 return (
 
@@ -35,6 +38,8 @@ className="min-h-screen"
 
 
 <MobileBottomNav identity={identity} />
+
+{analyticsId && <GoogleAnalytics gaId={analyticsId} />}
 
 
 </>
