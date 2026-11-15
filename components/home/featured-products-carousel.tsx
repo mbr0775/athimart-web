@@ -54,10 +54,7 @@ export function FeaturedProductsCarousel({
         <div className="mx-auto max-w-4xl">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8c8778] sm:text-xs">
-                Handpicked for you
-              </p>
-              <h2 id="featured-drops-heading" className="!mt-2 font-(family-name:--font-display) text-2xl leading-tight text-[#303024] sm:text-3xl">
+              <h2 id="featured-drops-heading" className="font-(family-name:--font-display) text-2xl leading-tight text-[#303024] sm:text-3xl">
                 Featured Drops
               </h2>
             </div>

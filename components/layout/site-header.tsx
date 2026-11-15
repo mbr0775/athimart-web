@@ -14,7 +14,7 @@ import styles from "./site-header.module.css";
 const navigationItems = [
   { href: "/shops", label: "Shops" },
   { href: "/shop", label: "Products" },
-  { href: "/search#categories", label: "Categories" },
+  { href: "/#categories", label: "Categories" },
   { href: "/auth/sign-up?accountType=seller&next=%2Fseller", label: "Sell on AthiMart" },
 ];
 

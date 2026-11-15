@@ -137,9 +137,7 @@ export default function WhyAthiMartSection() {
     <section id="why-athimart" ref={sectionRef} className={styles.section} aria-labelledby="why-athimart-heading" data-paused={paused}>
       <div className={styles.container}>
         <div className={styles.headingBlock}>
-          <p className={styles.eyebrow}><span /> CONNECTED COMMERCE</p>
           <h2 id="why-athimart-heading" className={styles.heading}>Why <span>AthiMart</span><span className={styles.headingDot}>.</span></h2>
-          <p className={styles.intro}>More discovery. More connection. More possibility.<br className={styles.desktopBreak} /> One marketplace that brings it all together.</p>
           <span className={styles.headingSparkle} aria-hidden="true"><Sparkles size={31} strokeWidth={1.2} /></span>
         </div>
 

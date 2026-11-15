@@ -23,8 +23,6 @@ interface CategoryCardProps {
   name: string;
   slug: string;
   href: string;
-  description: string;
-  typeCount: number;
   image: string;
   imageAlt: string;
   isProductImage: boolean;
@@ -32,7 +30,7 @@ interface CategoryCardProps {
 }
 
 export default function CategoryCard({
-  name, slug, href, description, typeCount, image, imageAlt, isProductImage, index,
+  name, slug, href, image, imageAlt, isProductImage, index,
 }: CategoryCardProps) {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const reduceMotion = useReducedMotion();
@@ -75,14 +73,10 @@ export default function CategoryCard({
       <div className={styles.gradient} aria-hidden="true" />
       <div className={styles.cardTop}>
         <span className={styles.categoryIcon}><Icon size={21} strokeWidth={1.5} aria-hidden="true" /></span>
-        <span className={styles.typeCount}>{typeCount} product types</span>
       </div>
       <div className={styles.cardCopy}>
-        <p className={styles.cardNumber} aria-hidden="true">{String(index + 1).padStart(2, "0")} / EXPLORE</p>
         <h3 className={styles.cardTitle}>{name}</h3>
-        <p className={styles.cardDescription}>{description}</p>
         <div className={styles.cardFooter}>
-          <span>Explore category</span>
           <span className={styles.cardArrow}><ArrowUpRight size={20} aria-hidden="true" /></span>
         </div>
       </div>

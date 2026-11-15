@@ -14,9 +14,7 @@ export default function ShopCategorySection({ previews = {} }: { previews?: Cate
       <div className={styles.container}>
         <div className={styles.header}>
           <div>
-            <p className={styles.eyebrow}>ONE MARKETPLACE · {productCategories.length} CATEGORIES</p>
             <h2 id="categories-heading" className={styles.heading}>Shop by Category</h2>
-            <p className={styles.subtitle}>Explore everything you need from AthiMart.</p>
           </div>
           <Link href="/shop" className={styles.shopLink}>Explore all products <ArrowUpRight size={19} aria-hidden="true" /></Link>
         </div>
@@ -30,8 +28,6 @@ export default function ShopCategorySection({ previews = {} }: { previews?: Cate
                 name={category.name}
                 slug={category.slug}
                 href={getCategoryPath(category.slug)}
-                description={category.shortDescription}
-                typeCount={category.subcategories.length}
                 image={preview?.imageUrl ?? `https://images.unsplash.com/${cover}?auto=format&fit=crop&w=1200&q=85`}
                 imageAlt={preview?.productName ?? `${category.name} collection`}
                 isProductImage={Boolean(preview)}

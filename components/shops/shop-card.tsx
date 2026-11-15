@@ -37,7 +37,7 @@ export function ShopPreview({ shops, query }: { shops: MarketplaceShop[]; query?
   return (
     <section aria-label={query ? "Matching shops" : "Marketplace shops"} className={styles.preview}>
       <div className={styles.previewHeader}>
-        <h2>{query ? "Matching shops" : "Explore the shops"}</h2>
+        <h2>{query ? "Matching shops" : "Shop by seller"}</h2>
         <Link className={styles.textLink} href={link}> {query ? "Search shops" : "Browse all shops"} <ArrowUpRight size={16} aria-hidden="true" /></Link>
       </div>
       {shops.length > 0 && <div className={styles.grid}>{shops.map((shop) => <ShopCard key={shop.id} shop={shop} />)}</div>}

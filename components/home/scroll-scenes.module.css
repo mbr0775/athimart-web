@@ -1,7 +1,7 @@
 .gallery {
   --gallery-radius: clamp(185px, 29vw, 430px);
   position: relative;
-  height: 240svh;
+  height: 165svh;
   background: #ebeee2;
   color: #363b27;
 }
@@ -27,11 +27,10 @@
 .foreground, .foregroundTwo { position: absolute; pointer-events: none; z-index: 3; }
 .foreground { left: 5%; bottom: 18%; }
 .foregroundTwo { right: 7%; top: 34%; }
-.floatingOrb { width: clamp(48px, 9vw, 125px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 28% 22%, #ffffff, #e1e5d7 30%, #aeb894 65%, #616b47); box-shadow: inset -10px -15px 25px #59624155, 0 25px 40px #363b2726; animation: float 7s ease-in-out infinite; }
-.floatingLoop { width: clamp(60px, 10vw, 140px); aspect-ratio: 1; border: clamp(12px, 2vw, 25px) solid #d7dcca; border-radius: 50%; box-shadow: inset 4px 6px 9px #fff9, 8px 12px 20px #535b3d33; transform: rotateY(35deg) rotateX(25deg); animation: float 9s ease-in-out infinite reverse; }
+.floatingOrb { width: clamp(48px, 9vw, 125px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 28% 22%, #ffffff, #e1e5d7 30%, #aeb894 65%, #616b47); box-shadow: inset -10px -15px 25px #59624155, 0 25px 40px #363b2726; }
+.floatingLoop { width: clamp(60px, 10vw, 140px); aspect-ratio: 1; border: clamp(12px, 2vw, 25px) solid #d7dcca; border-radius: 50%; box-shadow: inset 4px 6px 9px #fff9, 8px 12px 20px #535b3d33; transform: rotateY(35deg) rotateX(25deg); }
 .scrollHint { position: absolute; bottom: 32px; left: 0; right: 0; margin: 0; text-align: center; font-size: 9px; letter-spacing: .2em; }
 .scrollHint span { display: block; margin-top: 10px; font-size: 20px; }
-@keyframes float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -18px; } }
 @media (max-width: 640px) {
   .galleryHeading { padding-top: 115px; }
   .perspective { inset: 42% 0 12%; perspective: 950px; }
@@ -45,6 +44,5 @@
   .perspective { position: relative; inset: auto; margin: 32px 0 80px; perspective: none; }
   .ring { position: relative; left: auto; top: auto; display: flex; gap: 16px; width: auto; height: auto; padding: 12px 24px; overflow-x: auto; transform: none !important; }
   .galleryCard { position: relative; left: auto; top: auto; flex-shrink: 0; transform: none !important; }
-  .floatingOrb, .floatingLoop { animation: none; }
   .scrollHint { display: none; }
 }

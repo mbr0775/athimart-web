@@ -1,0 +1,143 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  justify-items: center;
+  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.125rem, 4vw, 4rem) clamp(2rem, 4vw, 3.5rem);
+  background:
+    radial-gradient(ellipse at 14% 48%, #c4cd9c60, transparent 53%),
+    radial-gradient(ellipse at 88% 60%, #d5b68533, transparent 55%),
+    #e8e9d5;
+  color: #303923;
+}
+
+.title {
+  z-index: 2;
+  margin: 0;
+  font: 400 clamp(4.6rem, 12.6vw, 10.5rem)/.9 var(--font-editorial), Georgia, serif;
+  letter-spacing: -.058em;
+  text-align: center;
+}
+
+.stage {
+  position: relative;
+  width: min(100%, 84rem);
+  margin-top: clamp(.85rem, 1.3vw, 1.3rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.9fr) minmax(0, 1fr);
+  grid-template-areas: "grocery technology fashion";
+  align-items: center;
+  gap: clamp(.6rem, 1.5vw, 1.5rem);
+  perspective: 1050px;
+  perspective-origin: 50% 46%;
+}
+
+.panel {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 4 / 4.7;
+}
+
+.panel[data-panel="technology"] {
+  z-index: 1;
+  grid-area: technology;
+  aspect-ratio: 1.68;
+}
+
+.panel[data-panel="grocery"] { grid-area: grocery; margin-top: 11%; }
+.panel[data-panel="fashion"] { grid-area: fashion; margin-bottom: 11%; }
+.panel:focus-within { z-index: 2; }
+
+.panelLink {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  display: block;
+  border: 1px solid #fff7;
+  border-radius: clamp(1rem, 1.9vw, 1.8rem);
+  background: #636b42;
+  box-shadow: 0 14px 32px #313a2030;
+  animation: arrive .7s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+
+[data-panel="technology"] .panelLink { background: #eabb35; }
+[data-panel="fashion"] .panelLink { animation-delay: .12s; }
+[data-panel="grocery"] .panelLink { animation-delay: .07s; }
+.panelLink:focus-visible { outline: 3px solid #34402a; outline-offset: 4px; }
+
+.photo {
+  object-fit: cover;
+  transition: scale .45s cubic-bezier(.22, 1, .36, 1);
+}
+
+.panelLink:hover .photo,
+.panelLink:focus-visible .photo { scale: 1.045; }
+
+.panelLabel {
+  position: absolute;
+  bottom: clamp(.55rem, 1.35vw, 1.15rem);
+  left: clamp(.55rem, 1.35vw, 1.15rem);
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .46rem .75rem;
+  border-radius: 100vw;
+  background: #fbf8eb;
+  color: #313a25;
+  font-size: clamp(.8rem, 1.22vw, 1rem);
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: .65rem 1rem;
+  margin-top: clamp(1.15rem, 2.3vw, 2.25rem);
+}
+
+.actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  min-height: 44px;
+  border-radius: 100vw;
+  padding: .6rem 1.1rem;
+  font-size: .9rem;
+  font-weight: 600;
+  transition: background-color .2s, color .2s;
+}
+
+.primary { background: #364329; color: #fffcf1; }
+.primary:hover { background: #253019; }
+.secondary { border: 1px solid #56654c66; }
+.secondary:hover { background: #f7f7e6; }
+
+@keyframes arrive {
+  from { opacity: .55; translate: 0 1.4rem; }
+}
+
+@media (min-width: 681px) {
+  .title { font-size: clamp(4.6rem, min(12.6vw, 18svh), 10.5rem); }
+  .panel { max-height: clamp(13.5rem, 40svh, 26rem); }
+}
+
+@media (max-width: 680px) {
+  .hero { padding-top: 2rem; }
+  .stage { width: min(100%, 29rem); grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "technology technology" "grocery fashion"; gap: .65rem; }
+  .panel { aspect-ratio: 1.5; }
+  .panel[data-panel="technology"] { aspect-ratio: 1.9; }
+  .panel[data-panel="grocery"], .panel[data-panel="fashion"] { margin: 0; }
+  .panelLabel { gap: .35rem; padding: .34rem .55rem; }
+  .panelLabel svg { width: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panelLink { animation: none; }
+  .photo { transition: none; }
+  .panelLink:hover .photo,
+  .panelLink:focus-visible .photo { scale: 1; }
+}

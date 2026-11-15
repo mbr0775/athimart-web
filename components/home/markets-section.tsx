@@ -56,24 +56,9 @@ export default function MarketsSection() {
             sm:mb-16
           "
         >
-          <p
-            className="
-              text-[10px]
-              uppercase
-              leading-5
-              tracking-[0.2em]
-              sm:tracking-[0.3em]
-              text-[#9a927f]
-              sm:text-xs
-            "
-          >
-            Market Experience
-          </p>
-
           <h2
             className="
-              !mt-4
-              font-(family-name:--font-display)
+                font-(family-name:--font-display)
               text-3xl
               sm:text-4xl
               font-light
@@ -85,25 +70,6 @@ export default function MarketsSection() {
             Shop Across Markets
           </h2>
 
-          <p
-            className="
-              !mx-auto
-              !mt-6
-              w-full
-              max-w-4xl
-              px-2
-              text-center
-              text-sm
-              leading-7
-              text-[#777267]
-              sm:text-base
-              sm:leading-8
-              lg:text-lg
-            "
-          >
-            AthiMart connects customers across different markets with suitable
-            products, pricing and delivery options.
-          </p>
         </div>
 
         {/* Market Cards */}

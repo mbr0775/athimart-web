@@ -34,18 +34,13 @@ export default function ProductDiscoverySection({ products }: { products: Produc
     >
       <div className={styles.layout}>
         <div className={styles.copy}>
-          <p className={styles.eyebrow}>DISCOVER ATHIMART</p>
           <h2 id="product-discovery-heading" className={styles.heading}>
-            Your next favourite starts here.
+            Discover more
           </h2>
-          <p className={styles.description}>
-            Explore technology, fashion, and everyday essentials. Find something
-            you love, all in one marketplace.
-          </p>
           <Link href="/shop" className={styles.shopLink}>
             Shop our products <ArrowUpRight size={20} aria-hidden="true" />
           </Link>
-          <Link href="/search#categories" className={styles.categoryLink}>Explore all categories</Link>
+          <Link href="/#categories" className={styles.categoryLink}>Explore all categories</Link>
         </div>
 
         <div className={styles.productGrid} data-count={cards.length}>

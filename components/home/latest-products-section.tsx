@@ -102,16 +102,9 @@ export default function LatestProductsSection({
       <div className={styles.container}>
         <header className={styles.header}>
           <div>
-            <p className={styles.eyebrow}>
-              <span aria-hidden="true" className={styles.statusDot} />
-              Recently Added
-            </p>
             <h2 id="latest-products-heading" className={styles.heading}>
               Latest <em>Products</em><span className={styles.headingDot}>.</span>
             </h2>
-            <p className={styles.subtitle}>
-              Fresh finds. Everyday favourites. Your next discovery.
-            </p>
           </div>
           <Link href="/shop" className={styles.browseLink}>
             Browse all products
@@ -147,14 +140,10 @@ export default function LatestProductsSection({
                 <Link href={getProductPath(product)} className={styles.productLink}>
                   <div className={styles.imageStage} data-tone={index % 4}>
                     <div className={styles.badges}>
-                      <span className={styles.newBadge}>New in</span>
                       {hasDiscount && (
                         <span className={styles.discountBadge}>−{product.discountPercent}%</span>
                       )}
                     </div>
-                    <span className={styles.cardNumber} aria-hidden="true">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
                     {product.imageUrls[0] ? (
                       <Image
                         src={product.imageUrls[0]}

@@ -1,20 +1,27 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { connection } from "next/server";
-import { ArrowUpRight, Heart } from "lucide-react";
-import { ProductCard } from "@/components/products/product-card";
-import { ShopCard } from "@/components/shops/shop-card";
-import { ShopSearchForm } from "@/components/shops/shop-search-form";
-import styles from "@/components/shops/shops.module.css";
+import { FeaturedProductsCarousel } from "@/components/home/featured-products-carousel";
+import GalleryCoverflow from "@/components/home/gallery-coverflow";
+import HeroCollectionSection from "@/components/home/hero-collection-section";
+import HomeScrollReveal from "@/components/home/home-scroll-reveal";
+import LatestProductsSection from "@/components/home/latest-products-section";
+import MarketsSection from "@/components/home/markets-section";
+import ProductDiscoverySection from "@/components/home/product-discovery-section";
+import ShopCategorySection from "@/components/home/shop-category-section";
+import StorefrontDeliverySection from "@/components/home/storefront-delivery-section";
+import WhyAthiMartSection from "@/components/home/why-athimart-section";
+import { ShopPreview } from "@/components/shops/shop-card";
 import { siteConfig } from "@/config/site";
+import { getHomeCategoryPreviews } from "@/lib/products/product-category-service";
+import { getFeaturedDrops } from "@/lib/products/product-home-service";
 import { getActiveProducts } from "@/lib/products/product-service";
 import { findShops } from "@/lib/shops/shop-service";
 
-const title = "Shop Local Sellers on AthiMart";
-const description = "Find shops and independent sellers on AthiMart. Browse groceries, technology, fashion and everyday essentials.";
+const title = "AthiMart Online Marketplace";
+const description = "Explore local sellers, groceries, technology, fashion and everyday essentials on AthiMart.";
 
 export const metadata: Metadata = {
-  title,
+  title: "Online Marketplace for Local Shops and Everyday Essentials",
   description,
   alternates: { canonical: "/" },
   openGraph: { type: "website", url: "/", siteName: siteConfig.name, title, description, images: [siteConfig.socialImage] },
@@ -23,53 +30,37 @@ export const metadata: Metadata = {
 
 export default async function StoreHomePage() {
   await connection();
-  const [shopsResult, productsResult] = await Promise.allSettled([
+  const [shops, latest, featured, previews] = await Promise.allSettled([
     findShops({ limit: 9 }),
-    getActiveProducts({ countryCode: "LK", limit: 4 }),
+    getActiveProducts({ countryCode: "LK", limit: 10 }),
+    getFeaturedDrops({ countryCode: "LK", limit: 8 }),
+    getHomeCategoryPreviews("LK"),
   ]);
-  const shops = shopsResult.status === "fulfilled" ? shopsResult.value : [];
-  const products = productsResult.status === "fulfilled" ? productsResult.value : [];
+  const latestProducts = latest.status === "fulfilled" ? latest.value : [];
 
   return (
-    <div className={styles.page}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "OnlineStore",
-            name: siteConfig.name,
-            url: siteConfig.url,
-            description,
-          }),
-        }}
-      />
-
-      <section aria-labelledby="home-sellers-heading">
-        <header className={styles.hero}>
-          <h1 id="home-sellers-heading">Shop by seller</h1>
-          <ShopSearchForm />
-          <nav className={styles.homeLinks} aria-label="Find sellers">
-            <Link className={styles.textLink} href="/shops">All shops <ArrowUpRight size={16} aria-hidden="true" /></Link>
-            <Link className={styles.textLink} href="/shops?saved=1"><Heart size={16} aria-hidden="true" /> Favourites</Link>
-          </nav>
-        </header>
-        {shops.length > 0 ? (
-          <div className={styles.homeShops}>{shops.map((shop) => <ShopCard key={shop.id} shop={shop} />)}</div>
-        ) : (
-          <p className={styles.empty}>{shopsResult.status === "rejected" ? "Shops are temporarily unavailable." : "No shops are listed yet."}</p>
-        )}
-      </section>
-
-      {products.length > 0 && (
-        <section className={styles.homeProducts} aria-labelledby="home-products-heading">
-          <div className={styles.previewHeader}>
-            <h2 className={styles.sectionTitle} id="home-products-heading">New products</h2>
-            <Link className={styles.textLink} href="/shop">All products <ArrowUpRight size={16} aria-hidden="true" /></Link>
-          </div>
-          <div className={styles.products}>{products.map((product) => <ProductCard key={product.id} product={product} />)}</div>
-        </section>
-      )}
-    </div>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "OnlineStore",
+          name: siteConfig.name,
+          url: siteConfig.url,
+          description,
+        }),
+      }} />
+      <HomeScrollReveal>
+        <HeroCollectionSection />
+        <ShopPreview shops={shops.status === "fulfilled" ? shops.value : []} />
+        <LatestProductsSection products={latestProducts} />
+        <FeaturedProductsCarousel products={featured.status === "fulfilled" ? featured.value : []} />
+        <ShopCategorySection previews={previews.status === "fulfilled" ? previews.value : {}} />
+        <GalleryCoverflow />
+        <ProductDiscoverySection products={latestProducts} />
+        <StorefrontDeliverySection />
+        <MarketsSection />
+        <WhyAthiMartSection />
+      </HomeScrollReveal>
+    </>
   );
 }
