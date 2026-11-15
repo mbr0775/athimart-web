@@ -23,7 +23,7 @@ import {
 import { createProduct } from "@/app/(seller)/seller/products/new/actions";
 import { ProductImageUploader } from "@/components/admin/product-image-uploader";
 import type { AdminProductFormState } from "@/types/admin-product-form";
-import { validateVariantFields } from "@/lib/products/product-variants";
+import { parseVariantRows } from "@/lib/products/product-variants";
 import ProductVariantFields from "@/components/products/product-variant-fields";
 import { ProductCategoryFields, type CategoryOption } from "./product-category-fields";
 
@@ -303,8 +303,8 @@ function validateProductForm(
     }
   }
 
-  const variant = validateVariantFields(formData, name);
-  if (variant.error) errors.variants = variant.error;
+  const variants = parseVariantRows(formData);
+  if (!variants.valid) errors.variants = variants.error;
 
   if (attributesValue) {
     try {

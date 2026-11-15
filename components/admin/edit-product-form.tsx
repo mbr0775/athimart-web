@@ -309,7 +309,7 @@ errors={state.fieldErrors}
 
 
 
-<ProductVariantFields group={variant.group} values={variant.values} error={state.fieldErrors.variants} />
+<ProductVariantFields values={variant.values} error={state.fieldErrors.variants} />
 
 <ProductDescription
 

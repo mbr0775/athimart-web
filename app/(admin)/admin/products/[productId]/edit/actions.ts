@@ -2,7 +2,9 @@
 
 "use server";
 
-import { validateVariantFields, withoutVariantFields } from "@/lib/products/product-variants";
+import { parseVariantRows, withoutVariantFields, hasSharedVariantImages } from "@/lib/products/product-variants";
+import { buildVariantRows, checkVariantGroup } from "@/lib/products/product-variant-save";
+import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -371,8 +373,8 @@ export async function updateProduct(
     string,
     string
   > = {};
-  const variant = validateVariantFields(formData, name);
-  if (variant.error) fieldErrors.variants = variant.error;
+  const variants = parseVariantRows(formData);
+  if (!variants.valid) fieldErrors.variants = variants.error;
 
   if (shippedBy.length > 120) {
     fieldErrors.shippedBy = "Keep the dispatch name within 120 characters.";
@@ -474,6 +476,7 @@ export async function updateProduct(
   }
 
   if (
+    !variants.valid ||
     Object.keys(
       fieldErrors
     ).length > 0
@@ -525,7 +528,7 @@ export async function updateProduct(
   } = await athimartClient
     .from("products")
     .select(
-      "id, image_urls, vendor_id, is_official_listing, attributes"
+      "id, image_urls, vendor_id, is_official_listing, attributes, country_code"
     )
     .eq(
       "id",
@@ -619,12 +622,7 @@ export async function updateProduct(
    * Save the updated product information
    * in the AthiMart database.
    */
-  const {
-    data: updatedProduct,
-    error: updateError,
-  } = await athimartClient
-    .from("products")
-    .update({
+  const rows = buildVariantRows({
       ...assignment,
       slug,
       name,
@@ -686,19 +684,30 @@ export async function updateProduct(
         imageResult.urls,
 
       attributes:
-        { ...withoutVariantFields(currentProduct.attributes ?? {}), ...withoutVariantFields(attributesResult.attributes), ...variant.attributes },
+        { ...withoutVariantFields(currentProduct.attributes ?? {}), ...withoutVariantFields(attributesResult.attributes) },
 
       updated_at:
         new Date().toISOString(),
-    })
-    .eq(
-      "id",
-      cleanedProductId
-    )
-    .select(
-      "id, slug"
-    )
-    .maybeSingle();
+    }, variants, currentProduct.attributes ?? {});
+  const country = currentProduct.country_code ?? "LK";
+  const vendorId = assignment.vendor_id === undefined ? currentProduct.vendor_id : assignment.vendor_id;
+  const official = assignment.is_official_listing ?? currentProduct.is_official_listing;
+  const variantConflict = await checkVariantGroup(athimartClient, vendorId, official, country, cleanedProductId, rows);
+  if (variantConflict) return { message: "Check product variants.", fieldErrors: { variants: variantConflict } };
+
+  // Bulk upsert saves the existing SKU and new variants in a single statement.
+  const result = rows.length > 1
+    ? await athimartClient.from("products").upsert(rows.map((row, index) => ({
+      ...row,
+      id: index === 0 ? cleanedProductId : randomUUID(),
+      vendor_id: vendorId,
+      is_official_listing: official,
+      country_code: country,
+    })), { onConflict: "id", defaultToNull: false }).select("id")
+    : await athimartClient.from("products").update(rows[0])
+      .eq("id", cleanedProductId).select("id");
+  const { error: updateError } = result;
+  const updatedProduct = result.data?.find((row) => row.id === cleanedProductId);
 
   if (updateError) {
     return {
@@ -731,7 +740,7 @@ export async function updateProduct(
    * this product.
    */
   const removedImagePaths =
-    getRemovedProductImagePaths(
+    hasSharedVariantImages(currentProduct.attributes) ? [] : getRemovedProductImagePaths(
       previousImageUrls,
       imageResult.urls
     );

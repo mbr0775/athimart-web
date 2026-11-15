@@ -8,6 +8,7 @@ import {
 import { redirect } from "next/navigation";
 
 import { getCurrentSeller } from "@/lib/auth/seller";
+import { hasSharedVariantImages } from "@/lib/products/product-variants";
 import { getProductImagePaths } from "@/lib/storage/product-image-storage";
 import { createClient } from "@/lib/supabase/server";
 
@@ -212,6 +213,7 @@ export async function deleteProduct(
       id,
       name,
       image_urls,
+      attributes,
       vendor_id
     `)
     .eq(
@@ -252,7 +254,7 @@ export async function deleteProduct(
       : [];
 
   const imagePaths =
-    getProductImagePaths(
+    hasSharedVariantImages(existingProduct.attributes) ? [] : getProductImagePaths(
       imageUrls
     );
 

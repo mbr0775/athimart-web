@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { getCurrentAdmin } from "@/lib/auth/admin";
+import { hasSharedVariantImages } from "@/lib/products/product-variants";
 import { getProductImagePaths } from "@/lib/storage/product-image-storage";
 import { createClient } from "@/lib/supabase/server";
 
@@ -165,7 +166,7 @@ export async function deleteProduct(
   } = await athimartClient
     .from("products")
     .select(
-      "id, name, image_urls"
+      "id, name, image_urls, attributes"
     )
     .eq(
       "id",
@@ -208,7 +209,7 @@ export async function deleteProduct(
    * unknown folder structures are ignored.
    */
   const productImagePaths =
-    getProductImagePaths(
+    hasSharedVariantImages(existingProduct.attributes) ? [] : getProductImagePaths(
       existingImageUrls
     );
 

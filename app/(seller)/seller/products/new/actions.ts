@@ -1,6 +1,7 @@
 "use server";
 
-import { validateVariantFields, withoutVariantFields } from "@/lib/products/product-variants";
+import { parseVariantRows, withoutVariantFields } from "@/lib/products/product-variants";
+import { buildVariantRows } from "@/lib/products/product-variant-save";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -367,8 +368,8 @@ export async function createProduct(
       imageResult.error;
   }
 
-  const variant = validateVariantFields(formData, name);
-  if (variant.error) fieldErrors.variants = variant.error;
+  const variants = parseVariantRows(formData);
+  if (!variants.valid) fieldErrors.variants = variants.error;
 
   if (
     attributesResult.error
@@ -387,6 +388,7 @@ export async function createProduct(
   }
 
   if (
+    !variants.valid ||
     Object.keys(
       fieldErrors
     ).length > 0
@@ -457,11 +459,7 @@ export async function createProduct(
     };
   }
 
-  const {
-    error: insertError,
-  } = await supabase
-    .from("products")
-    .insert({
+  const rows = buildVariantRows({
       slug,
       name,
 
@@ -534,14 +532,15 @@ export async function createProduct(
         imageResult.urls,
 
       attributes:
-        { ...withoutVariantFields(attributesResult.attributes), ...variant.attributes },
+        { ...withoutVariantFields(attributesResult.attributes) },
 
       country_code:
         "LK",
 
       updated_at:
         new Date().toISOString(),
-    });
+    }, variants);
+  const { error: insertError } = await supabase.from("products").insert(rows);
 
   if (insertError) {
     return {

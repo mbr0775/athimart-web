@@ -7,10 +7,11 @@ const groupPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const productVariantFields = [
   { key: "colour", label: "Colour", examples: ["Black", "White", "Navy", "Red", "Beige"] },
   { key: "size", label: "Size", examples: ["XS", "S", "M", "L", "XL", "XXL", "EU 42"] },
+  { key: "style", label: "Style", examples: ["Classic", "Slim fit", "Relaxed fit"] },
   { key: "design", label: "Design or pattern", examples: ["Plain", "Striped", "Floral", "Printed"] },
   { key: "storage", label: "Storage", examples: ["64 GB", "128 GB", "256 GB", "512 GB", "1 TB"] },
   { key: "ram", label: "RAM", examples: ["4 GB", "6 GB", "8 GB", "12 GB", "16 GB"] },
-  { key: "packSize", label: "Pack size", examples: ["250 g", "400 g", "1 kg", "500 ml", "1 L", "6 pack"] },
+  { key: "packSize", label: "Pack size", examples: ["75 g", "120 g", "350 g", "400 g", "1 kg", "500 ml", "1 L", "6 pack"] },
   { key: "material", label: "Material", examples: ["Cotton", "Linen", "Leather", "Stainless steel"] },
   { key: "flavour", label: "Flavour", examples: ["Original", "Vanilla", "Chocolate", "Strawberry"] },
   { key: "finish", label: "Finish", examples: ["Matte", "Glossy", "Satin"] },
@@ -49,6 +50,7 @@ export function withoutVariantFields(attributes: Record<string, unknown>) {
   delete specs[VARIANT_GROUP_KEY];
   delete specs[legacyPackSizeKey];
   delete specs[optionsKey];
+  delete specs[sharedImagesKey];
   return specs;
 }
 
@@ -67,31 +69,67 @@ export function productSpecifications(attributes: Record<string, unknown>) {
   return specs;
 }
 
-export function validateVariantFields(form: FormData, productName: string) {
-  const group = String(form.get("variantGroup") ?? "").trim().toLowerCase().replace(/\s+/g, "-");
-  const values: VariantValues = {};
-  if (group && (group.length > 72 || !groupPattern.test(group))) {
-    return { attributes: {}, error: "Enter a variant group using letters, numbers, spaces or hyphens." };
-  }
-  for (const { key, label } of productVariantFields) {
-    if (!form.has(`variantEnabled-${key}`)) continue;
-    const value = String(form.get(`variantValue-${key}`) ?? "").trim();
-    if (!value || value.length > 48) return { attributes: {}, error: `Enter a value for ${label.toLowerCase()}.` };
-    values[key] = value;
-  }
-  if (!variantSummary(values)) {
-    return { attributes: {}, error: group ? "Tick at least one option and enter its value for this listing." : "" };
-  }
-  const compact = (value: string) => value.toLowerCase().replace(/\s+/g, "");
-  if (group && Object.values(values).some((value) => !compact(productName).includes(compact(value)))) {
-    return { attributes: {}, error: "Include the selected variant values in the product name so they appear on orders." };
-  }
+export const MAX_PRODUCT_VARIANTS = 100;
+const sharedImagesKey = "shared_variant_images";
+
+export interface VariantRow {
+  values: VariantValues;
+  price: string;
+  stock: string;
+}
+
+export function variantKey(values: VariantValues) {
+  return JSON.stringify(productVariantFields.flatMap(({ key }) => {
+    const value = values[key];
+    return value ? [[key, value.toLowerCase().replace(/\s+/g, "")]] : [];
+  }));
+}
+
+export function hasSharedVariantImages(attributes: Record<string, unknown> | null | undefined) {
+  return attributes?.[sharedImagesKey] === true;
+}
+
+export function variantAttributes(group: string, values: VariantValues, sharedImages = false) {
   return {
-    attributes: {
-      [optionsKey]: values,
-      ...(group ? { [VARIANT_GROUP_KEY]: group } : {}),
-      ...(values.packSize ? { [legacyPackSizeKey]: values.packSize } : {}),
-    },
-    error: "",
+    ...(group ? { [VARIANT_GROUP_KEY]: group } : {}),
+    ...(variantSummary(values) ? { [optionsKey]: values } : {}),
+    ...(values.packSize ? { [legacyPackSizeKey]: values.packSize } : {}),
+    ...(sharedImages ? { [sharedImagesKey]: true } : {}),
   };
+}
+
+type ParsedRow = { values: VariantValues; price: number; stock: number };
+type VariantSubmission =
+  | { valid: true; rows: ParsedRow[] }
+  | { valid: false; error: string };
+
+export function parseVariantRows(form: FormData): VariantSubmission {
+  const invalid = (error: string): VariantSubmission => ({ valid: false, error });
+  if (form.get("variantDraftPending") === "true") return invalid("Add or cancel the unfinished variant before saving.");
+  const raw = form.get("variantRows");
+  if (typeof raw !== "string" || !raw) return { valid: true, rows: [] };
+  let input: unknown;
+  try { input = JSON.parse(raw); } catch { return invalid("The variant list could not be read."); }
+  if (!Array.isArray(input) || input.length > MAX_PRODUCT_VARIANTS) return invalid("Save up to 100 variants per product.");
+  const rows: ParsedRow[] = [];
+  const combinations = new Set<string>();
+  for (const [index, row] of input.entries()) {
+    const source = row?.values;
+    if (!source || typeof source !== "object" || Array.isArray(source)) return invalid("Enter options for each variant.");
+    const values = readVariant({ [optionsKey]: source }).values;
+    const label = variantSummary(values);
+    if (!label || Object.keys(values).length !== Object.keys(source).length) return invalid("Check the selected variant options.");
+    const key = variantKey(values);
+    if (combinations.has(key)) return invalid(`The ${label} combination was added twice.`);
+    combinations.add(key);
+
+    const price = Number(row.price);
+    const stock = Number(row.stock);
+    if (index > 0 && (typeof row.price !== "string" || !row.price.trim() || !Number.isFinite(price) || price < 0
+      || typeof row.stock !== "string" || !row.stock.trim() || !Number.isSafeInteger(stock) || stock < 0 || stock > 2147483647)) {
+      return invalid(`Enter a valid price and whole-number stock for ${label}.`);
+    }
+    rows.push({ values, price, stock });
+  }
+  return { valid: true, rows };
 }
