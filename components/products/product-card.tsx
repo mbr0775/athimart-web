@@ -94,7 +94,7 @@ export function ProductCard({
           <div className={styles.details}>
             <p className={styles.category}>{brandName} · {productType}</p>
             <h3 className={styles.productName}>{product.name}</h3>
-            {sellerName && <p className={styles.sellerName}>Sold by {sellerName}</p>}
+            <p className={styles.sellerName}>{sellerName ? `Sold by ${sellerName}` : "Seller not listed"}</p>
             {shippedBy && <p className={styles.shippedBy}>Shipped by {shippedBy}</p>}
             <div className={styles.cardFooter}>
               <div>
@@ -183,7 +183,7 @@ export function ProductCard({
             <p className="mt-2 truncate font-body text-[9px] font-medium uppercase leading-normal tracking-[0.14em] text-[var(--text-muted)] sm:mt-2.5 sm:text-[10px]">
               {productType}
             </p>
-            {sellerName && <p className={styles.sellerName}>Sold by {sellerName}</p>}
+            <p className={styles.sellerName}>{sellerName ? `Sold by ${sellerName}` : "Seller not listed"}</p>
             {shippedBy && <p className={styles.shippedBy}>Shipped by {shippedBy}</p>}
           </div>
 

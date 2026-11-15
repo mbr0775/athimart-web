@@ -5,6 +5,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { isReservedShopName } from "@/lib/shops/shop-identity";
 import { createClient } from "@/lib/supabase/server";
 
 type AccountType =
@@ -202,7 +203,7 @@ export async function signUp(
   const siteUrl =
     getSiteUrl();
 
-  if (accountType === "seller" && fullName.toLowerCase() === "athimart") {
+  if (accountType === "seller" && isReservedShopName(fullName)) {
     redirect(createSignUpUrl({ nextPath, accountType, error: "seller-name-reserved" }));
   }
 

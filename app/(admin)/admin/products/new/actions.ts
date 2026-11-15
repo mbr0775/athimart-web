@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { getListingAssignment } from "@/lib/shops/listing-assignment";
 import { getCurrentAdmin } from "@/lib/auth/admin";
 import { createClient } from "@/lib/supabase/server";
 import type { AdminProductFormState } from "@/types/admin-product-form";
@@ -173,6 +174,7 @@ export async function createProduct(
     "slug"
   );
 
+  const shopId = getText(formData, "shopId");
   const shippedBy = getText(formData, "shippedBy");
 
   const companyName = getText(
@@ -392,6 +394,11 @@ export async function createProduct(
   const supabase =
     await createClient();
 
+  const assignment = await getListingAssignment(supabase, shopId);
+  if (!assignment) {
+    return { message: "Check the seller details.", fieldErrors: { shopId: "Choose an approved shop." } };
+  }
+
   const {
     data: existingProduct,
     error: slugLookupError,
@@ -429,8 +436,7 @@ export async function createProduct(
       .insert({
         slug,
         name,
-        seller_name: "AthiMart",
-        seller_type: "business",
+        ...assignment,
         shipped_by: shippedBy || null,
         company_name:
           companyName,

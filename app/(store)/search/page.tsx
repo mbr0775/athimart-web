@@ -1,3 +1,5 @@
+import { ShopPreview } from "@/components/shops/shop-card";
+import { findShops } from "@/lib/shops/shop-service";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,6 +43,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   let products: Product[] = [];
   let searchFailed = false;
 
+  const shopsPending = hasSearchQuery ? findShops({ query, limit: 3 }).catch(() => []) : Promise.resolve([]);
+
   if (hasSearchQuery) {
     try {
       products = await searchProducts({ query, countryCode: "LK", limit: 48 });
@@ -48,6 +52,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       searchFailed = true;
     }
   }
+
+  const shops = await shopsPending;
 
   return (
     <div className={`${styles.page} ${editorialFont.variable}`}>
@@ -139,6 +145,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             </aside>
           )}
         </section>
+
+        {hasSearchQuery ? <ShopPreview shops={shops} query={query} /> : <Link href="/shops" className={styles.browseLink}>Browse or search shops <ArrowUpRight size={17} aria-hidden="true" /></Link>}
 
         {searchFailed ? (
           <section aria-labelledby="search-error-heading" className={styles.emptyState} role="status">

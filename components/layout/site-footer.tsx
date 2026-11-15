@@ -10,6 +10,8 @@ const footerNavigation = [
     title: "Discover",
     links: [
       { href: "/shop", label: "Shop all products" },
+      { href: "/shops", label: "Browse shops" },
+      { href: "/shops?saved=1", label: "Favourite shops" },
       { href: "/search", label: "Find your favourite" },
       { href: "/#categories", label: "Explore categories" },
       { href: "/#markets", label: "Our markets" },

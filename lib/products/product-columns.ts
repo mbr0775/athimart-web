@@ -20,6 +20,7 @@ export const PRODUCT_COLUMNS = `
 
 
   vendor_id,
+  is_official_listing,
   seller_name,
   seller_type,
   shipped_by,

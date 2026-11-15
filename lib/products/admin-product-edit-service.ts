@@ -4,6 +4,7 @@
 import "server-only";
 
 
+import { OFFICIAL_SHOP_ID, OFFICIAL_SHOP_NAME } from "@/lib/shops/shop-identity";
 import { getCurrentAdmin } from "@/lib/auth/admin";
 
 import { createClient } from "@/lib/supabase/server";
@@ -23,6 +24,7 @@ export interface AdminEditableProduct {
 
   companyName: string;
   sellerName?: string;
+  shopId?: string;
   sellerType?: string;
   shippedBy?: string;
 
@@ -117,6 +119,7 @@ const EDITABLE_PRODUCT_COLUMNS = `
   name,
 
   vendor_id,
+  is_official_listing,
   seller_name,
   seller_type,
   shipped_by,
@@ -554,9 +557,8 @@ function mapEditableProduct(
 
 
 
-    sellerName: row.vendor_id === null
-      ? "AthiMart"
-      : toStringValue(row.seller_name).trim() || "Marketplace seller",
+    shopId: row.is_official_listing === true ? OFFICIAL_SHOP_ID : toStringValue(row.vendor_id),
+    sellerName: row.is_official_listing === true ? OFFICIAL_SHOP_NAME : toStringValue(row.seller_name).trim(),
     sellerType: typeof row.seller_type === "string" ? row.seller_type : "",
     shippedBy: typeof row.shipped_by === "string" ? row.shipped_by : "",
     companyName:

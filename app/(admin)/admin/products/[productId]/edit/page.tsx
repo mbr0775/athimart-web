@@ -1,5 +1,6 @@
 // app/(admin)/admin/products/[productId]/edit/page.tsx
 
+import { getListingShopOptions } from "@/lib/shops/listing-assignment";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -52,6 +53,7 @@ export default async function EditProductPage({
     notFound();
   }
 
+  const shopOptions = await getListingShopOptions();
   const categoryOptions =
     productCategories.map(
       (category) => ({
@@ -126,6 +128,7 @@ export default async function EditProductPage({
       <div className="mt-8">
         <EditProductForm
           product={product}
+          shopOptions={shopOptions}
           categories={
             categoryOptions
           }

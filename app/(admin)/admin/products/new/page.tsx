@@ -1,5 +1,6 @@
 // app/(admin)/admin/products/new/page.tsx
 
+import { getListingShopOptions } from "@/lib/shops/listing-assignment";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -29,6 +30,7 @@ export const dynamic =
 export default async function NewProductPage() {
   await getCurrentAdmin();
 
+  const shopOptions = await getListingShopOptions();
   const categoryOptions =
     productCategories.map(
       (category) => ({
@@ -98,6 +100,7 @@ export default async function NewProductPage() {
 
       <div className="mt-8">
         <ProductForm
+          shopOptions={shopOptions}
           categories={
             categoryOptions
           }

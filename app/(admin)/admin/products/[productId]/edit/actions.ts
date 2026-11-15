@@ -5,6 +5,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { getListingAssignment } from "@/lib/shops/listing-assignment";
+import { OFFICIAL_SHOP_ID } from "@/lib/shops/shop-identity";
 import { getCurrentAdmin } from "@/lib/auth/admin";
 import { getRemovedProductImagePaths } from "@/lib/storage/product-image-storage";
 import { createClient } from "@/lib/supabase/server";
@@ -263,6 +265,7 @@ export async function updateProduct(
       "slug"
     );
 
+  const shopId = getText(formData, "shopId");
   const shippedBy = getText(formData, "shippedBy");
 
   const companyName =
@@ -518,7 +521,7 @@ export async function updateProduct(
   } = await athimartClient
     .from("products")
     .select(
-      "id, image_urls"
+      "id, image_urls, vendor_id, is_official_listing"
     )
     .eq(
       "id",
@@ -546,6 +549,12 @@ export async function updateProduct(
           "Return to the product list and select another product.",
       },
     };
+  }
+
+  const currentShopId = currentProduct.is_official_listing ? OFFICIAL_SHOP_ID : currentProduct.vendor_id ?? "";
+  const assignment = await getListingAssignment(athimartClient, shopId, currentShopId);
+  if (!assignment) {
+    return { message: "Check the seller details.", fieldErrors: { shopId: "Choose an approved shop." } };
   }
 
   const previousImageUrls =
@@ -612,6 +621,7 @@ export async function updateProduct(
   } = await athimartClient
     .from("products")
     .update({
+      ...assignment,
       slug,
       name,
 

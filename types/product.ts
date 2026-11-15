@@ -42,6 +42,7 @@ export interface Product {
 
   companyName: string;
   sellerName?: string;
+  shopId?: string;
   sellerType?: string;
   shippedBy?: string;
 

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { connection } from "next/server";
+import { ShopPreview } from "@/components/shops/shop-card";
+import { findShops } from "@/lib/shops/shop-service";
 import { getHomeCategoryPreviews } from "@/lib/products/product-category-service";
 import HomeScrollReveal from "@/components/home/home-scroll-reveal";
 import ProductDiscoverySection from "@/components/home/product-discovery-section";
@@ -177,10 +179,11 @@ export default async function StoreHomePage() {
 
   // Load current catalog content on each request, including newly added admin products.
   await connection();
-  const [latestResult, dropsResult, categoryResult] = await Promise.allSettled([
+  const [latestResult, dropsResult, categoryResult, shopsResult] = await Promise.allSettled([
     getActiveProducts({ countryCode: "LK", limit: 10 }),
     getFeaturedDrops({ countryCode: "LK", limit: 8 }),
     getHomeCategoryPreviews("LK"),
+    findShops({ limit: 6 }),
   ]);
   const latestProducts: Product[] = latestResult.status === "fulfilled" ? latestResult.value : [];
   const featuredDrops: Product[] = dropsResult.status === "fulfilled" ? dropsResult.value : [];
@@ -241,6 +244,8 @@ export default async function StoreHomePage() {
       {/* CATEGORY */}
 
       <ShopCategorySection previews={categoryPreviews} />
+
+      <ShopPreview shops={shopsResult.status === "fulfilled" ? shopsResult.value : []} />
 
 
 

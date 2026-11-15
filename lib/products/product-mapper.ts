@@ -1,3 +1,4 @@
+import { OFFICIAL_SHOP_ID, OFFICIAL_SHOP_NAME } from "@/lib/shops/shop-identity";
 import type {
   Product,
   ProductPrices,
@@ -184,9 +185,10 @@ export function mapProduct(
 
 
 
-    sellerName: row.vendor_id === null
-      ? "AthiMart"
-      : toStringValue(row.seller_name).trim() || "Marketplace seller",
+    shopId: row.is_official_listing === true ? OFFICIAL_SHOP_ID : toStringValue(row.vendor_id),
+    sellerName: row.is_official_listing === true
+      ? OFFICIAL_SHOP_NAME
+      : toStringValue(row.seller_name).trim(),
     sellerType: typeof row.seller_type === "string" ? row.seller_type : "",
     shippedBy: typeof row.shipped_by === "string" ? row.shipped_by : "",
     companyName: toStringValue(

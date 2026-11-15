@@ -12,6 +12,7 @@ import {
   Store,
 } from "lucide-react";
 
+import { getShopPath } from "@/lib/shops/shop-identity";
 import { getCurrentSeller } from "@/lib/auth/seller";
 import { createClient } from "@/lib/supabase/server";
 
@@ -207,6 +208,7 @@ export default async function SellerDashboardPage() {
               </strong>
               . Manage your products and monitor their current marketplace status.
             </p>
+            <Link href={getShopPath(profile.id)} className="mt-3 inline-block underline underline-offset-4">View your public shop</Link>
           </div>
 
           <Link

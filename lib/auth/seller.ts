@@ -6,6 +6,7 @@ import type { User } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 
+import { isReservedShopName } from "@/lib/shops/shop-identity";
 import { createClient } from "@/lib/supabase/server";
 
 export type ApprovedSellerRole =
@@ -130,7 +131,7 @@ export const getCurrentSeller = cache(
       "";
 
     const accountName = profile.full_name?.toString().trim().slice(0, 120);
-    const publicName = accountName && accountName.toLowerCase() !== "athimart"
+    const publicName = accountName && !isReservedShopName(accountName)
       ? accountName
       : "Marketplace seller";
 

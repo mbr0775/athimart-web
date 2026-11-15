@@ -65,6 +65,7 @@ interface EditProductFormProps {
   product: AdminEditableProduct;
 
   categories: CategoryOption[];
+  shopOptions: { id: string; name: string }[];
 
 }
 
@@ -90,6 +91,7 @@ export function EditProductForm({
 product,
 
 categories,
+shopOptions,
 
 }:Readonly<EditProductFormProps>) {
 
@@ -264,6 +266,7 @@ text-red-700
 
 
 <ProductBasicInfo
+shopOptions={shopOptions}
 
 product={product}
 

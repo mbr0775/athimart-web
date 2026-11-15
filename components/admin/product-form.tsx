@@ -51,6 +51,7 @@ import type {
 interface ProductFormProps {
 
   categories: CategoryOption[];
+  shopOptions: { id: string; name: string }[];
 
 }
 
@@ -104,7 +105,6 @@ const emptyProduct = {
   discountPercent:0,
 
 
-  sellerName: "AthiMart",
   isActive:true,
 
   isFeatured:false,
@@ -150,6 +150,7 @@ const initialState = {
 export default function ProductForm({
 
   categories,
+  shopOptions,
 
 }:ProductFormProps){
 
@@ -281,6 +282,7 @@ list-disc
 
 
 <ProductBasicInfo
+shopOptions={shopOptions}
 
 product={emptyProduct}
 

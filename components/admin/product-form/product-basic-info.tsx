@@ -10,6 +10,7 @@ import type {
 interface Props {
 
   product: AdminEditableProduct;
+  shopOptions: { id: string; name: string }[];
 
   errors?: Record<string,string>;
 
@@ -20,6 +21,7 @@ interface Props {
 export default function ProductBasicInfo({
 
   product,
+  shopOptions,
 
   errors = {},
 
@@ -242,10 +244,22 @@ py-3
 
 <fieldset className="grid gap-4 sm:grid-cols-2">
   <legend className="athimart-label">Seller and dispatch</legend>
-  <div className="text-sm">
-    <p className="font-medium">Sold by</p>
-    <p className="mt-2">{product.sellerName || "Marketplace seller"}</p>
-  </div>
+  <label className="text-sm font-medium">
+    Sold by
+    <select
+      name="shopId"
+      defaultValue={product.shopId ?? ""}
+      required={!product.id}
+      className="mt-2 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3"
+    >
+      <option value="" disabled={Boolean(product.shopId)}>{product.id ? "Seller not listed" : "Choose a shop"}</option>
+      {product.shopId && !shopOptions.some((shop) => shop.id === product.shopId) && (
+        <option value={product.shopId}>{product.sellerName || "Current seller"}</option>
+      )}
+      {shopOptions.map((shop) => <option key={shop.id} value={shop.id}>{shop.name}</option>)}
+    </select>
+    {errors.shopId && <span role="alert" className="mt-1 block text-red-600">{errors.shopId}</span>}
+  </label>
   <label className="text-sm font-medium">
     Shipped by (optional)
     <input name="shippedBy" maxLength={120} defaultValue={product.shippedBy}

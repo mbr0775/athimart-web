@@ -2,6 +2,7 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getShopPath } from "@/lib/shops/shop-identity";
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -650,9 +651,9 @@ export default async function ProductPage({
               <ul className={styles.serviceList} aria-label="Shopping information">
                 <li><Truck size={20} strokeWidth={1.4} aria-hidden="true" /><div><span>Made for your market</span><p>Delivery options are confirmed at checkout.</p></div></li>
                 <li><PackageCheck size={20} strokeWidth={1.4} aria-hidden="true" /><div><span>From the marketplace</span>
-                  {product.sellerName && <p>Sold by {product.sellerName}</p>}
+                  <p>{product.sellerName ? (<>Sold by {product.shopId ? <Link className="underline underline-offset-2" href={getShopPath(product.shopId)}>{product.sellerName}</Link> : product.sellerName}</>) : "Seller not listed"}</p>
                   {product.shippedBy && <p>Shipped by {product.shippedBy}</p>}
-                  {!product.sellerName && !product.shippedBy && <p>{product.subCategory}</p>}</div></li>
+                  </div></li>
               </ul>
               <div className={styles.collectionLink}><span>Part of the collection</span><Link href={`/category/${categorySlug}/${subcategorySlug}`}>{product.subCategory}<ArrowUpRight size={15} aria-hidden="true" /></Link></div>
             </section>
