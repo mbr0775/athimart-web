@@ -118,6 +118,7 @@ export default async function NewSellerProductPage() {
 
       <div className="mt-8">
         <ProductForm
+          sellerName={profile.publicName}
           categories={
             categoryOptions
           }

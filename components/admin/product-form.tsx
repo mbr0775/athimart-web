@@ -20,6 +20,7 @@ import ProductCategoryFields
 from "./product-form/product-category-fields";
 
 
+import ProductListingDetails from "@/components/products/product-listing-details";
 import ProductVariantFields from "@/components/products/product-variant-fields";
 import ProductDescription
 from "./product-form/product-description";
@@ -349,13 +350,7 @@ onChange={setFeaturedDrop}
 
 
 
-<ProductGallery
 
-initialUrls={[]}
-
-allowEmpty
-
-/>
 
 
 
@@ -376,6 +371,16 @@ errors={state.fieldErrors}
 
 
 
+
+<ProductListingDetails errors={state.fieldErrors} />
+
+<ProductGallery
+
+initialUrls={[]}
+
+allowEmpty
+
+/>
 
 <button
 

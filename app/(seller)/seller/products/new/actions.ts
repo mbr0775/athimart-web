@@ -1,7 +1,8 @@
 "use server";
 
 import { parseVariantRows, withoutVariantFields } from "@/lib/products/product-variants";
-import { buildVariantRows } from "@/lib/products/product-variant-save";
+import { buildVariantRows, checkCustomProductSku, getListingToken, isProductSkuConflict } from "@/lib/products/product-variant-save";
+import { productListingEmoji, productListingSku, productListingSlug } from "@/lib/products/product-listing-identifiers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -249,12 +250,6 @@ export async function createProduct(
       "seoDescription"
     );
 
-  const emoji =
-    getText(
-      formData,
-      "emoji"
-    ) || "📦";
-
   const imageResult =
     parseImageUrls(
       getText(
@@ -378,9 +373,8 @@ export async function createProduct(
       attributesResult.error;
   }
 
-  const slug = slugify(
-    customSlug || name
-  );
+  const token = getListingToken(formData);
+  const slug = customSlug ? slugify(customSlug) : productListingSlug(name, token);
 
   if (!slug) {
     fieldErrors.slug =
@@ -459,6 +453,9 @@ export async function createProduct(
     };
   }
 
+  const skuError = await checkCustomProductSku(supabase, sku);
+  if (skuError) return { message: "Check the inventory SKU.", fieldErrors: { sku: skuError } };
+
   const rows = buildVariantRows({
       slug,
       name,
@@ -474,8 +471,7 @@ export async function createProduct(
       model:
         model || null,
 
-      sku:
-        sku || null,
+      sku: sku.toUpperCase() || productListingSku(name, token, "", profile.publicName),
 
       category,
 
@@ -491,7 +487,7 @@ export async function createProduct(
         seoDescription ||
         null,
 
-      emoji,
+      emoji: productListingEmoji(category, subCategory),
 
       price:
         currentPrice,
@@ -543,6 +539,8 @@ export async function createProduct(
   const { error: insertError } = await supabase.from("products").insert(rows);
 
   if (insertError) {
+    if (isProductSkuConflict(insertError)) return { message: "Check the inventory SKU.", fieldErrors: { sku: "This SKU is already in use. Choose another or retry with a new listing." } };
+
     return {
       message:
         "The product could not be created.",

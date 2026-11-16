@@ -24,11 +24,13 @@ import { createProduct } from "@/app/(seller)/seller/products/new/actions";
 import { ProductImageUploader } from "@/components/admin/product-image-uploader";
 import type { AdminProductFormState } from "@/types/admin-product-form";
 import { parseVariantRows } from "@/lib/products/product-variants";
+import ProductListingDetails from "@/components/products/product-listing-details";
 import ProductVariantFields from "@/components/products/product-variant-fields";
 import { ProductCategoryFields, type CategoryOption } from "./product-category-fields";
 
 interface ProductFormProps {
   categories: CategoryOption[];
+  sellerName: string;
 }
 
 type FieldErrors =
@@ -337,6 +339,7 @@ function validateProductForm(
 
 export function ProductForm({
   categories,
+  sellerName,
 }: Readonly<ProductFormProps>) {
   const [
     clientErrors,
@@ -779,32 +782,6 @@ export function ProductForm({
                 />
               </label>
 
-              {/* SKU */}
-              <label>
-                <span className="athimart-label text-[var(--text-muted)]">
-                  SKU
-                </span>
-
-                <input
-                  type="text"
-                  name="sku"
-                  maxLength={
-                    100
-                  }
-                  placeholder="Example: HON-X6C-128"
-                  className={
-                    inputClassName
-                  }
-                />
-
-                <FieldError
-                  id="sku-error"
-                  message={getFieldError(
-                    "sku"
-                  )}
-                />
-              </label>
-
               <ProductCategoryFields
                 categories={categories}
                 inputClassName={getInputClass}
@@ -812,61 +789,7 @@ export function ProductForm({
                 onChange={clearClientError}
               />
 
-              <ProductVariantFields initialPricing={{ stock: 1 }} errors={combinedErrors} onChange={clearClientError} />
-
-              {/* Slug */}
-              <label>
-                <span className="athimart-label text-[var(--text-muted)]">
-                  Product URL
-                  slug
-                </span>
-
-                <input
-                  type="text"
-                  name="slug"
-                  maxLength={
-                    160
-                  }
-                  placeholder="honor-x6c"
-                  className={
-                    inputClassName
-                  }
-                />
-
-                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
-                  Leave blank
-                  to generate
-                  it from the
-                  product name.
-                </p>
-
-                <FieldError
-                  id="slug-error"
-                  message={getFieldError(
-                    "slug"
-                  )}
-                />
-              </label>
-
-              {/* Emoji */}
-              <label>
-                <span className="athimart-label text-[var(--text-muted)]">
-                  Product emoji
-                </span>
-
-                <input
-                  type="text"
-                  name="emoji"
-                  maxLength={
-                    10
-                  }
-                  defaultValue="📦"
-                  placeholder="📦"
-                  className={
-                    inputClassName
-                  }
-                />
-              </label>
+              <ProductVariantFields initialPricing={{ stock: 0 }} errors={combinedErrors} onChange={clearClientError} />
 
               {/* Description */}
               <label
@@ -918,73 +841,7 @@ export function ProductForm({
             </div>
           </section>
 
-          {/* Product images */}
-          <section
-            data-product-field="imageUrls"
-            className={`border bg-[var(--surface)] p-5 sm:p-7 ${
-              getFieldError(
-                "imageUrls"
-              )
-                ? "border-[var(--sale)]!"
-                : "border-[var(--border)]"
-            }`}
-          >
-            <div className="flex items-start justify-between gap-5 border-b border-[var(--border)] pb-5">
-              <div>
-                <p className="athimart-label text-[var(--brand-orange-dark)]">
-                  Product gallery
-                </p>
 
-                <h2 className="athimart-title-large mt-2 text-[var(--brand-blue-dark)]">
-                  Product
-                  Images{" "}
-
-                  <span
-                    aria-hidden="true"
-                    className="text-[var(--sale)]"
-                  >
-                    *
-                  </span>
-                </h2>
-
-                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
-                  Upload at
-                  least one
-                  product image.
-                  The first
-                  image becomes
-                  the primary
-                  image.
-                </p>
-              </div>
-
-              <ImagePlus
-                aria-hidden="true"
-                className="h-7 w-7 shrink-0 text-[var(--brand-blue)]"
-                strokeWidth={
-                  1.7
-                }
-              />
-            </div>
-
-            <div className="mt-6">
-              <ProductImageUploader
-                initialUrls={
-                  []
-                }
-                maximumImages={
-                  6
-                }
-              />
-
-              <FieldError
-                id="imageUrls-error"
-                message={getFieldError(
-                  "imageUrls"
-                )}
-              />
-            </div>
-          </section>
         </div>
 
         {/* Right column */}
@@ -1170,6 +1027,76 @@ export function ProductForm({
             </div>
           </section>
 
+        </div>
+      </div>
+      <div className="mt-7 space-y-5">
+        <ProductListingDetails sellerName={sellerName} errors={combinedErrors} />
+          <section
+            data-product-field="imageUrls"
+            className={`border bg-[var(--surface)] p-5 sm:p-7 ${
+              getFieldError(
+                "imageUrls"
+              )
+                ? "border-[var(--sale)]!"
+                : "border-[var(--border)]"
+            }`}
+          >
+            <div className="flex items-start justify-between gap-5 border-b border-[var(--border)] pb-5">
+              <div>
+                <p className="athimart-label text-[var(--brand-orange-dark)]">
+                  Product gallery
+                </p>
+
+                <h2 className="athimart-title-large mt-2 text-[var(--brand-blue-dark)]">
+                  Product
+                  Images{" "}
+
+                  <span
+                    aria-hidden="true"
+                    className="text-[var(--sale)]"
+                  >
+                    *
+                  </span>
+                </h2>
+
+                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
+                  Upload at
+                  least one
+                  product image.
+                  The first
+                  image becomes
+                  the primary
+                  image.
+                </p>
+              </div>
+
+              <ImagePlus
+                aria-hidden="true"
+                className="h-7 w-7 shrink-0 text-[var(--brand-blue)]"
+                strokeWidth={
+                  1.7
+                }
+              />
+            </div>
+
+            <div className="mt-6">
+              <ProductImageUploader
+                initialUrls={
+                  []
+                }
+                maximumImages={
+                  6
+                }
+              />
+
+              <FieldError
+                id="imageUrls-error"
+                message={getFieldError(
+                  "imageUrls"
+                )}
+              />
+            </div>
+          </section>
           {/* Actions */}
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
             <button
@@ -1233,7 +1160,6 @@ export function ProductForm({
               application.
             </p>
           </div>
-        </div>
       </div>
     </form>
   );

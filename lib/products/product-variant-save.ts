@@ -1,11 +1,31 @@
 import "server-only";
 
 import { createHash, randomUUID } from "node:crypto";
+import { productVariantSku } from "./product-listing-identifiers";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import {
   MAX_PRODUCT_VARIANTS, hasSharedVariantImages, parseVariantRows, productVariantFields, readVariant, variantAttributes,
   variantKey, variantSummary, VARIANT_GROUP_KEY, type VariantValues,
 } from "./product-variants";
+
+export function getListingToken(form: FormData) {
+  const token = form.get("listingToken");
+  return typeof token === "string" && /^[a-f0-9]{16}$/.test(token)
+    ? token
+    : randomUUID().replaceAll("-", "").slice(0, 16);
+}
+
+export async function checkCustomProductSku(client: SupabaseClient, sku: string) {
+  if (!sku) return null;
+  if (!/^[a-z0-9-]{1,100}$/i.test(sku)) return "Use up to 100 letters, numbers or hyphens for the SKU.";
+  const { data, error } = await client.from("products").select("id").ilike("sku", sku).limit(1);
+  if (error) return "The SKU could not be checked. Try again.";
+  return data?.length ? "This SKU is already in use. Choose another or leave it blank." : null;
+}
+
+export function isProductSkuConflict(error: { code: string; message: string }) {
+  return error.code === "23505" && /sku/i.test(error.message);
+}
 
 type ValidSubmission = Extract<ReturnType<typeof parseVariantRows>, { valid: true }>;
 type ProductWrite = { name: string; slug: string; sku: string | null; attributes: Record<string, unknown> };
@@ -52,7 +72,7 @@ export function buildVariantRows<T extends ProductWrite>(
     return {
       ...product,
       slug: `${product.slug}-${suffix ? `${suffix}-` : ""}${hash}`,
-      sku: product.sku ? `${product.sku}-${hash}` : null,
+      sku: product.sku ? productVariantSku(product.sku, label, key) : null,
       name: `${baseName} ${label}`,
       attributes,
       price: row.price,

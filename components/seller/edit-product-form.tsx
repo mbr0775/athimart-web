@@ -20,6 +20,7 @@ import { ProductImageUploader } from "@/components/admin/product-image-uploader"
 import type { SellerEditableProduct } from "@/lib/products/seller-product-edit-service";
 import type { AdminProductFormState } from "@/types/admin-product-form";
 import { readVariant, withoutVariantFields } from "@/lib/products/product-variants";
+import ProductListingDetails from "@/components/products/product-listing-details";
 import ProductVariantFields from "@/components/products/product-variant-fields";
 import { ProductCategoryFields, type CategoryOption } from "./product-category-fields";
 
@@ -260,34 +261,6 @@ export function EditProductForm({
                 />
               </label>
 
-              {/* SKU */}
-              <label>
-                <span className="athimart-label text-[var(--text-muted)]">
-                  SKU
-                </span>
-
-                <input
-                  type="text"
-                  name="sku"
-                  maxLength={100}
-                  defaultValue={
-                    product.sku
-                  }
-                  placeholder="Example: MILK-001"
-                  className={
-                    inputClassName
-                  }
-                />
-
-                <FieldError
-                  message={
-                    state
-                      .fieldErrors
-                      .sku
-                  }
-                />
-              </label>
-
               <ProductCategoryFields
                 categories={categories}
                 initialCategory={product.category}
@@ -297,73 +270,6 @@ export function EditProductForm({
               />
 
               <ProductVariantFields values={variant.values} initialPricing={product} errors={state.fieldErrors} />
-
-              {/* Slug */}
-              <label>
-                <span className="athimart-label text-[var(--text-muted)]">
-                  Product URL slug{" "}
-
-                  <span className="text-[var(--sale)]">
-                    *
-                  </span>
-                </span>
-
-                <input
-                  type="text"
-                  name="slug"
-                  required
-                  maxLength={160}
-                  defaultValue={
-                    product.slug
-                  }
-                  placeholder="fresh-milk"
-                  className={
-                    inputClassName
-                  }
-                />
-
-                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
-                  Use lowercase words
-                  separated by hyphens.
-                </p>
-
-                <FieldError
-                  message={
-                    state
-                      .fieldErrors
-                      .slug
-                  }
-                />
-              </label>
-
-              {/* Emoji */}
-              <label>
-                <span className="athimart-label text-[var(--text-muted)]">
-                  Product emoji
-                </span>
-
-                <input
-                  type="text"
-                  name="emoji"
-                  maxLength={10}
-                  defaultValue={
-                    product.emoji ||
-                    "📦"
-                  }
-                  placeholder="📦"
-                  className={
-                    inputClassName
-                  }
-                />
-
-                <FieldError
-                  message={
-                    state
-                      .fieldErrors
-                      .emoji
-                  }
-                />
-              </label>
 
               {/* Description */}
               <label className="sm:col-span-2">
@@ -405,62 +311,7 @@ export function EditProductForm({
             </div>
           </section>
 
-          {/* Product images */}
-          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
-            <div className="flex items-start justify-between gap-5 border-b border-[var(--border)] pb-5">
-              <div>
-                <p className="athimart-label text-[var(--brand-orange-dark)]">
-                  Product gallery
-                </p>
 
-                <h2 className="athimart-title-large mt-2 text-[var(--brand-blue-dark)]">
-                  Product Images
-                </h2>
-
-                <p className="mt-2 max-w-xl font-body text-xs leading-5 text-[var(--text-muted)]">
-                  Review existing
-                  images or upload new
-                  ones. The first image
-                  is used as the primary
-                  product image.
-                </p>
-              </div>
-
-              <ImagePlus
-                aria-hidden="true"
-                className="h-7 w-7 shrink-0 text-[var(--brand-blue)]"
-                strokeWidth={1.7}
-              />
-            </div>
-
-            <div className="mt-6">
-              <ProductImageUploader
-                initialUrls={
-                  product.imageUrls
-                }
-                maximumImages={6}
-              />
-
-              <FieldError
-                message={
-                  state
-                    .fieldErrors
-                    .imageUrls
-                }
-              />
-            </div>
-
-            <div className="mt-5 border-l-4 border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] px-4 py-3">
-              <p className="font-body text-xs leading-5 text-[var(--text-soft)]">
-                When you remove an
-                uploaded AthiMart image
-                and save the product,
-                its unused Storage file
-                will also be cleaned up
-                when possible.
-              </p>
-            </div>
-          </section>
         </div>
 
         {/* Right column */}
@@ -631,6 +482,65 @@ export function EditProductForm({
             </div>
           </section>
 
+        </div>
+      </div>
+      <div className="mt-7 space-y-5">
+        <ProductListingDetails product={product} sellerName={product.sellerName} errors={state.fieldErrors} />
+          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
+            <div className="flex items-start justify-between gap-5 border-b border-[var(--border)] pb-5">
+              <div>
+                <p className="athimart-label text-[var(--brand-orange-dark)]">
+                  Product gallery
+                </p>
+
+                <h2 className="athimart-title-large mt-2 text-[var(--brand-blue-dark)]">
+                  Product Images
+                </h2>
+
+                <p className="mt-2 max-w-xl font-body text-xs leading-5 text-[var(--text-muted)]">
+                  Review existing
+                  images or upload new
+                  ones. The first image
+                  is used as the primary
+                  product image.
+                </p>
+              </div>
+
+              <ImagePlus
+                aria-hidden="true"
+                className="h-7 w-7 shrink-0 text-[var(--brand-blue)]"
+                strokeWidth={1.7}
+              />
+            </div>
+
+            <div className="mt-6">
+              <ProductImageUploader
+                initialUrls={
+                  product.imageUrls
+                }
+                maximumImages={6}
+              />
+
+              <FieldError
+                message={
+                  state
+                    .fieldErrors
+                    .imageUrls
+                }
+              />
+            </div>
+
+            <div className="mt-5 border-l-4 border-[var(--brand-orange)] bg-[var(--brand-orange-soft)] px-4 py-3">
+              <p className="font-body text-xs leading-5 text-[var(--text-soft)]">
+                When you remove an
+                uploaded AthiMart image
+                and save the product,
+                its unused Storage file
+                will also be cleaned up
+                when possible.
+              </p>
+            </div>
+          </section>
           {/* Actions */}
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
             <button
@@ -684,7 +594,6 @@ export function EditProductForm({
               application.
             </p>
           </div>
-        </div>
       </div>
     </form>
   );

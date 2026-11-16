@@ -5,12 +5,16 @@ import { OFFICIAL_SHOP_ID } from "./shop-identity";
 import { findShop, findShops } from "./shop-service";
 
 export async function getListingAssignment(client: SupabaseClient, shopId: string, currentId?: string) {
-  if (currentId !== undefined && shopId === currentId) return {};
-  if (!await findShop(shopId, client)) return null;
+  if (currentId !== undefined && shopId === currentId) return { listing: {}, sellerName: undefined };
+  const shop = await findShop(shopId, client);
+  if (!shop) return null;
   return {
-    vendor_id: shopId === OFFICIAL_SHOP_ID ? null : shopId,
-    is_official_listing: shopId === OFFICIAL_SHOP_ID,
-    seller_type: shopId === OFFICIAL_SHOP_ID ? "business" : "individual",
+    sellerName: shop.name,
+    listing: {
+      vendor_id: shopId === OFFICIAL_SHOP_ID ? null : shopId,
+      is_official_listing: shopId === OFFICIAL_SHOP_ID,
+      seller_type: shopId === OFFICIAL_SHOP_ID ? "business" : "individual",
+    },
   };
 }
 

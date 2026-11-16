@@ -3,7 +3,8 @@
 "use server";
 
 import { parseVariantRows, withoutVariantFields, hasSharedVariantImages } from "@/lib/products/product-variants";
-import { buildVariantRows, checkVariantGroup } from "@/lib/products/product-variant-save";
+import { buildVariantRows, checkCustomProductSku, getListingToken, isProductSkuConflict, checkVariantGroup } from "@/lib/products/product-variant-save";
+import { productListingEmoji, productListingSku } from "@/lib/products/product-listing-identifiers";
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -47,10 +48,6 @@ function getText(
     : "";
 }
 
-/**
- * Convert a FormData value to a number.
- * Empty values return null.
- */
 function getNumber(
   formData: FormData,
   name: string
@@ -78,31 +75,6 @@ function getNumber(
   )
     ? parsedValue
     : null;
-}
-
-/**
- * Convert a product name or custom value
- * into a URL-safe slug.
- */
-function slugify(
-  value: string
-): string {
-  return value
-    .trim()
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(
-      /[\u0300-\u036f]/g,
-      ""
-    )
-    .replace(
-      /[^a-z0-9]+/g,
-      "-"
-    )
-    .replace(
-      /^-+|-+$/g,
-      ""
-    );
 }
 
 /**
@@ -272,12 +244,6 @@ export async function updateProduct(
       "name"
     );
 
-  const customSlug =
-    getText(
-      formData,
-      "slug"
-    );
-
   const companyName =
     getText(
       formData,
@@ -331,12 +297,6 @@ export async function updateProduct(
       formData,
       "seoDescription"
     );
-
-  const emoji =
-    getText(
-      formData,
-      "emoji"
-    ) || "📦";
 
   const priceLkr =
     getNumber(
@@ -482,16 +442,6 @@ export async function updateProduct(
       attributesResult.error;
   }
 
-  const slug =
-    slugify(
-      customSlug || name
-    );
-
-  if (!slug) {
-    fieldErrors.slug =
-      "Enter a valid product URL slug.";
-  }
-
   if (
     !variants.valid ||
     Object.keys(
@@ -551,7 +501,7 @@ export async function updateProduct(
   } = await athimartClient
     .from("products")
     .select(
-      "id, image_urls, category, sub_category, attributes, country_code"
+      "id, slug, sku, emoji, seller_name, image_urls, category, sub_category, attributes, country_code"
     )
     .eq(
       "id",
@@ -617,52 +567,11 @@ export async function updateProduct(
         )
       : [];
 
-  /*
-   * Prevent two products from using the
-   * same public URL slug.
-   */
-  const {
-    data: existingSlug,
-    error:
-      slugLookupError,
-  } = await athimartClient
-    .from("products")
-    .select("id")
-    .eq(
-      "slug",
-      slug
-    )
-    .neq(
-      "id",
-      cleanedProductId
-    )
-    .maybeSingle();
+  const skuError = sku && !currentProduct.sku ? await checkCustomProductSku(athimartClient, sku) : null;
+  if (skuError) return { message: "Check the inventory SKU.", fieldErrors: { sku: skuError } };
 
-  if (
-    slugLookupError
-  ) {
-    return {
-      message:
-        "The product URL could not be checked.",
-
-      fieldErrors: {
-        slug:
-          slugLookupError.message,
-      },
-    };
-  }
-
-  if (existingSlug) {
-    return {
-      message:
-        "Another product already uses this URL slug.",
-
-      fieldErrors: {
-        slug:
-          "Enter another slug or change the product name.",
-      },
-    };
-  }
+  const slug = currentProduct.slug;
+  const token = getListingToken(formData);
 
   /*
    * Update only the authenticated seller's
@@ -686,8 +595,7 @@ export async function updateProduct(
       model:
         model || null,
 
-      sku:
-        sku || null,
+      sku: currentProduct.sku || sku.toUpperCase() || productListingSku(name, token, "", profile.publicName),
 
       category,
 
@@ -703,7 +611,7 @@ export async function updateProduct(
         seoDescription ||
         null,
 
-      emoji,
+      emoji: currentProduct.emoji || productListingEmoji(category, subCategory),
 
       price:
         currentPrice,
@@ -756,6 +664,8 @@ export async function updateProduct(
   const updatedProduct = result.data?.find((row) => row.id === cleanedProductId);
 
   if (updateError) {
+    if (isProductSkuConflict(updateError)) return { message: "Check the inventory SKU.", fieldErrors: { sku: "This SKU is already in use. Choose another or retry with a new listing." } };
+
     return {
       message:
         "The product could not be updated.",

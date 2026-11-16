@@ -211,31 +211,7 @@ py-3
 
 
 
-<div>
 
-<label className="text-sm font-medium">
-SKU
-</label>
-
-
-<input
-
-name="sku"
-
-defaultValue={product.sku ?? ""}
-
-className="
-mt-2
-w-full
-rounded-xl
-border
-px-4
-py-3
- border-[var(--border)] bg-[var(--surface)] focus:border-[var(--brand-hover)]"
-
-/>
-
-</div>
 
 
 

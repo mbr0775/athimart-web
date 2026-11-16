@@ -23,6 +23,7 @@ import ProductCategoryFields
 from "./product-form/product-category-fields";
 
 
+import ProductListingDetails from "@/components/products/product-listing-details";
 import ProductVariantFields from "@/components/products/product-variant-fields";
 import { readVariant } from "@/lib/products/product-variants";
 import ProductDescription
@@ -322,13 +323,7 @@ errors={state.fieldErrors}
 
 
 
-<ProductGallery
 
-initialUrls={
-product.imageUrls
-}
-
-/>
 
 
 
@@ -366,6 +361,16 @@ errors={state.fieldErrors}
 
 
 
+
+<ProductListingDetails product={product} errors={state.fieldErrors} />
+
+<ProductGallery
+
+initialUrls={
+product.imageUrls
+}
+
+/>
 
 <input
 

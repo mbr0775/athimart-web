@@ -70,6 +70,17 @@ export function productSpecifications(attributes: Record<string, unknown>) {
 }
 
 export const MAX_PRODUCT_VARIANTS = 100;
+export function generateVariantCombinations(options: Partial<Record<VariantKey, string[]>>) {
+  const groups = productVariantFields.flatMap(({ key }) => {
+    const values = options[key];
+    return values?.length ? [{ key, values }] : [];
+  });
+  if (!groups.length) return [];
+  if (groups.reduce((total, { values }) => total * values.length, 1) > MAX_PRODUCT_VARIANTS) return null;
+  return groups.reduce<VariantValues[]>((combinations, { key, values }) =>
+    combinations.flatMap((combination) => values.map((value) => ({ ...combination, [key]: value }))), [{}]);
+}
+
 const sharedImagesKey = "shared_variant_images";
 
 export interface VariantRow {
@@ -112,6 +123,7 @@ export function parseVariantRows(form: FormData): VariantSubmission {
   let input: unknown;
   try { input = JSON.parse(raw); } catch { return invalid("The variant list could not be read."); }
   if (!Array.isArray(input) || input.length > MAX_PRODUCT_VARIANTS) return invalid("Save up to 100 variants per product.");
+  if (!input.length && form.get("variantMode") === "multiple") return invalid("Generate at least one variant before saving.");
   const rows: ParsedRow[] = [];
   const combinations = new Set<string>();
   for (const [index, row] of input.entries()) {

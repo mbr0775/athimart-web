@@ -3,7 +3,8 @@
 "use server";
 
 import { parseVariantRows, withoutVariantFields, hasSharedVariantImages } from "@/lib/products/product-variants";
-import { buildVariantRows, checkVariantGroup } from "@/lib/products/product-variant-save";
+import { buildVariantRows, checkCustomProductSku, getListingToken, isProductSkuConflict, checkVariantGroup } from "@/lib/products/product-variant-save";
+import { productListingEmoji, productListingSku } from "@/lib/products/product-listing-identifiers";
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -74,31 +75,6 @@ function getNumber(
   )
     ? parsedValue
     : null;
-}
-
-/**
- * Convert a name or custom value into
- * a URL-safe product slug.
- */
-function slugify(
-  value: string
-): string {
-  return value
-    .trim()
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(
-      /[\u0300-\u036f]/g,
-      ""
-    )
-    .replace(
-      /[^a-z0-9]+/g,
-      "-"
-    )
-    .replace(
-      /^-+|-+$/g,
-      ""
-    );
 }
 
 /**
@@ -262,12 +238,6 @@ export async function updateProduct(
     "name"
   );
 
-  const customSlug =
-    getText(
-      formData,
-      "slug"
-    );
-
   const shopId = getText(formData, "shopId");
   const shippedBy = getText(formData, "shippedBy");
 
@@ -319,12 +289,6 @@ export async function updateProduct(
       formData,
       "seoDescription"
     );
-
-  const emoji =
-    getText(
-      formData,
-      "emoji"
-    ) || "📦";
 
   const priceLkr =
     getNumber(
@@ -466,15 +430,6 @@ export async function updateProduct(
       attributesResult.error;
   }
 
-  const slug = slugify(
-    customSlug || name
-  );
-
-  if (!slug) {
-    fieldErrors.slug =
-      "Enter a valid product URL slug.";
-  }
-
   if (
     !variants.valid ||
     Object.keys(
@@ -528,7 +483,7 @@ export async function updateProduct(
   } = await athimartClient
     .from("products")
     .select(
-      "id, image_urls, vendor_id, is_official_listing, attributes, country_code"
+      "id, slug, sku, emoji, seller_name, image_urls, vendor_id, is_official_listing, attributes, country_code"
     )
     .eq(
       "id",
@@ -579,51 +534,18 @@ export async function updateProduct(
         )
       : [];
 
-  /*
-   * Prevent another product from using
-   * the same public URL slug.
-   */
-  const {
-    data: existingSlug,
-    error: slugLookupError,
-  } = await athimartClient
-    .from("products")
-    .select("id")
-    .eq("slug", slug)
-    .neq(
-      "id",
-      cleanedProductId
-    )
-    .maybeSingle();
+  const skuError = sku && !currentProduct.sku ? await checkCustomProductSku(athimartClient, sku) : null;
+  if (skuError) return { message: "Check the inventory SKU.", fieldErrors: { sku: skuError } };
 
-  if (slugLookupError) {
-    return {
-      message:
-        "The product URL could not be checked.",
-      fieldErrors: {
-        slug:
-          slugLookupError.message,
-      },
-    };
-  }
-
-  if (existingSlug) {
-    return {
-      message:
-        "Another product already uses this URL slug.",
-      fieldErrors: {
-        slug:
-          "Enter another slug or change the product name.",
-      },
-    };
-  }
+  const slug = currentProduct.slug;
+  const token = getListingToken(formData);
 
   /*
    * Save the updated product information
    * in the AthiMart database.
    */
   const rows = buildVariantRows({
-      ...assignment,
+      ...assignment.listing,
       slug,
       name,
 
@@ -637,8 +559,7 @@ export async function updateProduct(
       model:
         model || null,
 
-      sku:
-        sku || null,
+      sku: currentProduct.sku || sku.toUpperCase() || productListingSku(name, token, "", assignment.sellerName ?? currentProduct.seller_name ?? ""),
 
       category,
 
@@ -654,7 +575,7 @@ export async function updateProduct(
         seoDescription ||
         null,
 
-      emoji,
+      emoji: currentProduct.emoji || productListingEmoji(category, subCategory),
 
       price:
         currentPrice,
@@ -690,8 +611,8 @@ export async function updateProduct(
         new Date().toISOString(),
     }, variants, currentProduct.attributes ?? {});
   const country = currentProduct.country_code ?? "LK";
-  const vendorId = assignment.vendor_id === undefined ? currentProduct.vendor_id : assignment.vendor_id;
-  const official = assignment.is_official_listing ?? currentProduct.is_official_listing;
+  const vendorId = assignment.listing.vendor_id === undefined ? currentProduct.vendor_id : assignment.listing.vendor_id;
+  const official = assignment.listing.is_official_listing ?? currentProduct.is_official_listing;
   const variantConflict = await checkVariantGroup(athimartClient, vendorId, official, country, cleanedProductId, rows);
   if (variantConflict) return { message: "Check product variants.", fieldErrors: { variants: variantConflict } };
 
@@ -710,6 +631,8 @@ export async function updateProduct(
   const updatedProduct = result.data?.find((row) => row.id === cleanedProductId);
 
   if (updateError) {
+    if (isProductSkuConflict(updateError)) return { message: "Check the inventory SKU.", fieldErrors: { sku: "This SKU is already in use. Choose another or retry with a new listing." } };
+
     return {
       message:
         "The product could not be updated.",
