@@ -1,3 +1,4 @@
+import { groupCatalogProducts } from "./group-catalog-products";
 import type { Product } from "@/types/product";
 import type { ProductFilters } from "@/types/product-filter";
 
@@ -110,7 +111,7 @@ export async function getFilteredProducts(
     }
   });
 
-  return products.slice(0, safeLimit);
+  return groupCatalogProducts(products).slice(0, safeLimit);
 }
 
 
@@ -174,9 +175,7 @@ export async function getProductsByCategory({
       }
     )
 
-    .limit(
-      safeLimit
-    );
+    .limit(1000);
 
 
 
@@ -190,19 +189,7 @@ export async function getProductsByCategory({
 
 
 
-  return (
-
-    data ?? []
-
-  ).map(
-
-    (row)=>
-
-      mapProduct(
-        row as Record<string,unknown>
-      )
-
-  );
+  return groupCatalogProducts((data ?? []).map((row) => mapProduct(row as Record<string, unknown>))).slice(0, safeLimit);
 
 }
 
@@ -274,9 +261,7 @@ export async function getProductsBySubcategory({
       }
     )
 
-    .limit(
-      safeLimit
-    );
+    .limit(1000);
 
 
 
@@ -290,19 +275,7 @@ export async function getProductsBySubcategory({
 
 
 
-  return (
-
-    data ?? []
-
-  ).map(
-
-    (row)=>
-
-      mapProduct(
-        row as Record<string,unknown>
-      )
-
-  );
+  return groupCatalogProducts((data ?? []).map((row) => mapProduct(row as Record<string, unknown>))).slice(0, safeLimit);
 
 }
 
@@ -390,9 +363,7 @@ export async function searchProducts({
 
     .order("created_at", { ascending: false })
 
-    .limit(
-      safeLimit
-    );
+    .limit(1000);
 
 
 
@@ -406,19 +377,7 @@ export async function searchProducts({
 
 
 
-  return (
-
-    data ?? []
-
-  ).map(
-
-    (row)=>
-
-      mapProduct(
-        row as Record<string,unknown>
-      )
-
-  );
+  return groupCatalogProducts((data ?? []).map((row) => mapProduct(row as Record<string, unknown>))).slice(0, safeLimit);
 
 }
 

@@ -151,3 +151,19 @@ export function parseVariantRows(form: FormData): VariantSubmission {
   }
   return { valid: true, rows };
 }
+
+export function nameWithoutOptions(name: string, values: VariantValues) {
+  let base = name;
+  const patterns = Object.values(values).map((value) => {
+    const compact = value.replace(/\s/g, "");
+    const escaped = Array.from(compact, (character) =>
+      "\\^$.*+?()[]{}|".includes(character) ? "\\" + character : character);
+    return new RegExp("[\\s(/-]+" + escaped.join("\\s*") + "\\)?$", "i");
+  });
+  for (;;) {
+    const matched = patterns.findIndex((pattern) => pattern.test(base));
+    if (matched < 0) return base || name;
+    const [pattern] = patterns.splice(matched, 1);
+    base = base.replace(pattern, "").trimEnd();
+  }
+}

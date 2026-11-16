@@ -1,3 +1,4 @@
+import { groupCatalogProducts } from "@/lib/products/group-catalog-products";
 import "server-only";
 
 import { AVATAR_BUCKET, ownedAvatarPath } from "@/lib/account/profile-identity";
@@ -55,15 +56,18 @@ export async function findShop(id: string, client?: SupabaseClient) {
 }
 
 export async function getShopProducts(id: string, offset: number, limit: number) {
-  const query = publicSupabase.from("products").select(PRODUCT_COLUMNS)
-    .eq("country_code", "LK").eq("is_active", true);
-
-  if (id === OFFICIAL_SHOP_ID) query.is("vendor_id", null).eq("is_official_listing", true);
-  else query.eq("vendor_id", id).eq("is_official_listing", false);
-
-  const { data, error } = await query
-    .order("created_at", { ascending: false }).order("id")
-    .range(offset, offset + limit - 1);
-  if (error) throw new Error(`Unable to load shop products: ${error.message}`);
-  return (data ?? []).map((row) => mapProduct(row as Record<string, unknown>));
+  const batchSize = 100;
+  const products = [];
+  for (let start = 0; ; start += batchSize) {
+    const query = publicSupabase.from("products").select(PRODUCT_COLUMNS)
+      .eq("country_code", "LK").eq("is_active", true);
+    if (id === OFFICIAL_SHOP_ID) query.is("vendor_id", null).eq("is_official_listing", true);
+    else query.eq("vendor_id", id).eq("is_official_listing", false);
+    const { data, error } = await query.order("created_at", { ascending: false }).order("id")
+      .range(start, start + batchSize - 1);
+    if (error) throw new Error(`Unable to load shop products: ${error.message}`);
+    products.push(...(data ?? []).map((row) => mapProduct(row as Record<string, unknown>)));
+    const grouped = groupCatalogProducts(products);
+    if (!data || data.length < batchSize || grouped.length >= offset + limit) return grouped.slice(offset, offset + limit);
+  }
 }

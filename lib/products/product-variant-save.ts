@@ -4,8 +4,8 @@ import { createHash, randomUUID } from "node:crypto";
 import { productVariantSku } from "./product-listing-identifiers";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import {
-  MAX_PRODUCT_VARIANTS, hasSharedVariantImages, parseVariantRows, productVariantFields, readVariant, variantAttributes,
-  variantKey, variantSummary, VARIANT_GROUP_KEY, type VariantValues,
+  MAX_PRODUCT_VARIANTS, hasSharedVariantImages, parseVariantRows, nameWithoutOptions, productVariantFields, readVariant, variantAttributes,
+  variantKey, variantSummary, VARIANT_GROUP_KEY,
 } from "./product-variants";
 
 export function getListingToken(form: FormData) {
@@ -30,21 +30,6 @@ export function isProductSkuConflict(error: { code: string; message: string }) {
 type ValidSubmission = Extract<ReturnType<typeof parseVariantRows>, { valid: true }>;
 type ProductWrite = { name: string; slug: string; sku: string | null; attributes: Record<string, unknown> };
 
-function nameWithoutOptions(name: string, values: VariantValues) {
-  let base = name;
-  const patterns = Object.values(values).map((value) => {
-    const compact = value.replace(/\s/g, "");
-    const escaped = Array.from(compact, (character) =>
-      "\\^$.*+?()[]{}|".includes(character) ? "\\" + character : character);
-    return new RegExp("[\\s(/-]+" + escaped.join("\\s*") + "\\)?$", "i");
-  });
-  for (;;) {
-    const matched = patterns.findIndex((pattern) => pattern.test(base));
-    if (matched < 0) return base || name;
-    const [pattern] = patterns.splice(matched, 1);
-    base = base.replace(pattern, "").trimEnd();
-  }
-}
 
 export function buildVariantRows<T extends ProductWrite>(
   product: T,

@@ -1,3 +1,4 @@
+import { groupCatalogProducts } from "./group-catalog-products";
 import type { Product } from "@/types/product";
 
 import { publicSupabase } from "@/lib/supabase/public-client";
@@ -29,13 +30,13 @@ export async function getActiveProducts({
     .eq("country_code", countryCode)
     .eq("is_active", true)
     .order("created_at", { ascending: false })
-    .limit(safeLimit);
+    .limit(1000);
 
   if (error) {
     throw new Error(`Unable to load active products: ${error.message}`);
   }
 
-  return mapProducts(data ?? []);
+  return groupCatalogProducts(mapProducts(data ?? [])).slice(0, safeLimit);
 }
 
 export async function getFeaturedProducts({
@@ -51,13 +52,13 @@ export async function getFeaturedProducts({
     .eq("is_active", true)
     .eq("is_featured", true)
     .order("created_at", { ascending: false })
-    .limit(safeLimit);
+    .limit(1000);
 
   if (error) {
     throw new Error(`Unable to load featured products: ${error.message}`);
   }
 
-  return mapProducts(data ?? []);
+  return groupCatalogProducts(mapProducts(data ?? [])).slice(0, safeLimit);
 }
 
 export async function getFeaturedDrops({
@@ -73,11 +74,11 @@ export async function getFeaturedDrops({
     .eq("is_active", true)
     .eq("featured_drop", true)
     .order("created_at", { ascending: false })
-    .limit(safeLimit);
+    .limit(1000);
 
   if (error) {
     throw new Error(`Unable to load AthiMart Drops: ${error.message}`);
   }
 
-  return mapProducts(data ?? []);
+  return groupCatalogProducts(mapProducts(data ?? [])).slice(0, safeLimit);
 }
