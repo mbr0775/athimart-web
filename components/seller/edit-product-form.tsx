@@ -7,7 +7,6 @@ import {
   Check,
   ImagePlus,
   Save,
-  SearchCheck,
   Settings2,
 } from "lucide-react";
 import Link from "next/link";
@@ -19,7 +18,7 @@ import { updateProduct } from "@/app/(seller)/seller/products/[productId]/edit/a
 import { ProductImageUploader } from "@/components/admin/product-image-uploader";
 import type { SellerEditableProduct } from "@/lib/products/seller-product-edit-service";
 import type { AdminProductFormState } from "@/types/admin-product-form";
-import { readVariant, withoutVariantFields } from "@/lib/products/product-variants";
+import { readVariant } from "@/lib/products/product-variants";
 import ProductListingDetails from "@/components/products/product-listing-details";
 import ProductVariantFields from "@/components/products/product-variant-fields";
 import { ProductCategoryFields, type CategoryOption } from "./product-category-fields";
@@ -318,128 +317,6 @@ export function EditProductForm({
 
         {/* Right column */}
         <div className="space-y-7">
-          {/* SEO */}
-          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
-            <div className="flex items-center gap-3 border-b border-[var(--border)] pb-5">
-              <SearchCheck
-                aria-hidden="true"
-                className="h-5 w-5 text-[var(--brand-orange-dark)]"
-                strokeWidth={1.8}
-              />
-
-              <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
-                Product SEO
-              </h2>
-            </div>
-
-            <div className="mt-6 space-y-6">
-              {/* SEO title */}
-              <label className="block">
-                <span className="athimart-label text-[var(--text-muted)]">
-                  SEO title
-                </span>
-
-                <input
-                  type="text"
-                  name="seoTitle"
-                  maxLength={70}
-                  defaultValue={
-                    product.seoTitle
-                  }
-                  placeholder="Maximum 70 characters"
-                  className={
-                    inputClassName
-                  }
-                />
-
-                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
-                  Leave blank to use
-                  the product name.
-                </p>
-
-                <FieldError
-                  message={
-                    state
-                      .fieldErrors
-                      .seoTitle
-                  }
-                />
-              </label>
-
-              {/* SEO description */}
-              <label className="block">
-                <span className="athimart-label text-[var(--text-muted)]">
-                  SEO description
-                </span>
-
-                <textarea
-                  name="seoDescription"
-                  maxLength={160}
-                  rows={5}
-                  defaultValue={
-                    product.seoDescription
-                  }
-                  placeholder="Write a short search description of up to 160 characters."
-                  className={
-                    textareaClassName
-                  }
-                />
-
-                <FieldError
-                  message={
-                    state
-                      .fieldErrors
-                      .seoDescription
-                  }
-                />
-              </label>
-            </div>
-          </section>
-
-          {/* Specifications */}
-          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
-            <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
-              Specifications
-            </h2>
-
-            <p className="mt-3 font-body text-xs leading-6 text-[var(--text-muted)]">
-              Update additional
-              product specifications
-              using a valid JSON object.
-            </p>
-
-            <label className="mt-6 block">
-              <span className="athimart-label text-[var(--text-muted)]">
-                Attributes JSON
-              </span>
-
-              <textarea
-                name="attributes"
-                rows={10}
-                defaultValue={JSON.stringify(
-                  withoutVariantFields(product.attributes),
-                  null,
-                  2
-                )}
-                className="mt-2 w-full border border-[var(--border)] bg-[var(--linen-light)] px-4 py-3 font-mono text-xs leading-6 text-[var(--text)] outline-none transition-colors focus:border-[var(--brand-blue)]  rounded-xl focus:border-[var(--brand-hover)]"
-              />
-
-              <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
-                Example:{" "}
-
-                {`{"size":"1L","condition":"New"}`}
-              </p>
-
-              <FieldError
-                message={
-                  state
-                    .fieldErrors
-                    .attributes
-                }
-              />
-            </label>
-          </section>
-
           {/* Visibility */}
           <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
             <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
@@ -487,7 +364,7 @@ export function EditProductForm({
         </div>
       </div>
       <div className="mt-7 space-y-5">
-        <ProductListingDetails product={product} sellerName={sellerName} errors={state.fieldErrors} />
+        <ProductListingDetails product={product} sellerName={sellerName} errors={state.fieldErrors} showMetadata />
           <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
             <div className="flex items-start justify-between gap-5 border-b border-[var(--border)] pb-5">
               <div>

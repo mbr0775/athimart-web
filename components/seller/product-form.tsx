@@ -7,7 +7,6 @@ import {
   ImagePlus,
   PackagePlus,
   Save,
-  SearchCheck,
   Settings2,
 } from "lucide-react";
 import Link from "next/link";
@@ -59,9 +58,6 @@ const inputClassName =
 
 const textareaClassName =
   "mt-2 w-full border border-[var(--border)] bg-[var(--surface)] px-4 py-3 font-body text-sm leading-6 text-[var(--text)] outline-none transition-colors placeholder:text-[var(--placeholder)] focus:border-[var(--brand-blue)] ";
-
-const attributesClassName =
-  "mt-2 w-full border border-[var(--border)] bg-[var(--linen-light)] px-4 py-3 font-mono text-xs leading-6 text-[var(--text)] outline-none transition-colors focus:border-[var(--brand-blue)] ";
 
 function RequiredLabel({
   children,
@@ -846,143 +842,6 @@ export function ProductForm({
 
         {/* Right column */}
         <div className="space-y-7">
-          {/* SEO */}
-          <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
-            <div className="flex items-center gap-3 border-b border-[var(--border)] pb-5">
-              <SearchCheck
-                aria-hidden="true"
-                className="h-5 w-5 text-[var(--brand-orange-dark)]"
-                strokeWidth={
-                  1.8
-                }
-              />
-
-              <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
-                Product SEO
-              </h2>
-            </div>
-
-            <div className="mt-6 space-y-6">
-              {/* SEO title */}
-              <label>
-                <span className="athimart-label text-[var(--text-muted)]">
-                  SEO title
-                </span>
-
-                <input
-                  type="text"
-                  name="seoTitle"
-                  maxLength={
-                    70
-                  }
-                  placeholder="Maximum 70 characters"
-                  className={
-                    inputClassName
-                  }
-                />
-
-                <p className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]">
-                  Leave blank
-                  to use the
-                  product name.
-                </p>
-
-                <FieldError
-                  id="seoTitle-error"
-                  message={getFieldError(
-                    "seoTitle"
-                  )}
-                />
-              </label>
-
-              {/* SEO description */}
-              <label>
-                <span className="athimart-label text-[var(--text-muted)]">
-                  SEO
-                  description
-                </span>
-
-                <textarea
-                  name="seoDescription"
-                  maxLength={
-                    160
-                  }
-                  rows={5}
-                  placeholder="Write a short search description of up to 160 characters."
-                  className={
-                    textareaClassName
-                  }
-                />
-
-                <FieldError
-                  id="seoDescription-error"
-                  message={getFieldError(
-                    "seoDescription"
-                  )}
-                />
-              </label>
-            </div>
-          </section>
-
-          {/* Specifications */}
-          <section
-            data-product-field="attributes"
-            className={`border bg-[var(--surface)] p-5 sm:p-7 ${
-              getFieldError(
-                "attributes"
-              )
-                ? "border-[var(--sale)]!"
-                : "border-[var(--border)]"
-            }`}
-          >
-            <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
-              Additional specifications
-            </h2>
-
-            <label className="mt-6 block">
-              <span className="text-sm font-medium">Attributes JSON (optional)</span>
-
-              <textarea
-                name="attributes"
-                rows={10}
-                defaultValue={`{
-  "condition": "New"
-}`}
-                aria-invalid={Boolean(
-                  getFieldError(
-                    "attributes"
-                  )
-                )}
-                aria-describedby="attributes-help attributes-error"
-                onChange={() =>
-                  clearClientError(
-                    "attributes"
-                  )
-                }
-                className={getInputClass(
-                  "attributes",
-                  attributesClassName
-                )}
-              />
-
-              <p
-                id="attributes-help"
-                className="mt-2 font-body text-xs leading-5 text-[var(--text-muted)]"
-              >
-                Example:{" "}
-
-                {`{"storage":"128GB","color":"Black","condition":"New"}`}
-              </p>
-
-              <FieldError
-                id="attributes-error"
-                message={getFieldError(
-                  "attributes"
-                )}
-              />
-            </label>
-          </section>
-
           {/* Visibility */}
           <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
             <h2 className="font-editorial text-3xl font-light normal-case text-[var(--brand-blue-dark)]">
@@ -1030,7 +889,7 @@ export function ProductForm({
         </div>
       </div>
       <div className="mt-7 space-y-5">
-        <ProductListingDetails sellerName={sellerName} errors={combinedErrors} />
+        <ProductListingDetails sellerName={sellerName} errors={combinedErrors} showMetadata onChange={clearClientError} />
           <section
             data-product-field="imageUrls"
             className={`border bg-[var(--surface)] p-5 sm:p-7 ${

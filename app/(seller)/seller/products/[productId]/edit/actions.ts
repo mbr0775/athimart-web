@@ -2,7 +2,8 @@
 
 "use server";
 
-import { parseVariantRows, withoutVariantFields, hasSharedVariantImages } from "@/lib/products/product-variants";
+import { parseVariantRows, hasSharedVariantImages } from "@/lib/products/product-variants";
+import { generateListingMetadata, mergeListingAttributes } from "@/lib/products/product-listing-metadata";
 import { buildVariantRows, checkCustomProductSku, getListingToken, isProductSkuConflict, checkVariantGroup } from "@/lib/products/product-variant-save";
 import { productListingEmoji, productListingSku } from "@/lib/products/product-listing-identifiers";
 import { randomUUID } from "node:crypto";
@@ -580,6 +581,8 @@ export async function updateProduct(
    * is_featured and vendor_id are not included,
    * so their protected values remain unchanged.
    */
+  const metadataSource = { name, category, subCategory, description, brand };
+  const metadata = generateListingMetadata(metadataSource);
   const rows = buildVariantRows({
       slug,
       name,
@@ -603,13 +606,6 @@ export async function updateProduct(
         subCategory,
 
       description,
-
-      seo_title:
-        seoTitle || null,
-
-      seo_description:
-        seoDescription ||
-        null,
 
       emoji: currentProduct.emoji || productListingEmoji(category, subCategory),
 
@@ -638,11 +634,15 @@ export async function updateProduct(
         imageResult.urls,
 
       attributes:
-        { ...withoutVariantFields(attributesResult.attributes) },
+        mergeListingAttributes(metadataSource, attributesResult.attributes),
 
       updated_at:
         new Date().toISOString(),
-    }, variants, currentProduct.attributes ?? {});
+    }, variants, currentProduct.attributes ?? {}).map((row) => ({
+      ...row,
+      seo_title: seoTitle || (row.name === name ? metadata.title : generateListingMetadata({ ...metadataSource, name: row.name }).title) || null,
+      seo_description: seoDescription || metadata.description || null,
+    }));
   const country = currentProduct.country_code ?? "LK";
   const vendorId = user.id;
   const official = false;

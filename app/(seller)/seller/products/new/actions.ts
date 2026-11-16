@@ -1,6 +1,7 @@
 "use server";
 
-import { parseVariantRows, withoutVariantFields } from "@/lib/products/product-variants";
+import { parseVariantRows } from "@/lib/products/product-variants";
+import { generateListingMetadata, mergeListingAttributes } from "@/lib/products/product-listing-metadata";
 import { buildVariantRows, checkCustomProductSku, getListingToken, isProductSkuConflict } from "@/lib/products/product-variant-save";
 import { productListingEmoji, productListingSku, productListingSlug } from "@/lib/products/product-listing-identifiers";
 import { revalidatePath } from "next/cache";
@@ -456,6 +457,8 @@ export async function createProduct(
   const skuError = await checkCustomProductSku(supabase, sku);
   if (skuError) return { message: "Check the inventory SKU.", fieldErrors: { sku: skuError } };
 
+  const metadataSource = { name, category, subCategory, description, brand };
+  const metadata = generateListingMetadata(metadataSource);
   const rows = buildVariantRows({
       slug,
       name,
@@ -479,13 +482,6 @@ export async function createProduct(
         subCategory,
 
       description,
-
-      seo_title:
-        seoTitle || null,
-
-      seo_description:
-        seoDescription ||
-        null,
 
       emoji: productListingEmoji(category, subCategory),
 
@@ -528,14 +524,18 @@ export async function createProduct(
         imageResult.urls,
 
       attributes:
-        { ...withoutVariantFields(attributesResult.attributes) },
+        mergeListingAttributes(metadataSource, attributesResult.attributes),
 
       country_code:
         "LK",
 
       updated_at:
         new Date().toISOString(),
-    }, variants);
+    }, variants).map((row) => ({
+      ...row,
+      seo_title: seoTitle || (row.name === name ? metadata.title : generateListingMetadata({ ...metadataSource, name: row.name }).title) || null,
+      seo_description: seoDescription || metadata.description || null,
+    }));
   const { error: insertError } = await supabase.from("products").insert(rows);
 
   if (insertError) {
