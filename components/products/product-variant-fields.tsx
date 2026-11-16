@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { productVariantSku } from "@/lib/products/product-listing-identifiers";
-import { Plus, Trash2 } from "lucide-react";
+import { Check, Plus, Trash2 } from "lucide-react";
 import {
   generateVariantCombinations, MAX_PRODUCT_VARIANTS, productVariantFields, variantKey, variantSummary,
   type VariantKey, type VariantRow, type VariantValues,
@@ -54,6 +54,7 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
   const [bulkPricing, setBulkPricing] = useState(emptyPricing);
   const [editing, setEditing] = useState<number | null>(null);
   const [draftError, setDraftError] = useState("");
+  const [savedPrices, setSavedPrices] = useState<Record<string, string>>({});
   const activeRows = withVariants ? rows : [];
   const hasDraft = withVariants && (editing !== null || optionKeys.some((key) => selection[key]?.trim()));
   const currentOptionFields = optionKeys.map((key) => productVariantFields.find((field) => field.key === key)!);
@@ -133,6 +134,12 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
   }
 
   function removeRow(index: number) {
+    const key = variantKey(rows[index].values);
+    setSavedPrices((current) => {
+      const next = { ...current };
+      delete next[key];
+      return next;
+    });
     const remaining = rows.filter((_, position) => position !== index);
     if (index === 0 && remaining.length) {
       const { price, originalPrice, stock } = remaining[0];
@@ -255,8 +262,11 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
           const label = variantSummary(row.values);
           const primary = index === 0;
           const pricing = primary ? primaryPricing : row;
+          const rowKey = variantKey(row.values);
+          const pricingSnapshot = JSON.stringify([pricing.price, pricing.originalPrice, pricing.stock]);
+          const saved = savedPrices[rowKey] === pricingSnapshot;
           return (
-            <li key={primary ? "primary" : variantKey(row.values)} className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 focus-within:border-[var(--brand-hover)] sm:p-4">
+            <li key={primary ? "primary" : rowKey} className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 focus-within:border-[var(--brand-hover)] sm:p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="min-w-0">
                   <strong className="text-sm">{label || "Product price and stock"}</strong>
@@ -283,7 +293,7 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
                       {fieldLabel}
                       <input className={`${control}${fieldError ? " border-[var(--sale)]" : ""}`}
                         ref={key === "price" ? (input) => {
-                          if (input && pendingPriceFocus.current === variantKey(row.values)) {
+                          if (input && pendingPriceFocus.current === rowKey) {
                             pendingPriceFocus.current = null;
                             input.focus();
                           }
@@ -292,7 +302,8 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
                         aria-label={label ? `${fieldLabel} for ${label}` : undefined}
                         aria-invalid={Boolean(fieldError)}
                         aria-describedby={fieldError ? fieldErrorId : undefined}
-                        type="number" min={0} step={step} required={key !== "originalPrice"} value={pricing[key]}
+                        type="number" min={0} max={key === "stock" ? 2147483647 : undefined} step={step}
+                        required={key !== "originalPrice"} value={pricing[key]}
                         onChange={(event) => {
                           const value = event.target.value;
                           if (primary) {
@@ -307,6 +318,20 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
                     </label>
                   );
                 })}
+              </div>
+              <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
+                <button type="button" className={smallButton}
+                  aria-label={label ? `Save price and stock for ${label}` : "Save price and stock"}
+                  onClick={(event) => {
+                    const inputs = event.currentTarget.closest("li")?.querySelectorAll("input");
+                    if (!inputs || !Array.from(inputs).every((input) => input.reportValidity())) return;
+                    setSavedPrices((current) => ({ ...current, [rowKey]: pricingSnapshot }));
+                  }}>
+                  Save
+                </button>
+                <span role="status" className="inline-flex items-center gap-1 text-xs text-[var(--brand)]">
+                  {saved && <><Check size={14} aria-hidden="true" />Saved in form</>}
+                </span>
               </div>
             </li>
           );
