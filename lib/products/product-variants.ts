@@ -117,13 +117,13 @@ type VariantSubmission =
 
 export function parseVariantRows(form: FormData): VariantSubmission {
   const invalid = (error: string): VariantSubmission => ({ valid: false, error });
-  if (form.get("variantDraftPending") === "true") return invalid("Add or cancel the unfinished variant before saving.");
+  if (form.get("variantDraftPending") === "true") return invalid("Add the option you entered, or cancel the entry before saving.");
   const raw = form.get("variantRows");
   if (typeof raw !== "string" || !raw) return { valid: true, rows: [] };
   let input: unknown;
   try { input = JSON.parse(raw); } catch { return invalid("The variant list could not be read."); }
   if (!Array.isArray(input) || input.length > MAX_PRODUCT_VARIANTS) return invalid("Save up to 100 variants per product.");
-  if (!input.length && form.get("variantMode") === "multiple") return invalid("Generate at least one variant before saving.");
+  if (!input.length && form.get("variantMode") === "multiple") return invalid("Add one size or option, or choose Single product.");
   const rows: ParsedRow[] = [];
   const combinations = new Set<string>();
   for (const [index, row] of input.entries()) {

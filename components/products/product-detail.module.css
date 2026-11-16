@@ -543,15 +543,23 @@
   gap: .45rem;
 }
 
-.packChoices a {
+.packChoices li { min-width: 0; max-width: 100%; }
+
+.packChoices a,
+.singlePackChoice {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   min-height: 44px;
   padding: .45rem .8rem;
   border: 1px solid var(--border);
   border-radius: 999px;
   font-size: .85rem;
 }
+
+.packChoices a span + span::before { content: "·"; margin-inline: .35rem; }
 
 .packChoices a:hover { border-color: var(--brand); }
 .packChoices a[aria-current] { background: var(--brand); color: var(--surface); }

@@ -18,7 +18,7 @@ const pricingFields = [
 ] as const;
 
 const emptyPricing = { price: "", originalPrice: "", stock: "0" };
-type OptionValues = Partial<Record<VariantKey, string[]>>;
+const quickPackSizes = ["100 g", "250 g", "500 g", "1 kg"];
 
 export default function ProductVariantFields({ values = {}, initialPricing, errors = {}, onChange }: {
   values?: VariantValues;
@@ -47,7 +47,7 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
   const [rows, setRows] = useState<VariantRow[]>(() => variantSummary(values) ? [{ values, ...emptyPricing }] : []);
   const hasSavedVariant = Boolean(variantSummary(values));
   const [withVariants, setWithVariants] = useState(hasSavedVariant);
-  const [options, setOptions] = useState<OptionValues>({});
+  const [optionKeys, setOptionKeys] = useState<VariantKey[]>(() => Object.keys(values) as VariantKey[]);
   const [selection, setSelection] = useState<VariantValues>({});
   const [showOptionMenu, setShowOptionMenu] = useState(false);
   const [bulkSelection, setBulkSelection] = useState<Set<string>>(() => new Set());
@@ -55,26 +55,18 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
   const [editing, setEditing] = useState<number | null>(null);
   const [draftError, setDraftError] = useState("");
   const activeRows = withVariants ? rows : [];
-  const hasDraft = withVariants && (editing !== null || productVariantFields.some(({ key }) =>
-    options[key]?.length || selection[key]?.trim()));
+  const hasDraft = withVariants && (editing !== null || optionKeys.some((key) => selection[key]?.trim()));
+  const currentOptionFields = optionKeys.map((key) => productVariantFields.find((field) => field.key === key)!);
+  const onlyPackSize = optionKeys.length === 1 && optionKeys[0] === "packSize";
+  const addingSeveral = optionKeys.some((key) => (selection[key] ?? "").split(",").filter((value) => value.trim()).length > 1);
   const message = draftError || errors.variants;
   const pricingRows = (activeRows.length ? activeRows : [{ values: {}, ...emptyPricing }])
     .map((row, index) => ({ row, index })).reverse();
 
-  function readValues(key: VariantKey) {
-    const values = editing === null ? (selection[key] ?? "").split(",") : [selection[key] ?? ""];
-    return [...new Map([...(options[key] ?? []), ...values].map((value) => value.trim())
-      .filter(Boolean).map((value) => [variantKey({ [key]: value }), value])).values()];
-  }
-
-  function addValues(key: VariantKey) {
-    const values = readValues(key);
-    if (values.some((value) => value.length > 48) || values.length > MAX_PRODUCT_VARIANTS) {
-      setDraftError("Use up to 100 values with 48 characters or fewer each.");
-      return;
-    }
-    setOptions((current) => ({ ...current, [key]: values }));
-    setSelection((current) => ({ ...current, [key]: "" }));
+  function startVariants() {
+    setWithVariants(true);
+    const category = fieldset.current?.closest("form")?.elements.namedItem("category") as HTMLSelectElement | null;
+    if (!optionKeys.length && category?.value.toLowerCase() === "grocery") setOptionKeys(["packSize"]);
     setDraftError("");
   }
 
@@ -98,18 +90,20 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
 
   function clearDraft() {
     setSelection({});
-    setOptions({});
     setShowOptionMenu(false);
     setEditing(null);
     setDraftError("");
     onChange?.("variants");
   }
 
-  function addVariant() {
-    const chosen = Object.fromEntries(productVariantFields.filter(({ key }) => key in options)
-      .map(({ key }) => [key, readValues(key)])) as OptionValues;
+  function addVariant(input = selection) {
+    const chosen = Object.fromEntries(optionKeys.map((key) => {
+      const text = input[key] ?? "";
+      const values = (editing === null ? text.split(",") : [text]).map((value) => value.trim()).filter(Boolean);
+      return [key, [...new Map(values.map((value) => [variantKey({ [key]: value }), value])).values()]];
+    }));
     if (!Object.keys(chosen).length || Object.values(chosen).some((values) => !values.length)) {
-      setDraftError("Add at least one value for each option.");
+      setDraftError("Enter a value for each option, or remove any option you do not need.");
       return;
     }
     if (Object.values(chosen).some((values) => values.some((value) => value.length > 48))) {
@@ -124,7 +118,7 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
     const existing = new Set(rows.filter((_, index) => index !== editing).map((row) => variantKey(row.values)));
     const next = generated.filter((values) => !existing.has(variantKey(values)));
     if (!next.length) {
-      setDraftError("These variants are already in the list.");
+      setDraftError("This variant is already in the list.");
       return;
     }
     if (editing === null && rows.length + next.length > MAX_PRODUCT_VARIANTS) {
@@ -138,10 +132,21 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
     clearDraft();
   }
 
+  function removeRow(index: number) {
+    const remaining = rows.filter((_, position) => position !== index);
+    if (index === 0 && remaining.length) {
+      const { price, originalPrice, stock } = remaining[0];
+      setPrimaryPricing({ price, originalPrice, stock });
+      for (const { name } of pricingFields) onChange?.(name);
+    }
+    setRows(remaining);
+    clearDraft();
+  }
+
   function editRow(index: number) {
     const row = rows[index];
     setSelection(row.values);
-    setOptions(Object.fromEntries(Object.keys(row.values).map((key) => [key, []])));
+    setOptionKeys(Object.keys(row.values) as VariantKey[]);
     setEditing(index);
     setDraftError("");
     composer.current?.focus();
@@ -152,7 +157,7 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
       aria-describedby={message ? `${id}-help ${id}-error` : `${id}-help`}>
       <legend className="px-2 font-semibold">Product variants</legend>
       <p id={`${id}-help`} className="mb-3 text-sm text-[var(--text-muted)]">
-        Set the price and stock here. Use an original price only for a genuine discount.
+        Add the sizes or options you sell. Each has its own price and stock.
       </p>
       <input type="hidden" name="variantMode" value={withVariants ? "multiple" : "single"} />
       <input type="hidden" name="variantRows" value={JSON.stringify(activeRows)} />
@@ -162,7 +167,7 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
           {[false, true].map((hasOptions) => (
             <button key={String(hasOptions)} type="button" aria-pressed={withVariants === hasOptions}
               className={`${smallButton} aria-pressed:border-[var(--brand)] aria-pressed:bg-[var(--linen-light)]`}
-              onClick={() => setWithVariants(hasOptions)}>
+              onClick={hasOptions ? startVariants : () => { setWithVariants(false); setDraftError(""); }}>
               {hasOptions ? "Product with variants" : "Single product"}
             </button>
           ))}
@@ -170,72 +175,82 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
       )}
       {withVariants && (
         <div ref={composer} tabIndex={-1} className="space-y-3 rounded-xl border border-[var(--border)] bg-[var(--linen-light)] p-3 sm:p-4">
-          {productVariantFields.filter(({ key }) => key in options).map(({ key, label, examples }) => (
+          {currentOptionFields.map(({ key, label, examples }) => (
             <div key={key}>
-              <div className="flex justify-between gap-2">
+              <div className="flex items-center justify-between gap-2">
                 <label htmlFor={`${id}-value-${key}`} className="text-sm font-medium">{label}</label>
-                <button type="button" className="text-sm underline" onClick={() => {
-                  setOptions((current) => { const next = { ...current }; delete next[key]; return next; });
+                <button type="button" className="min-h-8 px-1 text-xs underline" onClick={() => {
+                  setOptionKeys((current) => current.filter((option) => option !== key));
                   setSelection((current) => ({ ...current, [key]: "" }));
+                  setDraftError("");
                 }}>Remove <span className="sr-only">{label}</span></button>
               </div>
-              <div className="mt-1 flex flex-wrap gap-1.5">
-                {(options[key] ?? []).map((value) => (
-                  <button type="button" key={value} aria-label={`Remove ${value}`}
-                    className="min-h-9 rounded-full border border-[var(--border)] px-3 text-sm"
-                    onClick={() => setOptions((current) => ({ ...current, [key]: current[key]?.filter((item) => item !== value) }))}>
-                    {value} <span aria-hidden="true">×</span>
-                  </button>
-                ))}
-              </div>
-              <div className="flex gap-2">
-                <input id={`${id}-value-${key}`} type="text" value={selection[key] ?? ""}
-                  maxLength={editing === null ? 4900 : 48}
-                  list={examples.length ? `${id}-${key}` : undefined}
-                  placeholder={examples[0] ?? "Enter a value"} className={control}
-                  onChange={(event) => setSelection((current) => ({ ...current, [key]: event.target.value }))}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" && !event.nativeEvent.isComposing) {
-                      event.preventDefault();
-                      if (editing === null) addValues(key);
-                    }
-                  }} />
-                {editing === null && <button type="button" className={`${smallButton} mt-1 shrink-0`} onClick={() => addValues(key)}>Add value</button>}
-                {examples.length > 0 && (
-                  <datalist id={`${id}-${key}`}>{examples.map((example) => <option value={example} key={example} />)}</datalist>
-                )}
-              </div>
+              <input id={`${id}-value-${key}`} type="text" value={selection[key] ?? ""}
+                maxLength={editing === null ? 4900 : 48}
+                list={!onlyPackSize && examples.length ? `${id}-${key}` : undefined}
+                placeholder={key === "packSize" ? "e.g. 100 g, 250 g" : examples[0] ?? "Enter a value"} className={control}
+                onChange={(event) => {
+                  setSelection((current) => ({ ...current, [key]: event.target.value }));
+                  setDraftError("");
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && !event.nativeEvent.isComposing) {
+                    event.preventDefault();
+                    addVariant();
+                  }
+                }} />
+              {!onlyPackSize && examples.length > 0 && (
+                <datalist id={`${id}-${key}`}>{examples.map((example) => <option value={example} key={example} />)}</datalist>
+              )}
             </div>
           ))}
-          <div className="flex flex-wrap gap-2">
-            {showOptionMenu ? (
-              <select autoFocus aria-label="Choose variant option" defaultValue="" className={smallButton}
+          {onlyPackSize && editing === null && !selection.packSize?.trim() && (
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Quick pack sizes">
+              {quickPackSizes.map((size) => {
+                const added = rows.some((row) => variantKey(row.values) === variantKey({ packSize: size }));
+                return (
+                  <button key={size} type="button" className={`${smallButton} rounded-full disabled:opacity-50`}
+                    disabled={added} aria-label={added ? `${size} added` : `Add ${size}`}
+                    onClick={() => addVariant({ packSize: size })}>
+                    {added ? "✓" : "+"} {size}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          <div className="flex flex-wrap items-center gap-2">
+            {optionKeys.length > 0 && (
+              <button type="button" className="min-h-10 rounded-lg bg-[var(--brand)] px-3 text-sm font-medium text-[var(--linen-light)] hover:bg-[var(--brand-hover)] disabled:opacity-50"
+                disabled={!optionKeys.every((key) => selection[key]?.trim())}
+                onClick={() => addVariant()}>
+                {editing !== null ? "Update variant" : addingSeveral ? "Add variants" : onlyPackSize ? "Add size" : "Add variant"}
+              </button>
+            )}
+            {!optionKeys.length || showOptionMenu ? (
+              <select aria-label={optionKeys.length ? "Choose another attribute" : "Variant option"} value="" className={smallButton}
                 onChange={(event) => {
                   const key = event.target.value as VariantKey;
-                  setOptions((current) => ({ ...current, [key]: [] }));
+                  setOptionKeys((current) => [...current, key]);
                   setShowOptionMenu(false);
+                  setDraftError("");
                 }}>
                 <option value="" disabled>Choose an option</option>
-                {productVariantFields.filter(({ key }) => !(key in options)).map(({ key, label }) => <option key={key} value={key}>{label}</option>)}
+                {productVariantFields.filter(({ key }) => !optionKeys.includes(key)).map(({ key, label }) => <option key={key} value={key}>{label}</option>)}
               </select>
-            ) : (
-              <button type="button" className={smallButton} onClick={() => setShowOptionMenu(true)}
-                disabled={Object.keys(options).length === productVariantFields.length}>
-                <Plus size={16} aria-hidden="true" />Add option
+            ) : optionKeys.length < productVariantFields.length && (
+              <button type="button" className={smallButton} onClick={() => setShowOptionMenu(true)}>
+                <Plus size={16} aria-hidden="true" />Add another attribute
               </button>
             )}
-            {Object.keys(options).length > 0 && (
-              <button type="button" className="min-h-10 rounded-lg bg-[var(--brand)] px-3 text-sm font-medium text-[var(--linen-light)] hover:bg-[var(--brand-hover)]" onClick={addVariant}>
-                {editing === null ? "Generate variants" : "Update variant"}
-              </button>
-            )}
-            {hasDraft && <button type="button" className={smallButton} onClick={clearDraft}>Cancel option</button>}
+            {hasDraft && <button type="button" className={smallButton} onClick={clearDraft}>Cancel entry</button>}
           </div>
-          {editing === null && Object.keys(options).length > 0 && <p className="text-xs text-[var(--text-muted)]">Enter one value or paste a comma-separated list.</p>}
+          <p className="text-xs text-[var(--text-muted)]">
+            {activeRows.length ? "You can save with the variants you have added." : "One size or option is enough. Use commas to enter several at once."}
+          </p>
         </div>
       )}
       {message && <p id={`${id}-error`} role="alert" className="mt-2 text-sm text-[var(--sale)]">{message}</p>}
-      <ul aria-label="Product prices and stock" className="mt-3 space-y-2">
+      {(!withVariants || activeRows.length > 0) && <ul aria-label="Product prices and stock" className="mt-3 space-y-2">
         {pricingRows.map(({ row, index }) => {
           const label = variantSummary(row.values);
           const primary = index === 0;
@@ -252,11 +267,9 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
                 {label && (
                   <div className="flex gap-1">
                     <button type="button" className={smallButton} aria-label={`Edit ${label} options`} onClick={() => editRow(index)}>Edit</button>
-                    {(!primary || (!hasSavedVariant && rows.length === 1)) && (
-                      <button type="button" className={smallButton} aria-label={`Remove ${label}`} onClick={() => {
-                        setRows((current) => current.filter((_, position) => position !== index));
-                        clearDraft();
-                      }}><Trash2 size={15} aria-hidden="true" /></button>
+                    {(!primary || !hasSavedVariant) && (
+                      <button type="button" className={smallButton} aria-label={`Remove ${label}`}
+                        onClick={() => removeRow(index)}><Trash2 size={15} aria-hidden="true" /></button>
                     )}
                   </div>
                 )}
@@ -298,7 +311,7 @@ export default function ProductVariantFields({ values = {}, initialPricing, erro
             </li>
           );
         })}
-      </ul>
+      </ul>}
       {activeRows.length > 1 && (
         <details className="mt-3 rounded-xl border border-[var(--border)] p-3">
           <summary className="cursor-pointer text-sm font-medium">Set prices and stock for several variants</summary>

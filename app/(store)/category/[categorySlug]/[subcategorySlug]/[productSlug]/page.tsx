@@ -21,7 +21,7 @@ import {
 import { cache } from "react";
 
 import { findProductVariants } from "@/lib/products/product-variant-service";
-import { productSpecifications } from "@/lib/products/product-variants";
+import { productSpecifications, readVariant, variantSummary } from "@/lib/products/product-variants";
 import AddToCartButton from "@/components/cart/add-to-cart-button";
 import { ProductGallery } from "@/components/products/product-gallery";
 import { siteConfig } from "@/config/site";
@@ -73,7 +73,7 @@ function formatLkr(
     new Intl.NumberFormat(
       "en-LK",
       {
-        maximumFractionDigits: 0,
+        maximumFractionDigits: 2,
       }
     ).format(value);
 
@@ -324,7 +324,12 @@ export default async function ProductPage({
   }
 
   const variants = await findProductVariants(product);
-  const packSizesOnly = variants.every(({ values }) => values.packSize && Object.keys(values).length === 1);
+  const currentOptions = readVariant(product.attributes).values;
+  const currentOptionLabel = variantSummary(currentOptions);
+  const packSizesOnly = variants.length > 1
+    ? variants.every(({ values }) => values.packSize && Object.keys(values).length === 1)
+    : Boolean(currentOptions.packSize && Object.keys(currentOptions).length === 1);
+  const optionHeading = packSizesOnly ? "Pack size" : "Product options";
   const currentPrice =
     product.prices.LKR;
 
@@ -633,18 +638,20 @@ export default async function ProductPage({
                   <span className={styles.stock} data-unavailable={isOutOfStock}>{isOutOfStock ? <CircleX size={14} aria-hidden="true" /> : <CheckCircle2 size={14} aria-hidden="true" />}{isOutOfStock ? "Out of stock" : `${product.stock} in stock`}</span>
                 </div>
                 {hasDiscount && <p className={styles.savings}>A little more to love. <span>Save {formatLkr(originalPrice - currentPrice)}</span></p>}
-                {variants.length > 1 && (
+                {(variants.length > 1 || currentOptionLabel) && (
                   <div className={styles.packChoices}>
-                    <p>{packSizesOnly ? "Pack size" : "Product options"}</p>
-                    <ul aria-label={packSizesOnly ? "Pack sizes" : "Product options"}>
+                    <p>{optionHeading}</p>
+                    {variants.length > 1 ? <ul aria-label={optionHeading}>
                       {variants.map(({ label, product: option }) => (
                         <li key={option.productId}>
                           <Link href={getProductPath(option)} aria-current={option.productId === product.id ? "page" : undefined}>
-                            {label}{option.stock <= 0 ? " · Out of stock" : ""}
+                            <span>{label}</span>
+                            {option.unitPrice > 0 && <span>{formatLkr(option.unitPrice)}</span>}
+                            {option.stock <= 0 && <span>Out of stock</span>}
                           </Link>
                         </li>
                       ))}
-                    </ul>
+                    </ul> : <span className={styles.singlePackChoice}>{currentOptionLabel}</span>}
                   </div>
                 )}
                 <div className={styles.actions}>
