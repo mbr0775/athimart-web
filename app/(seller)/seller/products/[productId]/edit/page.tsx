@@ -162,6 +162,7 @@ export default async function EditSellerProductPage({
       {/* Seller edit form */}
       <div className="mt-8">
         <EditProductForm
+          sellerName={profile.publicName}
           product={product}
           categories={
             categoryOptions

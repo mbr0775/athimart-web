@@ -27,6 +27,7 @@ import { ProductCategoryFields, type CategoryOption } from "./product-category-f
 interface EditProductFormProps {
   product: SellerEditableProduct;
   categories: CategoryOption[];
+  sellerName: string;
 }
 
 const initialState: AdminProductFormState = {
@@ -65,6 +66,7 @@ function FieldError({
 export function EditProductForm({
   product,
   categories,
+  sellerName,
 }: Readonly<EditProductFormProps>) {
   const variant = readVariant(product.attributes);
   const updateProductWithId =
@@ -485,7 +487,7 @@ export function EditProductForm({
         </div>
       </div>
       <div className="mt-7 space-y-5">
-        <ProductListingDetails product={product} sellerName={product.sellerName} errors={state.fieldErrors} />
+        <ProductListingDetails product={product} sellerName={sellerName} errors={state.fieldErrors} />
           <section className="border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 rounded-[24px]">
             <div className="flex items-start justify-between gap-5 border-b border-[var(--border)] pb-5">
               <div>
