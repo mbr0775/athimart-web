@@ -24,6 +24,9 @@ const footerNavigation = [
       { href: "/orders", label: "My orders" },
       { href: "/cart", label: "Shopping bag" },
       { href: "/returns", label: "Returns & support" },
+      { href: "/privacy", label: "Privacy Policy" },
+      { href: "/terms", label: "Terms & Conditions" },
+      { href: "/account-deletion", label: "Request account deletion" },
     ],
   },
   {
