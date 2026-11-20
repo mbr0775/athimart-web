@@ -1,0 +1,28 @@
+.dialog { width: min(440px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 24px; overflow-y: auto; border: 1px solid var(--border); border-radius: 24px; background: var(--surface, #fffdf7); color: var(--text, #252b22); box-shadow: 0 24px 90px #0004; }
+.dialog::backdrop { background: #10170eb3; }
+.header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.eyebrow { margin: 0 0 6px; color: var(--brand-hover); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; }
+.header h2 { margin: 0; font-family: var(--font-editorial), serif; font-size: 29px; font-weight: 400; line-height: 1.2; letter-spacing: -.03em; }
+.description { margin: 14px 0 20px; color: var(--text-soft); font-size: 12px; line-height: 1.7; }
+.iconButton { display: grid; min-width: 44px; min-height: 44px; flex-shrink: 0; place-items: center; border: 1px solid var(--border); border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
+.preview { position: relative; width: min(100%, 300px); aspect-ratio: 1; margin: 0 auto 20px; overflow: hidden; border-radius: 14px; background: #e8e9df; }
+.canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+.canvas:active { cursor: grabbing; }
+.circle { position: absolute; inset: 0; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 0 0 100px #10170e8c; pointer-events: none; }
+.loading { position: absolute; inset: 0; display: grid; place-items: center; color: #343b2e; font-size: 12px; pointer-events: none; }
+.controls { display: grid; gap: 8px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.controls label { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 12px; }
+.controls output { color: var(--text-muted); font-size: 11px; }
+.controls input { width: 100%; height: 28px; margin: 2px 0 0; accent-color: var(--brand, #454d36); cursor: pointer; }
+.controls input:disabled { opacity: .4; cursor: default; }
+.tools { display: flex; gap: 10px; margin-top: 4px; }
+.tools button { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: 8px; padding: 8px 15px; border: 1px solid var(--border-strong); border-radius: 999px; background: var(--surface-soft); color: var(--brand); font-size: 12px; cursor: pointer; }
+.footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border); }
+.footer button { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; border: 1px solid var(--border-strong); border-radius: 999px; font-size: 12px; cursor: pointer; }
+.cancel { background: transparent; color: var(--text); }
+.apply { background: var(--brand, #454d36); color: var(--background, #fffdf7); }
+.apply:hover { background: var(--brand-hover); }
+.dialog button:disabled { opacity: .5; cursor: default; }
+.dialog button:focus-visible, .dialog input:focus-visible { outline: 2px solid var(--brand-hover, #74845b); outline-offset: 3px; }
+.error { margin: 14px 0 0; color: var(--sale); font-size: 12px; line-height: 1.6; }
+@media (max-width: 400px) { .dialog { padding: 20px; border-radius: 20px; } .header h2 { font-size: 26px; } }

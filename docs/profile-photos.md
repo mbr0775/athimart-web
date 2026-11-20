@@ -1,8 +1,14 @@
 # Profile photos
 
 The account page now supports editing the display name and uploading a JPG,
-PNG or WebP photo up to 5 MB. The browser crops the image to a centered square
-and compresses it before sending it to the server. The server verifies the
+PNG or WebP photo up to 5 MB for customers and sellers through **Your account**.
+Selecting a photo opens an editor with a circular avatar preview. Drag to
+reposition, use the zoom and position sliders, rotate in 90-degree steps, or
+reset to the original framing. Choose **Use photo** to apply the crop locally,
+then **Save profile** to upload it. **Edit crop** reopens the original selected
+file before saving. Cancel or Escape leaves the previous selection unchanged.
+The browser exports the chosen crop as a 512px square and compresses it before
+sending it to the server. The server verifies the
 authenticated owner, decodes and re-encodes the photo to a 512px WebP, then
 saves the public URL in `public.profiles.avatar_url`. Only `full_name` and
 `avatar_url` are written; authentication metadata is not used for permissions.
@@ -47,6 +53,13 @@ Verify with an authorized account (enable Google first for steps 1, 3 and 4):
 4. Choose “Use Google photo” and save; the Google photo appears again.
 5. Invalid files are rejected; a failed save preserves the previous photo.
 6. A second user cannot upload or delete files in the first user's folder.
+7. On customer and seller accounts, choose portrait and landscape photos;
+   drag, zoom, rotate and reset. Confirm the applied avatar matches the preview.
+8. Reopen **Edit crop** and confirm the framing is retained. Adjust it and cancel
+   with the button or Escape; the previously applied preview must remain.
+9. On a narrow mobile screen, drag with touch and reach all editor controls.
+   With a keyboard, adjust all three sliders and confirm focus returns to
+   **Change photo** when the editor closes.
 
 No real customer accounts or profile records were changed during local tests.
 

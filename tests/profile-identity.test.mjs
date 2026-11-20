@@ -34,6 +34,33 @@ function loadModule(relativePath, overrides = {}) {
 }
 
 const helpers = loadModule("lib/account/profile-identity.ts");
+const { photoCropGeometry } = loadModule("lib/account/photo-crop.ts");
+
+test("photo crops stay inside portrait, landscape and rotated images at every edge", () => {
+  for (const [width, height] of [[1600, 900], [900, 1600], [800, 800]]) {
+    for (const rotation of [0, 90, 180, 270]) {
+      for (const zoom of [1, 1.5, 3]) {
+        for (const x of [-2, -1, 0, 1, 2]) {
+          for (const y of [-2, -1, 0, 1, 2]) {
+            const crop = photoCropGeometry(width, height, zoom, { x, y }, rotation);
+            assert.ok(crop.x >= 0 && crop.y >= 0);
+            assert.ok(crop.x + crop.side <= crop.width + 0.000001);
+            assert.ok(crop.y + crop.side <= crop.height + 0.000001);
+            assert.equal(crop.side, Math.min(width, height) / zoom);
+          }
+        }
+      }
+    }
+  }
+});
+
+test("photo crop framing follows zoom, position and quarter-turn rotation", () => {
+  assert.deepEqual(photoCropGeometry(1200, 800, 1, { x: 0, y: 0 }, 0), { width: 1200, height: 800, side: 800, x: 200, y: 0 });
+  assert.deepEqual(photoCropGeometry(1200, 800, 2, { x: 1, y: -1 }, 0), { width: 1200, height: 800, side: 400, x: 800, y: 0 });
+  assert.deepEqual(photoCropGeometry(1200, 800, 2, { x: -1, y: 1 }, 90), { width: 800, height: 1200, side: 400, x: 0, y: 800 });
+  assert.equal(photoCropGeometry(1200, 800, 0, { x: 0, y: 0 }, 0).side, 800);
+  assert.equal(photoCropGeometry(1200, 800, 10, { x: 0, y: 0 }, 0).side, 800 / 3);
+});
 const owner = "11111111-1111-4111-8111-111111111111";
 const origin = "https://example.supabase.co";
 const google = "https://lh3.googleusercontent.com/example-photo";
