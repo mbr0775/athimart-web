@@ -20,6 +20,15 @@ button restores the provider photo. Missing or failed images show initials.
 Successful saves refresh the shared storefront layout, including the desktop
 header, mobile profile tab, and account sidebar.
 
+The Home **Shop by seller** card also subscribes to the shared saved profile.
+The root supplies the verified account ID so only that seller's own card uses
+their current name and photo, including their Google fallback. This avoids stale
+home-card props after saving and never matches accounts by display name. Other
+sellers and signed-out visitors keep the existing approved-shop directory and
+public uploaded-photo lookup. Unsaved crop previews remain confined to the
+profile editor; no private profile fields or authentication metadata are exposed
+through the public directory.
+
 ## Supabase setup
 
 The website is configured for project `rawwckfkugrcodpvvffc`.

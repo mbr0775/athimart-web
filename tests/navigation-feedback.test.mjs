@@ -145,3 +145,37 @@ test("store, mobile, seller, admin and legal account UI render the same saved ph
   assert(!signedOut.includes("profile photo"));
   assert.equal(renderToStaticMarkup(React.createElement(ProfileProvider, { identity: null }, React.createElement(AccountLink))), "");
 });
+
+test("Home seller cards follow only the saved profile of their verified account owner", () => {
+  const load = createLoader({
+    "@/components/navigation/navigation-link": { __esModule: true, default: "a" },
+    "@/lib/fonts": { editorialFont: { variable: "editorial" } },
+    "@/lib/hooks/use-reduced-motion-preference": { useReducedMotionPreference: () => true },
+    "motion/react": { motion: { div: "div" }, useMotionValue: () => ({ set() {} }), useSpring: value => value, useScroll: () => ({ scrollYProgress: 0 }), useTransform: () => 0 },
+  });
+  const { ProfileProvider } = load("components/account/profile-provider.tsx");
+  const Showcase = load("components/home/seller-showcase.tsx").default;
+  const owner = "11111111-1111-4111-8111-111111111111";
+  const other = "22222222-2222-4222-8222-222222222222";
+  const shops = [
+    { id: owner, name: "Old shop", avatarUrl: "https://example.invalid/old.webp", is_favourite: false },
+    { id: other, name: "Other shop", avatarUrl: "https://example.invalid/other.webp", is_favourite: true },
+    { id: "athimart-official", name: "AthiMart Official Store", avatarUrl: null, is_favourite: false },
+  ];
+  const render = identity => renderToStaticMarkup(React.createElement(ProfileProvider, { identity }, React.createElement(Showcase, { shops })));
+  for (const [name, avatarUrl] of [["Saved shop", "https://example.invalid/saved.webp"], ["New shop", "https://lh3.googleusercontent.com/new"], ["No photo", null]]) {
+    const markup = render({ userId: owner, name, avatarUrl });
+    assert(markup.includes(`<h3>${name}</h3>`));
+    assert(!markup.includes("old.webp"));
+    if (avatarUrl) assert(markup.includes(`src="${avatarUrl}"`));
+    assert(markup.includes("other.webp"));
+    assert(markup.includes("Other shop"));
+    assert(markup.includes("AthiMart Official Store"));
+    assert(markup.includes(`/shops/${owner}`), "The card must retain the actual shop destination");
+  }
+  assert(render(null).includes("old.webp"));
+  assert(render({ name: "Old shop", avatarUrl: "https://example.invalid/unmatched.webp" }).includes("old.webp"));
+  assert(!render({ userId: "another-account", name: "Old shop", avatarUrl: "https://example.invalid/unmatched.webp" }).includes("unmatched.webp"));
+  assert(render({ userId: owner, name: "AthiMart Official Store", avatarUrl: null }).includes("<h3>Marketplace seller</h3>"));
+  assert.equal(shops[0].name,"Old shop", "Do not mutate the public directory props");
+});
