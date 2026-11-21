@@ -14,6 +14,9 @@ import {
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
+import { getCustomerFulfillments } from "@/lib/orders/seller-order-service";
+import CustomerPreparation from "@/components/orders/customer-preparation";
+import OrderRefresh from "@/components/orders/order-refresh";
 
 export const metadata: Metadata = {
   title: "My Orders",
@@ -334,6 +337,7 @@ export default async function OrdersPage() {
   const orders =
     (data ??
       []) as OrderRow[];
+  const preparation = await getCustomerFulfillments(orders.map(order => order.id));
 
   return (
     <div className="athimart-container py-8 sm:py-10 lg:py-14">
@@ -378,6 +382,8 @@ Your orders<span className="text-[var(--brand-hover)]">.</span>
       </header>
 
       {/* Empty state */}
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-4"><p className="text-sm text-[var(--text-muted)]">Order updates refresh every 30 seconds while this page is open.</p><OrderRefresh /></div>
+      {!preparation.available && <p role="status" className="mt-4 text-sm text-[var(--text-muted)]">Seller preparation updates are temporarily unavailable. Your saved order details remain below.</p>}
       {orders.length ===
       0 ? (
         <section className="mt-10 border border-[var(--border)] bg-[var(--surface)] px-6 py-14 text-center sm:px-10 sm:py-18 rounded-[24px]">
@@ -552,6 +558,7 @@ Your orders<span className="text-[var(--brand-hover)]">.</span>
                   </div>
                 </div>
 
+                <CustomerPreparation fulfillments={preparation.fulfillments.filter(fulfillment => fulfillment.order_id === order.id)} currency={order.currency_code} />
                 {/* Price summary */}
                 <div className="grid gap-3 border-t border-[var(--border)] bg-[var(--surface-soft)] p-5 sm:grid-cols-3 sm:p-6">
                   <div>
