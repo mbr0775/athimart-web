@@ -209,6 +209,7 @@ export default async function SellerDashboardPage() {
               . Manage your products and monitor their current marketplace status.
             </p>
             <Link href={getShopPath(profile.id)} className="mt-3 inline-block underline underline-offset-4">View your public shop</Link>
+            <Link href="/seller/orders" className="mt-3 ml-5 inline-block underline underline-offset-4">View customer orders</Link>
           </div>
 
           <Link

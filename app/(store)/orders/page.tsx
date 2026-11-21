@@ -14,6 +14,8 @@ import {
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
+import OrderSellerTracking from "@/components/orders/order-seller-tracking";
+import OrdersRefresh from "@/components/seller/orders-refresh";
 
 export const metadata: Metadata = {
   title: "My Orders",
@@ -376,6 +378,7 @@ Your orders<span className="text-[var(--brand-hover)]">.</span>
           </div>
         </div>
       </header>
+      <div className="mt-4"><OrdersRefresh /></div>
 
       {/* Empty state */}
       {orders.length ===
@@ -593,6 +596,7 @@ Your orders<span className="text-[var(--brand-hover)]">.</span>
                     </p>
                   </div>
                 </div>
+                <OrderSellerTracking orderId={order.id} />
               </article>
             )
           )}

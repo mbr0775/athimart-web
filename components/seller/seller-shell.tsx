@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   Menu,
   Package,
+  ShoppingBag,
   ShieldCheck,
   UserRound,
   X,
@@ -18,6 +19,7 @@ import styles from "@/components/layout/workspace-shell.module.css";
 
 const links = [
   { label: "Overview", href: "/seller", icon: LayoutDashboard },
+  { label: "Your orders", href: "/seller/orders", icon: ShoppingBag },
   { label: "Your products", href: "/seller/products", icon: Package },
   { label: "Add a product", href: "/seller/products/new", icon: CirclePlus },
 ];
