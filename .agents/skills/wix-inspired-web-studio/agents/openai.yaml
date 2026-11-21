@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wix Inspired Web Studio"
+  short_description: "Turn premium references into real websites"
+  default_prompt: "Use $wix-inspired-web-studio to review my project and build an original, polished website inspired by the Wix references I provide. Preserve all working functionality and verify mobile layouts."
