@@ -38,10 +38,10 @@ function linkHarness(feedback = true) {
   const anchor = { current: null };
   const calls = [], transitions = [];
   const load = createLoader({
-    react: { ...React, useRef: () => anchor },
+    react: { ...React, useRef: () => anchor, useId: () => "fixture-link" },
     "next/link": { __esModule: true, default: "next-link" },
     "next/navigation": { useRouter: () => ({ push: (...args) => calls.push(["push", ...args]), replace: (...args) => calls.push(["replace", ...args]) }) },
-    "./navigation-feedback": { useNavigationFeedback: () => feedback ? { startNavigation: action => transitions.push(action) } : null },
+    "./navigation-feedback": { useNavigationFeedback: () => feedback ? { startNavigation: action => transitions.push(action), pending: feedback.pending ?? false, activeControl: feedback.activeControl ?? null } : null },
   });
   return { Link: load("components/navigation/navigation-link.tsx").default, anchor, calls, transitions };
 }
@@ -98,6 +98,19 @@ test("links without a feedback provider retain Next's default navigation", () =>
   element.props.ref({ href: "https://www.athimart.com/shop" });
   element.props.onNavigate({ preventDefault: () => assert.fail("Should keep default navigation") });
   assert.deepEqual(h.calls, []);
+});
+
+test("only the activated link reports busy, clearing when navigation ends or another link takes over", () => {
+  const feedback = { pending: true, activeControl: "fixture-link" };
+  const h = linkHarness(feedback);
+  const active = h.Link({ href: "/shops", children: "Shops" });
+  assert.equal(active.props["aria-busy"], true);
+  assert.equal(active.props["data-navigation-pending"], true);
+  feedback.activeControl = "a-different-link";
+  assert.equal(h.Link({ href: "/shops" }).props["data-navigation-pending"], undefined);
+  feedback.activeControl = "fixture-link";
+  feedback.pending = false;
+  assert.equal(h.Link({ href: "/shops" }).props["aria-busy"], undefined);
 });
 
 test("store, mobile, seller, admin and legal account UI render the same saved photo and fallback", () => {

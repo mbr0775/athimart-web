@@ -82,6 +82,19 @@
   }
 }
 
+/* Identify the activated control while the root navigation animation runs. */
+a[data-navigation-pending="true"] {
+  cursor: progress;
+  animation: navigation-control-glow 1.2s ease-in-out infinite alternate;
+}
+@keyframes navigation-control-glow {
+  from { box-shadow: 0 0 0 2px #626d4c26; }
+  to { box-shadow: 0 0 0 5px #626d4c12; }
+}
+@media (prefers-reduced-motion: reduce) {
+  a[data-navigation-pending="true"] { animation: none; outline: 2px solid var(--brand-hover); outline-offset: 3px; }
+}
+
 /* ==========================================================
    Reset
 ========================================================== */
