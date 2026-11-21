@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { useRef } from "react";
 import { useReducedMotion } from "motion/react";
 import { ArrowUpRight, Bot, Car, Code2, Dumbbell, House, Laptop, Leaf, Shirt, ShoppingBag } from "lucide-react";

@@ -2,7 +2,7 @@
 
 import { getListingShopOptions } from "@/lib/shops/listing-assignment";
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import {
   ArrowLeft,
   PackagePlus,

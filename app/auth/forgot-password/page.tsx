@@ -1,7 +1,7 @@
 // app/auth/forgot-password/page.tsx
 
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import {
   ArrowLeft,
   CheckCircle2,

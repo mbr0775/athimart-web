@@ -5,6 +5,10 @@ import type { ReactNode } from "react";
 import { Poppins } from "next/font/google";
 
 import { MotionProvider } from "@/components/providers/motion-provider";
+import { NavigationFeedbackProvider } from "@/components/navigation/navigation-feedback";
+import { ProfileProvider } from "@/components/account/profile-provider";
+import { StandaloneAccountLink } from "@/components/account/account-link";
+import { getCurrentProfileIdentity } from "@/lib/account/current-profile";
 import { allowSearchIndexing, siteConfig } from "@/config/site";
 
 import { editorialFont } from "@/lib/fonts";
@@ -141,7 +145,8 @@ interface RootLayoutProps {
   children: ReactNode;
 }
 
-export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
+export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
+  const identity = await getCurrentProfileIdentity();
   return (
     <html
       lang="en"
@@ -149,7 +154,12 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
       className={`${poppins.variable} ${editorialFont.variable}`}
     >
       <body>
-        <MotionProvider>{children}</MotionProvider>
+        <ProfileProvider identity={identity}>
+          <NavigationFeedbackProvider>
+            <MotionProvider>{children}</MotionProvider>
+            <StandaloneAccountLink />
+          </NavigationFeedbackProvider>
+        </ProfileProvider>
       </body>
     </html>
   );

@@ -1,0 +1,2 @@
+.link { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; flex-shrink: 0; border: 1px solid var(--border-strong); border-radius: 50%; background: var(--surface); }
+.floating { position: fixed; z-index: 10000; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom)); box-shadow: var(--shadow-panel); }

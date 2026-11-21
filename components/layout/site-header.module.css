@@ -71,6 +71,11 @@
   transition: opacity 180ms ease;
 }
 .iconLink:hover, .cartLink:hover, .accountLink:hover, .menuButton:hover { opacity: 0.7; }
+@media (hover: hover) and (pointer: fine) {
+  .menuButton:hover, .accountLink:hover { color: var(--brand-hover); }
+  .navigationItem:hover svg, .menuItem:hover > svg { translate: 2px -2px; }
+}
+.navigationItem svg, .menuItem > svg { transition: translate var(--motion-feedback) ease; }
 .cartIcon, .mobileCartCount { display: none; }
 .accountLabel { display: block; max-width: 130px; overflow: hidden; text-overflow: ellipsis; }
 .header a:focus-visible, .menuButton:focus-visible { outline: 2px solid #62613c; outline-offset: 5px; border-radius: 3px; }
@@ -146,7 +151,7 @@
   .iconLink svg, .cartIcon { width: 21px; height: 21px; }
   .cartLink { background: #454530; color: #fffaf0; }
   .cartLink:hover { background: #626d4c; opacity: 1; }
-  .accountLink { display: none; }
+  .accountLink { display: inline-flex; width: 40px; min-width: 40px; height: 44px; gap: 0; border-radius: 50%; }
   .cartIcon { display: block; flex-shrink: 0; }
   .cartLabel { display: none; }
   .mobileCartCount {
@@ -184,7 +189,10 @@
 @media (max-width: 359px) {
   .navigation { width: calc(100% - 24px); gap: 8px; }
   .brand { font-size: 27px; }
+  .actions { gap: 4px; }
+  .iconLink { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .iconLink, .cartLink, .accountLink, .menuButton { transition: none; }
+  .iconLink, .cartLink, .accountLink, .menuButton, .navigationItem svg, .menuItem > svg { transition: none; }
+  .navigationItem:hover svg, .menuItem:hover > svg { translate: none; }
 }

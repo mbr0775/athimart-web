@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type FocusEvent, type FormEvent } from "react";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { useReducedMotion } from "motion/react";
 import { AlertCircle, ArrowLeft, ArrowRight, ArrowUpRight, Banknote, Check, CheckCircle2, ChevronRight, LoaderCircle, LockKeyhole, MapPin, PackageCheck, Phone, ShoppingBag, UserRound } from "lucide-react";
 

@@ -1,5 +1,6 @@
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import type { ReactNode } from "react";
+import { AccountLink } from "@/components/account/account-link";
 
 const links = [
   { href: "/privacy", label: "Privacy Policy" },
@@ -11,8 +12,9 @@ export default function LegalLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-[#fffaf0] text-[#2c3325]">
       <header className="border-b border-[#dcdccc]">
-        <div className="mx-auto max-w-3xl px-5 py-4">
+        <div className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-5 py-4">
           <Link href="/" className="font-serif text-3xl">AthiMart</Link>
+          <AccountLink />
         </div>
       </header>
       <main className="mx-auto max-w-3xl px-5 py-10 sm:py-16">

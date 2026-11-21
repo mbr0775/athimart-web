@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { ArrowLeft, RotateCcw } from "lucide-react";
 import styles from "./status.module.css";
 

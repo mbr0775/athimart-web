@@ -5,7 +5,7 @@ import {
   useState,
   useTransition,
 } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigationRouter as useRouter } from "@/components/navigation/navigation-feedback";
 import {
   AlertCircle,
   CheckCircle2,

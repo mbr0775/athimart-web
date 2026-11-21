@@ -303,7 +303,7 @@
     gap: 12px;
     padding: 14px 18px;
   }
-  .headerActions > a {
+  .headerActions > a:not(.avatar) {
     display: none;
   }
   .headerTitle > span {

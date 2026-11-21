@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { ArrowUpRight } from "lucide-react";
 
 import { getCategoryPath, productCategories } from "@/config/categories";

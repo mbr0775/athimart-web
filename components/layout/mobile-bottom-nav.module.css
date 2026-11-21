@@ -44,6 +44,9 @@
   background: var(--surface-soft);
   color: var(--brand);
 }
+@media (hover: hover) and (pointer: fine) {
+  .item:hover { background: var(--surface-soft); color: var(--brand); }
+}
 .icon {
   display: grid;
   place-items: center;

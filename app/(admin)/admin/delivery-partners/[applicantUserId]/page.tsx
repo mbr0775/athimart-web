@@ -2,7 +2,7 @@
 
 import type { Metadata } from "next";
 import type { LucideIcon } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import {

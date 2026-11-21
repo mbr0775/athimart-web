@@ -1,7 +1,7 @@
 // app/(store)/shop/page.tsx
 
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import Image from "next/image";
 import {
   PackageSearch,

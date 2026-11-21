@@ -9,7 +9,7 @@ import {
   Save,
   Settings2,
 } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import {
   useActionState,
 } from "react";

@@ -2,7 +2,7 @@ import { ShopPreview } from "@/components/shops/shop-card";
 import { findShops } from "@/lib/shops/shop-service";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { ArrowRight, ArrowUpRight, ChevronRight, PackageSearch, Search, X } from "lucide-react";
 
 import { ProductCard } from "@/components/products/product-card";

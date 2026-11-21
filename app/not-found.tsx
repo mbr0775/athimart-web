@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { ArrowLeft, ArrowUpRight, Compass } from "lucide-react";
 import styles from "./status.module.css";
 

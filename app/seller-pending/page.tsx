@@ -1,7 +1,7 @@
 // app/seller-pending/page.tsx
 
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import {
   CheckCircle2,
   Clock3,

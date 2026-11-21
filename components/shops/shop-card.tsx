@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { ArrowUpRight, Heart, Store } from "lucide-react";
 import { setShopFavourite } from "@/app/(store)/shops/actions";
 import { getShopPath, OFFICIAL_SHOP_ID } from "@/lib/shops/shop-identity";

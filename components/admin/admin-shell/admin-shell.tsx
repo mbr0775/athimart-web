@@ -3,17 +3,19 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import AdminSidebar from "./admin-sidebar";
 import AdminHeader from "./admin-header";
+import { useProfileIdentity } from "@/components/account/profile-provider";
 import styles from "@/components/layout/workspace-shell.module.css";
 
 export default function AdminShell({
   children,
-  displayName,
+  displayName: initialDisplayName,
   email,
 }: {
   children: ReactNode;
   displayName: string;
   email: string;
 }) {
+  const displayName = useProfileIdentity()?.name || initialDisplayName;
   const dialog = useRef<HTMLDialogElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
