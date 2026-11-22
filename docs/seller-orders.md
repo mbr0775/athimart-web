@@ -1,0 +1,21 @@
+# Customer orders and seller inbox
+
+Customers use the existing cart and Cash on Delivery checkout. Approved sellers open **Incoming orders** in their seller navigation or dashboard. Each seller sees only their own purchased items, item subtotal, and the customer's delivery details for those orders. The seller can advance preparation from **New order → Accepted → Preparing → Ready for dispatch**. Customers see each seller's preparation and purchased items in **My orders**. Both pages refresh every 30 seconds while visible and offer manual refresh.
+
+Preparation is separate from the existing overall order and delivery-shipment lifecycle. A seller cannot mark another seller's items ready, change prices, mark payment collected, or mark the whole customer order delivered. Closed customer orders cannot be advanced. Ownerless official-store products continue through the existing administrator dispatch workflow.
+
+## Database activation required
+
+The deployed website uses Supabase project `rawwckfkugrcodpvvffc`. The Supabase connections available during implementation did not grant access to that project. **The migration has not been applied to the hosted database.** Until activation, the seller inbox reports that it cannot load and customer order history remains usable without preparation updates.
+
+Before applying `supabase/migrations/20261121043718_seller_order_inbox.sql` to that project, inspect the actual `orders`, `order_items`, `products` and `profiles` schema and the existing checkout function. The checkout and base table definitions were not included in this repository. The migration is tested against the table contract consumed by the app and includes a preflight that refuses an unrelated application's order schema. It expects UUID order/product/item IDs, `order_items.product_id`, `order_items.quantity`, and an existing charged unit-price column named `unit_price`, `unit_price_lkr`, `price` or `price_lkr`; align these with the actual checkout snapshot before activation. It uses the existing order shipping and currency fields already read by the customer orders page.
+
+The migration creates two tables with RLS, a transaction-bound order-item trigger, and authenticated RPC wrappers. Sensitive cross-table reads and guarded state changes live in the non-exposed `athimart_private` schema, with explicit ownership checks, fixed search paths and restricted execution grants. Authenticated clients receive SELECT access only to participating fulfillment/line records; they cannot write prices, routing or status directly. Seller preparation updates lock the parent order and fulfillment and check the expected status. Retrying the same committed transition is harmless; stale and out-of-sequence updates fail.
+
+New checkout items are routed from the authoritative product owner and snapshotted inside the same transaction as order creation. Trigger failure rolls the checkout transaction back. Later product name/owner changes do not reassign or rewrite an existing seller order. Historical orders are deliberately not assigned using today's product owner; they retain their existing administrator workflow. A historical backfill requires verified ownership from the original purchase records.
+
+After applying the migration, verify grants and security advisors in the correct project, then use authorized test accounts to place a multi-seller order, verify isolated seller inboxes, advance preparation, and check customer tracking and the existing dispatch workflow. Use test records, not real purchases. Do not change the app's database URL or use a service-role key in the browser to bypass missing access.
+
+## Verification
+
+`npm test` includes a real local PostgreSQL engine (PGlite, a pinned development dependency) for the migration tests. They exercise multi-seller isolation, immutable snapshots, customer RLS, denied direct writes, approved/blocked accounts, anonymous access, guarded and idempotent transitions, cancelled orders, pagination and checkout rollback. These tests do not establish compatibility with an uninspected hosted schema or replace live activation checks. No hosted customer/order data was modified during implementation. Browser visual QA was not performed because browser control was unavailable.

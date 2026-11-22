@@ -20,6 +20,39 @@ button restores the provider photo. Missing or failed images show initials.
 Successful saves refresh the shared storefront layout, including the desktop
 header, mobile profile tab, and account sidebar.
 
+The Home **Shop by seller** card also subscribes to the shared saved profile.
+The root supplies the verified account ID so only that seller's own card uses
+their current name and photo, including their Google fallback. This avoids stale
+home-card props after saving and never matches accounts by display name. Other
+sellers and signed-out visitors use the approved-shop directory and the public
+seller-photo projection described below. Unsaved crop previews remain confined
+to the profile editor.
+
+### Public photos in Home → Shop by seller
+
+`find_marketplace_shop_photos` returns only each approved, unblocked seller's ID,
+owned public upload path or Google photo URL. Uploaded photos take precedence;
+saved Google photos and Google's default `avatar_url`/`picture` are supported.
+The complete profile, email, phone, address and auth metadata are never returned.
+Customers, pending/rejected sellers and blocked accounts are excluded. The
+public RPC is a security-invoker wrapper around a narrowly scoped private
+projection; base table permissions remain unchanged. Storage paths are checked
+against the owner and reconstructed against the app's own project URL. External
+URLs are limited to HTTPS Google image hosts.
+
+Apply **only** `supabase/migrations/20261121064620_public_seller_profile_photos.sql`
+in project `rawwckfkugrcodpvvffc` to activate this lookup. The current Supabase
+connection could not access that project, so this migration has not been applied
+here. It does not depend on the seller-order migration. Existing uploaded-photo
+lookup remains as a deployment fallback; lookup failures now produce a server
+warning instead of silently suggesting that every seller has no photo.
+
+After activation, view Home while signed out and verify uploaded and Google
+photos for different sellers. An account with no usable photo still shows
+initials. A saved profile change takes effect on the next Home request through
+the existing root-layout revalidation. The homepage uses the stateless public
+server client, so this lookup does not depend on the viewer's session.
+
 ## Supabase setup
 
 The website is configured for project `rawwckfkugrcodpvvffc`.

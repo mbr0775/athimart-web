@@ -1,12 +1,12 @@
 import { groupCatalogProducts } from "@/lib/products/group-catalog-products";
 import "server-only";
 
-import { AVATAR_BUCKET, publicProfileAvatarPath } from "@/lib/account/profile-identity";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { PRODUCT_COLUMNS } from "@/lib/products/product-columns";
 import { mapProduct } from "@/lib/products/product-mapper";
-import { publicSupabase } from "@/lib/supabase/public-client";
+import { publicSupabase } from "@/lib/supabase/public";
 import { OFFICIAL_SHOP_ID, isShopId } from "./shop-identity";
+import { shopPhotoUrl, type ShopPhotoRow } from "./shop-photo";
 
 export type MarketplaceShop = { id: string; name: string; is_favourite: boolean };
 
@@ -38,24 +38,25 @@ async function withShopAvatars(shops: MarketplaceShop[], client: SupabaseClient)
 
   for (let offset = 0; offset < ids.length; offset += 9) {
     const batch = ids.slice(offset, offset + 9);
-    const { data, error } = await client.rpc("find_marketplace_shop_avatar_paths", { shop_ids: batch });
-    if (error) {
-      console.error("Unable to load public seller photos. Check the marketplace seller profile photo migration.", error.code);
-      continue;
+    const projection = await client.rpc("find_marketplace_shop_photos", { shop_ids: batch });
+    let photos: ShopPhotoRow[] = projection.data ?? [];
+    if (projection.error) {
+      const legacy = await client.rpc("find_marketplace_shop_avatar_paths", { shop_ids: batch });
+      photos = legacy.data ?? [];
+      console.warn("Public seller photo lookup is unavailable; check the seller-photo migration.", { code: projection.error.code });
     }
-    const origin = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-    for (const row of data ?? []) {
-      if (!batch.includes(row.id) || typeof row.object_path !== "string") continue;
-      const { data: { publicUrl } } = client.storage.from(AVATAR_BUCKET).getPublicUrl(row.object_path);
-      if (publicProfileAvatarPath(publicUrl, origin, row.id) === row.object_path) avatars.set(row.id, publicUrl);
+    for (const row of photos) {
+      if (!batch.includes(row.id)) continue;
+      const url = shopPhotoUrl(row, process.env.NEXT_PUBLIC_SUPABASE_URL ?? "");
+      if (url) avatars.set(row.id, url);
     }
   }
 
   return shops.map((shop) => ({ ...shop, avatarUrl: avatars.get(shop.id) ?? null }));
 }
 
-export async function findHomeShops(): Promise<HomeShop[]> {
-  return withShopAvatars(await findShops({ limit: 9 }), publicSupabase);
+export async function findHomeShops(client: SupabaseClient = publicSupabase): Promise<HomeShop[]> {
+  return withShopAvatars(await findShops({ limit: 9 }, client), client);
 }
 
 export async function findShop(id: string, client?: SupabaseClient) {

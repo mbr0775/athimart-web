@@ -5,10 +5,10 @@
 import type { LucideIcon } from "lucide-react";
 import { Home, ReceiptText, ShoppingBag, Store, UserRound } from "lucide-react";
 import styles from "./mobile-bottom-nav.module.css";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { usePathname } from "next/navigation";
 import ProfileAvatar from "@/components/account/profile-avatar";
-import type { ProfileIdentity } from "@/lib/account/profile-identity";
+import { useProfileIdentity } from "@/components/account/profile-provider";
 
 interface NavigationItem {
   label: string;
@@ -60,7 +60,8 @@ function isItemActive(pathname: string, item: NavigationItem): boolean {
   );
 }
 
-export function MobileBottomNav({ identity = null }: { identity?: ProfileIdentity | null }) {
+export function MobileBottomNav() {
+  const identity = useProfileIdentity();
   const pathname = usePathname();
 
   return (

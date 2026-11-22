@@ -23,8 +23,12 @@ Tailwind supplies element resets in its base layer. Avoid adding unlayered eleme
 - Administrator and seller layouts share `workspace-shell.module.css`, with server-side role guards retained in their route layouts.
 - Mobile navigation uses a floating cream dock. Management navigation uses a native modal with focus handling and scroll restoration.
 - Loading, missing-page and recoverable-error screens use `app/status.module.css`.
+- App links use `components/navigation/navigation-link.tsx`, preserving Next Link prefetching and native link behavior while reporting real pending navigation to the root progress bar. Programmatic navigation uses `useNavigationRouter`; route-level skeletons keep store and management layouts usable while content loads. There are no simulated completion timers.
+- Shared control hover/press defaults live in Tailwind's base layer so component styles retain precedence. Reduced motion removes movement while keeping focus and status feedback.
+- Pending navigation now shows an orbiting AthiMart mark in a floating status notice, a gradient progress rail and a subtle glow on the activated link. Route skeletons use staggered shimmer sweeps. These CSS animations follow the real transition without adding a minimum wait; the notice ignores pointer input and sits above the mobile dock. Reduced motion keeps static status/focus cues and disables orbiting, shimmering and bouncing.
+- `ProfileProvider` receives the verified server profile in the root layout. Store navigation, management avatars and legal/account links use that same identity. Existing profile-save and sign-out actions revalidate the root layout, updating every avatar together without extra client profile requests. Google/provider fallbacks and unique uploaded image URLs retain the existing persistence and cache behavior.
 - Authentication keeps the existing motion and form behavior with the shared palette and typography.
 
 ## Verification
 
-Use the existing `npm run build`, `npm run lint`, and `npm run test:delivery-profile` checks. Review real public pages at desktop and phone widths, and verify restricted pages in an authorized session. Isolated UI fixtures can check protected layouts and form composition without creating records; they do not replace live authorization or database-write checks.
+Use `npm run build`, `npm run lint`, and `npm test` (all account, photo and navigation regression tests). Review real public pages at desktop and phone widths, and verify restricted pages in an authorized session. Isolated UI fixtures can check protected layouts and form composition without creating records; they do not replace live authorization or database-write checks.

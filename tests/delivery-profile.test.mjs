@@ -187,7 +187,7 @@ test("checkout prefills each field, autosaves valid blur changes, and waits for 
   const styles = { __esModule: true, default: new Proxy({}, { get: (_, key) => String(key) }) };
   const overrides = {
     react: { ...React, useState: initial => { const cursor = index++; if (!(cursor in states)) states[cursor] = initial; return [states[cursor], value => { states[cursor] = value; }]; }, useRef: () => ({ current: mockForm }), useMemo: fn => fn(), useEffect: () => {} },
-    "next/link": { __esModule: true, default: "a" },
+    "@/components/navigation/navigation-link": { __esModule: true, default: "a" },
     "motion/react": { useReducedMotion: () => false },
     "@/lib/fonts": { editorialFont: { variable: "editorial" } },
     "@/components/cart/cart-product-image": { __esModule: true, default: () => null },
@@ -270,7 +270,7 @@ test("the redesigned account preserves customer, seller, administrator, and deli
     const Page = loadModule("app/(store)/account/page.tsx", {
       "@/lib/supabase/server": { createClient: async () => client },
       "next/navigation": { redirect: url => { throw Error(`REDIRECT:${url}`); } },
-      "next/link": { __esModule: true, default: "a" },
+      "@/components/navigation/navigation-link": { __esModule: true, default: "a" },
       "@/lib/fonts": { editorialFont: { variable: "editorial" } },
       "./account.module.css": { __esModule: true, default: new Proxy({}, { get: (_, key) => String(key) }) },
       "./actions": { signOut: signOutAction },

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import styles from "./shops.module.css";
 
 export const SHOP_PAGE_SIZE = 24;

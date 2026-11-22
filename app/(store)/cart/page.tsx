@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronRight, LockKeyhole, Minus, Plus, RotateCcw, ShoppingBag, Trash2 } from "lucide-react";
 

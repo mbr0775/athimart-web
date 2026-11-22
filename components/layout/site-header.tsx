@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, CircleUserRound, Menu, Search, ShoppingBag, X } from "lucide-react";
 
 import { CART_STORAGE_KEY, getCartItemCount, readCart } from "@/lib/cart/cart-storage";
 import { editorialFont } from "@/lib/fonts";
 import ProfileAvatar from "@/components/account/profile-avatar";
-import type { ProfileIdentity } from "@/lib/account/profile-identity";
+import { useProfileIdentity } from "@/components/account/profile-provider";
 import styles from "./site-header.module.css";
 
 const navigationItems = [
@@ -39,7 +39,8 @@ function subscribeToCart(onChange: () => void) {
 function getCartCount() { return getCartItemCount(readCart()); }
 function getServerCartCount() { return 0; }
 
-export function SiteHeader({ identity = null }: { identity?: ProfileIdentity | null }) {
+export function SiteHeader() {
+  const identity = useProfileIdentity();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const reduceMotion = useReducedMotion();
   const menuButtonRef = useRef<HTMLButtonElement>(null);

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/products/product-card";
 import ProfileAvatar from "@/components/account/profile-avatar";

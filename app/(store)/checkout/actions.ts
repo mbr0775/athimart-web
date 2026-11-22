@@ -657,7 +657,6 @@ export async function createCheckoutOrder(
   revalidatePath("/orders");
   revalidatePath("/seller/orders");
   revalidatePath("/seller");
-
   return {
     success: true,
 

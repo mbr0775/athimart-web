@@ -1,0 +1,21 @@
+.page { width: min(100%, 1440px); min-height: 65svh; margin-inline: auto; padding: clamp(28px, 5vw, 64px) 20px 80px; }
+.status { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; color: var(--text-soft); font-size: 14px; }
+.status p { margin: 0 0 4px; color: var(--brand); font-weight: 500; }
+.status div > span { font-size: 12px; line-height: 1.6; }
+.ellipsis { display: inline-block; animation: ellipsis-breathe 1.3s ease-in-out infinite alternate; }
+.heading { display: grid; gap: 14px; margin-bottom: 40px; }
+.heading span, .card > div, .card > span { position: relative; display: block; overflow: hidden; border-radius: 12px; background: var(--surface-soft); }
+.heading span::after, .card > div::after, .card > span::after { position: absolute; inset: 0; background: linear-gradient(100deg, transparent 20%, #fffdf7c9 50%, transparent 80%); content: ""; transform: translateX(-110%); animation: skeleton-shimmer 1.8s ease-in-out infinite; animation-delay: var(--shimmer-delay, 0s); }
+.heading span:first-child { width: min(70%, 440px); height: 42px; }
+.heading span:last-child { width: min(85%, 560px); height: 16px; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.card { min-width: 0; }
+.card:nth-child(2) { --shimmer-delay: 120ms; }
+.card:nth-child(3) { --shimmer-delay: 240ms; }
+.card > div { aspect-ratio: 4 / 3; margin-bottom: 20px; border: 1px solid var(--border); }
+.card > span { width: 75%; height: 16px; margin-bottom: 12px; }
+.card > span:last-child { width: 40%; height: 12px; }
+@keyframes skeleton-shimmer { to { transform: translateX(110%); } }
+@keyframes ellipsis-breathe { to { opacity: 0.3; } }
+@media (max-width: 640px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } .card:last-child { display: none; } }
+@media (prefers-reduced-motion: reduce) { .heading span::after, .card > div::after, .card > span::after { display: none; animation: none; } .ellipsis { animation: none; } }

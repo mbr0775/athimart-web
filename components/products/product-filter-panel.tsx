@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import Link from "@/components/navigation/navigation-link";
+import { useNavigationRouter as useRouter } from "@/components/navigation/navigation-feedback";
 import { useEffect, useId, useRef, useState, useTransition } from "react";
 import type { FormEvent } from "react";
 import {

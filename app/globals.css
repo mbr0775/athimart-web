@@ -55,6 +55,44 @@
   --mobile-bottom-navigation-height: 88px;
   --section-spacing-mobile: 56px;
   --section-spacing-desktop: 88px;
+  --motion-feedback: 160ms;
+  --motion-press: 90ms;
+}
+
+/* Low-priority defaults let each component keep its own art direction while
+   every actionable control acknowledges pointer and touch input. */
+@layer base {
+  :where(a[href], button, summary, [role="button"]) {
+    transition: background-color var(--motion-feedback) ease,
+      border-color var(--motion-feedback) ease, color var(--motion-feedback) ease,
+      opacity var(--motion-feedback) ease, filter var(--motion-feedback) ease,
+      scale var(--motion-press) ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    :where(a[href], button, summary, [role="button"]):not(:disabled):not([aria-disabled="true"]):hover {
+      filter: brightness(0.88);
+    }
+  }
+  :where(a[href], button, summary, [role="button"]):not(:disabled):not([aria-disabled="true"]):active {
+    scale: 0.98;
+    filter: brightness(0.88);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :where(a[href], button, summary, [role="button"]):active { scale: none; }
+  }
+}
+
+/* Identify the activated control while the root navigation animation runs. */
+a[data-navigation-pending="true"] {
+  cursor: progress;
+  animation: navigation-control-glow 1.2s ease-in-out infinite alternate;
+}
+@keyframes navigation-control-glow {
+  from { box-shadow: 0 0 0 2px #626d4c26; }
+  to { box-shadow: 0 0 0 5px #626d4c12; }
+}
+@media (prefers-reduced-motion: reduce) {
+  a[data-navigation-pending="true"] { animation: none; outline: 2px solid var(--brand-hover); outline-offset: 3px; }
 }
 
 /* ==========================================================

@@ -1,10 +1,12 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { motion, useMotionValue, useScroll, useSpring, useTransform, type MotionValue } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import ProfileAvatar from "@/components/account/profile-avatar";
+import { useProfileIdentity } from "@/components/account/profile-provider";
+import { homeSellerProfile } from "@/lib/shops/home-seller-profile";
 import { editorialFont } from "@/lib/fonts";
 import { useReducedMotionPreference } from "@/lib/hooks/use-reduced-motion-preference";
 import { getShopPath, OFFICIAL_SHOP_ID } from "@/lib/shops/shop-identity";
@@ -17,6 +19,7 @@ function SellerCard({ shop, index, drift, reduced }: {
   drift: MotionValue<number>;
   reduced: boolean;
 }) {
+  const profile = homeSellerProfile(shop, useProfileIdentity());
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useSpring(y, { stiffness: 170, damping: 25 });
@@ -38,12 +41,12 @@ function SellerCard({ shop, index, drift, reduced }: {
             <div className={styles.portrait}>
               {shop.id === OFFICIAL_SHOP_ID
                 ? <span className={styles.wordmark}>AthiMart</span>
-                : <ProfileAvatar name={shop.name} avatarUrl={shop.avatarUrl} size={112} loading="lazy" />}
+                : <ProfileAvatar name={profile.name} avatarUrl={profile.avatarUrl} size={112} loading="lazy" />}
             </div>
           </div>
           <div className={styles.caption}>
             <div className={styles.identity}>
-              <h3>{shop.name}</h3>
+              <h3>{profile.name}</h3>
               <span className={styles.profileLink}>{shop.id === OFFICIAL_SHOP_ID ? "Visit official store" : "View seller profile"}</span>
             </div>
             <span className={styles.arrow}><ArrowUpRight size={20} aria-hidden="true" /></span>

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 import type { Product } from "@/types/product";

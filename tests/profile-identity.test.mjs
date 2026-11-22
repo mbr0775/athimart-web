@@ -67,6 +67,22 @@ const google = "https://lh3.googleusercontent.com/example-photo";
 const user = { id: owner, email: "customer@example.com", user_metadata: { full_name: "Google Name", avatar_url: google }, identities: [] };
 const custom = `${origin}/storage/v1/object/public/profile-avatars/${owner}/aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa.webp`;
 
+test("shared identity carries the verified account ID and never a metadata-supplied seller ID", async () => {
+  const query = {
+    select: () => query,
+    eq: (field, value) => { assert.equal(field, "id"); assert.equal(value, owner); return query; },
+    maybeSingle: async () => ({ data: { id: "another-profile", full_name: "Saved seller", avatar_url: custom } }),
+  };
+  const { getCurrentProfileIdentity } = loadModule("lib/account/current-profile.ts", {
+    "@/lib/supabase/server": { createClient: async () => ({ auth: { getUser: async () => ({ data: { user: { ...user, user_metadata: { ...user.user_metadata, id: "another-profile", seller_id: "another-profile" } } } }) }, from: () => query }) },
+  });
+  assert.deepEqual(await getCurrentProfileIdentity(), { userId: owner, name: "Saved seller", avatarUrl: custom });
+  const signedOut = loadModule("lib/account/current-profile.ts", {
+    "@/lib/supabase/server": { createClient: async () => ({ auth: { getUser: async () => ({ data: { user: null } }) }, from: () => assert.fail("Do not read profiles without a verified user") }) },
+  });
+  assert.equal(await signedOut.getCurrentProfileIdentity(), null);
+});
+
 test("stored name/photo win over Google; metadata supports both provider photo fields", () => {
   assert.deepEqual(helpers.profileIdentity(user, { full_name: "  Saved Name  ", avatar_url: custom }), { name: "Saved Name", avatarUrl: custom });
   assert.equal(helpers.profileIdentity(user, {}).avatarUrl, google);

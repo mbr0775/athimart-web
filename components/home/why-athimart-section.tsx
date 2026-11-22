@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import {
   ArrowRight, ArrowUpRight, Check, Headphones, Laptop, Monitor,

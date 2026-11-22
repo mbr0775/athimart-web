@@ -7,7 +7,7 @@ import {
   ShieldCheck,
   UserPlus,
 } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 
 import { createClient } from "@/lib/supabase/server";
 import ProfileAvatar from "@/components/account/profile-avatar";

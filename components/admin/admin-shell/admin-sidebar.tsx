@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { ArrowUpRight, ShieldCheck, UserRound, X } from "lucide-react";
 import AdminNavigation from "./admin-navigation";
 import AdminAvatar from "./admin-avatar";

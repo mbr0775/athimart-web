@@ -1,7 +1,7 @@
 // app/(store)/category/[categorySlug]/[subcategorySlug]/[productSlug]/page.tsx
 
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { getShopPath } from "@/lib/shops/shop-identity";
 import {
   ArrowLeft,

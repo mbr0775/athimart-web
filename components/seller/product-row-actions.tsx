@@ -8,7 +8,7 @@ import {
   Pencil,
   Trash2,
 } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import {
   useState,
   useTransition,

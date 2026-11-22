@@ -18,6 +18,7 @@ function load(file, overrides = {}) {
 
 const identity = load("lib/account/profile-identity.ts");
 const shopIdentity = load("lib/shops/shop-identity.ts");
+const shopPhoto = load("lib/shops/shop-photo.ts", { "@/lib/account/profile-identity": identity });
 const origin = "https://example.supabase.co";
 const owner = "7802fb3c-5e19-403d-b6b6-c290c03db64f";
 const shop = { id: owner, name: "YL Mart", is_favourite: false };
@@ -41,8 +42,9 @@ function service(shops, rows = [], error = null) {
     "@/lib/account/profile-identity": identity,
     "@/lib/products/product-columns": {},
     "@/lib/products/product-mapper": {},
-    "@/lib/supabase/public-client": { publicSupabase: client },
+    "@/lib/supabase/public": { publicSupabase: client },
     "./shop-identity": shopIdentity,
+    "./shop-photo": shopPhoto,
   }) };
 }
 
@@ -86,11 +88,11 @@ test("official store needs no account upload and missing photos keep the initial
 
 test("missing database lookup is reported without breaking the shop list", async () => {
   const { api } = service([shop], null, { code: "PGRST202" });
-  const original = console.error;
+  const original = console.warn;
   const messages = [];
-  console.error = (...args) => messages.push(args);
+  console.warn = (...args) => messages.push(args);
   try {
     assert.equal((await api.findHomeShops())[0].avatarUrl, null);
-    assert.equal(messages[0][1], "PGRST202");
-  } finally { console.error = original; }
+    assert.equal(messages[0][1].code, "PGRST202");
+  } finally { console.warn = original; }
 });

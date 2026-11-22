@@ -1,7 +1,7 @@
 // app/(seller)/seller/page.tsx
 
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import {
   Boxes,
   CirclePlus,
@@ -18,6 +18,7 @@ import { createClient } from "@/lib/supabase/server";
 import ProfileIdentityForm from "@/components/account/profile-identity-form";
 import { getCurrentProfileIdentity } from "@/lib/account/current-profile";
 import { publicProfileAvatarPath } from "@/lib/account/profile-identity";
+import { shopPhotoUrl } from "@/lib/shops/shop-photo";
 
 export const metadata: Metadata = {
   title: "Seller Dashboard",
@@ -122,9 +123,12 @@ export default async function SellerDashboardPage() {
   } = await getCurrentSeller();
 
   const identity = await getCurrentProfileIdentity();
-  const publicAvatar = publicProfileAvatarPath(identity?.avatarUrl, process.env.NEXT_PUBLIC_SUPABASE_URL || "", user.id)
-    ? identity?.avatarUrl ?? null
-    : null;
+  const photoOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  const publicAvatar = shopPhotoUrl({
+    id: user.id,
+    object_path: publicProfileAvatarPath(identity?.avatarUrl, photoOrigin, user.id),
+    avatar_url: identity?.avatarUrl,
+  }, photoOrigin);
 
   const supabase =
     await createClient();
@@ -217,7 +221,7 @@ export default async function SellerDashboardPage() {
               . Manage your products and monitor their current marketplace status.
             </p>
             <Link href={getShopPath(profile.id)} className="mt-3 inline-block underline underline-offset-4">View your public shop</Link>
-            <Link href="/seller/orders" className="mt-3 ml-5 inline-block underline underline-offset-4">View customer orders</Link>
+            <Link href="/seller/orders" className="athimart-brand-outline-button mt-5">Open incoming orders</Link>
           </div>
 
           <Link

@@ -11,7 +11,7 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 
 type RegistrationStep = 1 | 2 | 3;
 

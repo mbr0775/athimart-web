@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { Heart } from "lucide-react";
 import { ShopSearchForm } from "@/components/shops/shop-search-form";
 import { ShopCard } from "@/components/shops/shop-card";

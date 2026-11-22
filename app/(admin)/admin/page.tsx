@@ -1,7 +1,7 @@
 // app/(admin)/admin/page.tsx
 
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import {
   ArrowRight,
   Database,

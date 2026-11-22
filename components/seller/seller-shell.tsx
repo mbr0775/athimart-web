@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/navigation/navigation-link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
@@ -9,30 +9,32 @@ import {
   LayoutDashboard,
   Menu,
   Package,
-  ShoppingBag,
+  ReceiptText,
   ShieldCheck,
   UserRound,
   X,
 } from "lucide-react";
 import AdminAvatar from "@/components/admin/admin-shell/admin-avatar";
+import { useProfileIdentity } from "@/components/account/profile-provider";
 import styles from "@/components/layout/workspace-shell.module.css";
 
 const links = [
   { label: "Overview", href: "/seller", icon: LayoutDashboard },
-  { label: "Your orders", href: "/seller/orders", icon: ShoppingBag },
+  { label: "Incoming orders", href: "/seller/orders", icon: ReceiptText },
   { label: "Your products", href: "/seller/products", icon: Package },
   { label: "Add a product", href: "/seller/products/new", icon: CirclePlus },
 ];
 
 export default function SellerShell({
   children,
-  displayName,
+  displayName: initialDisplayName,
   email,
 }: {
   children: ReactNode;
   displayName: string;
   email: string;
 }) {
+  const displayName = useProfileIdentity()?.name || initialDisplayName;
   const pathname = usePathname();
   const active = [...links]
     .reverse()

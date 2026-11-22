@@ -1,6 +1,8 @@
 import type { User } from "@supabase/supabase-js";
 
 export interface ProfileIdentity {
+  /** Verified session owner, when this identity comes from the root layout. */
+  userId?: string;
   name: string;
   avatarUrl: string | null;
 }
