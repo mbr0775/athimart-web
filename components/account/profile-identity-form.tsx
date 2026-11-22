@@ -8,7 +8,8 @@ import ProfileAvatar from "./profile-avatar";
 import ProfilePhotoEditor from "./profile-photo-editor";
 import styles from "./profile-identity-form.module.css";
 
-export default function ProfileIdentityForm({ name, avatarUrl, googleUrl }: { name: string; avatarUrl: string | null; googleUrl: string | null }) {
+export default function ProfileIdentityForm({ name, avatarUrl, googleUrl, variant = "account" }: { name: string; avatarUrl: string | null; googleUrl: string | null; variant?: "account" | "seller" }) {
+  const isSeller = variant === "seller";
   const [pending, startTransition] = useTransition();
   const [sourcePhoto, setSourcePhoto] = useState<File | null>(null);
   const [cropSettings, setCropSettings] = useState<PhotoCropSettings | undefined>();
@@ -37,9 +38,11 @@ export default function ProfileIdentityForm({ name, avatarUrl, googleUrl }: { na
 
   return (
     <section className={styles.panel} aria-labelledby="profile-identity-heading">
-      <p className={styles.eyebrow}>Make yourself at home</p>
-      <h2 id="profile-identity-heading">Your profile</h2>
-      <p className={styles.description}>Choose the name and photo you see across AthiMart. Your Google photo is used by default when available.</p>
+      <p className={styles.eyebrow}>{isSeller ? "Shop by seller" : "Make yourself at home"}</p>
+      <h2 id="profile-identity-heading">{isSeller ? "Your seller profile" : "Your profile"}</h2>
+      <p className={styles.description}>{isSeller
+        ? "Add a profile photo or shop logo so customers can recognise your shop. Your shop name and uploaded photo appear publicly in Shop by seller and on your shop page. This also updates your account profile."
+        : "Choose the name and photo you see across AthiMart. Your Google photo is used by default when available."}</p>
       <form onSubmit={event => {
         event.preventDefault();
         if (busy) return;
@@ -51,7 +54,7 @@ export default function ProfileIdentityForm({ name, avatarUrl, googleUrl }: { na
           try {
             const result = await saveProfileIdentity(form);
             setIsError(!result.success);
-            setMessage(result.success ? "Profile saved. Your name and photo are updated across AthiMart." : result.message);
+            setMessage(result.success ? (isSeller ? "Seller profile saved. Your shop name and photo are updated." : "Profile saved. Your name and photo are updated across AthiMart.") : result.message);
             if (result.success) { setMode("keep"); setPhoto(null); setPreview(null); setSourcePhoto(null); }
           } catch {
             setIsError(true);
@@ -66,15 +69,15 @@ export default function ProfileIdentityForm({ name, avatarUrl, googleUrl }: { na
               <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp" aria-label="Choose profile photo" className="sr-only" tabIndex={-1} onChange={event => { void selectPhoto(event.target.files?.[0]); event.target.value = ""; }} />
               <button ref={photoButtonRef} type="button" className={styles.photoButton} onClick={() => inputRef.current?.click()}><Camera size={16} aria-hidden="true" />Change photo</button>
               {mode === "upload" && sourcePhoto && <button type="button" className={styles.photoButton} onClick={() => setEditingPhoto(sourcePhoto)}><Crop size={16} aria-hidden="true" />Edit crop</button>}
-              {googleUrl && <button type="button" className={styles.googleButton} onClick={() => { setMode("google"); setPhoto(null); setPreview(null); setSourcePhoto(null); setMessage(""); }}>Use Google photo</button>}
+              {!isSeller && googleUrl && <button type="button" className={styles.googleButton} onClick={() => { setMode("google"); setPhoto(null); setPreview(null); setSourcePhoto(null); setMessage(""); }}>Use Google photo</button>}
               <span className={styles.hint}>JPG, PNG or WebP · Up to 5 MB</span>
             </div>
           </div>
-          <label className={styles.nameField}>Display name<input name="fullName" key={name} defaultValue={name} required minLength={2} maxLength={120} autoComplete="name" /></label>
+          <label className={styles.nameField}>{isSeller ? "Shop name" : "Display name"}<input name="fullName" key={name} defaultValue={name} required minLength={2} maxLength={120} autoComplete={isSeller ? "organization" : "name"} /></label>
         </fieldset>
         <div className={styles.footer}>
-          <p role="status" aria-live="polite" data-error={isError}>{message || (mode !== "keep" ? "Photo selected. Save your profile to apply it." : "Your profile photo will appear in your account and navigation.")}</p>
-          <button type="submit" disabled={busy}>{pending ? <LoaderCircle size={16} className={styles.spinner} aria-hidden="true" /> : <Check size={16} aria-hidden="true" />}{pending ? "Saving…" : "Save profile"}</button>
+          <p role="status" aria-live="polite" data-error={isError}>{message || (mode !== "keep" ? "Photo selected. Save your profile to apply it." : isSeller ? avatarUrl ? "Your uploaded photo appears on your seller card and shop page." : "Your shop initials appear until you upload a photo or logo." : "Your profile photo will appear in your account and navigation.")}</p>
+          <button type="submit" disabled={busy}>{pending ? <LoaderCircle size={16} className={styles.spinner} aria-hidden="true" /> : <Check size={16} aria-hidden="true" />}{pending ? "Saving…" : isSeller ? "Save seller profile" : "Save profile"}</button>
         </div>
       </form>
       {editingPhoto && <ProfilePhotoEditor file={editingPhoto} initialSettings={editingPhoto === sourcePhoto ? cropSettings : undefined} triggerRef={photoButtonRef} onCancel={() => setEditingPhoto(null)} onApply={(prepared, settings) => {

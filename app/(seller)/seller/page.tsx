@@ -15,6 +15,9 @@ import {
 import { getShopPath } from "@/lib/shops/shop-identity";
 import { getCurrentSeller } from "@/lib/auth/seller";
 import { createClient } from "@/lib/supabase/server";
+import ProfileIdentityForm from "@/components/account/profile-identity-form";
+import { getCurrentProfileIdentity } from "@/lib/account/current-profile";
+import { publicProfileAvatarPath } from "@/lib/account/profile-identity";
 
 export const metadata: Metadata = {
   title: "Seller Dashboard",
@@ -117,6 +120,11 @@ export default async function SellerDashboardPage() {
     user,
     profile,
   } = await getCurrentSeller();
+
+  const identity = await getCurrentProfileIdentity();
+  const publicAvatar = publicProfileAvatarPath(identity?.avatarUrl, process.env.NEXT_PUBLIC_SUPABASE_URL || "", user.id)
+    ? identity?.avatarUrl ?? null
+    : null;
 
   const supabase =
     await createClient();
@@ -228,6 +236,10 @@ export default async function SellerDashboardPage() {
           </Link>
         </div>
       </header>
+
+      <div className="mt-8" id="seller-profile">
+        <ProfileIdentityForm name={profile.publicName} avatarUrl={publicAvatar} googleUrl={null} variant="seller" />
+      </div>
 
       {/* Summary cards */}
       <section

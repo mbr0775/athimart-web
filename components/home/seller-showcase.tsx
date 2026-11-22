@@ -42,7 +42,10 @@ function SellerCard({ shop, index, drift, reduced }: {
             </div>
           </div>
           <div className={styles.caption}>
-            <h3>{shop.name}</h3>
+            <div className={styles.identity}>
+              <h3>{shop.name}</h3>
+              <span className={styles.profileLink}>{shop.id === OFFICIAL_SHOP_ID ? "Visit official store" : "View seller profile"}</span>
+            </div>
             <span className={styles.arrow}><ArrowUpRight size={20} aria-hidden="true" /></span>
           </div>
         </Link>

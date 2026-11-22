@@ -1,7 +1,7 @@
 import { groupCatalogProducts } from "@/lib/products/group-catalog-products";
 import "server-only";
 
-import { AVATAR_BUCKET, ownedAvatarPath } from "@/lib/account/profile-identity";
+import { AVATAR_BUCKET, publicProfileAvatarPath } from "@/lib/account/profile-identity";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { PRODUCT_COLUMNS } from "@/lib/products/product-columns";
 import { mapProduct } from "@/lib/products/product-mapper";
@@ -32,27 +32,39 @@ export async function findShops({
 
 export type HomeShop = MarketplaceShop & { avatarUrl: string | null };
 
-export async function findHomeShops(): Promise<HomeShop[]> {
-  const shops = await findShops({ limit: 9 });
-  const ids = shops.filter(({ id }) => id !== OFFICIAL_SHOP_ID && isShopId(id)).map(({ id }) => id);
+async function withShopAvatars(shops: MarketplaceShop[], client: SupabaseClient): Promise<HomeShop[]> {
+  const ids = [...new Set(shops.filter(({ id }) => id !== OFFICIAL_SHOP_ID && isShopId(id)).map(({ id }) => id))];
   const avatars = new Map<string, string>();
 
-  if (ids.length) {
-    const { data, error } = await publicSupabase.rpc("find_marketplace_shop_avatar_paths", { shop_ids: ids });
-    if (!error) {
-      const origin = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-      for (const row of data ?? []) {
-        const { data: { publicUrl } } = publicSupabase.storage.from(AVATAR_BUCKET).getPublicUrl(row.object_path);
-        if (ownedAvatarPath(publicUrl, origin, row.id) === row.object_path) avatars.set(row.id, publicUrl);
-      }
+  for (let offset = 0; offset < ids.length; offset += 9) {
+    const batch = ids.slice(offset, offset + 9);
+    const { data, error } = await client.rpc("find_marketplace_shop_avatar_paths", { shop_ids: batch });
+    if (error) {
+      console.error("Unable to load public seller photos. Check the marketplace seller profile photo migration.", error.code);
+      continue;
+    }
+    const origin = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+    for (const row of data ?? []) {
+      if (!batch.includes(row.id) || typeof row.object_path !== "string") continue;
+      const { data: { publicUrl } } = client.storage.from(AVATAR_BUCKET).getPublicUrl(row.object_path);
+      if (publicProfileAvatarPath(publicUrl, origin, row.id) === row.object_path) avatars.set(row.id, publicUrl);
     }
   }
 
   return shops.map((shop) => ({ ...shop, avatarUrl: avatars.get(shop.id) ?? null }));
 }
 
+export async function findHomeShops(): Promise<HomeShop[]> {
+  return withShopAvatars(await findShops({ limit: 9 }), publicSupabase);
+}
+
 export async function findShop(id: string, client?: SupabaseClient) {
   return isShopId(id) ? (await findShops({ id, limit: 1 }, client))[0] : undefined;
+}
+
+export async function findShopProfile(id: string, client: SupabaseClient = publicSupabase) {
+  const shop = await findShop(id, client);
+  return shop ? (await withShopAvatars([shop], client))[0] : undefined;
 }
 
 export async function getShopProducts(id: string, offset: number, limit: number) {

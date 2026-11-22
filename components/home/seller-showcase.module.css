@@ -143,6 +143,19 @@
   overflow-wrap: anywhere;
 }
 
+.identity { min-width: 0; }
+.profileLink {
+  display: inline-block;
+  margin-top: .5rem;
+  color: #536044;
+  font: 500 .75rem/1.5 var(--font-body), sans-serif;
+}
+
+.card:hover .profileLink, .card:focus-visible .profileLink {
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
 @media (max-width: 960px) {
   .track { grid-auto-columns: calc((100% - 2rem) / 2.35); }
 }

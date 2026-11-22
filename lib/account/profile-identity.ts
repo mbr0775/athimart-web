@@ -39,6 +39,22 @@ export function profileInitials(name: string): string {
 export const AVATAR_BUCKET = "profile-avatars";
 export const MAX_AVATAR_UPLOAD_BYTES = 600 * 1024;
 
+// Public display also supports photos uploaded by the mobile applications.
+// Keep deletion rules below separate from this read-only lookup.
+export function publicProfileAvatarPath(url: unknown, supabaseUrl: string, userId: string): string | null {
+  try {
+    const candidate = new URL(text(url));
+    const base = new URL(supabaseUrl);
+    const prefix = `/storage/v1/object/public/${AVATAR_BUCKET}/${userId}/`;
+    if (candidate.protocol !== "https:" || candidate.username || candidate.password
+      || candidate.origin !== base.origin || !candidate.pathname.startsWith(prefix)) return null;
+    const filename = candidate.pathname.slice(prefix.length);
+    return /^[a-z0-9_-]+\.(webp|png|jpe?g)$/i.test(filename) ? `${userId}/${filename}` : null;
+  } catch {
+    return null;
+  }
+}
+
 // Only our own objects can be removed; never trust an arbitrary saved URL.
 export function ownedAvatarPath(url: unknown, supabaseUrl: string, userId: string): string | null {
   try {

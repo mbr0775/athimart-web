@@ -48,6 +48,44 @@
   margin-bottom: 1.2rem;
 }
 
+.profileIdentity {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  min-width: 0;
+}
+
+.profilePortrait {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 112px;
+  height: 112px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: #e1e6d5;
+  box-shadow: 0 8px 24px #30392312;
+}
+
+.profileText { min-width: 0; }
+.hero .profileLabel {
+  margin: 0 0 .5rem;
+  color: var(--brand);
+  font-size: .75rem;
+  font-weight: 600;
+}
+
+.profileWordmark {
+  color: #344a44;
+  font: 400 1.8rem/1 var(--font-editorial), Georgia, serif;
+  letter-spacing: -.065em;
+}
+
+@media (max-width: 600px) {
+  .shopHero { align-items: flex-start; }
+  .profileIdentity { flex-direction: column; align-items: flex-start; }
+}
+
 .preview h2,.sectionTitle {
   font-size: clamp(1.65rem,3vw,2.4rem);
 }
